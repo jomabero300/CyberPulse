@@ -1,0 +1,34 @@
+﻿@page "/status"
+
+<h3>@Localizer["Status"]</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/countries/create">@Localizer["New"] @Localizer["Statu"]</a>
+</div>
+
+<GenericList MyList="Status">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Localizer["Statu"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var statu in Status!)
+                {
+                    <tr>
+                        <td>
+                            @statu.Name
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">@Localizer["Edir"]</a>
+                            <button class="btn btn-danger">@Localizer["Delete"]</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
