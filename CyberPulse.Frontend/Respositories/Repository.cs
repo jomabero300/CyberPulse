@@ -27,7 +27,6 @@ public class Repository : IRepository
         }
 
         return new HttpResponseWrapper<T>(default, true, responseHttp);
-
     }
 
     public async Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model)
@@ -51,11 +50,6 @@ public class Repository : IRepository
 
         return new HttpResponseWrapper<TActionResponse>(default, !responseHttp.IsSuccessStatusCode, responseHttp);
 
-    }
-    private async Task<T> UnserializeAnswer<T>(HttpResponseMessage responseHttp)
-    {
-        var response = await responseHttp.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
     }
 
     public async Task<HttpResponseWrapper<object>> DeleteAsync(string url)
@@ -85,5 +79,17 @@ public class Repository : IRepository
         }
         return new HttpResponseWrapper<TActionResponse>(default, true, responseHttp);
 
+    }
+
+    public async Task<HttpResponseWrapper<object>> GetAsync(string url)
+    {
+        var responseHTTP = await _httpClient.GetAsync(url);
+        return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
+    }
+
+    private async Task<T> UnserializeAnswer<T>(HttpResponseMessage responseHttp)
+    {
+        var response = await responseHttp.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
     }
 }

@@ -1,9 +1,19 @@
 using CyberPulse.Backend.Data;
+using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Implementations;
+using CyberPulse.Backend.Repositories.Implementations.Gene;
 using CyberPulse.Backend.Repositories.Interfaces;
+using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Implementations;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
+using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
+using CyberPulse.Shared.Entities.Gene;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,13 +25,56 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IGenericUnitsOfWork<>), typeof(GenericUnitsOfWork<>));
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitsOfWork<>));
 
+builder.Services.AddScoped<IMailHelper, MailHelper>();
 
+builder.Services.AddScoped<IStatuRepository, StatuRepository>();
+builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
+
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
+
+builder.Services.AddScoped<IMailHelper, MailHelper>();
+
+builder.Services.AddIdentity<User, IdentityRole>(x =>
+{
+    x.User.RequireUniqueEmail = true;
+    x.Password.RequireDigit = false;
+    x.Password.RequiredUniqueChars = 0;
+    x.Password.RequireLowercase = false;
+    x.Password.RequireNonAlphanumeric = false;
+    x.Password.RequireUppercase = false;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwMBELtKey"]!)),
+        ClockSkew = TimeSpan.Zero
+    });
 
 var app = builder.Build();
+SeedData(app);
+void SeedData(WebApplication app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using var scope = scopedFactory!.CreateScope();
+    var service = scope.ServiceProvider.GetService<SeedDb>();
+    service!.SeedAsync().Wait();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

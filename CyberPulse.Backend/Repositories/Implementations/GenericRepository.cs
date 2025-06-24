@@ -1,7 +1,7 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 

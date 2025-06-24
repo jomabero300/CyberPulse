@@ -1,4 +1,4 @@
-﻿using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+﻿using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Interfaces;
@@ -18,6 +18,5 @@ public interface IGenericUnitsOfWork<T> where T : class
     Task<ActionResponse<int>> GetTotalRecordsAsync();
 
     Task<ActionResponse<T>> UpdateAsync(T entity);
-
 
 }

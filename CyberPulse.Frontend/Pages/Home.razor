@@ -1,6 +1,17 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>@Localizer["Home"]</PageTitle>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p>Estas autenticado y autorizado, @context.User.Identity?.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>No estas Autenticado</p>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 <h1>@Localizer["Title"]</h1>
+
 <h2>@Localizer["Subtitle"]</h2>

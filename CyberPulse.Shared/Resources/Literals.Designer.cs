@@ -547,6 +547,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Neighborhood.
+        /// </summary>
+        public static string Neighborhood {
+            get {
+                return ResourceManager.GetString("Neighborhood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Neighborhoods.
+        /// </summary>
+        public static string Neighborhoods {
+            get {
+                return ResourceManager.GetString("Neighborhoods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a New.
         /// </summary>
         public static string New {
@@ -885,6 +903,15 @@ namespace CyberPulse.Shared.Resources {
         public static string Statu {
             get {
                 return ResourceManager.GetString("Statu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
             }
         }
         

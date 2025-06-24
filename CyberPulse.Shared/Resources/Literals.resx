@@ -403,4 +403,13 @@
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Neighborhood" xml:space="preserve">
+    <value>Neighborhood</value>
+  </data>
+  <data name="Neighborhoods" xml:space="preserve">
+    <value>Neighborhoods</value>
+  </data>
 </root>

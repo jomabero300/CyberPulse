@@ -1,4 +1,5 @@
 ﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.GeneDTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +7,9 @@ namespace CyberPulse.Backend.Controllers;
 
 public class GenericController<T> : Controller where T : class
 {
-    private readonly IGenericUnitsOfWork<T> _unitOfWork;
+    private readonly IGenericUnitOfWork<T> _unitOfWork;
 
-    public GenericController(IGenericUnitsOfWork<T> unitOfWork)
+    public GenericController(IGenericUnitOfWork<T> unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

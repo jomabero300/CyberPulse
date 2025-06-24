@@ -1,4 +1,4 @@
-﻿using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+﻿using CyberPulse.Shared.EntitiesDTO;
 
 namespace CyberPulse.Backend.Helpers;
 

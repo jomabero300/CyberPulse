@@ -1,4 +1,4 @@
-﻿namespace CyberPulse.Shared.EntitiesDTO.GeneDTO;
+﻿namespace CyberPulse.Shared.EntitiesDTO;
 
 public class PaginationDTO
 {
