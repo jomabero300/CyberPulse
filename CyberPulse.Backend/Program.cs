@@ -56,7 +56,7 @@ builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>(
 
 builder.Services.AddScoped<IChipProgramRepository, ChipProgramRepository>();
 builder.Services.AddScoped<IChipProgramUnitOfWork, ChipProgramUnitOfWork>();
-
+builder.Services.AddScoped<IChipRepository,ChipRepository>
 
 
 builder.Services.AddScoped<IMailHelper, MailHelper>();

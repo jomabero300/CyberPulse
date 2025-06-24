@@ -33,11 +33,9 @@ public partial class StatuCreate
         Snackbar.Add(Localizer["RecordCreateOk"], Severity.Success);
 
     }
-
     private void Return()
     {
         statuForm!.FormPostedSuccessfully = true;
         NavigationManager.NavigateTo("/status");
     }
-
 }

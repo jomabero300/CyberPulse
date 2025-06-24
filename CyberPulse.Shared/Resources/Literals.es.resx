@@ -432,4 +432,28 @@
   <data name="Neighborhoods" xml:space="preserve">
     <value>Corregimientos</value>
   </data>
+  <data name="Code" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="PriorityBet" xml:space="preserve">
+    <value>Apuesta prioritaria</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Fecha ejecución</value>
+  </data>
+  <data name="SupportFic" xml:space="preserve">
+    <value>Apoyo Fic</value>
+  </data>
+  <data name="TriningLevel" xml:space="preserve">
+    <value>Nivel de formación</value>
+  </data>
+  <data name="TypeOfTraining" xml:space="preserve">
+    <value>Tipo de formación</value>
+  </data>
 </root>

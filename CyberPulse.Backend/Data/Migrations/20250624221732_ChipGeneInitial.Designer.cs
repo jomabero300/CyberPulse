@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250624200310_ChipAndgene")]
-    partial class ChipAndgene
+    [Migration("20250624221732_ChipGeneInitial")]
+    partial class ChipGeneInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,14 +197,17 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
 
-                    b.HasIndex("Code")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("PriorityBetId");
 
                     b.HasIndex("TriningLevelId");
+
+                    b.HasIndex("Code", "Version")
+                        .IsUnique();
 
                     b.ToTable("ChipPrograms", "Chip");
                 });
@@ -408,7 +411,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Sataus", "Gene");
+                    b.ToTable("Status", "Gene");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.User", b =>

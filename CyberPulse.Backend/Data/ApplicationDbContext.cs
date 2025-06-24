@@ -34,7 +34,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
         builder.Entity<ChipHour>().HasIndex(x => x.ChipId).IsUnique();
         builder.Entity<ChipPoblation>().HasIndex(x => new { x.TypePoblationId, x.ChipId }).IsUnique();
-        builder.Entity<ChipProgram>().HasIndex(x => x.Code).IsUnique();
+        builder.Entity<ChipProgram>().HasIndex(x => new {x.Code,x.Version }).IsUnique();
         builder.Entity<PriorityBet>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TriningLevel>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TypeOfPoblation>().HasIndex(x => x.Name).IsUnique();

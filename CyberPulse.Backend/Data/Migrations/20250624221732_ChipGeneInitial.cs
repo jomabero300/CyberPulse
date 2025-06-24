@@ -6,13 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyberPulse.Backend.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ChipAndgene : Migration
+    public partial class ChipGeneInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Sataus",
+                schema: "Gene",
+                table: "Sataus");
+
             migrationBuilder.EnsureSchema(
                 name: "Chip");
+
+            migrationBuilder.RenameTable(
+                name: "Sataus",
+                schema: "Gene",
+                newName: "Status",
+                newSchema: "Gene");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Sataus_Name",
+                schema: "Gene",
+                table: "Status",
+                newName: "IX_Status_Name");
 
             migrationBuilder.AddColumn<int>(
                 name: "CountryId",
@@ -21,6 +38,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Status",
+                schema: "Gene",
+                table: "Status",
+                column: "Id");
 
             migrationBuilder.CreateTable(
                 name: "Countries",
@@ -123,6 +146,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    Version = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     PriorityBetId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -335,10 +359,10 @@ namespace CyberPulse.Backend.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChipPrograms_Code",
+                name: "IX_ChipPrograms_Code_Version",
                 schema: "Chip",
                 table: "ChipPrograms",
-                column: "Code",
+                columns: new[] { "Code", "Version" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -511,10 +535,33 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Admi",
                 table: "AspNetUsers");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Status",
+                schema: "Gene",
+                table: "Status");
+
             migrationBuilder.DropColumn(
                 name: "CountryId",
                 schema: "Admi",
                 table: "AspNetUsers");
+
+            migrationBuilder.RenameTable(
+                name: "Status",
+                schema: "Gene",
+                newName: "Sataus",
+                newSchema: "Gene");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Status_Name",
+                schema: "Gene",
+                table: "Sataus",
+                newName: "IX_Sataus_Name");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Sataus",
+                schema: "Gene",
+                table: "Sataus",
+                column: "Id");
         }
     }
 }

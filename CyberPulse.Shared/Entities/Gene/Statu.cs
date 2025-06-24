@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.Entities.Gene;
 
-[Table("Sataus", Schema = "Gene")]
+[Table("Status", Schema = "Gene")]
 public class Statu
 {
     public int Id { get; set; }

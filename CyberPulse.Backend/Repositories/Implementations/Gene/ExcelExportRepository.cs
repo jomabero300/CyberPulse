@@ -35,13 +35,16 @@ public class ExcelExportRepository :  IExcelExportRepository
         {
             totalSheets++;
 
-            var dataTable = worksheet.RangeUsed()!.AsTable().AsNativeDataTable();
+            worksheet.RangeUsed()!.SetAutoFilter(false);
+            //var dataTable = worksheet.RangeUsed()!.AsTable().AsNativeDataTable();
+            var dataTable = worksheet.Tables.Table("Tabla1").AsNativeDataTable();
 
             for (int rowNum = 1; rowNum <= dataTable.Rows.Count; rowNum++)
             {
                 var row = dataTable.Rows[rowNum - 1];
 
                 var PRF_CODIGO = row["PRF_CODIGO"].ToString();
+                var version = row["PRF_VERSION"].ToString();
                 var Tipo = row["TIPO DE FORMACION"].ToString();
                 var level = row["NIVEL DE FORMACION"].ToString();
                 var Duracion = row["PRF_DURACION_MAXIMA"];
@@ -50,6 +53,7 @@ public class ExcelExportRepository :  IExcelExportRepository
                 var Apuestas = row["APUESTAS PRIORITARIAS"].ToString();
 
                 if (string.IsNullOrWhiteSpace(PRF_CODIGO) ||
+                    string.IsNullOrWhiteSpace(version) ||
                     string.IsNullOrWhiteSpace(Tipo) ||
                     string.IsNullOrWhiteSpace(level) ||
                     string.IsNullOrWhiteSpace(Duracion.ToString()) ||
@@ -81,13 +85,13 @@ public class ExcelExportRepository :  IExcelExportRepository
                         _context.ChipPrograms.Add(new ChipProgram
                         {
                             Code = PRF_CODIGO!,
+                            Version=int.Parse( version),
                             Duration = int.Parse(Duracion.ToString()!),
                             PriorityBetId = priorityBet.Id,
                             StartDate = DateTime.Parse(Fecha.ToString()!),
                             SupportFic = ApoyoFic.ToString() == "NO" ? false : true,
                             TriningLevelId = triningLevel.Id,
                             TypeOfTraining = Tipo,
-                            
                         });
                         // Guardar cada 100 filas para mejor performance
                         if (totalRows % 100 == 0)

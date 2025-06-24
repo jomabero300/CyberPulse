@@ -15,6 +15,10 @@ public class ChipProgram
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Code { get; set; } = null!;
 
+    [Display(Name = "Version", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int Version { get; set; }
+
     [Display(Name = "Duration", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Duration { get; set; }

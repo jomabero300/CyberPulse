@@ -37,6 +37,22 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
         };
 
     }
+
+    //public override async Task<ActionResponse<Statu>> AddAsync(Statu entity)
+    //{
+    //    _context.Status.Add(entity);
+    //    try
+    //    {
+    //        await _context.SaveChangesAsync();
+    //        return;
+
+    //    }
+    //    catch (Exception)
+    //    {
+
+    //        throw;
+    //    }
+    //}
     public async Task<IEnumerable<Statu>> GetComboAsync()
     {
         return await _context.Status.OrderBy(x => x.Name).ToListAsync();

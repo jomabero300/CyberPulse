@@ -9,6 +9,7 @@ public interface IStatuRepository
     Task<ActionResponse<Statu>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Statu>>> GetAsync();
+    //Task<ActionResponse<Statu>> AddAsync(Statu entity);
 
     Task<ActionResponse<Statu>> DeleteAsync(int id);
 
