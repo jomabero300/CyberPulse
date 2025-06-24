@@ -1,4 +1,5 @@
 ﻿using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
+using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,11 @@ public class SeedDb
         await CheckStatesAsync();
         await CheckCitiesAsync();
         await CheckNeighborhoodsAsync();
+        await CheckChipAsync();
 
-        //await CheckStatesAsync();
         await CheckRolesAsync();
         await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admin);
     }
-
 
     private async Task CheckRolesAsync()
     {
@@ -106,6 +106,89 @@ public class SeedDb
 
             await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
 
+        }
+    }
+    private async Task CheckChipAsync()
+    {
+        bool indEsta = false;
+        if (!_context.PriorityBets.Any())
+        {
+            _context.Add(new PriorityBet { Name = "Apuesta del sector" });
+            _context.Add(new PriorityBet { Name = "Economía popular" });
+            _context.Add(new PriorityBet { Name = "Fortalecimiento en programas TIC" });
+            _context.Add(new PriorityBet { Name = "No Aplica" });
+            _context.Add(new PriorityBet { Name = "Transición energética" });
+            indEsta = true;
+        }
+
+        if (!_context.TriningLevels.Any())
+        {
+            _context.Add(new TriningLevel { Name = "AUXILIAR" });
+            _context.Add(new TriningLevel { Name = "COMPLEMENTARIA VIRTUAL" });
+            _context.Add(new TriningLevel { Name = "CURSO ESPECIAL" });
+            _context.Add(new TriningLevel { Name = "ESPECIALIZACIÓN TECNOLÓGICA" });
+            _context.Add(new TriningLevel { Name = "OPERARIO" });
+            _context.Add(new TriningLevel { Name = "PROFUNDIZACIÓN TÉCNICA" });
+            _context.Add(new TriningLevel { Name = "TÉCNICO" });
+            _context.Add(new TriningLevel { Name = "TECNÓLOGO" });
+
+            indEsta = true;
+        }
+
+        if (!_context.TypeOfTraining.Any())
+        {
+            _context.Add(new TypeOfTraining { Name = "Aula movil" });
+            _context.Add(new TypeOfTraining { Name = "Campesena" });
+            _context.Add(new TypeOfTraining { Name = "Evento de Divulgación tecnológica" });
+            _context.Add(new TypeOfTraining { Name = "Formacion complementaria regulad" });
+            _context.Add(new TypeOfTraining { Name = "Otro" });
+            _context.Add(new TypeOfTraining { Name = "Tecno - Academia" });
+            _context.Add(new TypeOfTraining { Name = "Victimas" });
+
+            indEsta = true;
+        }
+
+        if (!_context.TypeOfPoblations.Any())
+        {
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Adolescente en conflicto con la ley penal" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Adolescente trabajador" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Adolescentes desvinculados de grupos armados organizados" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Afrocolombianos desplazados por la violencia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Afrocolombianos desplazados por la violencia cabeza de familia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Artesanos" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Desplazados discapacitados" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Desplazados por fenómenos naturales" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Desplazados por fenómenos naturales cabeza de familia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Desplazados por la violencia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Desplazados por la violencia cabeza de familia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitado cognitivo" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitado limitación auditiva o sorda" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitado limitación física o motora" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitado limitación visual o ciega" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitados" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Discapacitados mental" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Emprendedores" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Indígenas" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Indígenas desplazados por la violencia " });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Indígenas desplazados por la violencia cabeza de familia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "INPEC" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Jóvenes vulnerables" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Microempresas" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Mujer cabeza de familia" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Negritudes" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Ninguna " });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Personas en proceso de reintegración" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Remitidos por el PAL" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Remitidos por el Servicio Nacional de Empleo" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Sobrevivientes minas antipersonales" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Soldados campesinos" });
+            _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Tercera edad" });
+            indEsta = true;
+        }
+
+        if (indEsta == true)
+        {
+            await _context.SaveChangesAsync();
         }
     }
 
