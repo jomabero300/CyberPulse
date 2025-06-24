@@ -1,6 +1,5 @@
 ﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Shared.EntitiesDTO;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CyberPulse.Backend.Controllers;

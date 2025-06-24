@@ -1,7 +1,7 @@
 ﻿using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;

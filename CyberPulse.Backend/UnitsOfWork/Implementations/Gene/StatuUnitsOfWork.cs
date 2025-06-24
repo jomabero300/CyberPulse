@@ -7,7 +7,7 @@ using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 
-public class StatuUnitsOfWork : GenericUnitsOfWork<Statu>, IStatuUnitsOfWork
+public class StatuUnitsOfWork : GenericUnitOfWork<Statu>, IStatuUnitOfWork
 {
     private readonly IStatuRepository _statuRepository;
 

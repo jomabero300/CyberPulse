@@ -5,11 +5,11 @@ using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations;
 
-public class GenericUnitsOfWork<T> : IGenericUnitOfWork<T> where T : class
+public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
 {
     private readonly IGenericRepository<T> _repository;
 
-    public GenericUnitsOfWork(IGenericRepository<T> repository)
+    public GenericUnitOfWork(IGenericRepository<T> repository)
     {
         _repository = repository;
     }

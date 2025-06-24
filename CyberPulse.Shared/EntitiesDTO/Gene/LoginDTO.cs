@@ -1,7 +1,7 @@
 ﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace CyberPulse.Shared.EntitiesDTO.GeneDTO;
+namespace CyberPulse.Shared.EntitiesDTO.Gene;
 
 public class LoginDTO
 {

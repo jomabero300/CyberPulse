@@ -3,12 +3,12 @@ using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 
-public class CountryUnitOfWork : GenericUnitsOfWork<Country>, ICountryUnitOfWork
+public class CountryUnitOfWork : GenericUnitOfWork<Country>, ICountryUnitOfWork
 {
     private readonly ICountryRepository _countryRepository;
 

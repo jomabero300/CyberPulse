@@ -1,6 +1,6 @@
 ﻿using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;

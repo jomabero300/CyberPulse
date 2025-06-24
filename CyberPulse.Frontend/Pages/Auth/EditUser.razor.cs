@@ -1,7 +1,7 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Services;
 using CyberPulse.Shared.Entities.Gene;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;

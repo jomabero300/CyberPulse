@@ -1,15 +1,14 @@
 ﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace CyberPulse.Shared.EntitiesDTO.GeneDTO;
+namespace CyberPulse.Shared.EntitiesDTO.Gene;
 
-public class ChangePasswordDTO
+public class ResetPasswordDTO
 {
-    [DataType(DataType.Password)]
-    [Display(Name = "CurrentPassword", ResourceType = typeof(Literals))]
+    [Display(Name = "Email", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    [StringLength(20, MinimumLength = 6, ErrorMessageResourceName = "LengthField", ErrorMessageResourceType = typeof(Literals))]
-    public string CurrentPassword { get; set; } = null!;
+    [EmailAddress(ErrorMessageResourceName = "ValidEmail", ErrorMessageResourceType = typeof(Literals))]
+    public string Email { get; set; } = null!;
 
     [DataType(DataType.Password)]
     [Display(Name = "NewPassword", ResourceType = typeof(Literals))]
@@ -21,5 +20,7 @@ public class ChangePasswordDTO
     [Display(Name = "PasswordConfirm", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [StringLength(20, MinimumLength = 6, ErrorMessageResourceName = "LengthField", ErrorMessageResourceType = typeof(Literals))]
-    public string Confirm { get; set; } = null!;
+    public string ConfirmPassword { get; set; } = null!;
+
+    public string Token { get; set; } = null!;
 }

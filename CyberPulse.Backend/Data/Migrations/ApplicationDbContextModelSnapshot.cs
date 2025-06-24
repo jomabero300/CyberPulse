@@ -23,103 +23,6 @@ namespace CyberPulse.Backend.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("StateId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StateId", "Name")
-                        .IsUnique();
-
-                    b.ToTable("Cities", "Gene");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Countries", "Gene");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Neighborhood", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId", "Name")
-                        .IsUnique();
-
-                    b.ToTable("Neighborhoods", "Gene");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.State", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId", "Name")
-                        .IsUnique();
-
-                    b.ToTable("States", "Gene");
-                });
-
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Statu", b =>
                 {
                     b.Property<int>("Id")
@@ -152,9 +55,6 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -213,8 +113,6 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -360,50 +258,6 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.ToTable("AspNetUserTokens", "Admi");
                 });
 
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.City", b =>
-                {
-                    b.HasOne("CyberPulse.Shared.Entities.Gene.State", "State")
-                        .WithMany("Cities")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("State");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Neighborhood", b =>
-                {
-                    b.HasOne("CyberPulse.Shared.Entities.Gene.City", "City")
-                        .WithMany("Neighborhoods")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.State", b =>
-                {
-                    b.HasOne("CyberPulse.Shared.Entities.Gene.Country", "Country")
-                        .WithMany("States")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.User", b =>
-                {
-                    b.HasOne("CyberPulse.Shared.Entities.Gene.Country", "Country")
-                        .WithMany("Users")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -453,23 +307,6 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.City", b =>
-                {
-                    b.Navigation("Neighborhoods");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Country", b =>
-                {
-                    b.Navigation("States");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.State", b =>
-                {
-                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }

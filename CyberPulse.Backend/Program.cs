@@ -1,12 +1,16 @@
 using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Implementations;
+using CyberPulse.Backend.Repositories.Implementations.Chipp;
 using CyberPulse.Backend.Repositories.Implementations.Gene;
 using CyberPulse.Backend.Repositories.Interfaces;
+using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Implementations;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
+using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,9 +32,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer("name=De
 builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitsOfWork<>));
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 
 builder.Services.AddScoped<IMailHelper, MailHelper>();
+
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICityUnitOfWork, CityUnitOfWork>();
+
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
+
+builder.Services.AddScoped<IExcelExportRepository, ExcelExportRepository>();
+builder.Services.AddScoped<IExcelExportUnitOfWork, ExcelExportUnitOfWork>();
 
 builder.Services.AddScoped<IStatuRepository, StatuRepository>();
 builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
@@ -38,8 +51,13 @@ builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
-builder.Services.AddScoped<ICountryRepository, CountryRepository>();
-builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
+builder.Services.AddScoped<ITypeOfTrainingRepository, TypeOfTrainingRepository>();
+builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>();
+
+builder.Services.AddScoped<IChipProgramRepository, ChipProgramRepository>();
+builder.Services.AddScoped<IChipProgramUnitOfWork, ChipProgramUnitOfWork>();
+
+
 
 builder.Services.AddScoped<IMailHelper, MailHelper>();
 

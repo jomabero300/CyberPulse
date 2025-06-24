@@ -1,7 +1,7 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
-using CyberPulse.Shared.EntitiesDTO.GeneDTO;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
