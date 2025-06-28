@@ -17,8 +17,6 @@ public interface IChipUnitOfWork
 
     Task<ActionResponse<Chip>> DeleteAsync(int id);
 
-    Task<IEnumerable<Chip>> GetComboAsync(int id);
-
     Task<ActionResponse<IEnumerable<Chip>>> GetAsync(PaginationDTO pagination);
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
 }

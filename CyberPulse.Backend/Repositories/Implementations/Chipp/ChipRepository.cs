@@ -1,7 +1,6 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
-using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
@@ -14,22 +13,22 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     private readonly ApplicationDbContext _context;
     public ChipRepository(ApplicationDbContext context) : base(context)
     {
-        _context=context;
+        _context = context;
     }
 
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)
     {
-        var chip=new Chip()
+        var chip = new Chip()
         {
             Apprentices = entity.Apprentices,
             ChipNo = entity.ChipNo,
             ChipProgramId = entity.ChipProgramId,
             Company = entity.Company,
-            EmployeeId = entity.EmployeeId,
+            InstructorId = entity.InstructorId,
             EndDate = entity.EndDate,
             NeighborhoodId = entity.NeighborhoodId,
             TypeOfTrainingId = entity.TypeOfTrainingId,
-            UserId = entity.UserId,                       
+            UserId = entity.UserId,
         };
 
         _context.Add(chip);
@@ -81,4 +80,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         };
     }
 
+    public Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -45,6 +45,9 @@ builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
 builder.Services.AddScoped<IExcelExportRepository, ExcelExportRepository>();
 builder.Services.AddScoped<IExcelExportUnitOfWork, ExcelExportUnitOfWork>();
 
+builder.Services.AddScoped<INeighborhoodRepository, NeighborhoodRepository>();
+builder.Services.AddScoped<INeighborhoodUnitOfWork, NeighborhoodUnitOfWork>();
+
 builder.Services.AddScoped<IStatuRepository, StatuRepository>();
 builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
 
@@ -56,7 +59,9 @@ builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>(
 
 builder.Services.AddScoped<IChipProgramRepository, ChipProgramRepository>();
 builder.Services.AddScoped<IChipProgramUnitOfWork, ChipProgramUnitOfWork>();
-builder.Services.AddScoped<IChipRepository,ChipRepository>
+
+builder.Services.AddScoped<IChipRepository, ChipRepository>();
+builder.Services.AddScoped<IChipUnitOfWork, ChipUnitOfWork>();
 
 
 builder.Services.AddScoped<IMailHelper, MailHelper>();

@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<ChipPoblation> ChipPoblations { get; set; }
     public DbSet<ChipProgram> ChipPrograms { get; set; }
     public DbSet<PriorityBet> PriorityBets { get; set; }
+    public DbSet<TrainingProgram> TrainingPrograms { get; set; }
     public DbSet<TriningLevel> TriningLevels { get; set; }
     public DbSet<TypeOfPoblation> TypeOfPoblations { get; set; }
     public DbSet<TypeOfTraining> TypeOfTraining { get; set; }
@@ -36,6 +37,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<ChipPoblation>().HasIndex(x => new { x.TypePoblationId, x.ChipId }).IsUnique();
         builder.Entity<ChipProgram>().HasIndex(x => new {x.Code,x.Version }).IsUnique();
         builder.Entity<PriorityBet>().HasIndex(x => x.Name).IsUnique();
+        builder.Entity<TrainingProgram>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TriningLevel>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TypeOfPoblation>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TypeOfTraining>().HasIndex(x => x.Name).IsUnique();

@@ -31,6 +31,38 @@ namespace CyberPulse.Backend.Data.Migrations
                 table: "Status",
                 newName: "IX_Status_Name");
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Photo",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "varchar(100)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LastName",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "varchar(50)",
+                maxLength: 50,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)",
+                oldMaxLength: 50);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "FirstName",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "varchar(50)",
+                maxLength: 50,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(50)",
+                oldMaxLength: 50);
+
             migrationBuilder.AddColumn<int>(
                 name: "CountryId",
                 schema: "Admi",
@@ -38,6 +70,15 @@ namespace CyberPulse.Backend.Data.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.AddColumn<string>(
+                name: "DocumentId",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "varchar(12)",
+                maxLength: 12,
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Status",
@@ -72,6 +113,20 @@ namespace CyberPulse.Backend.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PriorityBets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrainingPrograms",
+                schema: "Admi",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingPrograms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,12 +202,14 @@ namespace CyberPulse.Backend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false),
+                    Designation = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     PriorityBetId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     SupportFic = table.Column<bool>(type: "bit", nullable: false),
                     TriningLevelId = table.Column<int>(type: "int", nullable: false),
-                    TypeOfTraining = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                    TypeOfTraining = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    WingMeasure = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,18 +285,27 @@ namespace CyberPulse.Backend.Data.Migrations
                     ChipNo = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false),
                     ChipProgramId = table.Column<int>(type: "int", nullable: false),
                     Company = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    InstructorId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     NeighborhoodId = table.Column<int>(type: "int", nullable: false),
                     TypeOfTrainingId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TrainingProgramId = table.Column<int>(type: "int", nullable: false),
+                    Justification = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
+                    Monday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Tuesday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Wednesday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Tursday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Friday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Saturday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
+                    Sunday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chips", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chips_AspNetUsers_EmployeeId",
-                        column: x => x.EmployeeId,
+                        name: "FK_Chips_AspNetUsers_InstructorId",
+                        column: x => x.InstructorId,
                         principalSchema: "Admi",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -263,6 +329,13 @@ namespace CyberPulse.Backend.Data.Migrations
                         column: x => x.NeighborhoodId,
                         principalSchema: "Gene",
                         principalTable: "Neighborhoods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Chips_TrainingPrograms_TrainingProgramId",
+                        column: x => x.TrainingProgramId,
+                        principalSchema: "Admi",
+                        principalTable: "TrainingPrograms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -384,16 +457,22 @@ namespace CyberPulse.Backend.Data.Migrations
                 column: "ChipProgramId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chips_EmployeeId",
+                name: "IX_Chips_InstructorId",
                 schema: "Chip",
                 table: "Chips",
-                column: "EmployeeId");
+                column: "InstructorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chips_NeighborhoodId",
                 schema: "Chip",
                 table: "Chips",
                 column: "NeighborhoodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chips_TrainingProgramId",
+                schema: "Chip",
+                table: "Chips",
+                column: "TrainingProgramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chips_TypeOfTrainingId",
@@ -440,6 +519,13 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Gene",
                 table: "States",
                 columns: new[] { "CountryId", "Name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingPrograms_Name",
+                schema: "Admi",
+                table: "TrainingPrograms",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -507,6 +593,10 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Gene");
 
             migrationBuilder.DropTable(
+                name: "TrainingPrograms",
+                schema: "Admi");
+
+            migrationBuilder.DropTable(
                 name: "TypeOfTrainings",
                 schema: "Chip");
 
@@ -545,6 +635,11 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Admi",
                 table: "AspNetUsers");
 
+            migrationBuilder.DropColumn(
+                name: "DocumentId",
+                schema: "Admi",
+                table: "AspNetUsers");
+
             migrationBuilder.RenameTable(
                 name: "Status",
                 schema: "Gene",
@@ -556,6 +651,38 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Gene",
                 table: "Sataus",
                 newName: "IX_Sataus_Name");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Photo",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "varchar(100)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LastName",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "nvarchar(50)",
+                maxLength: 50,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "varchar(50)",
+                oldMaxLength: 50);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "FirstName",
+                schema: "Admi",
+                table: "AspNetUsers",
+                type: "nvarchar(50)",
+                maxLength: 50,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "varchar(50)",
+                oldMaxLength: 50);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Sataus",

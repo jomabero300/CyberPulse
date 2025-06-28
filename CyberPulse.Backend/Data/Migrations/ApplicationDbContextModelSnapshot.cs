@@ -47,15 +47,54 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Friday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Justification")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Monday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
                     b.Property<int>("NeighborhoodId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Saturday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
+                    b.Property<string>("Sunday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
+                    b.Property<int>("TrainingProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tuesday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
+                    b.Property<string>("Tursday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
 
                     b.Property<int>("TypeOfTrainingId")
                         .HasColumnType("int");
@@ -65,13 +104,20 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Wednesday")
+                        .IsRequired()
+                        .HasMaxLength(23)
+                        .HasColumnType("varchar(23)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChipProgramId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("InstructorId");
 
                     b.HasIndex("NeighborhoodId");
+
+                    b.HasIndex("TrainingProgramId");
 
                     b.HasIndex("TypeOfTrainingId");
 
@@ -174,6 +220,11 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
 
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
@@ -196,6 +247,9 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.Property<int>("Version")
                         .HasColumnType("int");
+
+                    b.Property<bool>("WingMeasure")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -228,6 +282,27 @@ namespace CyberPulse.Backend.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("PriorityBets", "Chip");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.TrainingProgram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("TrainingPrograms", "Admi");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.TriningLevel", b =>
@@ -426,6 +501,11 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DocumentId")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -436,12 +516,12 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -467,7 +547,7 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -638,15 +718,21 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CyberPulse.Shared.Entities.Gene.User", "Employee")
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.User", "Instructor")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
+                        .HasForeignKey("InstructorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CyberPulse.Shared.Entities.Gene.Neighborhood", "Neighborhood")
                         .WithMany()
                         .HasForeignKey("NeighborhoodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Chipp.TrainingProgram", "TrainingProgram")
+                        .WithMany("Chip")
+                        .HasForeignKey("TrainingProgramId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -664,9 +750,11 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.Navigation("ChipProgram");
 
-                    b.Navigation("Employee");
+                    b.Navigation("Instructor");
 
                     b.Navigation("Neighborhood");
+
+                    b.Navigation("TrainingProgram");
 
                     b.Navigation("TypeOfTraining");
 
@@ -825,6 +913,11 @@ namespace CyberPulse.Backend.Data.Migrations
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.PriorityBet", b =>
                 {
                     b.Navigation("ChipProgram");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.TrainingProgram", b =>
+                {
+                    b.Navigation("Chip");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.TriningLevel", b =>

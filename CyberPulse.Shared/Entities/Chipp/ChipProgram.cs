@@ -19,6 +19,12 @@ public class ChipProgram
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Version { get; set; }
 
+    [Column(TypeName = "varchar(300)")]
+    [Display(Name = "Code", ResourceType = typeof(Literals))]
+    [MaxLength(300, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Designation { get; set; }= null!;
+
     [Display(Name = "Duration", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Duration { get; set; }
@@ -46,6 +52,8 @@ public class ChipProgram
     [MaxLength(20, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     public string TypeOfTraining { get; set; }=null!;
 
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public bool WingMeasure { get; set; }
 
     public PriorityBet PriorityBet { get; set; } = null!;
     public TriningLevel TriningLevel { get; set; } = null!;

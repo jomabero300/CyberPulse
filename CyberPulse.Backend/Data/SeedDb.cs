@@ -26,16 +26,20 @@ public class SeedDb
         await CheckChipAsync();
 
         await CheckRolesAsync();
-        await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admin);
+        await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admin,"17588236");
+        await CheckUserAsync("Angelina", "Jolie", "angelina@gmail.com", "3133678526", UserType.inst,"1116852147");
+        await CheckUserAsync("Freddie", "Mercury", "fredie@gmail.com", "3134568271", UserType.inst, "1164852796");
+        await CheckUserAsync("Brad", "Pitt", "brad@gmail.com", "3129167854", UserType.inst, "1029400672");
     }
 
     private async Task CheckRolesAsync()
     {
         await _usersUnitOf.CheckRoleAsync(UserType.Admin.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.User.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.inst.ToString());
     }
 
-    private async Task<User> CheckUserAsync(string firstName, string lastName, string email, string phone, UserType userType)
+    private async Task<User> CheckUserAsync(string firstName, string lastName, string email, string phone, UserType userType, string DocumentId)
     {
         var user = await _usersUnitOf.GetUserAsync(email);
 
@@ -52,7 +56,8 @@ public class SeedDb
                 PhoneNumber = phone,
                 Country = country!,
                 UserType = userType,
-                Photo= ""
+                Photo= "",
+                DocumentId= DocumentId
             };
 
             await _usersUnitOf.AddUserASync(user, "12345678");
@@ -183,6 +188,17 @@ public class SeedDb
             _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Sobrevivientes minas antipersonales" });
             _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Soldados campesinos" });
             _context.TypeOfPoblations.Add(new TypeOfPoblation { Name = "Tercera edad" });
+            indEsta = true;
+        }
+
+
+        if(!_context.TrainingPrograms.Any())
+        {
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Titulada" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Articulación con la media técnica" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Atención A poblacion victima" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Campesena" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Ninguna" });
             indEsta = true;
         }
 

@@ -2,6 +2,7 @@
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
@@ -28,6 +29,8 @@ public class UsersUnitOfWork : IUsersUnitOfWork
     public async Task<string> GenerateEmailConfirmationTokenAsync(User user)=>await _userRepository.GenerateEmailConfirmationTokenAsync(user);
 
     public async Task<string> GeneratePasswordResetTokenAsync(User user) => await _userRepository.GeneratePasswordResetTokenAsync(user);
+
+    public async Task<IEnumerable<User>> GetAsync(UserType userType)=>await _userRepository.GetAsync(userType);
 
     public async Task<User> GetUserAsync(Guid userId) => await _userRepository.GetUserAsync(userId);
 

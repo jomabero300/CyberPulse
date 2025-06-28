@@ -29,18 +29,19 @@ public class Chip
     [MaxLength(100, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Company { get; set; } = null!;
-    
+
     [Column(TypeName = "nvarchar(450)")]
-    [Display(Name = "Employee", ResourceType = typeof(Literals))]
+    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public String EmployeeId { get; set; } = null!;
+    public String InstructorId { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public DateTime EndDate { get; set; }
 
-    [Display(Name = "Settlement", ResourceType = typeof(Literals))]
+    [Display(Name = "Neighborhood", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int NeighborhoodId { get; set; }
 
@@ -49,12 +50,66 @@ public class Chip
     public int TypeOfTrainingId { get; set; }
 
     [Column(TypeName = "nvarchar(450)")]
-    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    [Display(Name = "User", ResourceType = typeof(Literals))]
     [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public String UserId { get; set; } = null!;
+
+
+    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int TrainingProgramId { get; set; }
+    public TrainingProgram? TrainingProgram { get; set; }
+
+    [Column(TypeName = "varchar(500)")]
+    [Display(Name = "Justification", ResourceType = typeof(Literals))]
+    [MaxLength(500, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Justification { get; set; }=null!;
     
-    public User Employee { get; set; } = null!;
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Monday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Monday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Tuesday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Tuesday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Wednesday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Wednesday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Tursday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Tursday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Friday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Friday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Saturday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Saturday { get; set; }=null!;
+
+    [Column(TypeName = "varchar(23)")]
+    [Display(Name = "Sunday", ResourceType = typeof(Literals))]
+    [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Sunday { get; set; }=null!;
+
+    public User Instructor { get; set; } = null!;
     public User User { get; set; } = null!;
     public ChipProgram ChipProgram { get; set; } = null!;
     public Neighborhood Neighborhood { get; set; } = null!;

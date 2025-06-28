@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CyberPulse.Backend.Controllers.Chipp;
 
-public class ChipProgramController : GenericController<ChipProgram>
+[ApiController]
+[Route("api/[controller]")]
+public class ChipProgramsController : GenericController<ChipProgram>
 {
     private readonly IChipProgramUnitOfWork _chipProgramUnitOf;
 
-    public ChipProgramController(IGenericUnitOfWork<ChipProgram> unitOfWork, IChipProgramUnitOfWork chipProgramUnitOf) : base(unitOfWork)
+    public ChipProgramsController(IGenericUnitOfWork<ChipProgram> unitOfWork, IChipProgramUnitOfWork chipProgramUnitOf) : base(unitOfWork)
     {
         _chipProgramUnitOf = chipProgramUnitOf;
     }

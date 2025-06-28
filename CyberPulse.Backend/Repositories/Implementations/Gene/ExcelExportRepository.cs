@@ -45,15 +45,18 @@ public class ExcelExportRepository :  IExcelExportRepository
 
                 var PRF_CODIGO = row["PRF_CODIGO"].ToString();
                 var version = row["PRF_VERSION"].ToString();
+                var denominacion = row["PRF_DENOMINACION"].ToString();
                 var Tipo = row["TIPO DE FORMACION"].ToString();
                 var level = row["NIVEL DE FORMACION"].ToString();
                 var Duracion = row["PRF_DURACION_MAXIMA"];
                 var Fecha = row["Fecha Activo (En Ejecución) "];
                 var ApoyoFic = row["PRF_APOYO_FIC"];
                 var Apuestas = row["APUESTAS PRIORITARIAS"].ToString();
+                var alamedida = row["PRF_ALAMEDIDA"].ToString();
 
                 if (string.IsNullOrWhiteSpace(PRF_CODIGO) ||
                     string.IsNullOrWhiteSpace(version) ||
+                    string.IsNullOrWhiteSpace(denominacion) ||
                     string.IsNullOrWhiteSpace(Tipo) ||
                     string.IsNullOrWhiteSpace(level) ||
                     string.IsNullOrWhiteSpace(Duracion.ToString()) ||
@@ -86,12 +89,14 @@ public class ExcelExportRepository :  IExcelExportRepository
                         {
                             Code = PRF_CODIGO!,
                             Version=int.Parse( version),
+                            Designation=denominacion,
                             Duration = int.Parse(Duracion.ToString()!),
                             PriorityBetId = priorityBet.Id,
                             StartDate = DateTime.Parse(Fecha.ToString()!),
-                            SupportFic = ApoyoFic.ToString() == "NO" ? false : true,
+                            SupportFic = (ApoyoFic.ToString() == "NO" ? false : true),
                             TriningLevelId = triningLevel.Id,
                             TypeOfTraining = Tipo,
+                            WingMeasure = (alamedida == "NO" ? true : false)
                         });
                         // Guardar cada 100 filas para mejor performance
                         if (totalRows % 100 == 0)

@@ -19,8 +19,7 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
 
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)=>await _chipRepository.AddAsync(entity);
 
-    public async Task<IEnumerable<Chip>> GetComboAsync(int id)=>await _chipRepository.GetComboAsync(id);
-
+    
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _chipRepository.GetTotalRecordsAsync(pagination); 
 
     public async Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)=>await _chipRepository.UpdateAsync(entity);

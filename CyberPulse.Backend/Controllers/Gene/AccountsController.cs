@@ -3,6 +3,7 @@ using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -113,6 +114,17 @@ public class AccountsController : ControllerBase
 
         return Ok(result);
     }
+
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("LoadUsers/{userType}")]
+    public async Task<IActionResult> GetAsync(UserType userType)
+    {
+        var result = await _usersUnitOfWork.GetAsync(userType);
+
+        return Ok(result);
+    }
+
+
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost("ChangePassword")]

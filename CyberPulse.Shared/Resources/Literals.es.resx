@@ -456,4 +456,85 @@
   <data name="TypeOfTraining" xml:space="preserve">
     <value>Tipo de formación</value>
   </data>
+  <data name="Chip" xml:space="preserve">
+    <value>Ficha</value>
+  </data>
+  <data name="Chips" xml:space="preserve">
+    <value>Fichas</value>
+  </data>
+  <data name="Apprentices" xml:space="preserve">
+    <value># Aprendices</value>
+  </data>
+  <data name="ChipNo" xml:space="preserve">
+    <value>Ficha No</value>
+  </data>
+  <data name="ChipProgram" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Instructor</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Fecha Final</value>
+  </data>
+  <data name="Instructor" xml:space="preserve">
+    <value>Instructor</value>
+  </data>
+  <data name="SelectAChipProgram" xml:space="preserve">
+    <value>Seleccione un programa</value>
+  </data>
+  <data name="SelectANeighborhood" xml:space="preserve">
+    <value>-- Seleccione un corregimiento --</value>
+  </data>
+  <data name="SelectACity" xml:space="preserve">
+    <value>-- Seleccione un municipio --</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
+  <data name="DocumentId" xml:space="preserve">
+    <value>Cedula de ciudadanía</value>
+  </data>
+  <data name="TrainingProgram" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="Justification" xml:space="preserve">
+    <value>Justificación</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Lunes</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Martes</value>
+  </data>
+  <data name="Tursday" xml:space="preserve">
+    <value>Jueves</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Viernes</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sabado</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Domingo</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Miercoles</value>
+  </data>
+  <data name="ValidarRangoHora" xml:space="preserve">
+    <value>La hora inicial debe estar entre 12:00 y 24:00</value>
+  </data>
+  <data name="DateStartMon" xml:space="preserve">
+    <value>Mañana Inicio</value>
+  </data>
+  <data name="DateEnd" xml:space="preserve">
+    <value>Final</value>
+  </data>
+  <data name="DateStartAft" xml:space="preserve">
+    <value>Tarde inicio</value>
+  </data>
 </root>

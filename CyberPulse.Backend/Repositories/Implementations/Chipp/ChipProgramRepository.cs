@@ -17,8 +17,6 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     public async Task<IEnumerable<ChipProgram>> GetComboAsync()
     {
         return await _context.ChipPrograms
-            .Include(x=>x.PriorityBet)
-            .Include(x=>x.TriningLevel)
-            .OrderBy(x=>x.Code).ToListAsync();
+            .OrderBy(x => x.Code).ToListAsync();
     }
 }

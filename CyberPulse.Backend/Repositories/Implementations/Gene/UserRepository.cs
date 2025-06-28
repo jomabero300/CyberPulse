@@ -2,6 +2,8 @@
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.Enums;
+using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
@@ -68,6 +70,14 @@ public class UserRepository : IUserRepository
     public async Task<string> GeneratePasswordResetTokenAsync(User user)
     {
         return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task<IEnumerable<User>> GetAsync(UserType userType)
+    {
+        var resul= await _context.Users.Where(x => x.UserType == userType).OrderBy(x=>x.FirstName).ToListAsync();
+
+        return resul;
+        
     }
 
     public async Task<User> GetUserAsync(Guid userId)
