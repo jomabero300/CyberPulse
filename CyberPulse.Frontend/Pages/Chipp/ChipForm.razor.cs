@@ -8,42 +8,14 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
-using MudBlazor;
-using System.Diagnostics.Metrics;
+using System.Threading.Tasks;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
 public partial class ChipForm
 {
     private EditContext editContext = null!;
-    private bool desabledCompany = false;
-
-    private ChipProgram selectedChipProgram = new();
-    private List<ChipProgram>? chipPrograms;
-
-    private City selectedCity = new();
-    private List<City>? cities;
-
-    private Neighborhood selectedNeighborhood = new();
-    private List<Neighborhood>? neighborhoods;
-
-    private User selectedInstructor = new();
-    private List<User>? instructors;
-
-    //private TimeSpan? _time = new TimeSpan(00, 45, 00);
-    int spacing;
-
-    public PatternMask mask1 = new PatternMask("##:##")
-    {
-        MaskChars = new[] { new MaskChar('#', @"[0-9]") }
-    };
-
-    protected override void OnInitialized()
-    {
-        editContext = new(chipDTO);
-    }
     [EditorRequired, Parameter] public ChipDTO chipDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
@@ -53,13 +25,40 @@ public partial class ChipForm
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+
+    private bool desabledCompany = false;
+
+    private ChipProgram selectedChipProgram = new();
+    private List<ChipProgram>? chipPrograms;
+
+    private User selectedInstructor = new();
+    private List<User>? instructors;
+
+    private City selectedCity = new();
+    private List<City>? cities;
+
+    private Neighborhood selectedNeighborhood = new();
+    private List<Neighborhood>? neighborhoods;
+
+    private TrainingProgram selectedTrainingProgram = new();
+    private List<TrainingProgram>? trainingProgram;
+
+    private TypeOfTraining selectedTypeOfTraining=new();
+    private List<TypeOfTraining>? typeOfTraining;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(chipDTO);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadChipProgramAsync();
-        await LoadCityAsync();
         await LoadInstructorsync();
+        await LoadCityAsync();
+        await LoadTrainingProgramAsync();
+        await LoadTypeOfTrainingAsync();
     }
-
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
@@ -117,12 +116,47 @@ public partial class ChipForm
     {
         selectedChipProgram = entity;
         chipDTO.ChipProgramId = entity.Id;
-        desabledCompany =entity.WingMeasure;
+        desabledCompany = entity.WingMeasure;
         chipDTO.Company = "";
         chipDTO.StartDate = entity.StartDate;
-        chipDTO.Duration=entity.Duration;
+        chipDTO.Duration = entity.Duration;
     }
 
+
+    private async Task LoadInstructorsync()
+    {
+        var userType = UserType.inst;
+
+        var responseHttp = await repository.GetAsync<List<User>>($"/api/accounts/LoadUsers/{userType}");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        instructors = responseHttp.Response;
+    }
+    private async Task<IEnumerable<User>> SearchInstructor(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return instructors!;
+        }
+
+        return instructors!
+            .Where(x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.DocumentId.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void InstructorChanged(User entity)
+    {
+        selectedInstructor = entity;
+        chipDTO.InstructorId = entity.Id;
+    }
 
     private async Task LoadCityAsync()
     {
@@ -190,11 +224,10 @@ public partial class ChipForm
         chipDTO.NeighborhoodId = entity.Id;
     }
 
-    private async Task LoadInstructorsync()
-    {
-        var userType = UserType.inst;
 
-        var responseHttp = await repository.GetAsync<List<User>>($"/api/accounts/LoadUsers/{userType}");
+    private async Task LoadTrainingProgramAsync()
+    {
+        var responseHttp = await repository.GetAsync<List<TrainingProgram>>("/api/trainingPrograms/combo");
 
         if (responseHttp.Error)
         {
@@ -203,91 +236,56 @@ public partial class ChipForm
             return;
         }
 
-        instructors = responseHttp.Response;
+        trainingProgram = responseHttp.Response;
     }
-    private async Task<IEnumerable<User>> SearchInstructor(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<TrainingProgram>> SearchTrainingProgram(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return instructors!;
+            return trainingProgram!;
         }
 
-        return instructors!
-            .Where(x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-                        x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-                        x.DocumentId.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+        return trainingProgram!
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) )
             .ToList();
     }
-    private void InstructorChanged(User entity)
+    private void TrainingProgramChanged(TrainingProgram entity)
     {
-        selectedInstructor = entity;
-        chipDTO.InstructorId = entity.Id;
+        selectedTrainingProgram = entity;
+        chipDTO.TrainingProgramId = entity.Id;
     }
 
-    private void HorasChanged()
+
+    private async Task LoadTypeOfTrainingAsync()
     {
-        var x = chipDTO.MondayTotalHoras +
-                chipDTO.TuesdayTotalHoras +
-                chipDTO.WednesdayTotalHoras +
-                chipDTO.FridayTotalHoras +
-                chipDTO.SaturdayTotalHoras+
-                chipDTO.SundayTotalHoras;
+        var responseHttp = await repository.GetAsync<List<TypeOfTraining>>("/api/typeOfTrainings/combo");
 
-
-        if (x == TimeSpan.Zero) return;
-        
-        //Fecha de ejecuacion
-        var dateStart = chipDTO.StartDate;
-        //Horas programadas
-        int horasProgramadas = chipDTO.Duration;
-        double sumaTotal = 0;
-
-
-
-        var moday = chipDTO.MondayTotalHoras.ToString("00:00").Replace(':',',');
-        var tuesday = chipDTO.TuesdayTotalHoras.ToString("00:00").Replace(':', ',');
-        var wednesday = chipDTO.WednesdayTotalHoras.ToString("00:00").Replace(':', ',');
-        var friday = chipDTO.FridayTotalHoras.ToString("00:00").Replace(':', ',');
-        var saturday = chipDTO.SaturdayTotalHoras.ToString("00:00").Replace(':', ',');
-        var sunday = chipDTO.SundayTotalHoras.ToString("00:00").Replace(':', ',');
-
-
-        while(sumaTotal<horasProgramadas)
+        if (responseHttp.Error)
         {
-            switch ((int)dateStart.DayOfWeek)
-            {
-                case (int)DayOfWeek.Monday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse( sunday);
-                    break;
-                case (int)DayOfWeek.Tuesday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse(tuesday);
-                    break;
-                case (int)DayOfWeek.Wednesday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse(wednesday);
-                    break;
-                case (int)DayOfWeek.Friday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse(friday);
-                    break;
-                case (int)DayOfWeek.Saturday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse(saturday);
-                    break;
-                case (int)DayOfWeek.Sunday:
-                    dateStart.AddDays(1);
-                    sumaTotal = sumaTotal + double.Parse(sunday);
-                    break;
-                default:
-                    break;
-            }
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
         }
 
-
-
-        chipDTO.EndDate = dateStart;
+        typeOfTraining = responseHttp.Response;
     }
+    private async Task<IEnumerable<TypeOfTraining>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return typeOfTraining!;
+        }
+
+        return typeOfTraining!
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void TypeOfTrainingChanged(TypeOfTraining entity)
+    {
+        selectedTypeOfTraining = entity;
+        chipDTO.TypeOfTrainingId = entity.Id;
+    }
+
 }

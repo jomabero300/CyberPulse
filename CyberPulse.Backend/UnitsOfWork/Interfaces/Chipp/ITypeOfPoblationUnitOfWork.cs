@@ -1,0 +1,22 @@
+﻿using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.EntitiesDTO;
+using CyberPulse.Shared.Responses;
+
+namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
+
+public interface ITypeOfPoblationUnitOfWork
+{
+    Task<ActionResponse<TypeOfPoblation>> GetAsync(int id);
+
+    Task<ActionResponse<IEnumerable<TypeOfPoblation>>> GetAsync();
+
+    Task<ActionResponse<TypeOfPoblation>> AddAsync(TypeOfPoblation entity);
+
+    Task<ActionResponse<TypeOfPoblation>> DeleteAsync(int id);
+
+    Task<IEnumerable<TypeOfPoblation>> GetComboAsync();
+
+    Task<ActionResponse<IEnumerable<TypeOfPoblation>>> GetAsync(PaginationDTO pagination);
+
+    Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
+}

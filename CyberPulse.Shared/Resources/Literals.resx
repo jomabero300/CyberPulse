@@ -514,7 +514,10 @@
   <data name="DateEnd" xml:space="preserve">
     <value>End</value>
   </data>
-  <data name="DateStartAft" xml:space="preserve">
-    <value>Afternoon Start</value>
+  <data name="DateStart" xml:space="preserve">
+    <value>Star</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

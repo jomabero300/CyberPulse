@@ -142,6 +142,7 @@ public class SeedDb
 
         if (!_context.TypeOfTraining.Any())
         {
+            _context.Add(new TypeOfTraining { Name = "Ninguno" });
             _context.Add(new TypeOfTraining { Name = "Aula movil" });
             _context.Add(new TypeOfTraining { Name = "Campesena" });
             _context.Add(new TypeOfTraining { Name = "Evento de Divulgación tecnológica" });
@@ -198,7 +199,6 @@ public class SeedDb
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Articulación con la media técnica" });
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Atención A poblacion victima" });
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Campesena" });
-            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Ninguna" });
             indEsta = true;
         }
 

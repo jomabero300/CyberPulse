@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.Entities.Chipp;
 
+[Table("TrainingPrograms", Schema = "Chip")]
 public class TrainingProgram
 {
     public int Id { get; set; }

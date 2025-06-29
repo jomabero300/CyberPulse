@@ -42,6 +42,12 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int NeighborhoodId { get; set; }
 
+
+    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int TrainingProgramId { get; set; }
+
+
     [Display(Name = "TypeOfTraining", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int TypeOfTrainingId { get; set; }
@@ -53,109 +59,113 @@ public class ChipDTO
 
     public int Duration { get; set; }
 
-
-
-
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "Justification", ResourceType = typeof(Literals))]
+    [MaxLength(500, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan MondayMorningStar { get; set; }
-
-    [ValidareEndTime(nameof(MondayMorningStar), true, ErrorMessage = "")]
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan MondayMorningEnd { get; set; }
-
-    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan MondayAfternoonStar { get; set; }
-
-    [ValidareEndTime(nameof(MondayMorningStar), false, ErrorMessage = "")]
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan MondayAfternoonEnd { get; set; }
-    public TimeSpan MondayTotalHoras => 
-        MondayMorningEnd!=TimeSpan.Zero && MondayMorningStar!=TimeSpan.Zero && 
-        MondayAfternoonEnd !=TimeSpan.Zero && MondayAfternoonStar !=TimeSpan.Zero  ? 
-        (MondayMorningEnd - MondayMorningStar) + (MondayAfternoonEnd - MondayAfternoonStar): MondayMorningEnd != TimeSpan.Zero && MondayMorningStar != TimeSpan.Zero? (MondayMorningEnd - MondayMorningStar): (MondayAfternoonEnd - MondayAfternoonStar);
+    public string Justification { get; set; } = null!;
 
 
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TuesdayMorningStar { get; set; }
+    //[ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan MondayMorningStar { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TuesdayMorningEnd { get; set; }
+    //[ValidareEndTime(nameof(MondayMorningStar), true, ErrorMessage = "")]
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan MondayMorningEnd { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TuesdayAfternoonStar { get; set; }
+    //[ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan MondayAfternoonStar { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TuesdayAfternoonEnd { get; set; }
-    public TimeSpan TuesdayTotalHoras => (TuesdayMorningEnd - TuesdayMorningStar) + (TuesdayAfternoonEnd - TuesdayAfternoonStar);
-
-
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan WednesdayMorningStar { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan WednesdayMorningEnd { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan WednesdayAfternoonStar { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan WednesdayAfternoonEnd { get; set; }
-    public TimeSpan WednesdayTotalHoras => (WednesdayMorningEnd - WednesdayMorningStar) + (WednesdayAfternoonEnd - WednesdayAfternoonStar);
+    //[ValidareEndTime(nameof(MondayMorningStar), false, ErrorMessage = "")]
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan MondayAfternoonEnd { get; set; }
+    //public TimeSpan MondayTotalHoras => 
+    //    MondayMorningEnd!=TimeSpan.Zero && MondayMorningStar!=TimeSpan.Zero && 
+    //    MondayAfternoonEnd !=TimeSpan.Zero && MondayAfternoonStar !=TimeSpan.Zero  ? 
+    //    (MondayMorningEnd - MondayMorningStar) + (MondayAfternoonEnd - MondayAfternoonStar): MondayMorningEnd != TimeSpan.Zero && MondayMorningStar != TimeSpan.Zero? (MondayMorningEnd - MondayMorningStar): (MondayAfternoonEnd - MondayAfternoonStar);
 
 
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayMorningStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TuesdayMorningStar { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayMorningEnd { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TuesdayMorningEnd { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayAfternoonStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TuesdayAfternoonStar { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayAfternoonEnd { get; set; }
-    public TimeSpan TursdayTotalHoras => (TursdayMorningEnd - TursdayMorningStar) + (TursdayAfternoonEnd - TursdayAfternoonStar);
-
-
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan FridayMorningStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan FridayMorningEnd { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan FridayAfternoonStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan FridayAfternoonEnd { get; set; }
-    public TimeSpan FridayTotalHoras => (FridayMorningEnd - FridayMorningStar) + (FridayAfternoonEnd - FridayAfternoonStar);
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TuesdayAfternoonEnd { get; set; }
+    //public TimeSpan TuesdayTotalHoras => (TuesdayMorningEnd - TuesdayMorningStar) + (TuesdayAfternoonEnd - TuesdayAfternoonStar);
 
 
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SaturdayMorningStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SaturdayMorningEnd { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SaturdayAfternoonStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SaturdayAfternoonEnd { get; set; }
-    public TimeSpan SaturdayTotalHoras => (SaturdayMorningEnd - SaturdayMorningStar) + (SaturdayAfternoonEnd - SaturdayAfternoonStar);
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan WednesdayMorningStar { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan WednesdayMorningEnd { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan WednesdayAfternoonStar { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan WednesdayAfternoonEnd { get; set; }
+    //public TimeSpan WednesdayTotalHoras => (WednesdayMorningEnd - WednesdayMorningStar) + (WednesdayAfternoonEnd - WednesdayAfternoonStar);
 
 
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SundayMorningStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SundayMorningEnd { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SundayAfternoonStar { get; set; }
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan SundayAfternoonEnd { get; set; }
-    public TimeSpan SundayTotalHoras => (SundayMorningEnd - SundayMorningStar) + (SundayAfternoonEnd - SundayAfternoonStar);
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TursdayMorningStar { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TursdayMorningEnd { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TursdayAfternoonStar { get; set; }
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan TursdayAfternoonEnd { get; set; }
+    //public TimeSpan TursdayTotalHoras => (TursdayMorningEnd - TursdayMorningStar) + (TursdayAfternoonEnd - TursdayAfternoonStar);
+
+
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan FridayMorningStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan FridayMorningEnd { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan FridayAfternoonStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan FridayAfternoonEnd { get; set; }
+    //public TimeSpan FridayTotalHoras => (FridayMorningEnd - FridayMorningStar) + (FridayAfternoonEnd - FridayAfternoonStar);
+
+
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SaturdayMorningStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SaturdayMorningEnd { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SaturdayAfternoonStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SaturdayAfternoonEnd { get; set; }
+    //public TimeSpan SaturdayTotalHoras => (SaturdayMorningEnd - SaturdayMorningStar) + (SaturdayAfternoonEnd - SaturdayAfternoonStar);
+
+
+
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SundayMorningStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SundayMorningEnd { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SundayAfternoonStar { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public TimeSpan SundayAfternoonEnd { get; set; }
+    //public TimeSpan SundayTotalHoras => (SundayMorningEnd - SundayMorningStar) + (SundayAfternoonEnd - SundayAfternoonStar);
 
 
 

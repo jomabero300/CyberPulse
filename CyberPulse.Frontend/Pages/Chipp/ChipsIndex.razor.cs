@@ -103,6 +103,7 @@ public partial class ChipsIndex
 
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
+        //var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true,FullWidth=true,MaxWidth=MaxWidth.ExtraLarge };
         var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
 
         IDialogReference? dialog;

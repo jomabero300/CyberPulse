@@ -117,7 +117,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TrainingPrograms",
-                schema: "Admi",
+                schema: "Chip",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -288,9 +288,9 @@ namespace CyberPulse.Backend.Data.Migrations
                     InstructorId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     NeighborhoodId = table.Column<int>(type: "int", nullable: false),
+                    TrainingProgramId = table.Column<int>(type: "int", nullable: false),
                     TypeOfTrainingId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    TrainingProgramId = table.Column<int>(type: "int", nullable: false),
                     Justification = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
                     Monday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
                     Tuesday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
@@ -334,7 +334,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Chips_TrainingPrograms_TrainingProgramId",
                         column: x => x.TrainingProgramId,
-                        principalSchema: "Admi",
+                        principalSchema: "Chip",
                         principalTable: "TrainingPrograms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -349,7 +349,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ChipHours",
-                schema: "Admi",
+                schema: "Chip",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -413,7 +413,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChipHours_ChipId",
-                schema: "Admi",
+                schema: "Chip",
                 table: "ChipHours",
                 column: "ChipId",
                 unique: true);
@@ -523,7 +523,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_TrainingPrograms_Name",
-                schema: "Admi",
+                schema: "Chip",
                 table: "TrainingPrograms",
                 column: "Name",
                 unique: true);
@@ -570,7 +570,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChipHours",
-                schema: "Admi");
+                schema: "Chip");
 
             migrationBuilder.DropTable(
                 name: "ChipPoblations",
@@ -594,7 +594,7 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TrainingPrograms",
-                schema: "Admi");
+                schema: "Chip");
 
             migrationBuilder.DropTable(
                 name: "TypeOfTrainings",

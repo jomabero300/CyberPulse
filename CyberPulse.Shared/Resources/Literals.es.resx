@@ -529,12 +529,15 @@
     <value>La hora inicial debe estar entre 12:00 y 24:00</value>
   </data>
   <data name="DateStartMon" xml:space="preserve">
-    <value>Mañana Inicio</value>
+    <value>Inicio</value>
   </data>
   <data name="DateEnd" xml:space="preserve">
     <value>Final</value>
   </data>
-  <data name="DateStartAft" xml:space="preserve">
-    <value>Tarde inicio</value>
+  <data name="DateStart" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valor</value>
   </data>
 </root>

@@ -54,14 +54,23 @@ builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
-builder.Services.AddScoped<ITypeOfTrainingRepository, TypeOfTrainingRepository>();
-builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>();
+
+
+builder.Services.AddScoped<ITypeOfPoblationRepository, TypeOfPoblationRepository>();
+builder.Services.AddScoped<ITypeOfPoblationUnitOfWork, TypeOfPoblationUnitOfWork>();
 
 builder.Services.AddScoped<IChipProgramRepository, ChipProgramRepository>();
 builder.Services.AddScoped<IChipProgramUnitOfWork, ChipProgramUnitOfWork>();
 
 builder.Services.AddScoped<IChipRepository, ChipRepository>();
 builder.Services.AddScoped<IChipUnitOfWork, ChipUnitOfWork>();
+
+builder.Services.AddScoped<ITrainingProgramRepository, TrainingProgramRepository>();
+builder.Services.AddScoped<ITrainingProgramUnitOfWork, TrainingProgramUnitOfWork>();
+
+builder.Services.AddScoped<ITypeOfTrainingRepository, TypeOfTrainingRepository>();
+builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>();
+
 
 
 builder.Services.AddScoped<IMailHelper, MailHelper>();

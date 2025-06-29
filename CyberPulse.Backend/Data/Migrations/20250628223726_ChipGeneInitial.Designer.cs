@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250627141047_ChipGeneInitial")]
+    [Migration("20250628223726_ChipGeneInitial")]
     partial class ChipGeneInitial
     {
         /// <inheritdoc />
@@ -180,7 +180,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("ChipId")
                         .IsUnique();
 
-                    b.ToTable("ChipHours", "Admi");
+                    b.ToTable("ChipHours", "Chip");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipPoblation", b =>
@@ -305,7 +305,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("TrainingPrograms", "Admi");
+                    b.ToTable("TrainingPrograms", "Chip");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.TriningLevel", b =>

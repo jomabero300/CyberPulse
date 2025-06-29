@@ -45,6 +45,10 @@ public class Chip
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int NeighborhoodId { get; set; }
 
+    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int TrainingProgramId { get; set; }
+
     [Display(Name = "TypeOfTraining", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int TypeOfTrainingId { get; set; }
@@ -56,16 +60,15 @@ public class Chip
     public String UserId { get; set; } = null!;
 
 
-    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public int TrainingProgramId { get; set; }
-    public TrainingProgram? TrainingProgram { get; set; }
-
     [Column(TypeName = "varchar(500)")]
     [Display(Name = "Justification", ResourceType = typeof(Literals))]
     [MaxLength(500, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Justification { get; set; }=null!;
+
+
+
+
     
     [Column(TypeName = "varchar(23)")]
     [Display(Name = "Monday", ResourceType = typeof(Literals))]
@@ -114,4 +117,5 @@ public class Chip
     public ChipProgram ChipProgram { get; set; } = null!;
     public Neighborhood Neighborhood { get; set; } = null!;
     public TypeOfTraining TypeOfTraining { get; set; } = null!;
+    public TrainingProgram? TrainingProgram { get; set; }
 }

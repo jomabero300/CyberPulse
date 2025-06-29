@@ -331,11 +331,11 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Afternoon Start.
+        ///   Busca una cadena traducida similar a Star.
         /// </summary>
-        public static string DateStartAft {
+        public static string DateStart {
             get {
-                return ResourceManager.GetString("DateStartAft", resourceCulture);
+                return ResourceManager.GetString("DateStart", resourceCulture);
             }
         }
         
@@ -1281,6 +1281,15 @@ namespace CyberPulse.Shared.Resources {
         public static string ValidEmail {
             get {
                 return ResourceManager.GetString("ValidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Value.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         
