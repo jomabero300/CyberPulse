@@ -17,6 +17,10 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
         _chipRepository = chipRepository;
     }
 
+    public override async Task<ActionResponse<Chip>> DeleteAsync(int id)=>await _chipRepository.DeleteAsync(id);
+
+    public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(PaginationDTO pagination)=>await _chipRepository.GetAsync(pagination);
+
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)=>await _chipRepository.AddAsync(entity);
 
     

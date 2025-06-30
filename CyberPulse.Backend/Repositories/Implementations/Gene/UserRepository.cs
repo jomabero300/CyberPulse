@@ -3,10 +3,8 @@ using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
-using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Gene;
 
@@ -16,15 +14,17 @@ public class UserRepository : IUserRepository
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IConfiguration _configuration;
     private readonly IWebHostEnvironment _env;
 
-    public UserRepository(ApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, IWebHostEnvironment env)
+    public UserRepository(ApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, IWebHostEnvironment env, IConfiguration configuration)
     {
         _context = context;
         _userManager = userManager;
         _roleManager = roleManager;
         _signInManager = signInManager;
         _env = env;
+        _configuration = configuration;
     }
 
     public async Task<IdentityResult> AddUserAsync(User user, string password)
@@ -74,20 +74,20 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAsync(UserType userType)
     {
-        var resul= await _context.Users.Where(x => x.UserType == userType).OrderBy(x=>x.FirstName).ToListAsync();
+        var resul = await _context.Users.Where(x => x.UserType == userType).OrderBy(x => x.FirstName).ToListAsync();
 
         return resul;
-        
+
     }
 
     public async Task<User> GetUserAsync(Guid userId)
     {
         var user = await _context.Users
                                 .Include(x => x.Country)
-                                .FirstOrDefaultAsync(x => x.Id ==userId.ToString());
+                                .FirstOrDefaultAsync(x => x.Id == userId.ToString());
         if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))
         {
-            user.Photo = $"https://localhost:7277/{user.Photo}";
+            user.Photo = $"{_configuration["UrlBackend"]}/{user.Photo}";
         }
 
         return user!;
@@ -99,9 +99,9 @@ public class UserRepository : IUserRepository
             .Include(c => c.Country)
             .FirstOrDefaultAsync(x => x.Email == email);
 
-        if (user !=null && !string.IsNullOrWhiteSpace(user!.Photo))
+        if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))
         {
-            user.Photo = $"https://localhost:7277/{user.Photo}";
+            user.Photo = $"{_configuration["UrlBackend"]}/{user.Photo}";
         }
 
         return user!;

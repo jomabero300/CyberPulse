@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
-using System.Threading.Tasks;
+using MudBlazor;
+using static MudBlazor.Colors;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
@@ -21,12 +22,17 @@ public partial class ChipForm
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
     public bool FormPostedSuccessfully { get; set; } = false;
-
+    private bool DisabledTypeOfTraining = true;
+    private bool loading;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
 
     private bool desabledCompany = false;
+    public PatternMask mask1 = new PatternMask("##:##")
+    {
+        MaskChars = new[] { new MaskChar('#', @"[0-9]") }
+    };
 
     private ChipProgram selectedChipProgram = new();
     private List<ChipProgram>? chipPrograms;
@@ -41,10 +47,12 @@ public partial class ChipForm
     private List<Neighborhood>? neighborhoods;
 
     private TrainingProgram selectedTrainingProgram = new();
-    private List<TrainingProgram>? trainingProgram;
+    private List<TrainingProgram>? trainingPrograms;
 
-    private TypeOfTraining selectedTypeOfTraining=new();
-    private List<TypeOfTraining>? typeOfTraining;
+    private TypeOfTraining selectedTypeOfTraining = new();
+    private List<TypeOfTraining>? typeOfTrainings;
+    private List<TypeOfTraining>? typeOfTrainingsGen;
+
 
     protected override void OnInitialized()
     {
@@ -53,11 +61,14 @@ public partial class ChipForm
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadChipProgramAsync();
+        loading = true;
         await LoadInstructorsync();
         await LoadCityAsync();
         await LoadTrainingProgramAsync();
         await LoadTypeOfTrainingAsync();
+        await LoadChipProgramAsync();
+        chipDTO.UserId = "XXYY";
+        loading = false;
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -116,6 +127,7 @@ public partial class ChipForm
     {
         selectedChipProgram = entity;
         chipDTO.ChipProgramId = entity.Id;
+        chipDTO.WingMeasure = entity.WingMeasure;
         desabledCompany = entity.WingMeasure;
         chipDTO.Company = "";
         chipDTO.StartDate = entity.StartDate;
@@ -187,7 +199,8 @@ public partial class ChipForm
     {
         selectedCity = entity;
         await LoadNeighborhoodAsync(entity.Id);
-        selectedNeighborhood.Id = 0;
+        var neighborhood = neighborhoods!.FirstOrDefault(x => x.Name.Contains(entity.Name));
+        chipDTO.NeighborhoodId = neighborhood!.Id;
         selectedNeighborhood.Name = string.Empty;
     }
 
@@ -236,24 +249,43 @@ public partial class ChipForm
             return;
         }
 
-        trainingProgram = responseHttp.Response;
+        trainingPrograms = responseHttp.Response;
     }
     private async Task<IEnumerable<TrainingProgram>> SearchTrainingProgram(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return trainingProgram!;
+            return trainingPrograms!;
         }
 
-        return trainingProgram!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) )
+        return trainingPrograms!
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private void TrainingProgramChanged(TrainingProgram entity)
     {
         selectedTrainingProgram = entity;
         chipDTO.TrainingProgramId = entity.Id;
+
+        if (entity.Name.Contains("Titulada"))
+        {
+            typeOfTrainings = typeOfTrainingsGen!.Where(x => !x.Name.Contains("Ninguno")).ToList();
+            chipDTO.TypeOfTrainingId = 0;
+            selectedTypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
+            DisabledTypeOfTraining = false;
+        }
+        else
+        {
+            typeOfTrainings = typeOfTrainingsGen;
+            var typeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Name.Contains("Ninguno"));
+            if (typeOfTraining != null)
+            {
+                selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
+                chipDTO.TypeOfTrainingId = typeOfTraining.Id;
+            }
+            DisabledTypeOfTraining = true;
+        }
     }
 
 
@@ -268,17 +300,20 @@ public partial class ChipForm
             return;
         }
 
-        typeOfTraining = responseHttp.Response;
+        typeOfTrainingsGen = responseHttp.Response;
+        typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();
+
+
     }
     private async Task<IEnumerable<TypeOfTraining>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return typeOfTraining!;
+            return typeOfTrainings!;
         }
 
-        return typeOfTraining!
+        return typeOfTrainings!
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
@@ -286,6 +321,97 @@ public partial class ChipForm
     {
         selectedTypeOfTraining = entity;
         chipDTO.TypeOfTrainingId = entity.Id;
+    }
+
+    private void ValidateOnBlur()
+    {
+        if (chipDTO.Duration == 0) return;
+
+        //Fecha de ejecuacion
+        var dateStart = chipDTO.StartDate;
+        //Horas programadas
+        int horasProgramadas = chipDTO.Duration;
+
+        double sumaTotal = 0;
+
+        var monday = chipDTO.MondayTotalHoras;
+        var tuesday = chipDTO.TuesdayTotalHoras;
+        var wednesday = chipDTO.WednesdayTotalHoras;
+        var tursday = chipDTO.TursdayTotalHoras;
+        var friday = chipDTO.FridayTotalVertas;
+        var saturday = chipDTO.SaturdayTotalHoras;
+        var sunday = chipDTO.SundayTotalHoras;
+
+        List<double> horas = new List<double>();
+        List<int> numeroDia = new List<int>();
+
+        if (monday != TimeSpan.Zero)
+        {
+            var Valor = monday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Monday);
+        }
+        if (tuesday != TimeSpan.Zero)
+        {
+            var Valor = tuesday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Monday);
+        }
+
+        if (wednesday != TimeSpan.Zero)
+        {
+            var Valor = wednesday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Wednesday);
+        }
+
+        if (tursday != TimeSpan.Zero)
+        {
+            var Valor = tursday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Friday);
+        }
+
+        if (friday != TimeSpan.Zero)
+        {
+            var Valor = friday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Friday);
+        }
+        if (saturday != TimeSpan.Zero)
+        {
+            var Valor = saturday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Saturday);
+        }
+        if (sunday != TimeSpan.Zero)
+        {
+            var Valor = sunday.ToString()[..5].Replace(':', ',');
+            horas.Add(double.Parse(Valor));
+            numeroDia.Add((int)DayOfWeek.Sunday);
+        }
+
+
+        if (numeroDia.Count == 0) return;
+
+        while (sumaTotal < horasProgramadas)
+        {
+            for (int i = 0; i < numeroDia.Count; i++)
+            {
+                if ((int)dateStart.DayOfWeek == numeroDia[i])
+                {
+                    sumaTotal += horas[i];
+                    break;
+                }
+            }
+
+            if (sumaTotal < horasProgramadas)
+            {
+                dateStart = dateStart.AddDays(1);
+            }
+        }
+
+        chipDTO.EndDate = dateStart;
     }
 
 }

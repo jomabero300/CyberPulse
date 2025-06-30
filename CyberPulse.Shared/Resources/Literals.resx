@@ -520,4 +520,10 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="ApprenticeRange" xml:space="preserve">
+    <value>The apprentices must amyor o igual a 1</value>
+  </data>
+  <data name="EndDateError" xml:space="preserve">
+    <value>not hours work</value>
+  </data>
 </root>

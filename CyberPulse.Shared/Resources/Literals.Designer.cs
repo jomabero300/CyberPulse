@@ -115,6 +115,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The apprentices must amyor o igual a 1.
+        /// </summary>
+        public static string ApprenticeRange {
+            get {
+                return ResourceManager.GetString("ApprenticeRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a #Apprentices.
         /// </summary>
         public static string Apprentices {
@@ -444,6 +453,15 @@ namespace CyberPulse.Shared.Resources {
         public static string EndDate {
             get {
                 return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a not hours work.
+        /// </summary>
+        public static string EndDateError {
+            get {
+                return ResourceManager.GetString("EndDateError", resourceCulture);
             }
         }
         

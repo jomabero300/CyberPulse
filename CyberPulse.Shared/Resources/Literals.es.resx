@@ -540,4 +540,10 @@
   <data name="Value" xml:space="preserve">
     <value>Valor</value>
   </data>
+  <data name="ApprenticeRange" xml:space="preserve">
+    <value>La cantidad de aprendices debe ser superior a cero</value>
+  </data>
+  <data name="EndDateError" xml:space="preserve">
+    <value>No se ha ingresado horas de laborales</value>
+  </data>
 </root>

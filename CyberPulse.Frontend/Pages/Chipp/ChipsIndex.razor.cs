@@ -104,7 +104,7 @@ public partial class ChipsIndex
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
         //var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true,FullWidth=true,MaxWidth=MaxWidth.ExtraLarge };
-        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
+        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true, BackdropClick=false, FullWidth = true, MaxWidth = MaxWidth.Medium };
 
         IDialogReference? dialog;
 
@@ -153,7 +153,7 @@ public partial class ChipsIndex
         }
 
 
-        var responseHttp = await repository.DeleteAsync($"{baseUrl}/{entity.Id}");
+        var responseHttp = await repository.DeleteAsync($"{baseUrl}/full/{entity.Id}");
 
         if (responseHttp.Error)
         {

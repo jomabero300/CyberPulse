@@ -3,13 +3,16 @@ using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CyberPulse.Backend.Controllers.Chipp;
 
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class ChipsController : GenericController<Chip>
+public class  ChipsController : GenericController<Chip>
 {
     private readonly IChipUnitOfWork _chipUnitOfWork;
     public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork) : base(unitOfWork)
@@ -56,8 +59,6 @@ public class ChipsController : GenericController<Chip>
         return BadRequest();
 
     }
-
-
 
     [HttpPut("full")]
     public async Task<IActionResult> PustAsync(ChipDTO model)
