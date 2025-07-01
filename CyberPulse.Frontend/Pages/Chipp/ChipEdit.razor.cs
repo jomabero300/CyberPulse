@@ -1,5 +1,4 @@
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -44,6 +43,47 @@ public partial class ChipEdit
     }
     private async Task EditAsync()
     {
+        string menssaje = "";
+
+        if (chipDTO!.ChipProgramId == 0)
+        {
+
+            menssaje = "SelectAChipProgram";
+        }
+        else if (string.IsNullOrWhiteSpace(chipDTO.InstructorId))
+        {
+            menssaje = "SelectAInstructor";
+        }
+        else if (chipDTO.NeighborhoodId == 0)
+        {
+            menssaje = "SelectACity";
+        }
+        else if (chipDTO.TrainingProgramId == 0)
+        {
+            menssaje = "TrainingProgram";
+        }
+        else if (chipDTO.TrainingProgramId == 1 && chipDTO.TypeOfTrainingId == 0)
+        {
+            menssaje = "SelectATypeOfTraining";
+
+        }
+        else if (!chipDTO.WingMeasure && string.IsNullOrWhiteSpace(chipDTO.Company))
+        {
+            menssaje = "Company";
+        }
+        else if (chipDTO.EndDate <= DateTime.Parse("01/01/2009"))
+        {
+            menssaje = "EndDateError";
+        }
+
+        if (menssaje != "")
+        {
+            Snackbar.Add(Localizer[menssaje!], Severity.Error);
+            return;
+        }
+
+
+
         var responseHttp = await Repository.PutAsync("api/chips/full/", chipDTO);
 
         if (responseHttp.Error)

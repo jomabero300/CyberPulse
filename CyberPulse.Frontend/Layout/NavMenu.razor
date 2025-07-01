@@ -4,11 +4,11 @@
 
     <AuthorizeView Roles="Admin">
         <Authorized>
-            <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Groups">@Localizer["Status"]</MudNavLink>
+            <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
             <MudDivider />
-            <MudNavLink Href="/uploadFile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Groups">@Localizer["uploadFile"]</MudNavLink>
+            <MudNavLink Href="/uploadFile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FileUpload">@Localizer["uploadFile"]</MudNavLink>
             <MudDivider />
-            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["Chips"]</MudNavLink>
+            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
             <MudDivider />
         </Authorized>
     </AuthorizeView>

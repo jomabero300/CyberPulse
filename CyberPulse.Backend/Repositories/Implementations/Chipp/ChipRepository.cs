@@ -2,12 +2,9 @@
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
-using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Chipp;
@@ -24,7 +21,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     {
         var entity = await _context.Chips
             .Include(x => x.ChipPoblations)
-            .Include(x=>x.ChipProgram)
+            .Include(x => x.ChipProgram)
             .Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (entity == null)
@@ -82,7 +79,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.ChipNo.ToLower().Contains(pagination.Filter.ToLower()) || 
+            queryable = queryable.Where(x => x.ChipNo.ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.ChipProgram.Designation.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
@@ -97,14 +94,14 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Result = resul,
         };
     }
-       
-    
+
+
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)
     {
 
         string monday = HoraCadena(entity.MondayMorningStar, entity.MondayMorningEnd, entity.MondayAfternoonStar, entity.MondayAfternoonEnd);
-        string tuesday= HoraCadena(entity.TuesdayMorningStar, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStar, entity.TuesdayAfternoonEnd);
-        string wednesday= HoraCadena(entity.WednesdayMorningStar, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStar, entity.WednesdayAfternoonEnd);
+        string tuesday = HoraCadena(entity.TuesdayMorningStar, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStar, entity.TuesdayAfternoonEnd);
+        string wednesday = HoraCadena(entity.WednesdayMorningStar, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStar, entity.WednesdayAfternoonEnd);
         string tursday = HoraCadena(entity.TursdayMorningStar, entity.TursdayMorningEnd, entity.TursdayAfternoonStar, entity.TursdayAfternoonEnd);
         string friday = HoraCadena(entity.FridayMorningStar, entity.FridayMorningEnd, entity.FridayAfternoonStar, entity.FridayAfternoonEnd);
         string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
@@ -130,18 +127,18 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             InstructorId = entity.InstructorId,
             EndDate = entity.EndDate,
             NeighborhoodId = entity.NeighborhoodId,
-            TrainingProgramId=entity.TrainingProgramId,
+            TrainingProgramId = entity.TrainingProgramId,
             TypeOfTrainingId = entity.TypeOfTrainingId,
             UserId = entity.UserId,
-            Justification=entity.Justification,
-            Monday=monday,
+            Justification = entity.Justification,
+            Monday = monday,
             Tuesday = tuesday,
             Wednesday = wednesday,
             Tursday = tursday,
             Friday = friday,
             Saturday = saturday,
             Sunday = sunday,
-            ChipPoblations= chipPoblations.ToList(),
+            ChipPoblations = chipPoblations.ToList(),
         };
 
         _context.Add(chip);
@@ -212,16 +209,16 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
         string sunday = HoraCadena(entity.SundayMorningStar, entity.SundayMorningEnd, entity.SundayAfternoonStar, entity.SundayAfternoonEnd);
 
-        chip.Apprentices=entity.Apprentices;
-        chip.ChipNo=entity.ChipNo;
-        chip.ChipProgramId=entity.ChipProgramId;
-        chip.Company=entity.Company;
+        chip.Apprentices = entity.Apprentices;
+        chip.ChipNo = entity.ChipNo;
+        chip.ChipProgramId = entity.ChipProgramId;
+        chip.Company = entity.Company;
         chip.InstructorId = entity.InstructorId;
-        chip.EndDate=entity.EndDate;
+        chip.EndDate = entity.EndDate;
         chip.NeighborhoodId = entity.NeighborhoodId;
-        chip.TrainingProgramId=entity.TrainingProgramId;
+        chip.TrainingProgramId = entity.TrainingProgramId;
         chip.TypeOfTrainingId = entity.TypeOfTrainingId;
-        chip.UserId=entity.UserId;
+        chip.UserId = entity.UserId;
         chip.Justification = entity.Justification;
         chip.Monday = monday;
         chip.Tuesday = tuesday;
@@ -240,28 +237,10 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Quantity = x.Quantity
         });
 
-        chip.ChipPoblations=chipPoblations.ToList();
-
-        //var chipPoblationDelete = await _context.ChipPoblations.Where(x => x.ChipId == entity.Id).ToListAsync();
-
-        //var entityDetails = await _context.ChipPoblations.Where(x => x.ChipId == id).ToListAsync();
-        //_context.RemoveRange(entityDetails);
-        //_context.Remove(entity);
-
-
-
-
-
-
-
-        var cadenaSql = $"DELETE Chip.ChipPoblations WHERE ChipId={entity.Id}";
-
-        //_context.RemoveRange(chipPoblationDelete);
 
         try
         {
-            await _context.Database.ExecuteSqlAsync(cadenaSql);
-
+            await _context.ChipPoblations.Where(x => x.ChipId == entity.Id).ExecuteDeleteAsync();
         }
         catch (Exception ex)
         {
@@ -324,16 +303,16 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     {
         string Morning = "00:00-00:00";
         string Afternoon = "00:00-00:00";
-        
+
         if (MorningStar > TimeSpan.Zero && MorningEnd > MorningStar)
         {
             Morning = $"{MorningStar.ToString(@"hh\:mm")}-{MorningEnd.ToString(@"hh\:mm")}";
         }
-        
+
         if (AfternoonStar > TimeSpan.Zero && AfternoonEnd > AfternoonStar)
         {
             Afternoon = $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
-        }        
+        }
         return $"{Morning}-{Afternoon}";
     }
 }

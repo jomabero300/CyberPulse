@@ -1096,6 +1096,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a -- Select a training program --.
+        /// </summary>
+        public static string SelectATrainingProgram {
+            get {
+                return ResourceManager.GetString("SelectATrainingProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a -- Select training type --.
+        /// </summary>
+        public static string SelectATypeOfTraining {
+            get {
+                return ResourceManager.GetString("SelectATypeOfTraining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Select a file....
         /// </summary>
         public static string SelectFile {
@@ -1263,6 +1281,15 @@ namespace CyberPulse.Shared.Resources {
         public static string TypeOfTraining {
             get {
                 return ResourceManager.GetString("TypeOfTraining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Upload programs.
+        /// </summary>
+        public static string uploadFile {
+            get {
+                return ResourceManager.GetString("uploadFile", resourceCulture);
             }
         }
         

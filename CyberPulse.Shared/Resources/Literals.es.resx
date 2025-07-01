@@ -552,4 +552,13 @@
   <data name="Quantity" xml:space="preserve">
     <value>Cantidad</value>
   </data>
+  <data name="uploadFile" xml:space="preserve">
+    <value>Subir programas</value>
+  </data>
+  <data name="SelectATypeOfTraining" xml:space="preserve">
+    <value>-- Seleccione tipo de formación --</value>
+  </data>
+  <data name="SelectATrainingProgram" xml:space="preserve">
+    <value>-- Seleccione un programa de formación--</value>
+  </data>
 </root>
