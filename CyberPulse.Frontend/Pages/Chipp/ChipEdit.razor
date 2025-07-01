@@ -1,5 +1,12 @@
-﻿<h3>ChipEdit</h3>
-
-@code {
-
+﻿@if (chipDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ChipForm @ref="chipForm" chipDTO="chipDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
 }

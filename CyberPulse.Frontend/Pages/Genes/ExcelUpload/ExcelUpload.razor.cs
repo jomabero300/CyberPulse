@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Net.Http.Json;
 
 namespace CyberPulse.Frontend.Pages.Genes.ExcelUpload;
 
+[Authorize(Roles = "Admin")]
 public partial class ExcelUpload
 {
     private UploadModel uploadModel = new();

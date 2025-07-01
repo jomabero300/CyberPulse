@@ -42,7 +42,6 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int NeighborhoodId { get; set; }
 
-
     [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int TrainingProgramId { get; set; }
@@ -178,5 +177,5 @@ public class ChipDTO
         (SundayMorningStar>TimeSpan.Zero &&  SundayMorningEnd> SundayMorningStar? SundayMorningEnd-SundayMorningStar: TimeSpan.Zero)+
         (SundayAfternoonStar>TimeSpan.Zero &&  SundayAfternoonEnd> SundayAfternoonStar? SundayAfternoonEnd-SundayAfternoonStar:TimeSpan.Zero);
 
-
+    public List<TypeOfPoblationDTO> TypeOfPoblationDTO { get; set; } = null!;
 }

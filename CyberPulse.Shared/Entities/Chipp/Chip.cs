@@ -118,4 +118,6 @@ public class Chip
     public Neighborhood Neighborhood { get; set; } = null!;
     public TypeOfTraining TypeOfTraining { get; set; } = null!;
     public TrainingProgram? TrainingProgram { get; set; }
+
+    public ICollection<ChipPoblation>? ChipPoblations { get; set; }
 }

@@ -3,6 +3,8 @@ using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +17,11 @@ namespace CyberPulse.Backend.Controllers.Chipp;
 public class  ChipsController : GenericController<Chip>
 {
     private readonly IChipUnitOfWork _chipUnitOfWork;
-    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork) : base(unitOfWork)
+    private readonly ITypeOfPoblationUnitOfWork _poblationUnitOfWork;
+    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork) : base(unitOfWork)
     {
         _chipUnitOfWork = chipUnitOfWork;
+        _poblationUnitOfWork = poblationUnitOfWork;
     }
 
     [HttpGet("{id}")]
@@ -27,11 +31,92 @@ public class  ChipsController : GenericController<Chip>
 
         if (response.WasSuccess)
         {
-            return Ok(response.Result);
+            //buscar typeOfPoblation y llenar los que tenga TypeOfPoblationDTO
+            List<TypeOfPoblationDTO> typeOfPoblationDTO = new();
+            if (response.Result!.ChipPoblations != null)
+            {
+                var TypeOfPoblations = await _poblationUnitOfWork.GetAsync("Ninguno");
+
+                foreach (var item in TypeOfPoblations)
+                {
+                    int quantity = 0;
+
+                    var PoblationQuantity = response.Result.ChipPoblations.FirstOrDefault(x => x.TypePoblationId == item.Id);
+                    if (PoblationQuantity != null)
+                    {
+                        quantity = PoblationQuantity.Quantity;
+                    }
+
+                    typeOfPoblationDTO.Add(new TypeOfPoblationDTO
+                    {
+                        Id = item.Id,
+                        ChipDTOId = response.Result.Id,
+                        Name = item.Name,
+                        Quantity = quantity
+                    });
+                }
+            }
+
+            var result = new ChipDTO
+            {
+                Id = response.Result.Id,
+                Apprentices = response.Result.Apprentices,
+                ChipNo = response.Result.ChipNo,
+                ChipProgramId = response.Result.ChipProgramId,
+                Company = response.Result.Company,
+                InstructorId = response.Result.InstructorId,
+                StartDate = response.Result.ChipProgram.StartDate,
+                EndDate = response.Result.EndDate,
+                NeighborhoodId = response.Result.NeighborhoodId,
+                TrainingProgramId = response.Result.TrainingProgramId,
+                TypeOfTrainingId = response.Result.TypeOfTrainingId,
+                UserId = response.Result.UserId,
+                Duration = response.Result.ChipProgram.Duration,
+                Justification = response.Result.Justification,
+                WingMeasure = response.Result.ChipProgram.WingMeasure,
+                MondayMorningStar = TimeSpan.Parse(response.Result.Monday.Substring(0, 5)),
+                MondayMorningEnd = TimeSpan.Parse(response.Result.Monday.Substring(6, 5)),
+                MondayAfternoonStar = TimeSpan.Parse(response.Result.Monday.Substring(12, 5)),
+                MondayAfternoonEnd = TimeSpan.Parse(response.Result.Monday.Substring(18, 5)),
+
+                TuesdayMorningStar = TimeSpan.Parse(response.Result.Tuesday.Substring(0, 5)),
+                TuesdayMorningEnd = TimeSpan.Parse(response.Result.Tuesday.Substring(6, 5)),
+                TuesdayAfternoonStar = TimeSpan.Parse(response.Result.Tuesday.Substring(12, 5)),
+                TuesdayAfternoonEnd = TimeSpan.Parse(response.Result.Tuesday.Substring(18, 5)),
+
+                WednesdayMorningStar = TimeSpan.Parse(response.Result.Wednesday.Substring(0, 5)),
+                WednesdayMorningEnd = TimeSpan.Parse(response.Result.Wednesday.Substring(6, 5)),
+                WednesdayAfternoonStar = TimeSpan.Parse(response.Result.Wednesday.Substring(12, 5)),
+                WednesdayAfternoonEnd = TimeSpan.Parse(response.Result.Wednesday.Substring(18, 5)),
+
+                TursdayMorningStar = TimeSpan.Parse(response.Result.Tursday.Substring(0, 5)),
+                TursdayMorningEnd = TimeSpan.Parse(response.Result.Tursday.Substring(6, 5)),
+                TursdayAfternoonStar = TimeSpan.Parse(response.Result.Tursday.Substring(12, 5)),
+                TursdayAfternoonEnd = TimeSpan.Parse(response.Result.Tursday.Substring(18, 5)),
+
+                FridayMorningStar = TimeSpan.Parse(response.Result.Friday.Substring(0, 5)),
+                FridayMorningEnd = TimeSpan.Parse(response.Result.Friday.Substring(6, 5)),
+                FridayAfternoonStar = TimeSpan.Parse(response.Result.Friday.Substring(12, 5)),
+                FridayAfternoonEnd = TimeSpan.Parse(response.Result.Friday.Substring(18, 5)),
+
+                SaturdayMorningStar = TimeSpan.Parse(response.Result.Saturday.Substring(0, 5)),
+                SaturdayMorningEnd = TimeSpan.Parse(response.Result.Saturday.Substring(6, 5)),
+                SaturdayAfternoonStar = TimeSpan.Parse(response.Result.Saturday.Substring(12, 5)),
+                SaturdayAfternoonEnd = TimeSpan.Parse(response.Result.Saturday.Substring(18, 5)),
+
+                SundayMorningStar = TimeSpan.Parse(response.Result.Sunday.Substring(0, 5)),
+                SundayMorningEnd = TimeSpan.Parse(response.Result.Sunday.Substring(6, 5)),
+                SundayAfternoonStar = TimeSpan.Parse(response.Result.Sunday.Substring(12, 5)),
+                SundayAfternoonEnd = TimeSpan.Parse(response.Result.Sunday.Substring(18, 5)),
+
+
+                TypeOfPoblationDTO = typeOfPoblationDTO.ToList()
+            };
+
+            return Ok(result);
         }
 
         return BadRequest();
-
     }
 
     [HttpGet("paginated")]
@@ -61,7 +146,7 @@ public class  ChipsController : GenericController<Chip>
     }
 
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync(ChipDTO model)
+    public async Task<IActionResult> PustAsync([FromBody] ChipDTO model)
     {
         var action = await _chipUnitOfWork.UpdateAsync(model);
 
@@ -74,7 +159,7 @@ public class  ChipsController : GenericController<Chip>
     }
 
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync(ChipDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] ChipDTO entity)
     {
         var response = await _chipUnitOfWork.AddAsync(entity);
 

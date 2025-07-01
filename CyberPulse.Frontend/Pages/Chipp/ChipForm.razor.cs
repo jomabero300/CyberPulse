@@ -8,7 +8,10 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
 using MudBlazor;
 using static MudBlazor.Colors;
 
@@ -29,6 +32,7 @@ public partial class ChipForm
     [Inject] private IRepository repository { get; set; } = null!;
 
     private bool desabledCompany = false;
+
     public PatternMask mask1 = new PatternMask("##:##")
     {
         MaskChars = new[] { new MaskChar('#', @"[0-9]") }
@@ -53,6 +57,7 @@ public partial class ChipForm
     private List<TypeOfTraining>? typeOfTrainings;
     private List<TypeOfTraining>? typeOfTrainingsGen;
 
+    //private List<TypeOfPoblationDTO>? typeOfPoblationsDTO;
 
     protected override void OnInitialized()
     {
@@ -67,10 +72,34 @@ public partial class ChipForm
         await LoadTrainingProgramAsync();
         await LoadTypeOfTrainingAsync();
         await LoadChipProgramAsync();
-        chipDTO.UserId = "XXYY";
+        if (chipDTO.Id != 0)
+        {
+            selectedChipProgram = chipPrograms!.SingleOrDefault(x => x.Id == chipDTO.ChipProgramId)!;
+            desabledCompany = chipDTO.WingMeasure;
+
+            selectedInstructor = instructors!.SingleOrDefault(x => x.Id == chipDTO.InstructorId)!;
+
+            var cityId=chipDTO.NeighborhoodId.ToString();
+            selectedCity = cities!.FirstOrDefault(x=>x.Id== int.Parse(cityId.Substring(0, 5)))!;
+            await LoadNeighborhoodAsync(int.Parse(cityId.Substring(0, 5)));
+
+            if(cityId.Substring(5)!="000")
+            {
+                selectedNeighborhood = neighborhoods!.FirstOrDefault(x => x.Id == chipDTO.NeighborhoodId)!;
+            }
+
+            selectedTrainingProgram = trainingPrograms!.FirstOrDefault(x => x.Id == chipDTO.TrainingProgramId)!;
+            selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == chipDTO.TypeOfTrainingId)!;
+        }
+        else
+        {
+            await LoadTypeOfPoblationAsync();
+            chipDTO.UserId = "XXYY";
+        }
+
         loading = false;
     }
-
+    
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
         var formwasEditad = editContext.IsModified();
@@ -302,8 +331,6 @@ public partial class ChipForm
 
         typeOfTrainingsGen = responseHttp.Response;
         typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();
-
-
     }
     private async Task<IEnumerable<TypeOfTraining>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
     {
@@ -323,16 +350,41 @@ public partial class ChipForm
         chipDTO.TypeOfTrainingId = entity.Id;
     }
 
+    private async Task LoadTypeOfPoblationAsync()
+    {
+        var responseHttp = await repository.GetAsync<List<TypeOfPoblationDTO>>("/api/TypeOfPoblations/full/'Ninguno'");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        chipDTO.TypeOfPoblationDTO= responseHttp.Response!;
+    }
+
+    //TODO: VOY AQUI
+
+    //private void OnValueChanged(TypeOfPoblationDTO item, int newValue)
+    //{
+    //    // Esta función se llama cuando el valor cambia
+    //    item.Quantity = newValue;
+    //    StateHasChanged();
+    //}
+
+    //private string ValidateValue(int value)
+    //{
+    //    if (value <= 0)
+    //    {
+    //        return "El valor debe ser mayor que cero";
+    //    }
+    //    return "";
+    //}
+
     private void ValidateOnBlur()
     {
         if (chipDTO.Duration == 0) return;
-
-        //Fecha de ejecuacion
-        var dateStart = chipDTO.StartDate;
-        //Horas programadas
-        int horasProgramadas = chipDTO.Duration;
-
-        double sumaTotal = 0;
 
         var monday = chipDTO.MondayTotalHoras;
         var tuesday = chipDTO.TuesdayTotalHoras;
@@ -341,6 +393,24 @@ public partial class ChipForm
         var friday = chipDTO.FridayTotalVertas;
         var saturday = chipDTO.SaturdayTotalHoras;
         var sunday = chipDTO.SundayTotalHoras;
+
+        if (monday == TimeSpan.Zero &&
+            tuesday == TimeSpan.Zero &&
+            wednesday == TimeSpan.Zero &&
+            tursday == TimeSpan.Zero &&
+            friday == TimeSpan.Zero &&
+            saturday == TimeSpan.Zero &&
+            sunday == TimeSpan.Zero) return;
+
+        //Fecha de ejecuacion
+        var dateStart = chipDTO.StartDate;
+        //Horas programadas
+        int horasProgramadas = chipDTO.Duration;
+
+        double sumaTotal = 0;
+
+
+
 
         List<double> horas = new List<double>();
         List<int> numeroDia = new List<int>();
@@ -413,5 +483,4 @@ public partial class ChipForm
 
         chipDTO.EndDate = dateStart;
     }
-
 }

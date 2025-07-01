@@ -30,15 +30,15 @@ else
 
         <HeaderContent>
             <MudTh>@Localizer["ChipNo"]</MudTh>
-            <MudTh>@Localizer["ChipProram"]</MudTh>
+            <MudTh>@Localizer["ChipProgram"]</MudTh>
             <MudTh>@Localizer["Apprentices"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd>@context.ChipNo</MudTd>
+            <MudTd Style="width:100px">@context.ChipNo</MudTd>
             <MudTd>@context.ChipProgram.Designation</MudTd>
-            <MudTd>@context.Apprentices</MudTd>
-            <MudTd Class="text-center">
+            <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
+            <MudTd Class="text-center" Style="width:185px">
                 <MudTooltip Text="@Localizer["Edit"]">
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Warning"

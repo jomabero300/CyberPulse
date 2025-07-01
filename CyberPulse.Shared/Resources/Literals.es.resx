@@ -546,4 +546,10 @@
   <data name="EndDateError" xml:space="preserve">
     <value>No se ha ingresado horas de laborales</value>
   </data>
+  <data name="ValueRange" xml:space="preserve">
+    <value>El valor debe ser cero o superior</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
 </root>

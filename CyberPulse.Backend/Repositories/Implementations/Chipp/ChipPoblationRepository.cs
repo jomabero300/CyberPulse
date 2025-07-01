@@ -4,7 +4,6 @@ using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
-using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Chipp;
 
@@ -24,7 +23,7 @@ public class ChipPoblationRepository : GenericRepository<ChipPoblation>, IChipPo
     public Task<IEnumerable<ChipPoblation>> GetComboAsync()
     {
         throw new NotImplementedException();
-        
+
     }
 
     public Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)

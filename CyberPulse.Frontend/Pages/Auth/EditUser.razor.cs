@@ -3,12 +3,14 @@ using CyberPulse.Frontend.Services;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
 namespace CyberPulse.Frontend.Pages.Auth;
 
+[Authorize]
 public partial class EditUser
 {
     private User? user;

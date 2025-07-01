@@ -11,7 +11,10 @@ public class TypeOfPoblationDTO
     [MaxLength(80, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
+
     [Display(Name = "Value", ResourceType = typeof(Literals))]
-    [MaxLength(3, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
-    public int Value { get; set; } 
+    [Range(0, int.MaxValue, ErrorMessageResourceName = "ValueRange", ErrorMessageResourceType = typeof(Literals))]
+    public int Quantity { get; set; }
+    public int ChipDTOId { get; set; }
+    public ChipDTO? ChipDTO { get; set; }
 }

@@ -526,4 +526,10 @@
   <data name="EndDateError" xml:space="preserve">
     <value>not hours work</value>
   </data>
+  <data name="ValueRange" xml:space="preserve">
+    <value>The value must be zero or greater</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
 </root>

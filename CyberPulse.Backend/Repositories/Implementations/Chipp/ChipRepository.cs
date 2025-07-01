@@ -6,6 +6,7 @@ using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,10 +20,31 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         _context = context;
     }
 
+    public override async Task<ActionResponse<Chip>> GetAsync(int id)
+    {
+        var entity = await _context.Chips
+            .Include(x => x.ChipPoblations)
+            .Include(x=>x.ChipProgram)
+            .Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        if (entity == null)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<Chip>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
     public override async Task<ActionResponse<Chip>> DeleteAsync(int id)
     {
         var entity = await _context.Chips.FindAsync(id);
-
         if (entity == null)
         {
             return new ActionResponse<Chip>
@@ -32,6 +54,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             };
         }
 
+        var entityDetails = await _context.ChipPoblations.Where(x => x.ChipId == id).ToListAsync();
+        _context.RemoveRange(entityDetails);
         _context.Remove(entity);
 
         try
@@ -73,6 +97,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Result = resul,
         };
     }
+       
+    
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)
     {
 
@@ -83,7 +109,18 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         string friday = HoraCadena(entity.FridayMorningStar, entity.FridayMorningEnd, entity.FridayAfternoonStar, entity.FridayAfternoonEnd);
         string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
         string sunday = HoraCadena(entity.SundayMorningStar, entity.SundayMorningEnd, entity.SundayAfternoonStar, entity.SundayAfternoonEnd);
-        
+
+
+        var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
+
+        var chipPoblations = chipPoblations1.Select(x => new ChipPoblation
+        {
+            TypePoblationId = x.Id,
+            ChipId = x.ChipDTOId,
+            Quantity = x.Quantity
+        });
+
+
         var chip = new Chip()
         {
             Apprentices = entity.Apprentices,
@@ -104,6 +141,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Friday = friday,
             Saturday = saturday,
             Sunday = sunday,
+            ChipPoblations= chipPoblations.ToList(),
         };
 
         _context.Add(chip);
@@ -136,30 +174,6 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         }
     }
 
-    private string HoraCadena(TimeSpan MorningStar, TimeSpan MorningEnd, TimeSpan AfternoonStar, TimeSpan AfternoonEnd)
-    {
-        string cadena = "00:00";
-
-        if (MorningStar > TimeSpan.Zero && MorningEnd > MorningStar)
-        {
-            cadena = $"{MorningStar.ToString(@"hh\:mm")}-{MorningEnd.ToString(@"hh\:mm")}";
-        }
-        
-        if (AfternoonStar > TimeSpan.Zero && AfternoonEnd > AfternoonStar)
-        {
-            cadena += cadena != "" ? "-" : "";
-
-            cadena += $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
-        }
-        else
-        {
-            cadena += "00:00";
-        }
-        
-        return cadena;
-    }
-
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.Chips.AsQueryable();
@@ -177,9 +191,149 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Result = (int)count,
         };
     }
-
-    public Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)
+    public async Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)
     {
-        throw new NotImplementedException();
+        var chip = await _context.Chips.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+
+        if (chip == null)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR005",
+            };
+        }
+
+        string monday = HoraCadena(entity.MondayMorningStar, entity.MondayMorningEnd, entity.MondayAfternoonStar, entity.MondayAfternoonEnd);
+        string tuesday = HoraCadena(entity.TuesdayMorningStar, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStar, entity.TuesdayAfternoonEnd);
+        string wednesday = HoraCadena(entity.WednesdayMorningStar, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStar, entity.WednesdayAfternoonEnd);
+        string tursday = HoraCadena(entity.TursdayMorningStar, entity.TursdayMorningEnd, entity.TursdayAfternoonStar, entity.TursdayAfternoonEnd);
+        string friday = HoraCadena(entity.FridayMorningStar, entity.FridayMorningEnd, entity.FridayAfternoonStar, entity.FridayAfternoonEnd);
+        string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
+        string sunday = HoraCadena(entity.SundayMorningStar, entity.SundayMorningEnd, entity.SundayAfternoonStar, entity.SundayAfternoonEnd);
+
+        chip.Apprentices=entity.Apprentices;
+        chip.ChipNo=entity.ChipNo;
+        chip.ChipProgramId=entity.ChipProgramId;
+        chip.Company=entity.Company;
+        chip.InstructorId = entity.InstructorId;
+        chip.EndDate=entity.EndDate;
+        chip.NeighborhoodId = entity.NeighborhoodId;
+        chip.TrainingProgramId=entity.TrainingProgramId;
+        chip.TypeOfTrainingId = entity.TypeOfTrainingId;
+        chip.UserId=entity.UserId;
+        chip.Justification = entity.Justification;
+        chip.Monday = monday;
+        chip.Tuesday = tuesday;
+        chip.Wednesday = wednesday;
+        chip.Tursday = tursday;
+        chip.Friday = friday;
+        chip.Saturday = saturday;
+        chip.Sunday = sunday;
+
+        var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
+
+        var chipPoblations = chipPoblations1.Select(x => new ChipPoblation
+        {
+            TypePoblationId = x.Id,
+            ChipId = x.ChipDTOId,
+            Quantity = x.Quantity
+        });
+
+        chip.ChipPoblations=chipPoblations.ToList();
+
+        //var chipPoblationDelete = await _context.ChipPoblations.Where(x => x.ChipId == entity.Id).ToListAsync();
+
+        //var entityDetails = await _context.ChipPoblations.Where(x => x.ChipId == id).ToListAsync();
+        //_context.RemoveRange(entityDetails);
+        //_context.Remove(entity);
+
+
+
+
+
+
+
+        var cadenaSql = $"DELETE Chip.ChipPoblations WHERE ChipId={entity.Id}";
+
+        //_context.RemoveRange(chipPoblationDelete);
+
+        try
+        {
+            await _context.Database.ExecuteSqlAsync(cadenaSql);
+
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
+
+        _context.AddRange(chipPoblations);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
+
+
+        _context.Update(chip);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = true,
+                Result = chip,
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
+
+    }
+
+    private string HoraCadena(TimeSpan MorningStar, TimeSpan MorningEnd, TimeSpan AfternoonStar, TimeSpan AfternoonEnd)
+    {
+        string Morning = "00:00-00:00";
+        string Afternoon = "00:00-00:00";
+        
+        if (MorningStar > TimeSpan.Zero && MorningEnd > MorningStar)
+        {
+            Morning = $"{MorningStar.ToString(@"hh\:mm")}-{MorningEnd.ToString(@"hh\:mm")}";
+        }
+        
+        if (AfternoonStar > TimeSpan.Zero && AfternoonEnd > AfternoonStar)
+        {
+            Afternoon = $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
+        }        
+        return $"{Morning}-{Afternoon}";
     }
 }

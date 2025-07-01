@@ -1,17 +1,18 @@
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
-namespace CyberPulse.Frontend.Pages.Genes.Status;
+namespace CyberPulse.Frontend.Pages.Chipp;
 
-public partial class StatuEdit
+public partial class ChipEdit
 {
-    private StatuForm? statuForm;
+    private ChipForm? chipForm;
 
-    private Statu? statu;
+    private ChipDTO? chipDTO;
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
@@ -20,13 +21,13 @@ public partial class StatuEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<Statu>($"/api/status/{Id}");
+        var responseHttp = await Repository.GetAsync<ChipDTO>($"/api/chips/{Id}");
 
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/status");
+                NavigationManager.NavigateTo("/chips");
             }
             else
             {
@@ -37,13 +38,13 @@ public partial class StatuEdit
         }
         else
         {
-            statu = responseHttp.Response;
+            chipDTO = responseHttp.Response;
         }
-    }
 
+    }
     private async Task EditAsync()
     {
-        var responseHttp = await Repository.PutAsync("api/status", statu);
+        var responseHttp = await Repository.PutAsync("api/chips/full/", chipDTO);
 
         if (responseHttp.Error)
         {
@@ -61,8 +62,8 @@ public partial class StatuEdit
 
     private void Return()
     {
-        statuForm!.FormPostedSuccessfully = true;
+        chipForm!.FormPostedSuccessfully = true;
 
-        NavigationManager.NavigateTo("/status");
+        NavigationManager.NavigateTo("/chips");
     }
 }

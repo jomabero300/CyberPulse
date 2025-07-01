@@ -16,7 +16,6 @@ public class TypeOfPoblationsController : GenericController<TypeOfPoblation>
         _typeOfPoblation = typeOfPoblation;
     }
 
-
     [HttpGet]
     public override async Task<IActionResult> GetAsync()
     {
@@ -30,4 +29,9 @@ public class TypeOfPoblationsController : GenericController<TypeOfPoblation>
         return BadRequest();
     }
 
+    [HttpGet("full/{filter}")]
+    public async Task<IActionResult> GetAsync(string filter)
+    {
+        return Ok(await _typeOfPoblation.GetAsync(filter));
+    }
 }

@@ -934,6 +934,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Record create successfully..
         /// </summary>
         public static string RecordCreateOk {
@@ -1308,6 +1317,15 @@ namespace CyberPulse.Shared.Resources {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The value must be zero or greater.
+        /// </summary>
+        public static string ValueRange {
+            get {
+                return ResourceManager.GetString("ValueRange", resourceCulture);
             }
         }
         

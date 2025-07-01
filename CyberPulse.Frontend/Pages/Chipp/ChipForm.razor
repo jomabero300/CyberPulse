@@ -4,477 +4,472 @@
 }
 else
 {
-<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
-<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
-    <DataAnnotationsValidator />
+	<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+	<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
 
 
-    <MudGrid>
-		<MudItem xs="12" sm="6">
-			<MudAutocomplete T="ChipProgram"
-							 Label=@Localizer["ChipProgram"]
-							 SearchFunc="SearchChipProgram"
-							 Placeholder=@Localizer["SelectAChipProgram"]
-							 AdornmentIcon="@Icons.Material.Filled.Search"
-							 AdornmentColor="Color.Primary"
-							 Value="selectedChipProgram"
-							 ValueChanged="ChipProgramChanged"
-							 ToStringFunc="@(e=> e==null?null : $"{e.Code} {e.Designation}")">
-				<ItemTemplate Context="itemContext">
-					@itemContext.Code @itemContext.Designation
-				</ItemTemplate>
-			</MudAutocomplete>
-
-			<MudGrid>
-				<MudItem xs="12" sm="4">
-					<MudTextField Label="@Localizer["ChipNo"]"
-								  @bind-Value="@chipDTO.ChipNo"
-								  For="@(() => chipDTO.ChipNo)" />
-
-				</MudItem>
-				<MudItem xs="12" sm="4">
-					<MudTextField Label="@Localizer["Duration"]"
-								  @bind-Value="@chipDTO.Duration"
-								  ReadOnly="true"
-								  For="@(() => chipDTO.Duration)" />
-
-				</MudItem>
-				<MudItem xs="12" sm="4">
-					<MudNumericField Label="@Localizer["Apprentices"]"
-									 @bind-Value="@chipDTO.Apprentices"
-									 Min=0
-									 For="@(() => chipDTO.Apprentices)" />
-
-				</MudItem>
-			</MudGrid>
-
-			<MudItem xs="12">
-				<MudAutocomplete T="User"
-								 Label=@Localizer["Instructor"]
-								 Placeholder=@Localizer["SelectAInstructor"]
-								 SearchFunc="SearchInstructor"
-								 Value="selectedInstructor"
-								 ValueChanged="InstructorChanged"
-								 ToStringFunc="@(e=> e==null?null : $"{e.FirstName} {e.LastName}")"
-								 AdornmentIcon="@Icons.Material.Filled.People"
-								 Adornment="Adornment.End">
+		<MudGrid>
+			<MudItem xs="12" sm="6">
+				<MudAutocomplete T="ChipProgram"
+								 Label=@Localizer["ChipProgram"]
+								 SearchFunc="SearchChipProgram"
+								 Placeholder=@Localizer["SelectAChipProgram"]
+								 AdornmentIcon="@Icons.Material.Filled.Search"
+								 AdornmentColor="Color.Primary"
+								 Value="selectedChipProgram"
+								 ValueChanged="ChipProgramChanged"
+								 ToStringFunc="@(e=> e==null?null : $"{e.Code} {e.Designation}")">
 					<ItemTemplate Context="itemContext">
-						@itemContext.DocumentId @itemContext.FirstName @itemContext.LastName
+						@itemContext.Code @itemContext.Designation
 					</ItemTemplate>
 				</MudAutocomplete>
 
-			</MudItem>
+				<MudGrid>
+					<MudItem xs="12" sm="4">
+						<MudTextField Label="@Localizer["ChipNo"]"
+									  @bind-Value="@chipDTO.ChipNo"
+									  For="@(() => chipDTO.ChipNo)" />
 
-			<MudGrid>
-				<MudItem xs="12" sm="6">
-					<MudAutocomplete T="City"
-									 Label=@Localizer["City"]
-									 Placeholder=@Localizer["SelectACity"]
-									 SearchFunc="SearchCity"
-									 Value="selectedCity"
-									 ValueChanged="CityChanged"
-									 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+					</MudItem>
+					<MudItem xs="12" sm="4">
+						<MudTextField Label="@Localizer["Duration"]"
+									  @bind-Value="@chipDTO.Duration"
+									  ReadOnly="true"
+									  For="@(() => chipDTO.Duration)" />
+
+					</MudItem>
+					<MudItem xs="12" sm="4">
+						<MudNumericField Label="@Localizer["Apprentices"]"
+										 @bind-Value="@chipDTO.Apprentices"
+										 Min=0
+										 For="@(() => chipDTO.Apprentices)" />
+
+					</MudItem>
+				</MudGrid>
+
+				<MudItem xs="12">
+					<MudAutocomplete T="User"
+									 Label=@Localizer["Instructor"]
+									 Placeholder=@Localizer["SelectAInstructor"]
+									 SearchFunc="SearchInstructor"
+									 Value="selectedInstructor"
+									 ValueChanged="InstructorChanged"
+									 ToStringFunc="@(e=> e==null?null : $"{e.FirstName} {e.LastName}")"
+									 AdornmentIcon="@Icons.Material.Filled.People"
+									 Adornment="Adornment.End">
 						<ItemTemplate Context="itemContext">
-							@itemContext.Name
+							@itemContext.DocumentId @itemContext.FirstName @itemContext.LastName
 						</ItemTemplate>
 					</MudAutocomplete>
-				</MudItem>
-				<MudItem xs="12" sm="6">
-					<MudAutocomplete T="Neighborhood"
-									 Label=@Localizer["Neighborhood"]
-									 Placeholder=@Localizer["SelectANeighborhood"]
-									 SearchFunc="SearchNeighborhood"
-									 Value="selectedNeighborhood"
-									 ValueChanged="NeighborhoodChanged"
-									 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
-						<ItemTemplate Context="itemContext">
-							@itemContext.Name
-						</ItemTemplate>
-					</MudAutocomplete>
-				</MudItem>
-			</MudGrid>
 
-
-			<MudItem xs="12">
-				<MudAutocomplete T="TrainingProgram"
-								 Label=@Localizer["TrainingProgram"]
-								 Placeholder=@Localizer["SelectATrainingProgram"]
-								 SearchFunc="SearchTrainingProgram"
-								 Value="selectedTrainingProgram"
-								 ValueChanged="TrainingProgramChanged"
-								 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
-					<ItemTemplate Context="itemContext">
-						@itemContext.Name
-					</ItemTemplate>
-				</MudAutocomplete>
-			</MudItem>
-			<MudGrid>
-				<MudItem xs="12" sm="6">
-					<MudAutocomplete T="TypeOfTraining"
-									 Label=@Localizer["TypeOfTraining"]
-									 Placeholder=@Localizer["SelectATypeOfTraining"]
-									 Disabled="@DisabledTypeOfTraining"
-									 SearchFunc="SearchTypeOfTraining"
-									 Value="selectedTypeOfTraining"
-									 ValueChanged="TypeOfTrainingChanged"
-									 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
-						<ItemTemplate Context="itemContext">
-							@itemContext.Name
-						</ItemTemplate>
-					</MudAutocomplete>
 				</MudItem>
+
+				<MudGrid>
 					<MudItem xs="12" sm="6">
-						<MudTextField Label="@Localizer["Company"]"
-									  @bind-Value="@chipDTO.Company"
-									  Adornment="Adornment.End"
-									  AdornmentIcon="@Icons.Material.Filled.BusinessCenter"
-									  For="@(() => chipDTO.Company)"
-									  Disabled="@desabledCompany"
+						<MudAutocomplete T="City"
+										 Label=@Localizer["City"]
+										 Placeholder=@Localizer["SelectACity"]
+										 SearchFunc="SearchCity"
+										 Value="selectedCity"
+										 ValueChanged="CityChanged"
+										 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+							<ItemTemplate Context="itemContext">
+								@itemContext.Name
+							</ItemTemplate>
+						</MudAutocomplete>
+					</MudItem>
+					<MudItem xs="12" sm="6">
+						<MudAutocomplete T="Neighborhood"
+										 Label=@Localizer["Neighborhood"]
+										 Placeholder=@Localizer["SelectANeighborhood"]
+										 SearchFunc="SearchNeighborhood"
+										 Value="selectedNeighborhood"
+										 ValueChanged="NeighborhoodChanged"
+										 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+							<ItemTemplate Context="itemContext">
+								@itemContext.Name
+							</ItemTemplate>
+						</MudAutocomplete>
+					</MudItem>
+				</MudGrid>
+
+
+				<MudItem xs="12">
+					<MudAutocomplete T="TrainingProgram"
+									 Label=@Localizer["TrainingProgram"]
+									 Placeholder=@Localizer["SelectATrainingProgram"]
+									 SearchFunc="SearchTrainingProgram"
+									 Value="selectedTrainingProgram"
+									 ValueChanged="TrainingProgramChanged"
+									 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+						<ItemTemplate Context="itemContext">
+							@itemContext.Name
+						</ItemTemplate>
+					</MudAutocomplete>
+				</MudItem>
+				<MudGrid>
+					<MudItem xs="12" sm="6">
+						<MudAutocomplete T="TypeOfTraining"
+										 Label=@Localizer["TypeOfTraining"]
+										 Placeholder=@Localizer["SelectATypeOfTraining"]
+										 Disabled="@DisabledTypeOfTraining"
+										 SearchFunc="SearchTypeOfTraining"
+										 Value="selectedTypeOfTraining"
+										 ValueChanged="TypeOfTrainingChanged"
+										 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+							<ItemTemplate Context="itemContext">
+								@itemContext.Name
+							</ItemTemplate>
+						</MudAutocomplete>
+					</MudItem>
+						<MudItem xs="12" sm="6">
+							<MudTextField Label="@Localizer["Company"]"
+										  @bind-Value="@chipDTO.Company"
+										  Adornment="Adornment.End"
+										  AdornmentIcon="@Icons.Material.Filled.BusinessCenter"
+										  For="@(() => chipDTO.Company)"
+										  Disabled="@desabledCompany"
+										  class="mb-3" />
+						</MudItem>
+				</MudGrid>
+
+				<MudItem xs="12">
+					<MudTextField Label="@Localizer["Justification"]"
+								  @bind-Value="@chipDTO.Justification"
+								  For="@(() => chipDTO.Justification)"
+								  class="mb-3" />
+				</MudItem>
+
+				<MudGrid>
+					<MudItem xs="12" sm="4">
+						<MudTextField Label="@Localizer["StartDate"]"
+									  @bind-Value="@chipDTO.StartDate"
+									  For="@(() => chipDTO.StartDate)"
+										  Adornment="Adornment.End"
+										  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
+										  ReadOnly=true
 									  class="mb-3" />
 					</MudItem>
-			</MudGrid>
-
-			<MudItem xs="12">
-				<MudTextField Label="@Localizer["Justification"]"
-							  @bind-Value="@chipDTO.Justification"
-							  For="@(() => chipDTO.Justification)"
-							  class="mb-3" />
+					<MudItem xs="12" sm="4">
+						<MudTextField Label="@Localizer["EndDate"]"
+									  @bind-Value="@chipDTO.EndDate"
+									  For="@(() => chipDTO.EndDate)"
+										  Adornment="Adornment.End"
+										  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
+										  ReadOnly=true
+									  class="mb-3" />
+					</MudItem>
+					<MudItem xs="12" sm="4">
+						<MudTextField Label="@Localizer["EndDate"]"
+									  @bind-Value="@chipDTO.EndDate"
+									  For="@(() => chipDTO.EndDate)"
+										  Adornment="Adornment.End"
+										  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
+										  ReadOnly=true
+									  class="mb-3" />
+					</MudItem>
+				</MudGrid>
 			</MudItem>
+			<MudItem xl="12" sm="6">
+					<MudItem xs="12">
+						<MudGrid>
+							<MudItem xs="12" sm="2"><MudText Typo="Typo.subtitle2">Horario</MudText></MudItem>
+							<MudItem xs="12" sm="4"><MudText Typo="Typo.subtitle2">Mañana</MudText></MudItem>
+							<MudItem xs="12" sm="4"><MudText Typo="Typo.subtitle2">Tarde</MudText></MudItem>
+						</MudGrid>
+					</MudItem>
+					<MudItem xs="12" Style="height:180px;overflow-y:scroll">
+							<MudItem xs="12" sm="2"><MudText Typo="Typo.subtitle2">@Localizer["Monday"]</MudText></MudItem>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Style="width:50px" Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.MondayMorningStar"
+											  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+											  For="@(() => chipDTO.MondayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
 
-			<MudGrid>
-				<MudItem xs="12" sm="4">
-					<MudTextField Label="@Localizer["StartDate"]"
-								  @bind-Value="@chipDTO.StartDate"
-								  For="@(() => chipDTO.StartDate)"
-									  Adornment="Adornment.End"
-									  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
-									  ReadOnly=true
-								  class="mb-3" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.MondayMorningEnd"
+											  For="@(() => chipDTO.MondayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.MondayAfternoonStar"
+											  For="@(() => chipDTO.MondayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.MondayAfternoonEnd"
+											  For="@(() => chipDTO.MondayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+						</MudGrid>
+						<MudText Typo="Typo.subtitle2">@Localizer["Tuesday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TuesdayMorningStar"
+											  For="@(() => chipDTO.TuesdayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TuesdayMorningEnd"
+											  For="@(() => chipDTO.TuesdayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TuesdayAfternoonStar"
+											  For="@(() => chipDTO.TuesdayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TuesdayAfternoonEnd"
+											  For="@(() => chipDTO.TuesdayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
+
+						<MudText Typo="Typo.subtitle2">@Localizer["Wednesday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.WednesdayMorningStar"
+											  For="@(() => chipDTO.WednesdayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.WednesdayMorningEnd"
+											  For="@(() => chipDTO.WednesdayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.WednesdayAfternoonStar"
+											  For="@(() => chipDTO.WednesdayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.WednesdayAfternoonEnd"
+											  For="@(() => chipDTO.WednesdayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
+
+						<MudText Typo="Typo.subtitle2">@Localizer["Tursday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TursdayMorningStar"
+											  For="@(() => chipDTO.TursdayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TursdayMorningEnd"
+											  For="@(() => chipDTO.TursdayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TursdayAfternoonStar"
+											  For="@(() => chipDTO.TursdayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.TursdayAfternoonEnd"
+											  For="@(() => chipDTO.TursdayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
+
+
+						<MudText Typo="Typo.subtitle2">@Localizer["Friday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.FridayMorningStar"
+											  For="@(() => chipDTO.FridayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.FridayMorningEnd"
+											  For="@(() => chipDTO.FridayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.FridayAfternoonStar"
+											  For="@(() => chipDTO.FridayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.FridayAfternoonEnd"
+											  For="@(() => chipDTO.FridayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
+
+						<MudText Typo="Typo.subtitle2">@Localizer["Saturday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SaturdayMorningStar"
+											  For="@(() => chipDTO.SaturdayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SaturdayMorningEnd"
+											  For="@(() => chipDTO.SaturdayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SaturdayAfternoonStar"
+											  For="@(() => chipDTO.SaturdayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SaturdayAfternoonEnd"
+											  For="@(() => chipDTO.SaturdayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
+
+						<MudText Typo="Typo.subtitle2">@Localizer["Sunday"]</MudText>
+						<MudGrid>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SundayMorningStar"
+											  For="@(() => chipDTO.SundayMorningStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SundayMorningEnd"
+											  For="@(() => chipDTO.SundayMorningEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateStart"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SundayAfternoonStar"
+											  For="@(() => chipDTO.SundayAfternoonStar)"
+											  onblur="@(() => ValidateOnBlur())" />
+							</MudItem>
+							<MudItem xs="12" sm="3">
+								<MudTextField Label="@Localizer["DateEnd"]"
+											  Mask="@mask1"
+											  @bind-Value="@chipDTO.SundayAfternoonEnd"
+											  For="@(() => chipDTO.SundayAfternoonEnd)"
+											  onblur="@(() => ValidateOnBlur())" />
+
+							</MudItem>
+						</MudGrid>
 				</MudItem>
-				<MudItem xs="12" sm="4">
-					<MudTextField Label="@Localizer["EndDate"]"
-								  @bind-Value="@chipDTO.EndDate"
-								  For="@(() => chipDTO.EndDate)"
-									  Adornment="Adornment.End"
-									  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
-									  ReadOnly=true
-								  class="mb-3" />
-				</MudItem>
-				<MudItem xs="12" sm="4">
-					<MudTextField Label="@Localizer["EndDate"]"
-								  @bind-Value="@chipDTO.EndDate"
-								  For="@(() => chipDTO.EndDate)"
-									  Adornment="Adornment.End"
-									  AdornmentIcon="@Icons.Material.Filled.CalendarToday"
-									  ReadOnly=true
-								  class="mb-3" />
-				</MudItem>
-			</MudGrid>
-		</MudItem>
-		<MudItem xl="12" sm="6">
-				<MudItem xs="12">
-					<MudGrid>
-						<MudItem xs="12" sm="2"><MudText Typo="Typo.subtitle2">Horario</MudText></MudItem>
-						<MudItem xs="12" sm="4"><MudText Typo="Typo.subtitle2">Mañana</MudText></MudItem>
-						<MudItem xs="12" sm="4"><MudText Typo="Typo.subtitle2">Tarde</MudText></MudItem>
-					</MudGrid>
-				</MudItem>
-				<MudItem xs="12" Style="height:180px;overflow-y:scroll">
-						<MudItem xs="12" sm="2"><MudText Typo="Typo.subtitle2">@Localizer["Monday"]</MudText></MudItem>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Style="width:50px" Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.MondayMorningStar"
-										  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
-										  For="@(() => chipDTO.MondayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
 
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.MondayMorningEnd"
-										  For="@(() => chipDTO.MondayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
+					<MudDivider DividerType="DividerType.Inset" />
 
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.MondayAfternoonStar"
-										  For="@(() => chipDTO.MondayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.MondayAfternoonEnd"
-										  For="@(() => chipDTO.MondayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-					</MudGrid>
-					<MudText Typo="Typo.subtitle2">@Localizer["Tuesday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TuesdayMorningStar"
-										  For="@(() => chipDTO.TuesdayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
+					<MudItem xs="12" Style="margin-top: 10px;">
+						<MudText Typo="Typo.subtitle2">Tipe de población al caul pertenece</MudText>
+					</MudItem>
 
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TuesdayMorningEnd"
-										  For="@(() => chipDTO.TuesdayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
+					<MudItem xs="12" Style='height:180px;overflow-y:scroll;font-size:80%'>
 
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TuesdayAfternoonStar"
-										  For="@(() => chipDTO.TuesdayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TuesdayAfternoonEnd"
-										  For="@(() => chipDTO.TuesdayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
+							<MudTable Items="@chipDTO.TypeOfPoblationDTO" Hover="true">
+								<HeaderContent>
+									<MudTh>Id</MudTh>
+									<MudTh>Nombre</MudTh>
+									<MudTh>Cant</MudTh>
+								</HeaderContent>
+								<RowTemplate Context="item">
+									<MudTd DataLabel="Id">@item.Id</MudTd>
+									<MudTd DataLabel="Nombre">@item.Name</MudTd>
+									<MudTd DataLabel="Cant">
+			
+									<MudNumericField @bind-Value="@item.Quantity"
+													 Min=0
+													 For="@(() => item.Quantity)" />
 
-						</MudItem>
-					</MudGrid>
-
-					<MudText Typo="Typo.subtitle2">@Localizer["Wednesday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.WednesdayMorningStar"
-										  For="@(() => chipDTO.WednesdayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.WednesdayMorningEnd"
-										  For="@(() => chipDTO.WednesdayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.WednesdayAfternoonStar"
-										  For="@(() => chipDTO.WednesdayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.WednesdayAfternoonEnd"
-										  For="@(() => chipDTO.WednesdayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-					</MudGrid>
-
-					<MudText Typo="Typo.subtitle2">@Localizer["Tursday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayMorningStar"
-										  For="@(() => chipDTO.TursdayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayMorningEnd"
-										  For="@(() => chipDTO.TursdayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayAfternoonStar"
-										  For="@(() => chipDTO.TursdayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayAfternoonEnd"
-										  For="@(() => chipDTO.TursdayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-					</MudGrid>
-
-
-					<MudText Typo="Typo.subtitle2">@Localizer["Friday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.FridayMorningStar"
-										  For="@(() => chipDTO.FridayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.FridayMorningEnd"
-										  For="@(() => chipDTO.FridayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.FridayAfternoonStar"
-										  For="@(() => chipDTO.FridayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.FridayAfternoonEnd"
-										  For="@(() => chipDTO.FridayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-					</MudGrid>
-
-					<MudText Typo="Typo.subtitle2">@Localizer["Saturday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SaturdayMorningStar"
-										  For="@(() => chipDTO.SaturdayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SaturdayMorningEnd"
-										  For="@(() => chipDTO.SaturdayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SaturdayAfternoonStar"
-										  For="@(() => chipDTO.SaturdayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SaturdayAfternoonEnd"
-										  For="@(() => chipDTO.SaturdayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-					</MudGrid>
-
-					<MudText Typo="Typo.subtitle2">@Localizer["Sunday"]</MudText>
-					<MudGrid>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SundayMorningStar"
-										  For="@(() => chipDTO.SundayMorningStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SundayMorningEnd"
-										  For="@(() => chipDTO.SundayMorningEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateStart"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SundayAfternoonStar"
-										  For="@(() => chipDTO.SundayAfternoonStar)"
-										  onblur="@(() => ValidateOnBlur())" />
-						</MudItem>
-						<MudItem xs="12" sm="3">
-							<MudTextField Label="@Localizer["DateEnd"]"
-										  Mask="@mask1"
-										  @bind-Value="@chipDTO.SundayAfternoonEnd"
-										  For="@(() => chipDTO.SundayAfternoonEnd)"
-										  onblur="@(() => ValidateOnBlur())" />
-
-						</MudItem>
-					</MudGrid>
+								
+									</MudTd>
+								</RowTemplate>
+							</MudTable>
+ 					</MudItem>
 			</MudItem>
+		</MudGrid>
 
-				<MudDivider DividerType="DividerType.Inset" />
+		<MudDivider DividerType="DividerType.Inset" />
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.ArrowBack"
+				   Color="Color.Info"
+				   OnClick="ReturnAction">
+			@Localizer["Return"]
+		</MudButton>
 
-				<MudItem xs="12" Style="margin-top: 10px;">
-					<MudText Typo="Typo.subtitle2">Tipe de población al caul pertenece</MudText>
-				</MudItem>
-				<MudItem xs="12" Style='height:180px;overflow-y:scroll;font-size:80%'>
-					<MudSimpleTable Style="overflow-x: auto;">
-						<thead>
-							<tr>
-								<th> Id</th>
-								<th>Description</th>
-								<th> Cant</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td width="1px">1</td>
-								<td width="20px">Afrocolombianos desplazados por la violencia cabeza de familia</td>
-								<td width="1px">0</td>
-							</tr>
-							<tr>
-								<td width="1px">2</td>
-								<td width="20px">Indígenas desplazados por la violencia cabeza de familia</td>
-								<td width="1px">0</td>
-							</tr>
-							<tr>
-								<td width="1px">3</td>
-								<td width="20px">Remitidos por el Servicio Nacional de Empleo</td>
-								<td width="1px">0</td>
-							</tr>
-						</tbody>
-					</MudSimpleTable>
-				</MudItem>
-		</MudItem>
-    </MudGrid>
-
-	<MudDivider DividerType="DividerType.Inset" />
-	<MudButton Variant="Variant.Outlined"
-			   StartIcon="@Icons.Material.Filled.ArrowBack"
-			   Color="Color.Info"
-			   OnClick="ReturnAction">
-		@Localizer["Return"]
-	</MudButton>
-
-	<MudButton Variant="Variant.Outlined"
-			   StartIcon="@Icons.Material.Filled.Check"
-			   Color="Color.Primary"
-			   ButtonType="ButtonType.Submit">
-		@Localizer["SaveChanges"]
-	</MudButton>
-</EditForm>
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.Check"
+				   Color="Color.Primary"
+				   ButtonType="ButtonType.Submit">
+			@Localizer["SaveChanges"]
+		</MudButton>
+	</EditForm>
 }

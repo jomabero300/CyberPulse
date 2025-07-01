@@ -2,6 +2,7 @@
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,22 @@ public class TypeOfPoblationRepository : GenericRepository<TypeOfPoblation>, ITy
             Result = await _context.TypeOfPoblations.OrderBy(x => x.Name).ToListAsync(),
         };
     }
+
+    public async Task<IEnumerable<TypeOfPoblationDTO>> GetAsync(string filter)
+    {
+        var response = await _context.TypeOfPoblations.Where(x=>x.Name.ToLower()!= filter).ToListAsync();
+        
+
+        var typeOfPoblationDto = response.Select(x => new TypeOfPoblationDTO
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Quantity = 0,
+        }).ToList();
+
+        return typeOfPoblationDto;
+    }
+
     public Task<IEnumerable<TypeOfPoblation>> GetComboAsync()
     {
         throw new NotImplementedException();

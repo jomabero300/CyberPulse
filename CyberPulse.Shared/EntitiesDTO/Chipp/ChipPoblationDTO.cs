@@ -16,9 +16,9 @@ public class ChipPoblationDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int TypePoblationId { get; set; }
 
-    [Display(Name = "Count", ResourceType = typeof(Literals))]
+    [Display(Name = "Quantity", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public int Count { get; set; }
+    public int Quantity { get; set; }
 
 
     public ChipDTO? ChipDTO { get; set; }

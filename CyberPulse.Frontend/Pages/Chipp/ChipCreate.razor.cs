@@ -11,7 +11,7 @@ namespace CyberPulse.Frontend.Pages.Chipp;
 public partial class ChipCreate
 {
     private ChipForm? chipForm;
-    private ChipDTO? chipDTO = new();
+    private ChipDTO chipDTO = new();
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
@@ -42,7 +42,7 @@ public partial class ChipCreate
         {
             menssaje = "Company";
         }
-        else if(chipDTO.EndDate<=DateTime.Parse("01/011/2029"))
+        else if(chipDTO.EndDate<=DateTime.Parse("01/01/2009"))
         {
             menssaje = "EndDateError";
         }

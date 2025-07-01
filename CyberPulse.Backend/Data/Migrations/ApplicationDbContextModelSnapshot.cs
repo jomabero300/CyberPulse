@@ -191,7 +191,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ChipId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("TypePoblationId")
@@ -775,7 +775,7 @@ namespace CyberPulse.Backend.Data.Migrations
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipPoblation", b =>
                 {
                     b.HasOne("CyberPulse.Shared.Entities.Chipp.Chip", "Chip")
-                        .WithMany()
+                        .WithMany("ChipPoblations")
                         .HasForeignKey("ChipId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -903,6 +903,11 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.Chip", b =>
+                {
+                    b.Navigation("ChipPoblations");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipProgram", b =>

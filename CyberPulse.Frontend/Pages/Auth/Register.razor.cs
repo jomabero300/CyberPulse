@@ -127,6 +127,12 @@ public partial class Register
     private bool ValidateForm()
     {
         var hasErrors = false;
+
+        if (string.IsNullOrEmpty(userDTO.DocumentId))
+        {
+            Snackbar.Add(string.Format(Localizer["RequiredField"], string.Format(Localizer["DocumentId"])), Severity.Error);
+            hasErrors = true;
+        }
         if (string.IsNullOrEmpty(userDTO.FirstName))
         {
             Snackbar.Add(string.Format(Localizer["RequiredField"], string.Format(Localizer["FirstName"])), Severity.Error);

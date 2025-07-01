@@ -2,6 +2,7 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -9,6 +10,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
+[Authorize(Roles = "Admin")]
 public partial class ChipsIndex
 {
     private List<Chip>? chips { get; set; }
@@ -120,6 +122,7 @@ public partial class ChipsIndex
                 parameters,
                 options);
         }
+        
         else
         {
             dialog = await DialogService.ShowAsync<ChipCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);

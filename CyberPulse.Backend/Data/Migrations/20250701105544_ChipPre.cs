@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyberPulse.Backend.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ChipGeneInitial : Migration
+    public partial class ChipPre : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -384,7 +384,7 @@ namespace CyberPulse.Backend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChipId = table.Column<int>(type: "int", nullable: false),
                     TypePoblationId = table.Column<int>(type: "int", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

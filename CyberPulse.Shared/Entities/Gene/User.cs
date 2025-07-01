@@ -39,8 +39,6 @@ public class User : IdentityUser
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int CountryId { get; set; }
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public Country Country { get; set; } = null!;
 
 
 
@@ -48,5 +46,7 @@ public class User : IdentityUser
     public string FullName => $"{FirstName} {LastName}";
 
     public string PhotoFull => string.IsNullOrEmpty(Photo) ? "/images/NoImage.png" : Photo;
+
+    public Country Country { get; set; } = null!;
 
 }

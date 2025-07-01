@@ -32,6 +32,7 @@ public class AccountsController : ControllerBase
         _mailHelper = mailHelper;
         _context = context;
     }
+
     [HttpPost("RecoverPassword")]
     public async Task<IActionResult> RecoverPasswordAsync([FromBody] EmailDTO model)
     {
@@ -62,7 +63,8 @@ public class AccountsController : ControllerBase
             return NotFound();
         }
 
-        var result = await _usersUnitOfWork.ResetPasswordAsync(user, HttpUtility.UrlDecode(model.Token), model.NewPassword);
+        //var result = await _usersUnitOfWork.ResetPasswordAsync(user, HttpUtility.UrlDecode(model.Token), model.NewPassword);
+        var result = await _usersUnitOfWork.ResetPasswordAsync(user, model.Token, model.NewPassword);
 
         if (result.Succeeded)
         {
@@ -110,10 +112,10 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
-        var result = await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!);
-
-        return Ok(result);
+        return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
     }
+
+
 
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("LoadUsers/{userType}")]
@@ -243,6 +245,8 @@ public class AccountsController : ControllerBase
 
         return BadRequest("ERR006");
     }
+    
+    
     private async Task<ActionResponse<string>> SendConfirmationEmailAsync(User user, string language)
     {
         var myToken = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
@@ -277,13 +281,13 @@ public class AccountsController : ControllerBase
 
         return _mailHelper.SendMail(user.FullName, user.Email!, _configuration["Mail:SubjectRecoveryEn"]!, string.Format(_configuration["Mail:BodyRecoveryEn"]!, tokenLink), language);
     }
-
     private TokenDTO BuildToken(User user)
     {
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name,user.Email!),
             new Claim(ClaimTypes.Role,user.UserType.ToString()),
+            new Claim("FrstName",user.DocumentId),
             new Claim("FrstName",user.FirstName),
             new Claim("LastName",user.LastName),
             new Claim("Photo",user.Photo ?? string.Empty),
@@ -304,7 +308,5 @@ public class AccountsController : ControllerBase
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = expiration,
         };
-
     }
-
 }
