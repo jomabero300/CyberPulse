@@ -409,9 +409,6 @@ public partial class ChipForm
 
         double sumaTotal = 0;
 
-
-
-
         List<double> horas = new List<double>();
         List<int> numeroDia = new List<int>();
 
@@ -482,5 +479,6 @@ public partial class ChipForm
         }
 
         chipDTO.EndDate = dateStart;
+        chipDTO.AlertDate = dateStart.AddDays(5);
     }
 }

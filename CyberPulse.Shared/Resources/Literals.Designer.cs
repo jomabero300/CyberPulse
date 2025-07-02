@@ -115,6 +115,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Alert date.
+        /// </summary>
+        public static string AlertDate {
+            get {
+                return ResourceManager.GetString("AlertDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The apprentices must amyor o igual a 1.
         /// </summary>
         public static string ApprenticeRange {

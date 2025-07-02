@@ -561,4 +561,7 @@
   <data name="SelectATrainingProgram" xml:space="preserve">
     <value>-- Seleccione un programa de formación--</value>
   </data>
+  <data name="AlertDate" xml:space="preserve">
+    <value>Fecha Alerta</value>
+  </data>
 </root>

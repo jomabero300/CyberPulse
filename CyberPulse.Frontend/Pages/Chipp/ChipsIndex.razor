@@ -39,20 +39,26 @@ else
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
             <MudTd Class="text-center" Style="width:185px">
+
                 <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Variant="Variant.Filled"
+                    <MudButton Size="Size.Small"
+                               Variant="Variant.Filled"
                                Color="Color.Warning"
                                OnClick="@(() => ShowModalAsync(context.Id, true))">
                         <MudIcon Icon="@Icons.Material.Filled.Edit" />
                     </MudButton>
                 </MudTooltip>
+
                 <MudTooltip Text="@Localizer["Delete"]">
-                    <MudButton Variant="Variant.Filled"
+                    <MudButton Size="Size.Small"
+                               Variant="Variant.Filled"
                                Color="Color.Error"
                                OnClick="@(() => DeleteAsync(@context))">
                         <MudIcon Icon="@Icons.Material.Filled.Delete" />
                     </MudButton>
                 </MudTooltip>
+
+
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>
