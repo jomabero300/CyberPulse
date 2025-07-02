@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Repositories.Interfaces.Chipp;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
@@ -12,9 +13,11 @@ namespace CyberPulse.Backend.Controllers.Chipp;
 public class TrainingProgramsController : GenericController<TrainingProgram>
 {
     private readonly ITrainingProgramUnitOfWork _trainingProgramUnitOf;
-    public TrainingProgramsController(IGenericUnitOfWork<TrainingProgram> unitOfWork, ITrainingProgramUnitOfWork trainingProgramUnitOf) : base(unitOfWork)
+    private readonly ITrainingProgramRepository _trainingProgramRepository;
+    public TrainingProgramsController(IGenericUnitOfWork<TrainingProgram> unitOfWork, ITrainingProgramUnitOfWork trainingProgramUnitOf, ITrainingProgramRepository trainingProgramRepository) : base(unitOfWork)
     {
         _trainingProgramUnitOf = trainingProgramUnitOf;
+        _trainingProgramRepository = trainingProgramRepository;
     }
 
 
@@ -47,7 +50,7 @@ public class TrainingProgramsController : GenericController<TrainingProgram>
     [HttpGet("Combo")]
     public async Task<IActionResult> GetComboAsync()
     {
-        return Ok(await _trainingProgramUnitOf.GetComboAsync());
+        return Ok(await _trainingProgramRepository.GetComboAsync());
     }
 
 }

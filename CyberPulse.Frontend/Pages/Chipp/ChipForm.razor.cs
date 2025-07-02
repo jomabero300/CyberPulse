@@ -57,21 +57,21 @@ public partial class ChipForm
     private List<TypeOfTraining>? typeOfTrainings;
     private List<TypeOfTraining>? typeOfTrainingsGen;
 
-    //private List<TypeOfPoblationDTO>? typeOfPoblationsDTO;
-
     protected override void OnInitialized()
     {
         editContext = new(chipDTO);
+
     }
 
     protected override async Task OnInitializedAsync()
     {
         loading = true;
+        await LoadChipProgramAsync();
         await LoadInstructorsync();
         await LoadCityAsync();
         await LoadTrainingProgramAsync();
         await LoadTypeOfTrainingAsync();
-        await LoadChipProgramAsync();
+
         if (chipDTO.Id != 0)
         {
             selectedChipProgram = chipPrograms!.SingleOrDefault(x => x.Id == chipDTO.ChipProgramId)!;
@@ -79,11 +79,11 @@ public partial class ChipForm
 
             selectedInstructor = instructors!.SingleOrDefault(x => x.Id == chipDTO.InstructorId)!;
 
-            var cityId=chipDTO.NeighborhoodId.ToString();
-            selectedCity = cities!.FirstOrDefault(x=>x.Id== int.Parse(cityId.Substring(0, 5)))!;
+            var cityId = chipDTO.NeighborhoodId.ToString();
+            selectedCity = cities!.FirstOrDefault(x => x.Id == int.Parse(cityId.Substring(0, 5)))!;
             await LoadNeighborhoodAsync(int.Parse(cityId.Substring(0, 5)));
 
-            if(cityId.Substring(5)!="000")
+            if (cityId.Substring(5) != "000")
             {
                 selectedNeighborhood = neighborhoods!.FirstOrDefault(x => x.Id == chipDTO.NeighborhoodId)!;
             }

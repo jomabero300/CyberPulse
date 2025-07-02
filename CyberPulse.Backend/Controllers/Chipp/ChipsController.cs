@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Repositories.Interfaces.Chipp;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
@@ -18,10 +19,12 @@ public class  ChipsController : GenericController<Chip>
 {
     private readonly IChipUnitOfWork _chipUnitOfWork;
     private readonly ITypeOfPoblationUnitOfWork _poblationUnitOfWork;
-    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork) : base(unitOfWork)
+    private readonly IChipRepository _chipRepository;
+    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork, IChipRepository chipRepository) : base(unitOfWork)
     {
         _chipUnitOfWork = chipUnitOfWork;
         _poblationUnitOfWork = poblationUnitOfWork;
+        _chipRepository = chipRepository;
     }
 
     [HttpGet("{id}")]
@@ -67,6 +70,7 @@ public class  ChipsController : GenericController<Chip>
                 InstructorId = response.Result.InstructorId,
                 StartDate = response.Result.ChipProgram.StartDate,
                 EndDate = response.Result.EndDate,
+                AlertDate= response.Result.EndDate.AddDays(5),
                 NeighborhoodId = response.Result.NeighborhoodId,
                 TrainingProgramId = response.Result.TrainingProgramId,
                 TypeOfTrainingId = response.Result.TypeOfTrainingId,
@@ -122,7 +126,7 @@ public class  ChipsController : GenericController<Chip>
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _chipUnitOfWork.GetAsync(pagination);
+        var response = await _chipRepository.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -174,7 +178,7 @@ public class  ChipsController : GenericController<Chip>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _chipUnitOfWork.GetTotalRecordsAsync(pagination);
+        var response = await _chipRepository.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {

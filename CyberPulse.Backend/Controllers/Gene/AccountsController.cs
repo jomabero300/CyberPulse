@@ -1,5 +1,6 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
@@ -21,16 +22,18 @@ namespace CyberPulse.Backend.Controllers.Gene;
 public class AccountsController : ControllerBase
 {
     private readonly IUsersUnitOfWork _usersUnitOfWork;
+    private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
     private readonly IMailHelper _mailHelper;
     private readonly ApplicationDbContext _context;
 
-    public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, ApplicationDbContext context)
+    public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, ApplicationDbContext context, IUserRepository userRepository)
     {
         _usersUnitOfWork = usersUnitOfWork;
         _configuration = configuration;
         _mailHelper = mailHelper;
         _context = context;
+        _userRepository = userRepository;
     }
 
     [HttpPost("RecoverPassword")]
@@ -112,7 +115,7 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
-        return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
+        return Ok(await _userRepository.GetUserAsync(User.Identity!.Name!));
     }
 
 

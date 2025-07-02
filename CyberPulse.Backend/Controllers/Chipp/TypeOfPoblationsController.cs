@@ -1,4 +1,5 @@
 ﻿
+using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
@@ -11,9 +12,11 @@ namespace CyberPulse.Backend.Controllers.Chipp;
 public class TypeOfPoblationsController : GenericController<TypeOfPoblation>
 {
     private readonly ITypeOfPoblationUnitOfWork _typeOfPoblation;
-    public TypeOfPoblationsController(IGenericUnitOfWork<TypeOfPoblation> unitOfWork, ITypeOfPoblationUnitOfWork typeOfPoblation) : base(unitOfWork)
+    private readonly ITypeOfPoblationRepository _typeOfPoblationRepository;
+    public TypeOfPoblationsController(IGenericUnitOfWork<TypeOfPoblation> unitOfWork, ITypeOfPoblationUnitOfWork typeOfPoblation, ITypeOfPoblationRepository typeOfPoblationRepository) : base(unitOfWork)
     {
         _typeOfPoblation = typeOfPoblation;
+        _typeOfPoblationRepository = typeOfPoblationRepository;
     }
 
     [HttpGet]
@@ -32,6 +35,6 @@ public class TypeOfPoblationsController : GenericController<TypeOfPoblation>
     [HttpGet("full/{filter}")]
     public async Task<IActionResult> GetAsync(string filter)
     {
-        return Ok(await _typeOfPoblation.GetAsync(filter));
+        return Ok(await _typeOfPoblationRepository.GetAsync(filter));
     }
 }

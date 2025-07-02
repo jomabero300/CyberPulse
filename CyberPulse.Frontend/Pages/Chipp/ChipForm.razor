@@ -25,7 +25,7 @@ else
 					</ItemTemplate>
 				</MudAutocomplete>
 
-				<MudGrid>
+				<MudGrid Style="margin-top: 1px;">
 					<MudItem xs="12" sm="4">
 						<MudTextField Label="@Localizer["ChipNo"]"
 									  @bind-Value="@chipDTO.ChipNo"
@@ -179,7 +179,7 @@ else
 							<MudItem xs="12" sm="4"><MudText Typo="Typo.subtitle2">Tarde</MudText></MudItem>
 						</MudGrid>
 					</MudItem>
-					<MudItem xs="12" Style="height:180px;overflow-y:scroll">
+				<MudItem xs="12" Style="height:180px;overflow-y:scroll;margin-top: 10px;">
 							<MudItem xs="12" sm="2"><MudText Typo="Typo.subtitle2">@Localizer["Monday"]</MudText></MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
@@ -214,7 +214,10 @@ else
 											  onblur="@(() => ValidateOnBlur())" />
 							</MudItem>
 						</MudGrid>
-						<MudText Typo="Typo.subtitle2">@Localizer["Tuesday"]</MudText>
+					<MudItem xs="12" Style="margin-top: 10px;">
+							<MudText Typo="Typo.subtitle2">@Localizer["Tuesday"]</MudText>
+
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -248,8 +251,10 @@ else
 
 							</MudItem>
 						</MudGrid>
+						<MudItem xs="12" Style="margin-top: 10px;">
 
 						<MudText Typo="Typo.subtitle2">@Localizer["Wednesday"]</MudText>
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -283,8 +288,10 @@ else
 
 							</MudItem>
 						</MudGrid>
+						<MudItem xs="12" Style="margin-top: 10px;">
 
 						<MudText Typo="Typo.subtitle2">@Localizer["Tursday"]</MudText>
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -319,8 +326,10 @@ else
 							</MudItem>
 						</MudGrid>
 
+						<MudItem xs="12" Style="margin-top: 10px;">
 
 						<MudText Typo="Typo.subtitle2">@Localizer["Friday"]</MudText>
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -354,8 +363,10 @@ else
 
 							</MudItem>
 						</MudGrid>
+						<MudItem xs="12" Style="margin-top: 10px;">
 
 						<MudText Typo="Typo.subtitle2">@Localizer["Saturday"]</MudText>
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -389,8 +400,10 @@ else
 
 							</MudItem>
 						</MudGrid>
+						<MudItem xs="12" Style="margin-top: 10px;">
 
 						<MudText Typo="Typo.subtitle2">@Localizer["Sunday"]</MudText>
+						</MudItem>
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
@@ -426,34 +439,34 @@ else
 						</MudGrid>
 				</MudItem>
 
-					<MudDivider DividerType="DividerType.Inset" />
+				<MudDivider DividerType="DividerType.Inset" />
 
-					<MudItem xs="12" Style="margin-top: 10px;">
-						<MudText Typo="Typo.subtitle2">Tipe de población al caul pertenece</MudText>
-					</MudItem>
+				<MudItem xs="12" Style="margin-top: 20px;">
+					<MudText Typo="Typo.subtitle2">Tipe de población al cual pertenece</MudText>
+				</MudItem>
 
-					<MudItem xs="12" Style='height:180px;overflow-y:scroll;font-size:80%'>
+				<MudItem xs="12" Style='height:180px;overflow-y:scroll;font-size:80%'>
 
-							<MudTable Items="@chipDTO.TypeOfPoblationDTO" Hover="true">
-								<HeaderContent>
-									<MudTh>Id</MudTh>
-									<MudTh>Nombre</MudTh>
-									<MudTh>Cant</MudTh>
-								</HeaderContent>
-								<RowTemplate Context="item">
-									<MudTd DataLabel="Id">@item.Id</MudTd>
-									<MudTd DataLabel="Nombre">@item.Name</MudTd>
-									<MudTd DataLabel="Cant">
+						<MudTable Items="@chipDTO.TypeOfPoblationDTO" Hover="true">
+							<HeaderContent>
+								<MudTh>Id</MudTh>
+								<MudTh>Nombre</MudTh>
+								<MudTh>Cant</MudTh>
+							</HeaderContent>
+							<RowTemplate Context="item">
+								<MudTd DataLabel="Id">@item.Id</MudTd>
+								<MudTd DataLabel="Nombre">@item.Name</MudTd>
+								<MudTd DataLabel="Cant">
 			
-									<MudNumericField @bind-Value="@item.Quantity"
-													 Min=0
-													 For="@(() => item.Quantity)" />
+								<MudNumericField @bind-Value="@item.Quantity"
+													Min=0
+													For="@(() => item.Quantity)" />
 
 								
-									</MudTd>
-								</RowTemplate>
-							</MudTable>
- 					</MudItem>
+								</MudTd>
+							</RowTemplate>
+						</MudTable>
+ 				</MudItem>
 			</MudItem>
 		</MudGrid>
 
