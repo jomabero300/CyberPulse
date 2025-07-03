@@ -24,6 +24,7 @@ public class AccountsController : ControllerBase
     private readonly IUsersUnitOfWork _usersUnitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
+    
     private readonly IMailHelper _mailHelper;
     private readonly ApplicationDbContext _context;
 
@@ -215,7 +216,11 @@ public class AccountsController : ControllerBase
         {
             return NotFound();
         }
-
+        string url = _configuration["UrlBackend"]!;
+        if (!string.IsNullOrWhiteSpace(user.Photo) && user.Photo.Contains(url))
+        {
+            user.Photo= user.Photo.Substring(url.Length);
+        }
         var result = await _usersUnitOfWork.ConfirmEmailAsync(user, token);
         if (!result.Succeeded)
         {

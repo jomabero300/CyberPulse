@@ -131,7 +131,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             TypeOfTrainingId = entity.TypeOfTrainingId,
             UserId = entity.UserId,
             Justification = entity.Justification,
-            Monday = monday,
+            Monday=monday,
             Tuesday = tuesday,
             Wednesday = wednesday,
             Tursday = tursday,

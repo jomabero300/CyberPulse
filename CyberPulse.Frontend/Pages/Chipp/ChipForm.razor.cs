@@ -480,5 +480,13 @@ public partial class ChipForm
 
         chipDTO.EndDate = dateStart;
         chipDTO.AlertDate = dateStart.AddDays(5);
+
+        StateHasChanged();
     }
+
+    private void Reset()
+    {
+        StateHasChanged();
+    }
+
 }

@@ -74,6 +74,7 @@ public class ChipDTO
 
 
     [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    //[DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayMorningStar { get; set; }
 
@@ -82,6 +83,7 @@ public class ChipDTO
     public TimeSpan MondayMorningEnd { get; set; }
 
     [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayAfternoonStar { get; set; }
 

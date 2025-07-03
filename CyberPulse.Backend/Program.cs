@@ -121,7 +121,7 @@ app.UseCors(x => x
     .AllowCredentials());
 
 app.UseHttpsRedirection();
-
+app.UseFileServer();
 app.UseAuthorization();
 
 app.MapControllers();

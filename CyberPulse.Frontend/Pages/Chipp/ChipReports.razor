@@ -1,0 +1,26 @@
+﻿@page "/miReporte"
+@inject HttpClient Http
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GeneratePdf">Generar PDF</MudButton>
+<MudLink Href="@pdfUrl" Target="_blank" Disabled="@string.IsNullOrEmpty(pdfUrl)">Ver PDF</MudLink>
+
+@code {
+    private string? pdfUrl;
+
+    private async Task GeneratePdf()
+    {
+        var response = await Http.GetAsync("https://localhost:7233/api/pdf/generate"); // Reemplaza con la URL de tu API
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStreamAsync();
+            var stream = new MemoryStream();
+            await content.CopyToAsync(stream);
+            stream.Position = 0;
+
+            var bytes = stream.ToArray();
+            var base64 = Convert.ToBase64String(bytes);
+            pdfUrl = $"data:application/pdf;base64,{base64}";
+        }
+    }
+}

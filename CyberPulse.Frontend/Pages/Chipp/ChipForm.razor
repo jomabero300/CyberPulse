@@ -23,6 +23,7 @@ else
 					<ItemTemplate Context="itemContext">
 						@itemContext.Code @itemContext.Designation
 					</ItemTemplate>
+
 				</MudAutocomplete>
 
 				<MudGrid Style="margin-top: 1px;">
@@ -201,7 +202,7 @@ else
 
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
-											  Mask="@mask1"
+										  Mask="@(new PatternMask("00:00"))"
 											  @bind-Value="@chipDTO.MondayAfternoonStar"
 											  For="@(() => chipDTO.MondayAfternoonStar)"
 											  onblur="@(() => ValidateOnBlur())" />
@@ -221,7 +222,7 @@ else
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
-											  Mask="@mask1"
+											  Mask="@mask1"											  
 											  @bind-Value="@chipDTO.TuesdayMorningStar"
 											  For="@(() => chipDTO.TuesdayMorningStar)"
 											  onblur="@(() => ValidateOnBlur())" />
@@ -258,7 +259,7 @@ else
 						<MudGrid>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateStart"]"
-											  Mask="@mask1"
+										  Mask="@mask1"
 											  @bind-Value="@chipDTO.WednesdayMorningStar"
 											  For="@(() => chipDTO.WednesdayMorningStar)"
 											  onblur="@(() => ValidateOnBlur())" />
@@ -266,7 +267,7 @@ else
 							</MudItem>
 							<MudItem xs="12" sm="3">
 								<MudTextField Label="@Localizer["DateEnd"]"
-											  Mask="@mask1"
+										  Mask="@mask1"
 											  @bind-Value="@chipDTO.WednesdayMorningEnd"
 											  For="@(() => chipDTO.WednesdayMorningEnd)"
 											  onblur="@(() => ValidateOnBlur())" />

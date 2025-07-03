@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.6" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.6" />
     <PackageReference Include="MudBlazor" Version="8.8.0" />
+    <PackageReference Include="QuestPDF" Version="2025.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>

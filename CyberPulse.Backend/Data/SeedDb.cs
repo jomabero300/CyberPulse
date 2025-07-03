@@ -29,14 +29,14 @@ public class SeedDb
         await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admin,"17588236");
         await CheckUserAsync("Angelina", "Jolie", "angelina@gmail.com", "3133678526", UserType.inst,"1116852147");
         await CheckUserAsync("Freddie", "Mercury", "fredie@gmail.com", "3134568271", UserType.inst, "1164852796");
-        await CheckUserAsync("Brad", "Pitt", "brad@gmail.com", "3129167854", UserType.inst, "1029400672");
+        await CheckUserAsync("Brad", "Pitt", "brad@gmail.com", "3129167854", UserType.User, "1029400672");
     }
 
     private async Task CheckRolesAsync()
     {
         await _usersUnitOf.CheckRoleAsync(UserType.Admin.ToString());
-        await _usersUnitOf.CheckRoleAsync(UserType.User.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.inst.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.User.ToString());
     }
 
     private async Task<User> CheckUserAsync(string firstName, string lastName, string email, string phone, UserType userType, string DocumentId)

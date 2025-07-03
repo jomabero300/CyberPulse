@@ -54,6 +54,7 @@ public partial class Login
         {
             var message = await responseHttp.GetErrorMessageAsync();
             Snackbar.Add(Localizer[message!], Severity.Error);
+            return;
         }
 
         await LoginService.LoginAsync(responseHttp.Response!.Token);
