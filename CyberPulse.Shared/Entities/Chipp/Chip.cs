@@ -34,7 +34,7 @@ public class Chip
     [Display(Name = "Instructor", ResourceType = typeof(Literals))]
     [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public String InstructorId { get; set; } = null!;
+    public string InstructorId { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
@@ -57,7 +57,7 @@ public class Chip
     [Display(Name = "User", ResourceType = typeof(Literals))]
     [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public String UserId { get; set; } = null!;
+    public string UserId { get; set; } = null!;
 
 
     [Column(TypeName = "varchar(500)")]
@@ -111,6 +111,12 @@ public class Chip
     [MaxLength(23, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Sunday { get; set; }=null!;
+    
+    
+    [Display(Name = "Statu", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Range(0, int.MaxValue, ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int StatuId { get; set; } 
 
     public User Instructor { get; set; } = null!;
     public User User { get; set; } = null!;
@@ -118,6 +124,8 @@ public class Chip
     public Neighborhood Neighborhood { get; set; } = null!;
     public TypeOfTraining TypeOfTraining { get; set; } = null!;
     public TrainingProgram? TrainingProgram { get; set; }
+
+    public Statu Statu { get; set; } = null!;
 
     public ICollection<ChipPoblation>? ChipPoblations { get; set; }
 }

@@ -130,6 +130,20 @@ public class AccountsController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("Instructor")]
+    public async Task<IActionResult> GetAsync(string id, UserType userType)
+    {
+        var result = await _usersUnitOfWork.GetUserAsync(id,userType);
+
+        if(result.WasSuccess)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest(result.Message);
+    }
+
 
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

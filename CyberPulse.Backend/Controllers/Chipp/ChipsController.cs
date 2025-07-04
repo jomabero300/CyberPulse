@@ -78,39 +78,39 @@ public class  ChipsController : GenericController<Chip>
                 Duration = response.Result.ChipProgram.Duration,
                 Justification = response.Result.Justification,
                 WingMeasure = response.Result.ChipProgram.WingMeasure,
-                MondayMorningStar = TimeSpan.Parse(response.Result.Monday.Substring(0, 5)),
+                MondayMorningStart = TimeSpan.Parse(response.Result.Monday.Substring(0, 5)),
                 MondayMorningEnd = TimeSpan.Parse(response.Result.Monday.Substring(6, 5)),
-                MondayAfternoonStar = TimeSpan.Parse(response.Result.Monday.Substring(12, 5)),
+                MondayAfternoonStart = TimeSpan.Parse(response.Result.Monday.Substring(12, 5)),
                 MondayAfternoonEnd = TimeSpan.Parse(response.Result.Monday.Substring(18, 5)),
 
-                TuesdayMorningStar = TimeSpan.Parse(response.Result.Tuesday.Substring(0, 5)),
+                TuesdayMorningStart = TimeSpan.Parse(response.Result.Tuesday.Substring(0, 5)),
                 TuesdayMorningEnd = TimeSpan.Parse(response.Result.Tuesday.Substring(6, 5)),
-                TuesdayAfternoonStar = TimeSpan.Parse(response.Result.Tuesday.Substring(12, 5)),
+                TuesdayAfternoonStart = TimeSpan.Parse(response.Result.Tuesday.Substring(12, 5)),
                 TuesdayAfternoonEnd = TimeSpan.Parse(response.Result.Tuesday.Substring(18, 5)),
 
-                WednesdayMorningStar = TimeSpan.Parse(response.Result.Wednesday.Substring(0, 5)),
+                WednesdayMorningStart = TimeSpan.Parse(response.Result.Wednesday.Substring(0, 5)),
                 WednesdayMorningEnd = TimeSpan.Parse(response.Result.Wednesday.Substring(6, 5)),
-                WednesdayAfternoonStar = TimeSpan.Parse(response.Result.Wednesday.Substring(12, 5)),
+                WednesdayAfternoonStart = TimeSpan.Parse(response.Result.Wednesday.Substring(12, 5)),
                 WednesdayAfternoonEnd = TimeSpan.Parse(response.Result.Wednesday.Substring(18, 5)),
 
-                TursdayMorningStar = TimeSpan.Parse(response.Result.Tursday.Substring(0, 5)),
+                TursdayMorningStart = TimeSpan.Parse(response.Result.Tursday.Substring(0, 5)),
                 TursdayMorningEnd = TimeSpan.Parse(response.Result.Tursday.Substring(6, 5)),
-                TursdayAfternoonStar = TimeSpan.Parse(response.Result.Tursday.Substring(12, 5)),
+                TursdayAfternoonStart = TimeSpan.Parse(response.Result.Tursday.Substring(12, 5)),
                 TursdayAfternoonEnd = TimeSpan.Parse(response.Result.Tursday.Substring(18, 5)),
 
-                FridayMorningStar = TimeSpan.Parse(response.Result.Friday.Substring(0, 5)),
+                FridayMorningStart = TimeSpan.Parse(response.Result.Friday.Substring(0, 5)),
                 FridayMorningEnd = TimeSpan.Parse(response.Result.Friday.Substring(6, 5)),
-                FridayAfternoonStar = TimeSpan.Parse(response.Result.Friday.Substring(12, 5)),
+                FridayAfternoonStart = TimeSpan.Parse(response.Result.Friday.Substring(12, 5)),
                 FridayAfternoonEnd = TimeSpan.Parse(response.Result.Friday.Substring(18, 5)),
 
-                SaturdayMorningStar = TimeSpan.Parse(response.Result.Saturday.Substring(0, 5)),
+                SaturdayMorningStart = TimeSpan.Parse(response.Result.Saturday.Substring(0, 5)),
                 SaturdayMorningEnd = TimeSpan.Parse(response.Result.Saturday.Substring(6, 5)),
-                SaturdayAfternoonStar = TimeSpan.Parse(response.Result.Saturday.Substring(12, 5)),
+                SaturdayAfternoonStart = TimeSpan.Parse(response.Result.Saturday.Substring(12, 5)),
                 SaturdayAfternoonEnd = TimeSpan.Parse(response.Result.Saturday.Substring(18, 5)),
 
-                SundayMorningStar = TimeSpan.Parse(response.Result.Sunday.Substring(0, 5)),
+                SundayMorningStart = TimeSpan.Parse(response.Result.Sunday.Substring(0, 5)),
                 SundayMorningEnd = TimeSpan.Parse(response.Result.Sunday.Substring(6, 5)),
-                SundayAfternoonStar = TimeSpan.Parse(response.Result.Sunday.Substring(12, 5)),
+                SundayAfternoonStart = TimeSpan.Parse(response.Result.Sunday.Substring(12, 5)),
                 SundayAfternoonEnd = TimeSpan.Parse(response.Result.Sunday.Substring(18, 5)),
 
 
@@ -149,6 +149,18 @@ public class  ChipsController : GenericController<Chip>
 
     }
 
+    [HttpPost("full")]
+    public async Task<IActionResult> PostAsync([FromBody] ChipDTO entity)
+    {
+        var response = await _chipUnitOfWork.AddAsync(entity);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest();
+    }
     [HttpPut("full")]
     public async Task<IActionResult> PustAsync([FromBody] ChipDTO model)
     {
@@ -162,18 +174,6 @@ public class  ChipsController : GenericController<Chip>
         return BadRequest(action.Message);
     }
 
-    [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] ChipDTO entity)
-    {
-        var response = await _chipUnitOfWork.AddAsync(entity);
-
-        if (response.WasSuccess)
-        {
-            return Ok(response.Result);
-        }
-
-        return BadRequest();
-    }
 
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)

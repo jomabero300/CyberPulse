@@ -2,6 +2,7 @@
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Chipp;
 
@@ -13,6 +14,8 @@ public class ChipProgramUnitOfWork : GenericUnitOfWork<ChipProgram>, IChipProgra
     {
         _chipProgramRepository = chipProgramRepository;
     }
+
+    public async Task<ActionResponse<ChipProgram>> GetAsync(string code)=>await _chipProgramRepository.GetAsync(code);
 
     public async Task<IEnumerable<ChipProgram>> GetComboAsync() => await _chipProgramRepository.GetComboAsync();
 }

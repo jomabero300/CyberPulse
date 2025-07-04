@@ -1,0 +1,63 @@
+﻿@if (loading)
+{
+    <Loading />
+}
+else
+{
+	<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+	<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+		<MudGrid>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["Instructor"]"
+							  @bind-Value="@chipCoordinator.Identificacion"
+							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  For="@(() => chipCoordinator.Identificacion)"
+							  onblur="@(() => SearchInstructor())" />
+
+			</MudItem>
+			<MudItem xs="12" sm="10">
+				<MudTextField @bind-Value="chipCoordinator.InstructorName" Label="@Localizer["Instructor"]" ReadOnly="true" Variant="Variant.Filled" />
+			</MudItem>
+		</MudGrid>
+		<MudGrid>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["ChipProgram"]"
+							  @bind-Value="@chipCoordinator.Code"
+							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  For="@(() => chipCoordinator.Code)"
+							  onblur="@(() => SearchProgram())" />
+
+			</MudItem>
+			<MudItem xs="12" sm="10">
+				<MudTextField @bind-Value="chipCoordinator.ChipProgramName" Label="@Localizer["ChipProgram"]" ReadOnly="true" Variant="Variant.Filled" />
+			</MudItem>
+		</MudGrid>
+
+		<MudGrid>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["ChipNo"]"
+							  @bind-Value="@chipCoordinator.ChipNo"
+							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  For="@(() => chipCoordinator.ChipNo)"/>
+
+			</MudItem>
+		</MudGrid>
+
+		<MudDivider DividerType="DividerType.Inset" />
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.ArrowBack"
+				   Color="Color.Info"
+				   OnClick="ReturnAction">
+			@Localizer["Return"]
+		</MudButton>
+
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.Check"
+				   Color="Color.Primary"
+				   ButtonType="ButtonType.Submit">
+			@Localizer["SaveChanges"]
+		</MudButton>
+
+	</EditForm>
+}

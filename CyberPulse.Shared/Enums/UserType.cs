@@ -3,6 +3,7 @@
 public enum UserType
 {
     Admin,
+    coor,
     inst,
     User
 }

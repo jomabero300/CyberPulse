@@ -1,8 +1,11 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
+using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
+using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,6 +139,27 @@ public class UserRepository : IUserRepository
 
         return await _userManager.UpdateAsync(user);
     }
+
+    public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)
+    {
+        var entity = await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType==userType).FirstOrDefaultAsync();
+
+        if (entity == null)
+        {
+            return new ActionResponse<User>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<User>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
+
     private async Task<string?> UploadImageAsync(string image, string id)
     {
         string webRootPath = _env.WebRootPath;

@@ -30,7 +30,7 @@ public partial class ChipForm
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
-
+    [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
     private bool desabledCompany = false;
 
     public PatternMask mask1 = new PatternMask("##:##")
@@ -363,24 +363,6 @@ public partial class ChipForm
 
         chipDTO.TypeOfPoblationDTO= responseHttp.Response!;
     }
-
-    //TODO: VOY AQUI
-
-    //private void OnValueChanged(TypeOfPoblationDTO item, int newValue)
-    //{
-    //    // Esta función se llama cuando el valor cambia
-    //    item.Quantity = newValue;
-    //    StateHasChanged();
-    //}
-
-    //private string ValidateValue(int value)
-    //{
-    //    if (value <= 0)
-    //    {
-    //        return "El valor debe ser mayor que cero";
-    //    }
-    //    return "";
-    //}
 
     private void ValidateOnBlur()
     {

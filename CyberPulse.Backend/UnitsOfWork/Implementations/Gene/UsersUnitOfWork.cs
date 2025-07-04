@@ -3,6 +3,7 @@ using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
+using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
@@ -35,6 +36,8 @@ public class UsersUnitOfWork : IUsersUnitOfWork
     public async Task<User> GetUserAsync(Guid userId) => await _userRepository.GetUserAsync(userId);
 
     public async Task<User> GetUserAsync(string email)=>await _userRepository.GetUserAsync(email);
+
+    public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)=>await _userRepository.GetUserAsync(userDocument, userType);
 
     public async Task<bool> IsUserInRoleAsync(User user, string roleName)=>await _userRepository.IsUserInRoleAsync(user, roleName);
 

@@ -2,15 +2,16 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Net;
+using System.Security.Claims;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
-[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin,inst")]
 public partial class ChipsIndex
 {
     private List<Chip>? chips { get; set; }
@@ -27,11 +28,22 @@ public partial class ChipsIndex
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
+    [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+    private ClaimsPrincipal? user;
+    private string? userId;
+
+    private string usuaRole = "";
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
     protected override async Task OnInitializedAsync()
     {
+        // Obtener el estado de autenticación
+
         await LoadTotalRecordsAsync();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
+
     private async Task LoadTotalRecordsAsync()
     {
         loading = true;
@@ -106,7 +118,7 @@ public partial class ChipsIndex
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
         //var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true,FullWidth=true,MaxWidth=MaxWidth.ExtraLarge };
-        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true, BackdropClick=false, FullWidth = true, MaxWidth = MaxWidth.Medium };
+        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true, BackdropClick = false, FullWidth = true, MaxWidth = MaxWidth.Medium };
 
         IDialogReference? dialog;
 
@@ -122,10 +134,21 @@ public partial class ChipsIndex
                 parameters,
                 options);
         }
-        
+
         else
         {
-            dialog = await DialogService.ShowAsync<ChipCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
+            if (user!.IsInRole("coor"))
+            {
+                dialog = await DialogService.ShowAsync<ChipCoordinatorCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
+            }
+            else if (user!.IsInRole("inst"))
+            {
+                dialog = await DialogService.ShowAsync<ChipCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
+            }
+            else
+            {
+                dialog = await DialogService.ShowAsync<ChipCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
+            }
         }
 
         var result = await dialog.Result;

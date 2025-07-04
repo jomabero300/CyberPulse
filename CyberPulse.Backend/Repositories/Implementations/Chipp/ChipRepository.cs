@@ -99,14 +99,17 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     public async Task<ActionResponse<Chip>> AddAsync(ChipDTO entity)
     {
 
-        string monday = HoraCadena(entity.MondayMorningStar, entity.MondayMorningEnd, entity.MondayAfternoonStar, entity.MondayAfternoonEnd);
-        string tuesday = HoraCadena(entity.TuesdayMorningStar, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStar, entity.TuesdayAfternoonEnd);
-        string wednesday = HoraCadena(entity.WednesdayMorningStar, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStar, entity.WednesdayAfternoonEnd);
-        string tursday = HoraCadena(entity.TursdayMorningStar, entity.TursdayMorningEnd, entity.TursdayAfternoonStar, entity.TursdayAfternoonEnd);
-        string friday = HoraCadena(entity.FridayMorningStar, entity.FridayMorningEnd, entity.FridayAfternoonStar, entity.FridayAfternoonEnd);
-        string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
-        string sunday = HoraCadena(entity.SundayMorningStar, entity.SundayMorningEnd, entity.SundayAfternoonStar, entity.SundayAfternoonEnd);
+        string monday = HoraCadena(entity.MondayMorningStart, entity.MondayMorningEnd, entity.MondayAfternoonStart, entity.MondayAfternoonEnd);
+        string tuesday = HoraCadena(entity.TuesdayMorningStart, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStart, entity.TuesdayAfternoonEnd);
+        string wednesday = HoraCadena(entity.WednesdayMorningStart, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStart, entity.WednesdayAfternoonEnd);
+        string tursday = HoraCadena(entity.TursdayMorningStart, entity.TursdayMorningEnd, entity.TursdayAfternoonStart, entity.TursdayAfternoonEnd);
+        string friday = HoraCadena(entity.FridayMorningStart, entity.FridayMorningEnd, entity.FridayAfternoonStart, entity.FridayAfternoonEnd);
+        string saturday = HoraCadena(entity.SaturdayMorningStart, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStart, entity.SaturdayAfternoonEnd);
+        string sunday = HoraCadena(entity.SundayMorningStart, entity.SundayMorningEnd, entity.SundayAfternoonStart, entity.SundayAfternoonEnd);
+        if(entity.UserId== "0000")
+        {
 
+        }
 
         var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
 
@@ -201,13 +204,13 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             };
         }
 
-        string monday = HoraCadena(entity.MondayMorningStar, entity.MondayMorningEnd, entity.MondayAfternoonStar, entity.MondayAfternoonEnd);
-        string tuesday = HoraCadena(entity.TuesdayMorningStar, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStar, entity.TuesdayAfternoonEnd);
-        string wednesday = HoraCadena(entity.WednesdayMorningStar, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStar, entity.WednesdayAfternoonEnd);
-        string tursday = HoraCadena(entity.TursdayMorningStar, entity.TursdayMorningEnd, entity.TursdayAfternoonStar, entity.TursdayAfternoonEnd);
-        string friday = HoraCadena(entity.FridayMorningStar, entity.FridayMorningEnd, entity.FridayAfternoonStar, entity.FridayAfternoonEnd);
-        string saturday = HoraCadena(entity.SaturdayMorningStar, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStar, entity.SaturdayAfternoonEnd);
-        string sunday = HoraCadena(entity.SundayMorningStar, entity.SundayMorningEnd, entity.SundayAfternoonStar, entity.SundayAfternoonEnd);
+        string monday = HoraCadena(entity.MondayMorningStart, entity.MondayMorningEnd, entity.MondayAfternoonStart, entity.MondayAfternoonEnd);
+        string tuesday = HoraCadena(entity.TuesdayMorningStart, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStart, entity.TuesdayAfternoonEnd);
+        string wednesday = HoraCadena(entity.WednesdayMorningStart, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStart, entity.WednesdayAfternoonEnd);
+        string tursday = HoraCadena(entity.TursdayMorningStart, entity.TursdayMorningEnd, entity.TursdayAfternoonStart, entity.TursdayAfternoonEnd);
+        string friday = HoraCadena(entity.FridayMorningStart, entity.FridayMorningEnd, entity.FridayAfternoonStart, entity.FridayAfternoonEnd);
+        string saturday = HoraCadena(entity.SaturdayMorningStart, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStart, entity.SaturdayAfternoonEnd);
+        string sunday = HoraCadena(entity.SundayMorningStart, entity.SundayMorningEnd, entity.SundayAfternoonStart, entity.SundayAfternoonEnd);
 
         chip.Apprentices = entity.Apprentices;
         chip.ChipNo = entity.ChipNo;

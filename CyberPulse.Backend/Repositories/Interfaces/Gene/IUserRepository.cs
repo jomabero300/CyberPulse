@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Entities.Gene;
+﻿using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
@@ -14,6 +15,7 @@ public interface IUserRepository
     Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
     Task<IdentityResult> UpdateUserAsync(User user);
     Task<User> GetUserAsync(Guid userId);
+    Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType);
     Task<IEnumerable<User>> GetAsync(UserType userType);
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
     Task<IdentityResult> ConfirmEmailAsync(User user, string token);

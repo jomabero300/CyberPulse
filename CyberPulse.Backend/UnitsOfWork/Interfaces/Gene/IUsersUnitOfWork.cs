@@ -1,6 +1,7 @@
 ﻿using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
+using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
@@ -12,6 +13,8 @@ public interface IUsersUnitOfWork
     Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
     Task<IdentityResult> UpdateUserAsync(User user);
     Task<User> GetUserAsync(Guid userId);
+    Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType);
+
     Task<IEnumerable<User>> GetAsync(UserType userType);
 
     Task<string> GenerateEmailConfirmationTokenAsync(User user);

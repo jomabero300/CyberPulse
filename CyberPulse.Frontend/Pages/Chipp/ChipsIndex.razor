@@ -39,7 +39,10 @@ else
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
             <MudTd Class="text-center" Style="width:185px">
-
+                @if(context.Id==0)
+                {
+                    
+                }
                 <MudTooltip Text="@Localizer["Edit"]">
                     <MudButton Size="Size.Small"
                                Variant="Variant.Filled"

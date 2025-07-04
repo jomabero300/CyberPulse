@@ -20,6 +20,19 @@ public class ChipProgramsController : GenericController<ChipProgram>
         _chipProgramUnitOf = chipProgramUnitOf;
     }
 
+    [HttpGet("Program/{code}")]
+    public async Task<IActionResult> GetAsync(string code)
+    {
+        var response=await _chipProgramUnitOf.GetAsync(code);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest(response.Message);
+    }
+
     [AllowAnonymous]
     [HttpGet("Combo")]
     public async Task<IActionResult> GetComboAsync()
