@@ -35,8 +35,8 @@ public class ChipProgramsController : GenericController<ChipProgram>
 
     [AllowAnonymous]
     [HttpGet("Combo")]
-    public async Task<IActionResult> GetComboAsync()
+    public async Task<IActionResult> GetComboAsync(int id)
     {
-        return Ok(await _chipProgramUnitOf.GetComboAsync());
+        return Ok(await _chipProgramUnitOf.GetComboAsync(id));
     }
 }

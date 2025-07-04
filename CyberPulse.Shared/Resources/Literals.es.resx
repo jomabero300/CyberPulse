@@ -564,4 +564,10 @@
   <data name="AlertDate" xml:space="preserve">
     <value>Fecha Alerta</value>
   </data>
+  <data name="InstructorEmail" xml:space="preserve">
+    <value>La ficha de ha enviado, le llegara un email al instructor para notificarle</value>
+  </data>
+  <data name="StartDateNull" xml:space="preserve">
+    <value>Debe ingresar una fecha inicial</value>
+  </data>
 </root>

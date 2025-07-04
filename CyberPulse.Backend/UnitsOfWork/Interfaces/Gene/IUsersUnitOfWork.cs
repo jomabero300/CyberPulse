@@ -16,6 +16,7 @@ public interface IUsersUnitOfWork
     Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType);
 
     Task<IEnumerable<User>> GetAsync(UserType userType);
+    Task<IEnumerable<User>> GetAsync(string id);
 
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
     Task<IdentityResult> ConfirmEmailAsync(User user, string token);

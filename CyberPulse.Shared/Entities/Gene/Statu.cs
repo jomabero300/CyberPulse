@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,4 +19,5 @@ public class Statu
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [Range(0, int.MaxValue, ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Nivel { get; set; }
+    public ICollection<Chip>? Chips { get; set; } 
 }

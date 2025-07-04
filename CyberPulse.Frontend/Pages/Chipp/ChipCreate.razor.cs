@@ -23,8 +23,7 @@ public partial class ChipCreate
 
         if (chipDTO!.ChipProgramId == 0)
         {
-
-            menssaje="SelectAChipProgram";            
+            menssaje="SelectAChipProgram";
         }
         else if(string.IsNullOrWhiteSpace(chipDTO.InstructorId))
         {

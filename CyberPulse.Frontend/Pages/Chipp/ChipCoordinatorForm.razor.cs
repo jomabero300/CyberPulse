@@ -29,6 +29,7 @@ public partial class ChipCoordinatorForm
     public bool FormPostedSuccessfully { get; set; } = false;
     private bool DisabledTypeOfTraining = true;
     private bool loading;
+    private DateTime minDate = DateTime.Today.AddDays(-5);
     protected override void OnInitialized()
     {
         editContext = new(chipCoordinator);

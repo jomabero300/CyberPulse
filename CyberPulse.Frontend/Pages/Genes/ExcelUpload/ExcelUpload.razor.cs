@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace CyberPulse.Frontend.Pages.Genes.ExcelUpload;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admi")]
 public partial class ExcelUpload
 {
     private UploadModel uploadModel = new();

@@ -1,6 +1,8 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,6 +33,8 @@ public partial class ChipsIndex
     [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
     private ClaimsPrincipal? user;
     private string? userId;
+    private string? userRollId;
+    private int indEsta=0;
 
     private string usuaRole = "";
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
@@ -42,6 +46,13 @@ public partial class ChipsIndex
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
         userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
+        if (userRollId != null)
+        {
+            if(userRollId=="Coor")indEsta =1;
+            if(userRollId=="Inst")indEsta =2;
+            if(userRollId=="Admi")indEsta =3;
+        }
     }
 
     private async Task LoadTotalRecordsAsync()
@@ -75,7 +86,7 @@ public partial class ChipsIndex
 
         int pageSize = state.PageSize;
 
-        var url = $"{baseUrl}/paginated/?page={page}&recordsnumber={pageSize}";
+        var url = $"{baseUrl}/paginated/?page={page}&recordsnumber={pageSize}&Email={user!.Identity!.Name}&otro={userRollId}";
 
         if (!string.IsNullOrWhiteSpace(Filter))
         {
@@ -129,19 +140,31 @@ public partial class ChipsIndex
             {
                 { "Id", id }
             };
-            dialog = await DialogService.ShowAsync<ChipEdit>(
+
+            if (user!.IsInRole(UserType.Coor.ToString()))
+            {
+                dialog = await DialogService.ShowAsync<ChipCoordinatorEdit>(
                 $"{Localizer["Edit"]} {Localizer["Chip"]}",
                 parameters,
                 options);
+            }
+            else
+            {
+                dialog = await DialogService.ShowAsync<ChipEdit>(
+                $"{Localizer["Edit"]} {Localizer["Chip"]}",
+                parameters,
+                options);
+
+            }
         }
 
         else
         {
-            if (user!.IsInRole("coor"))
+            if (user!.IsInRole(UserType.Coor.ToString()))
             {
                 dialog = await DialogService.ShowAsync<ChipCoordinatorCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
             }
-            else if (user!.IsInRole("inst"))
+            else if (user!.IsInRole(UserType.Inst.ToString()))
             {
                 dialog = await DialogService.ShowAsync<ChipCreate>($"{Localizer["New"]} {Localizer["Chip"]}", options);
             }
@@ -160,6 +183,34 @@ public partial class ChipsIndex
             await table.ReloadServerData();
         }
     }
+    private async Task ShowModalOpAsync(int id = 0)
+    {
+        //buscar 
+        bool lb = false;
+
+        var responseHttp2 = await repository.GetAsync<ChipCoordinator>($"api/chips/full?id={id}&indEsta={lb}");
+
+        var chipCoordinator = responseHttp2.Response;
+
+        chipCoordinator.Code = "E";
+        chipCoordinator.StatuId = 7;
+
+        var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
+
+        if (responseHttp.Error)
+        {
+            var messageError = await responseHttp.GetErrorMessageAsync();
+
+            Snackbar.Add(Localizer[messageError!], Severity.Error);
+            return;
+        }
+
+
+        Snackbar.Add(Localizer["InstructorEmail"], Severity.Success);
+        await table.ReloadServerData();
+    }
+    
+
     private async Task DeleteAsync(Chip entity)
     {
         var parameters = new DialogParameters
@@ -201,4 +252,5 @@ public partial class ChipsIndex
 
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
     }
+
 }

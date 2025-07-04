@@ -142,7 +142,9 @@ public class UserRepository : IUserRepository
 
     public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)
     {
-        var entity = await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType==userType).FirstOrDefaultAsync();
+        var entity = userDocument.Length<15? 
+            await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType==userType).FirstOrDefaultAsync():
+            await _context.Users.Where(x => x.Id == userDocument && x.UserType==userType).FirstOrDefaultAsync();
 
         if (entity == null)
         {
@@ -194,5 +196,13 @@ public class UserRepository : IUserRepository
         }
 
         return $"{directoryFolder}{pathImage}";
+    }
+
+    public async Task<IEnumerable<User>> GetAsync(string id)
+    {
+        var resul = await _context.Users.Where(x => x.Id == id).OrderBy(x => x.FirstName).ToListAsync();
+
+        return resul;
+
     }
 }

@@ -628,6 +628,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The form has been sent, an email will be sent to the instructor to notify him/her..
+        /// </summary>
+        public static string InstructorEmail {
+            get {
+                return ResourceManager.GetString("InstructorEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Justification.
         /// </summary>
         public static string Justification {
@@ -1155,6 +1164,15 @@ namespace CyberPulse.Shared.Resources {
         public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter a start date.
+        /// </summary>
+        public static string StartDateNull {
+            get {
+                return ResourceManager.GetString("StartDateNull", resourceCulture);
             }
         }
         

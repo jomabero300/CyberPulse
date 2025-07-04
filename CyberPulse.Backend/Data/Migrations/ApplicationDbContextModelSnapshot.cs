@@ -31,6 +31,9 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AlertDate")
+                        .HasColumnType("datetime");
+
                     b.Property<int>("Apprentices")
                         .HasColumnType("int");
 
@@ -78,6 +81,12 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(23)
                         .HasColumnType("varchar(23)");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Sunday")
                         .IsRequired()
                         .HasMaxLength(23)
@@ -116,6 +125,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("InstructorId");
 
                     b.HasIndex("NeighborhoodId");
+
+                    b.HasIndex("StatuId");
 
                     b.HasIndex("TrainingProgramId");
 
@@ -478,9 +489,12 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("varchar(80)");
 
+                    b.Property<int>("Nivel")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Name", "Nivel")
                         .IsUnique();
 
                     b.ToTable("Status", "Gene");
@@ -730,6 +744,12 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany("Chips")
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CyberPulse.Shared.Entities.Chipp.TrainingProgram", "TrainingProgram")
                         .WithMany("Chip")
                         .HasForeignKey("TrainingProgramId")
@@ -753,6 +773,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("Instructor");
 
                     b.Navigation("Neighborhood");
+
+                    b.Navigation("Statu");
 
                     b.Navigation("TrainingProgram");
 
@@ -950,6 +972,11 @@ namespace CyberPulse.Backend.Data.Migrations
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.State", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Statu", b =>
+                {
+                    b.Navigation("Chips");
                 });
 #pragma warning restore 612, 618
         }

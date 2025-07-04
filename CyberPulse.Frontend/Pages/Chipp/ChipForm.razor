@@ -19,6 +19,7 @@ else
 								 AdornmentColor="Color.Primary"
 								 Value="selectedChipProgram"
 								 ValueChanged="ChipProgramChanged"
+								 Disabled="@desabledCompany"
 								 ToStringFunc="@(e=> e==null?null : $"{e.Code} {e.Designation}")">
 					<ItemTemplate Context="itemContext">
 						@itemContext.Code @itemContext.Designation
@@ -30,6 +31,7 @@ else
 					<MudItem xs="12" sm="4">
 						<MudTextField Label="@Localizer["ChipNo"]"
 									  @bind-Value="@chipDTO.ChipNo"
+									  Disabled="@desabledCompany"
 									  For="@(() => chipDTO.ChipNo)" />
 
 					</MudItem>
@@ -58,6 +60,7 @@ else
 									 ValueChanged="InstructorChanged"
 									 ToStringFunc="@(e=> e==null?null : $"{e.FirstName} {e.LastName}")"
 									 AdornmentIcon="@Icons.Material.Filled.People"
+									 Disabled="@desabledCompany"
 									 Adornment="Adornment.End">
 						<ItemTemplate Context="itemContext">
 							@itemContext.DocumentId @itemContext.FirstName @itemContext.LastName
@@ -130,7 +133,6 @@ else
 										  Adornment="Adornment.End"
 										  AdornmentIcon="@Icons.Material.Filled.BusinessCenter"
 										  For="@(() => chipDTO.Company)"
-										  Disabled="@desabledCompany"
 										  class="mb-3" />
 						</MudItem>
 				</MudGrid>

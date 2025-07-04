@@ -16,6 +16,7 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
     {
         _context = context;
     }
+
     public override async Task<ActionResponse<IEnumerable<Statu>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = _context.Status.AsQueryable();
@@ -36,6 +37,26 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
             Result = resul,
         };
 
+    }
+
+    public async Task<ActionResponse<Statu>> GetAsync(string name, int nivel)
+    {
+        var response=await _context.Status.Where(x=>x.Name.ToLower()==name.ToLower() && x.Nivel==nivel).FirstOrDefaultAsync();
+        
+        if(response==null)
+        {
+            return new ActionResponse<Statu>
+            {
+                WasSuccess = false,
+                Message = "ERR001",
+            };
+        }
+
+        return new ActionResponse<Statu>
+        {
+            WasSuccess=true,
+            Result=response,
+        };
     }
 
     //public override async Task<ActionResponse<Statu>> AddAsync(Statu entity)

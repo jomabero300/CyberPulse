@@ -129,7 +129,15 @@ public class AccountsController : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpGet("LoadUser/{id}")]
+    public async Task<IActionResult> GetAsync(string id)
+    {
+        var result = await _usersUnitOfWork.GetAsync(id);
 
+        return Ok(result);
+
+    }
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("Instructor")]
     public async Task<IActionResult> GetAsync(string id, UserType userType)

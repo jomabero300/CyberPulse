@@ -33,6 +33,19 @@ public class StatusController : GenericController<Statu>
         return BadRequest();
     }
 
+    [HttpGet("full")]
+    public async Task<IActionResult> GetAsync(string name,int nivel)
+    {
+        var response = await _statuUnitOfWork.GetAsync(name,nivel);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest(response.Message);
+    }
+
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {

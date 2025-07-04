@@ -47,7 +47,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Neighborhood>().HasIndex(x => new {x.CityId, x.Name }).IsUnique();
         builder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
-        builder.Entity<Statu>().HasIndex(x => x.Name).IsUnique();
+        builder.Entity<Statu>().HasIndex(x => new {x.Name,x.Nivel }).IsUnique();
         DisableCascadingDelete(builder);
 
     }

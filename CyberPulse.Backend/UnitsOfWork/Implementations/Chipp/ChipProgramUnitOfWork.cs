@@ -17,5 +17,5 @@ public class ChipProgramUnitOfWork : GenericUnitOfWork<ChipProgram>, IChipProgra
 
     public async Task<ActionResponse<ChipProgram>> GetAsync(string code)=>await _chipProgramRepository.GetAsync(code);
 
-    public async Task<IEnumerable<ChipProgram>> GetComboAsync() => await _chipProgramRepository.GetComboAsync();
+    public async Task<IEnumerable<ChipProgram>> GetComboAsync(int id) => await _chipProgramRepository.GetComboAsync(id);
 }

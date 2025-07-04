@@ -7,6 +7,6 @@ public interface IChipProgramRepository
 {
     Task<ActionResponse<ChipProgram>> GetAsync(string code);
 
-    Task<IEnumerable<ChipProgram>> GetComboAsync();
+    Task<IEnumerable<ChipProgram>> GetComboAsync(int id);
 
 }

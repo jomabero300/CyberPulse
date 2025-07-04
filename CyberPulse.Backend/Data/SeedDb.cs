@@ -27,10 +27,10 @@ public class SeedDb
         await CheckChipAsync();
 
         await CheckRolesAsync();
-        await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admin,"17588236");
-        await CheckUserAsync("Angelina", "Jolie", "angelina@gmail.com", "3133678526", UserType.coor,"1116852147");
-        await CheckUserAsync("Freddie", "Mercury", "fredie@gmail.com", "3134568271", UserType.inst, "1164852796");
-        await CheckUserAsync("Brad", "Pitt", "brad@gmail.com", "3129167854", UserType.User, "1029400672");
+        await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admi,"17588236");
+        await CheckUserAsync("Angelina", "Jolie", "angelina@yopmail.com", "3133678526", UserType.Coor,"1116852147");
+        await CheckUserAsync("Freddie", "Mercury", "fredie@yopmail.com", "3134568271", UserType.Inst, "1164852796");
+        await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
     }
 
     private async Task CheckStatusAsync()
@@ -46,7 +46,7 @@ public class SeedDb
 
             _context.Status.Add(new Statu { Name = "Creada", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Enviada", Nivel = 1 });
-            _context.Status.Add(new Statu { Name = "Programada", Nivel = 1 });
+            _context.Status.Add(new Statu { Name = "Programando", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Revisión", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Rechazada", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Ejecución", Nivel = 1 });
@@ -57,9 +57,9 @@ public class SeedDb
 
     private async Task CheckRolesAsync()
     {
-        await _usersUnitOf.CheckRoleAsync(UserType.Admin.ToString());
-        await _usersUnitOf.CheckRoleAsync(UserType.coor.ToString());
-        await _usersUnitOf.CheckRoleAsync(UserType.inst.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.Admi.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.Coor.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.Inst.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.User.ToString());
     }
 

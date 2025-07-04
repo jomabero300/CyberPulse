@@ -1,3 +1,4 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
@@ -27,7 +28,7 @@ public partial class ChipCoordinatorCreate
         chipDTO.ChipNo =chipCoordinator.ChipNo ?? "0000";
         chipDTO.ChipProgramId = chipCoordinator.ChipProgramId;
         chipDTO.InstructorId = chipCoordinator.InstructorId;
-        chipDTO.StartDate= DateTime.Parse("1999/01/01");
+        chipDTO.StartDate= chipCoordinator.StartDate??DateTime.Now;
         chipDTO.EndDate= DateTime.Parse("1999/01/01");
         chipDTO.AlertDate= DateTime.Parse("1999/01/01");
         chipDTO.NeighborhoodId = 81001000;
@@ -71,8 +72,8 @@ public partial class ChipCoordinatorCreate
         chipDTO.SundayAfternoonEnd = TimeSpan.Zero;
         chipDTO.SundayAfternoonStart=TimeSpan.Zero;
         chipDTO.UserId = await UserSearchAsync();
+        chipDTO.StatuId = await SearchIndEstaAsync("Creada",1);
         chipDTO.TypeOfPoblationDTO = new List<TypeOfPoblationDTO>();
-        //TODO: VOY AQUI
 
         var responseHttp = await Repository.PostAsync("/api/chips/full", chipDTO);
 
@@ -92,6 +93,17 @@ public partial class ChipCoordinatorCreate
     private async Task<string> UserSearchAsync()
     {
         var responseHttp = await Repository.GetAsync<User>("/api/accounts");
+
+        return responseHttp.Response!.Id;
+    }
+    private async Task<int> SearchIndEstaAsync(string name, int nivel)
+    {
+        var responseHttp = await repository.GetAsync<Statu>($"/api/status/full?name={name}&nivel={nivel}");
+
+        if (responseHttp.Error)
+        {
+            return 0;
+        }
 
         return responseHttp.Response!.Id;
     }

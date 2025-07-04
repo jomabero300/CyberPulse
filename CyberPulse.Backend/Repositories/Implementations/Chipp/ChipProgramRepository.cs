@@ -37,9 +37,11 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
         };
     }
 
-    public async Task<IEnumerable<ChipProgram>> GetComboAsync()
+    public async Task<IEnumerable<ChipProgram>> GetComboAsync(int id)
     {
-        return await _context.ChipPrograms
-            .OrderBy(x => x.Code).ToListAsync();
+        return id == 0 ? await _context.ChipPrograms
+            .OrderBy(x => x.Code).ToListAsync():
+            await _context.ChipPrograms
+            .Where(x=>x.Id==id).ToListAsync();
     }
 }

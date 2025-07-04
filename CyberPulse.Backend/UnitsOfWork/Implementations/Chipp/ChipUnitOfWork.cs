@@ -29,4 +29,6 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _chipRepository.GetTotalRecordsAsync(pagination); 
 
     public async Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)=>await _chipRepository.UpdateAsync(entity);
+
+    public async Task<ActionResponse<Chip>> UpdateAsync(ChipCoordinator entity) => await _chipRepository.UpdateAsync(entity);
 }

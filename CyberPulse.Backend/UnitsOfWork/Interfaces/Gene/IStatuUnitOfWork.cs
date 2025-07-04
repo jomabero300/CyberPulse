@@ -7,7 +7,7 @@ namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 public interface IStatuUnitOfWork
 {
     Task<ActionResponse<Statu>> GetAsync(int id);
-
+    Task<ActionResponse<Statu>> GetAsync(string name, int nivel);
     Task<ActionResponse<IEnumerable<Statu>>> GetAsync();
 
     Task<ActionResponse<Statu>> DeleteAsync(int id);

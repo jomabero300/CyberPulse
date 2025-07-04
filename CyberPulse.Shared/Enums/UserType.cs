@@ -2,8 +2,8 @@
 
 public enum UserType
 {
-    Admin,
-    coor,
-    inst,
+    Admi,
+    Coor,
+    Inst,
     User
 }

@@ -14,6 +14,7 @@ public interface IChipRepository
     Task<ActionResponse<Chip>> AddAsync(ChipDTO entity);
 
     Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity);
+    Task<ActionResponse<Chip>> UpdateAsync(ChipCoordinator entity);
 
     Task<ActionResponse<Chip>> DeleteAsync(int id);
 

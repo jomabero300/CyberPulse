@@ -10,7 +10,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Genes.Status;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admi")]
 public partial class StatuIndex
 {
     private List<Statu>? status { get; set; }

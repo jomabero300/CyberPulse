@@ -37,9 +37,19 @@ public class Chip
     public string InstructorId { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
+    [Display(Name = "StartDate", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public DateTime StartDate { get; set; }
+
+    [Column(TypeName = "datetime")]
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public DateTime EndDate { get; set; }
+
+    [Column(TypeName = "datetime")]
+    [Display(Name = "AlertDate", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public DateTime AlertDate { get; set; }
 
     [Display(Name = "Neighborhood", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
@@ -65,8 +75,6 @@ public class Chip
     [MaxLength(500, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Justification { get; set; }=null!;
-
-
 
 
     
@@ -124,8 +132,6 @@ public class Chip
     public Neighborhood Neighborhood { get; set; } = null!;
     public TypeOfTraining TypeOfTraining { get; set; } = null!;
     public TrainingProgram? TrainingProgram { get; set; }
-
     public Statu Statu { get; set; } = null!;
-
     public ICollection<ChipPoblation>? ChipPoblations { get; set; }
 }

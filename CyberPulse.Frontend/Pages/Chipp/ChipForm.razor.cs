@@ -6,14 +6,13 @@ using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using MudBlazor;
-using static MudBlazor.Colors;
+using System.Security.Claims;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
@@ -37,6 +36,13 @@ public partial class ChipForm
     {
         MaskChars = new[] { new MaskChar('#', @"[0-9]") }
     };
+
+    [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+    private ClaimsPrincipal? user;
+    private string? userId;
+    private string? userRollId;
+    private int indEsta = 0;
+
 
     private ChipProgram selectedChipProgram = new();
     private List<ChipProgram>? chipPrograms;
@@ -66,8 +72,28 @@ public partial class ChipForm
     protected override async Task OnInitializedAsync()
     {
         loading = true;
-        await LoadChipProgramAsync();
-        await LoadInstructorsync();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
+        if (userRollId != null)
+        {
+            if (userRollId == "Coor") indEsta = 1;
+            if (userRollId == "Inst") indEsta = 2;
+            if (userRollId == "Admi") indEsta = 3;
+        }
+        if (userRollId == "Inst")
+        {
+            await LoadChipProgramAsync(chipDTO.ChipProgramId);
+            await LoadInstructorsync(chipDTO.InstructorId);
+            desabledCompany=true;
+        }
+        else
+        {
+            await LoadChipProgramAsync();
+            await LoadInstructorsync();
+        }
         await LoadCityAsync();
         await LoadTrainingProgramAsync();
         await LoadTypeOfTrainingAsync();
@@ -95,11 +121,12 @@ public partial class ChipForm
         {
             await LoadTypeOfPoblationAsync();
             chipDTO.UserId = "XXYY";
+            chipDTO.StatuId = await SearchIndEstaAsync("Creada", 1);
         }
 
         loading = false;
     }
-    
+
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
         var formwasEditad = editContext.IsModified();
@@ -127,9 +154,9 @@ public partial class ChipForm
         context.PreventNavigation();
     }
 
-    private async Task LoadChipProgramAsync()
+    private async Task LoadChipProgramAsync(int id=0)
     {
-        var responseHttp = await repository.GetAsync<List<ChipProgram>>("/api/chipprograms/combo");
+        var responseHttp = await repository.GetAsync<List<ChipProgram>>($"/api/chipprograms/combo?id={id}");
 
         if (responseHttp.Error)
         {
@@ -157,18 +184,20 @@ public partial class ChipForm
         selectedChipProgram = entity;
         chipDTO.ChipProgramId = entity.Id;
         chipDTO.WingMeasure = entity.WingMeasure;
-        desabledCompany = entity.WingMeasure;
+        //desabledCompany = entity.WingMeasure;
         chipDTO.Company = "";
         chipDTO.StartDate = entity.StartDate;
         chipDTO.Duration = entity.Duration;
     }
 
 
-    private async Task LoadInstructorsync()
+    private async Task LoadInstructorsync(string id="")
     {
-        var userType = UserType.inst;
+        var userType = UserType.Inst;
 
-        var responseHttp = await repository.GetAsync<List<User>>($"/api/accounts/LoadUsers/{userType}");
+        var responseHttp = string.IsNullOrWhiteSpace(id)? 
+            await repository.GetAsync<List<User>>($"/api/accounts/LoadUsers/{userType}"):
+            await repository.GetAsync<List<User>>($"/api/accounts/LoadUser/{id}");
 
         if (responseHttp.Error)
         {
@@ -361,7 +390,20 @@ public partial class ChipForm
             return;
         }
 
-        chipDTO.TypeOfPoblationDTO= responseHttp.Response!;
+        chipDTO.TypeOfPoblationDTO = responseHttp.Response!;
+    }
+    private async Task<int> SearchIndEstaAsync(string name, int nivel)
+    {
+        var responseHttp = await repository.GetAsync<Statu>($"/api/status/full?name={name}&nivel={nivel}");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return 0;
+        }
+
+        return responseHttp.Response!.Id;
     }
 
     private void ValidateOnBlur()
@@ -466,9 +508,5 @@ public partial class ChipForm
         StateHasChanged();
     }
 
-    private void Reset()
-    {
-        StateHasChanged();
-    }
 
 }

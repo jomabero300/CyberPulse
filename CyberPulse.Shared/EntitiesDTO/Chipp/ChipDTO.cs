@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.Resources;
 using CyberPulse.Shared.Validations;
 using System.ComponentModel.DataAnnotations;
 
@@ -73,8 +74,8 @@ public class ChipDTO
 
 
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     //[DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayMorningStart { get; set; }
 
@@ -82,8 +83,8 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayMorningEnd { get; set; }
 
+//    [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
     [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
-    [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayAfternoonStart { get; set; }
 
@@ -103,11 +104,11 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TuesdayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TuesdayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(TuesdayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(TuesdayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TuesdayAfternoonEnd { get; set; }
     public TimeSpan TuesdayTotalHoras =>
@@ -123,11 +124,11 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan WednesdayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan WednesdayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(WednesdayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(WednesdayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan WednesdayAfternoonEnd { get; set; }
     public TimeSpan WednesdayTotalHoras =>
@@ -143,11 +144,11 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TursdayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TursdayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(TursdayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(TursdayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan TursdayAfternoonEnd { get; set; }
     public TimeSpan TursdayTotalHoras =>
@@ -164,11 +165,11 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan FridayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan FridayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(FridayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(FridayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan FridayAfternoonEnd { get; set; }
     public TimeSpan FridayTotalVertas { get; set; }
@@ -185,11 +186,11 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SaturdayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SaturdayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(SaturdayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(SaturdayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SaturdayAfternoonEnd { get; set; }
     public TimeSpan SaturdayTotalHoras =>
@@ -206,16 +207,19 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SundayMorningEnd { get; set; }
 
-    [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
+    [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SundayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(SundayAfternoonStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(SundayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SundayAfternoonEnd { get; set; }
     public TimeSpan SundayTotalHoras => 
         (SundayMorningStart>TimeSpan.Zero &&  SundayMorningEnd> SundayMorningStart? SundayMorningEnd-SundayMorningStart: TimeSpan.Zero)+
         (SundayAfternoonStart>TimeSpan.Zero &&  SundayAfternoonEnd> SundayAfternoonStart? SundayAfternoonEnd-SundayAfternoonStart:TimeSpan.Zero);
 
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int StatuId { get; set; }
     public List<TypeOfPoblationDTO> TypeOfPoblationDTO { get; set; } = null!;
+
 }

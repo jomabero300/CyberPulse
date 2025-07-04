@@ -2,13 +2,13 @@
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.Home">@Localizer["Home"]</MudNavLink>
     <MudDivider />
 
-    <AuthorizeView Roles="inst,coor">
+    <AuthorizeView Roles="Inst,Coor">
         <Authorized>
             <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
             <MudDivider />
         </Authorized>
     </AuthorizeView>
-    <AuthorizeView Roles="Admin">
+    <AuthorizeView Roles="Admi">
         <Authorized>
             <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
             <MudDivider />

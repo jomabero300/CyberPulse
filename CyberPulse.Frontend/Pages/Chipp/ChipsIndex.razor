@@ -32,35 +32,79 @@ else
             <MudTh>@Localizer["ChipNo"]</MudTh>
             <MudTh>@Localizer["ChipProgram"]</MudTh>
             <MudTh>@Localizer["Apprentices"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd Style="width:100px">@context.ChipNo</MudTd>
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
-            <MudTd Class="text-center" Style="width:185px">
-                @if(context.Id==0)
+            <MudTd Class="text-center"  Style="width:125px">@context.Statu.Name</MudTd>
+            <MudTd Class="text-center" Style="width:250px">
+
+                @if(indEsta==1) @* Coordinador *@
+                {
+                    @if(context.Statu.Name=="Creada")
+                    {
+                        <MudTooltip Text="@Localizer["Send"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       OnClick="@(() => ShowModalOpAsync(context.Id))">
+                                <MudIcon Icon="@Icons.Material.Filled.Send" />
+                            </MudButton>
+                        </MudTooltip>
+                        <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Warning"
+                                       OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                    
+                        <MudTooltip Text="@Localizer["Delete"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Error"
+                                       OnClick="@(() => DeleteAsync(@context))">
+                                <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                            </MudButton>
+                        </MudTooltip>
+                    }
+                    
+                }
+                else @if(indEsta==2) @* instrucotr *@
+                {
+                        <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Warning"
+                                       OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                }
+@*                 else @if(context.Statu.Name=="Enviada")
                 {
                     
                 }
-                <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Size="Size.Small"
-                               Variant="Variant.Filled"
-                               Color="Color.Warning"
-                               OnClick="@(() => ShowModalAsync(context.Id, true))">
-                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
-                    </MudButton>
-                </MudTooltip>
-
-                <MudTooltip Text="@Localizer["Delete"]">
-                    <MudButton Size="Size.Small"
-                               Variant="Variant.Filled"
-                               Color="Color.Error"
-                               OnClick="@(() => DeleteAsync(@context))">
-                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
-                    </MudButton>
-                </MudTooltip>
-
+                else @if(context.Statu.Name=="Programando")
+                {
+                    
+                }
+                else @if(context.Statu.Name=="Revisión")
+                {
+                    
+                }
+                else @if(context.Statu.Name=="Rechazada")
+                {
+                    
+                }
+                else @if(context.Statu.Name=="Ejecución")
+                {
+                    
+                } *@
 
             </MudTd>
         </RowTemplate>

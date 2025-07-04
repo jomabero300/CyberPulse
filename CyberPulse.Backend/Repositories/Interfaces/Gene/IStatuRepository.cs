@@ -7,9 +7,10 @@ namespace CyberPulse.Backend.Repositories.Interfaces.Gene;
 public interface IStatuRepository
 {
     Task<ActionResponse<Statu>> GetAsync(int id);
-
+    Task<ActionResponse<Statu>> GetAsync(string name,int nivel);
     Task<ActionResponse<IEnumerable<Statu>>> GetAsync();
-    //Task<ActionResponse<Statu>> AddAsync(Statu entity);
+
+    Task<ActionResponse<Statu>> AddAsync(Statu entity);
 
     Task<ActionResponse<Statu>> DeleteAsync(int id);
 

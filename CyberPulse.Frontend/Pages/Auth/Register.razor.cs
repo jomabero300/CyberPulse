@@ -97,7 +97,7 @@ public partial class Register
 
         if (IsAdmin)
         {
-            userDTO.UserType = UserType.Admin;
+            userDTO.UserType = UserType.Admi;
         }
 
         loading = true;

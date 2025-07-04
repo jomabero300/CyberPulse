@@ -33,6 +33,8 @@ public class UsersUnitOfWork : IUsersUnitOfWork
 
     public async Task<IEnumerable<User>> GetAsync(UserType userType)=>await _userRepository.GetAsync(userType);
 
+    public async Task<IEnumerable<User>> GetAsync(string id)=>await _userRepository.GetAsync(id);
+
     public async Task<User> GetUserAsync(Guid userId) => await _userRepository.GetUserAsync(userId);
 
     public async Task<User> GetUserAsync(string email)=>await _userRepository.GetUserAsync(email);

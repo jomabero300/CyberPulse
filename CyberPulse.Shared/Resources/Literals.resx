@@ -544,4 +544,10 @@
   <data name="AlertDate" xml:space="preserve">
     <value>Alert date</value>
   </data>
+  <data name="InstructorEmail" xml:space="preserve">
+    <value>The form has been sent, an email will be sent to the instructor to notify him/her.</value>
+  </data>
+  <data name="StartDateNull" xml:space="preserve">
+    <value>You must enter a start date</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.Xml;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Chipp;
 
@@ -22,6 +23,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         var entity = await _context.Chips
             .Include(x => x.ChipPoblations)
             .Include(x => x.ChipProgram)
+            .Include(x=>x.Statu)
+            .Include(x=>x.User)
             .Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (entity == null)
@@ -75,11 +78,28 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     }
     public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Chips.Include(x => x.ChipProgram).AsQueryable();
+        var queryable =pagination.otro== "Inst"? 
+                            _context.Chips
+                                .Include(x => x.ChipProgram)
+                                .Include(x=>x.Statu)
+                                .Where(x=>x.Instructor.Email==pagination.Email)
+                                .AsQueryable():
+                       pagination.otro == "Coor" ?
+                            _context.Chips
+                                .Include(x => x.ChipProgram)
+                                .Include(x => x.Statu)
+                                .Where(x => x.User.Email == pagination.Email)
+                                .AsQueryable() :
+                            _context.Chips
+                                .Include(x => x.ChipProgram)
+                                .Include(x => x.Statu)
+                                .AsQueryable();
+
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => x.ChipNo.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Statu.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.ChipProgram.Designation.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
@@ -106,10 +126,6 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         string friday = HoraCadena(entity.FridayMorningStart, entity.FridayMorningEnd, entity.FridayAfternoonStart, entity.FridayAfternoonEnd);
         string saturday = HoraCadena(entity.SaturdayMorningStart, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStart, entity.SaturdayAfternoonEnd);
         string sunday = HoraCadena(entity.SundayMorningStart, entity.SundayMorningEnd, entity.SundayAfternoonStart, entity.SundayAfternoonEnd);
-        if(entity.UserId== "0000")
-        {
-
-        }
 
         var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
 
@@ -128,7 +144,9 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             ChipProgramId = entity.ChipProgramId,
             Company = entity.Company,
             InstructorId = entity.InstructorId,
+            StartDate=entity.StartDate,
             EndDate = entity.EndDate,
+            AlertDate= entity.AlertDate,
             NeighborhoodId = entity.NeighborhoodId,
             TrainingProgramId = entity.TrainingProgramId,
             TypeOfTrainingId = entity.TypeOfTrainingId,
@@ -141,6 +159,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Friday = friday,
             Saturday = saturday,
             Sunday = sunday,
+            StatuId=entity.StatuId,
             ChipPoblations = chipPoblations.ToList(),
         };
 
@@ -230,6 +249,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         chip.Friday = friday;
         chip.Saturday = saturday;
         chip.Sunday = sunday;
+        chip.StatuId = entity.StatuId;
 
         var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
 
@@ -317,5 +337,55 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Afternoon = $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
         }
         return $"{Morning}-{Afternoon}";
+    }
+
+    public async Task<ActionResponse<Chip>> UpdateAsync(ChipCoordinator entity)
+    {
+        var chip=await _context.Chips.Where(x=>x.Id==entity.Id).FirstOrDefaultAsync();
+
+        if (chip == null)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+
+        chip.ChipProgramId=entity.ChipProgramId;
+        chip.InstructorId=entity.InstructorId;
+        chip.StatuId = entity.StatuId;
+        chip.StartDate= entity.StartDate??DateTime.UtcNow;
+        chip.ChipNo=entity.ChipNo;
+
+        _context.Update(chip);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = true,
+                Result = chip,
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
     }
 }
