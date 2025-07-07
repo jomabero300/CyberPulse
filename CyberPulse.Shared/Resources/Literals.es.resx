@@ -570,4 +570,16 @@
   <data name="StartDateNull" xml:space="preserve">
     <value>Debe ingresar una fecha inicial</value>
   </data>
+  <data name="UpdateRow" xml:space="preserve">
+    <value>¡Debes actualizar la ficha antes de enviarla!</value>
+  </data>
+  <data name="CoordinatorInfo" xml:space="preserve">
+    <value>La ficha se ha enviado para su validación.</value>
+  </data>
+  <data name="NoProgram" xml:space="preserve">
+    <value>No hay programas para seleccionar</value>
+  </data>
+  <data name="SelectAInstructor" xml:space="preserve">
+    <value>Seleccionar un instructor</value>
+  </data>
 </root>

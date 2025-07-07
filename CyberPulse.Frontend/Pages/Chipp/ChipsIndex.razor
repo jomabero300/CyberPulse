@@ -15,15 +15,18 @@ else
               FixedHeader="true"
               FixedFooter="true">
         <ToolBarContent>
-            <div class="d-flex justify-content-between">
-                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["Chip"]</MudText>
-                <MudButton Variant="Variant.Outlined"
-                           EndIcon="@Icons.Material.Filled.Add"
-                           Color="Color.Info" 
-                           OnClick="@(() => ShowModalAsync())">
-                    @Localizer["New"]
-                </MudButton>
-            </div>
+            @if (indEsta != 2)
+            {
+                <div class="d-flex justify-content-between">
+                    <MudText Typo="Typo.h6" Class="me-4"> @Localizer["Chip"]</MudText>
+                    <MudButton Variant="Variant.Outlined"
+                               EndIcon="@Icons.Material.Filled.Add"
+                               Color="Color.Info" 
+                               OnClick="@(() => ShowModalAsync())">
+                        @Localizer["New"]
+                    </MudButton>
+                </div>
+            }
             <MudSpacer />
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
@@ -40,9 +43,9 @@ else
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Statu.Name</MudTd>
-            <MudTd Class="text-center" Style="width:250px">
+            <MudTd Class="text-center me-2" Style="width:250px">
 
-                @if(indEsta==1) @* Coordinador *@
+                @if(indEsta==1 && context.StatuId<8) @* Coordinador *@
                 {
                     @if(context.Statu.Name=="Creada")
                     {
@@ -54,6 +57,7 @@ else
                                 <MudIcon Icon="@Icons.Material.Filled.Send" />
                             </MudButton>
                         </MudTooltip>
+
                         <MudTooltip Text="@Localizer["Edit"]">
                             <MudButton Size="Size.Small"
                                        Variant="Variant.Filled"
@@ -74,9 +78,17 @@ else
                     }
                     
                 }
-                else @if(indEsta==2) @* instrucotr *@
+                else @if(indEsta==2 && (@context.StatuId==7 || @context.StatuId==8)) @* instrucotr *@
                 {
-                        <MudTooltip Text="@Localizer["Edit"]">
+                    <MudTooltip Text="@Localizer["Send"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@(() => ShowModalOpAsync(context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Send" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["Edit"]">
                             <MudButton Size="Size.Small"
                                        Variant="Variant.Filled"
                                        Color="Color.Warning"
@@ -85,26 +97,22 @@ else
                             </MudButton>
                         </MudTooltip>
                 }
-@*                 else @if(context.Statu.Name=="Enviada")
+                else @if(indEsta==1 && context.StatuId ==9)
                 {
-                    
+                    //ejecutar, rechazar ver informe
+@*                     <MudTooltip Text="@Localizer["Edit"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Warning"
+                                   OnClick="@(() => ShowModalAsync(context.Id, true))">
+                            <MudIcon Icon="@Icons.Material.Filled.AccessibleForward" />
+                        </MudButton>
+                    </MudTooltip>
+ *@                }
+                else @if(context.StatuId==11)
+                {
+                    //reporte
                 }
-                else @if(context.Statu.Name=="Programando")
-                {
-                    
-                }
-                else @if(context.Statu.Name=="Revisión")
-                {
-                    
-                }
-                else @if(context.Statu.Name=="Rechazada")
-                {
-                    
-                }
-                else @if(context.Statu.Name=="Ejecución")
-                {
-                    
-                } *@
 
             </MudTd>
         </RowTemplate>

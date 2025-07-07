@@ -1,4 +1,4 @@
-﻿using CyberPulse.Shared.Entities.Gene;
+﻿using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
 using CyberPulse.Shared.Validations;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ public class ChipDTO
     public int Id { get; set; }
 
     [Display(Name = "Apprentices", ResourceType = typeof(Literals))]
-    [Range(1,int.MaxValue,ErrorMessageResourceName = "ApprenticeRange", ErrorMessageResourceType =typeof(Literals))]
+    [Range(1, int.MaxValue, ErrorMessageResourceName = "ApprenticeRange", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Apprentices { get; set; }
 
@@ -83,7 +83,7 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayMorningEnd { get; set; }
 
-//    [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+    //    [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
     [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan MondayAfternoonStart { get; set; }
@@ -214,12 +214,35 @@ public class ChipDTO
     [ValidareEndTime(nameof(SundayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public TimeSpan SundayAfternoonEnd { get; set; }
-    public TimeSpan SundayTotalHoras => 
-        (SundayMorningStart>TimeSpan.Zero &&  SundayMorningEnd> SundayMorningStart? SundayMorningEnd-SundayMorningStart: TimeSpan.Zero)+
-        (SundayAfternoonStart>TimeSpan.Zero &&  SundayAfternoonEnd> SundayAfternoonStart? SundayAfternoonEnd-SundayAfternoonStart:TimeSpan.Zero);
+    public TimeSpan SundayTotalHoras =>
+        (SundayMorningStart > TimeSpan.Zero && SundayMorningEnd > SundayMorningStart ? SundayMorningEnd - SundayMorningStart : TimeSpan.Zero) +
+        (SundayAfternoonStart > TimeSpan.Zero && SundayAfternoonEnd > SundayAfternoonStart ? SundayAfternoonEnd - SundayAfternoonStart : TimeSpan.Zero);
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
+
+    public bool idEsta { get; set; }
+
     public List<TypeOfPoblationDTO> TypeOfPoblationDTO { get; set; } = null!;
 
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "ChipProgram", ResourceType = typeof(Literals))]
+    public ChipProgramDTO? ChipProgram { get; set; }
+
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    public ChipUserDTO? Instructor { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "City", ResourceType = typeof(Literals))]
+    public CityDTO? City { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
+    public TrainingProgramDTO? TrainingProgram { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
+    public TypeOfTrainingDTO? TypeOfTraining { get; set; }
 }

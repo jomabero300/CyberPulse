@@ -550,4 +550,16 @@
   <data name="StartDateNull" xml:space="preserve">
     <value>You must enter a start date</value>
   </data>
+  <data name="UpdateRow" xml:space="preserve">
+    <value>¡You must update the form before submitting it!</value>
+  </data>
+  <data name="CoordinatorInfo" xml:space="preserve">
+    <value>The form has been sent for validation.</value>
+  </data>
+  <data name="NoProgram" xml:space="preserve">
+    <value>The are no program to select</value>
+  </data>
+  <data name="SelectAInstructor" xml:space="preserve">
+    <value>Select an instructor</value>
+  </data>
 </root>

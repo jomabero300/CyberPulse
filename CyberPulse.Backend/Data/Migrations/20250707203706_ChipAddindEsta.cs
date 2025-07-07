@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyberPulse.Backend.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class chipsUpdate : Migration
+    public partial class ChipAddindEsta : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -308,7 +308,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     Friday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
                     Saturday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
                     Sunday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    StatuId = table.Column<int>(type: "int", nullable: false)
+                    StatuId = table.Column<int>(type: "int", nullable: false),
+                    idEsta = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

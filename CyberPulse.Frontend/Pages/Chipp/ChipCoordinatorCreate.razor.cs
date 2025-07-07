@@ -25,58 +25,90 @@ public partial class ChipCoordinatorCreate
 
     private async Task CreateAsync()
     {
-        chipDTO.ChipNo =chipCoordinator.ChipNo ?? "0000";
+        chipDTO.ChipNo = chipCoordinator.ChipNo ?? "0000";
         chipDTO.ChipProgramId = chipCoordinator.ChipProgramId;
         chipDTO.InstructorId = chipCoordinator.InstructorId;
-        chipDTO.StartDate= chipCoordinator.StartDate??DateTime.Now;
-        chipDTO.EndDate= DateTime.Parse("1999/01/01");
-        chipDTO.AlertDate= DateTime.Parse("1999/01/01");
+        chipDTO.StartDate = chipCoordinator.StartDate ?? DateTime.Now;
+        chipDTO.EndDate = DateTime.Parse("1999/01/01");
+        chipDTO.AlertDate = DateTime.Parse("1999/01/01");
         chipDTO.NeighborhoodId = 81001000;
         chipDTO.TrainingProgramId = 1;
         chipDTO.TypeOfTrainingId = 1;
         chipDTO.Justification = ".";
         chipDTO.Apprentices = 1;
         chipDTO.Company = "";
-        chipDTO.MondayMorningStart=TimeSpan.Zero;
-        chipDTO.MondayMorningEnd=TimeSpan.Zero;
+        chipDTO.MondayMorningStart = TimeSpan.Zero;
+        chipDTO.MondayMorningEnd = TimeSpan.Zero;
         chipDTO.MondayAfternoonEnd = TimeSpan.Zero;
         chipDTO.MondayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.TuesdayMorningStart=TimeSpan.Zero;
-        chipDTO.TuesdayMorningEnd=TimeSpan.Zero;
+        chipDTO.TuesdayMorningStart = TimeSpan.Zero;
+        chipDTO.TuesdayMorningEnd = TimeSpan.Zero;
         chipDTO.TuesdayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.TuesdayAfternoonStart=TimeSpan.Zero;
+        chipDTO.TuesdayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.WednesdayMorningStart=TimeSpan.Zero;
-        chipDTO.WednesdayMorningEnd=TimeSpan.Zero;
+        chipDTO.WednesdayMorningStart = TimeSpan.Zero;
+        chipDTO.WednesdayMorningEnd = TimeSpan.Zero;
         chipDTO.WednesdayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.WednesdayAfternoonStart=TimeSpan.Zero;
+        chipDTO.WednesdayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.TursdayMorningStart=TimeSpan.Zero;
-        chipDTO.TursdayMorningEnd=TimeSpan.Zero;
+        chipDTO.TursdayMorningStart = TimeSpan.Zero;
+        chipDTO.TursdayMorningEnd = TimeSpan.Zero;
         chipDTO.TursdayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.TursdayAfternoonStart=TimeSpan.Zero;
+        chipDTO.TursdayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.FridayMorningStart=TimeSpan.Zero;
-        chipDTO.FridayMorningEnd=TimeSpan.Zero;
+        chipDTO.FridayMorningStart = TimeSpan.Zero;
+        chipDTO.FridayMorningEnd = TimeSpan.Zero;
         chipDTO.FridayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.FridayAfternoonStart=TimeSpan.Zero;
+        chipDTO.FridayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.SaturdayMorningStart=TimeSpan.Zero;
-        chipDTO.SaturdayMorningEnd=TimeSpan.Zero;
+        chipDTO.SaturdayMorningStart = TimeSpan.Zero;
+        chipDTO.SaturdayMorningEnd = TimeSpan.Zero;
         chipDTO.SaturdayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.SaturdayAfternoonStart=TimeSpan.Zero;
+        chipDTO.SaturdayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.SundayMorningStart=TimeSpan.Zero;
-        chipDTO.SundayMorningEnd=TimeSpan.Zero;
+        chipDTO.SundayMorningStart = TimeSpan.Zero;
+        chipDTO.SundayMorningEnd = TimeSpan.Zero;
         chipDTO.SundayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.SundayAfternoonStart=TimeSpan.Zero;
+        chipDTO.SundayAfternoonStart = TimeSpan.Zero;
         chipDTO.UserId = await UserSearchAsync();
-        chipDTO.StatuId = await SearchIndEstaAsync("Creada",1);
-        chipDTO.TypeOfPoblationDTO = new List<TypeOfPoblationDTO>();
+        chipDTO.StatuId = await SearchIndEstaAsync("Creada", 1);
+        chipDTO.idEsta = true;
+
+        chipDTO.City = new() { Id = 81005, Name = "Arauca" };
+
+
+
+        chipDTO.ChipProgram = new()
+        {
+            Id = chipCoordinator.ChipProgramId,
+            Code = chipCoordinator.Code,
+            Designation = "asdasd",
+            Duration = chipCoordinator.StatuId,
+            StartDate = new DateTime(),
+            WingMeasure = true,
+        };
+        chipDTO.Instructor = new()
+        {
+            Id = chipCoordinator.InstructorId,
+            DocumentId = "252222",
+            FirstName = chipCoordinator.InstructorName,
+            LastName = chipCoordinator.InstructorName,
+        };
+        chipDTO.TypeOfTraining = new()
+        {
+            Id = 1,
+            Name = "Parla"
+        };
+        chipDTO.TrainingProgram = new()
+        {
+            Id = 1,
+            Name = "Perlas"
+        };
+
+        chipDTO.TypeOfPoblationDTO = new();
 
         var responseHttp = await Repository.PostAsync("/api/chips/full", chipDTO);
-
 
         if (responseHttp.Error)
         {
@@ -87,7 +119,6 @@ public partial class ChipCoordinatorCreate
 
         Return();
         Snackbar.Add(Localizer["RecordCreateOk"], Severity.Success);
-
     }
 
     private async Task<string> UserSearchAsync()

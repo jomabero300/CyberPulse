@@ -304,6 +304,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The form has been sent for validation..
+        /// </summary>
+        public static string CoordinatorInfo {
+            get {
+                return ResourceManager.GetString("CoordinatorInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Countries.
         /// </summary>
         public static string Countries {
@@ -799,6 +808,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The are no program to select.
+        /// </summary>
+        public static string NoProgram {
+            get {
+                return ResourceManager.GetString("NoProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Not records to show....
         /// </summary>
         public static string NoRecords {
@@ -1096,6 +1114,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Select an instructor.
+        /// </summary>
+        public static string SelectAInstructor {
+            get {
+                return ResourceManager.GetString("SelectAInstructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a -- Select a neighborhood --.
         /// </summary>
         public static string SelectANeighborhood {
@@ -1308,6 +1335,15 @@ namespace CyberPulse.Shared.Resources {
         public static string TypeOfTraining {
             get {
                 return ResourceManager.GetString("TypeOfTraining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡You must update the form before submitting it!.
+        /// </summary>
+        public static string UpdateRow {
+            get {
+                return ResourceManager.GetString("UpdateRow", resourceCulture);
             }
         }
         

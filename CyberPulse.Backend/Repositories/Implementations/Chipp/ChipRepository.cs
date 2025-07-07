@@ -78,22 +78,26 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     }
     public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable =pagination.otro== "Inst"? 
+        var queryable = pagination.otro == "Inst" ?
                             _context.Chips
                                 .Include(x => x.ChipProgram)
-                                .Include(x=>x.Statu)
-                                .Where(x=>x.Instructor.Email==pagination.Email)
-                                .AsQueryable():
+                                .Include(x => x.Statu)
+                                .Include(x => x.Instructor)
+                                .Where(x => x.Instructor.Email == pagination.Email && x.StatuId > 6 && x.StatuId < 11)
+                                .AsQueryable() :
                        pagination.otro == "Coor" ?
                             _context.Chips
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
+                                .Include(x => x.Instructor)
                                 .Where(x => x.User.Email == pagination.Email)
                                 .AsQueryable() :
                             _context.Chips
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
+                                .Include(x => x.Instructor)
                                 .AsQueryable();
+
 
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -160,6 +164,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             Saturday = saturday,
             Sunday = sunday,
             StatuId=entity.StatuId,
+            idEsta=entity.idEsta,
             ChipPoblations = chipPoblations.ToList(),
         };
 
@@ -250,6 +255,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         chip.Saturday = saturday;
         chip.Sunday = sunday;
         chip.StatuId = entity.StatuId;
+        chip.idEsta = entity.idEsta;
 
         var chipPoblations1 = entity.TypeOfPoblationDTO.Where(x => x.Quantity != 0).ToList();
 
@@ -358,6 +364,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         chip.StatuId = entity.StatuId;
         chip.StartDate= entity.StartDate??DateTime.UtcNow;
         chip.ChipNo=entity.ChipNo;
+        chip.idEsta = entity.idEsta;
 
         _context.Update(chip);
 

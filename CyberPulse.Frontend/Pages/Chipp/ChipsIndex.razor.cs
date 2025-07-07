@@ -34,10 +34,11 @@ public partial class ChipsIndex
     private ClaimsPrincipal? user;
     private string? userId;
     private string? userRollId;
-    private int indEsta=0;
+    private int indEsta = 0;
 
-    private string usuaRole = "";
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
+
+
     protected override async Task OnInitializedAsync()
     {
         // Obtener el estado de autenticación
@@ -49,9 +50,9 @@ public partial class ChipsIndex
         userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
         if (userRollId != null)
         {
-            if(userRollId=="Coor")indEsta =1;
-            if(userRollId=="Inst")indEsta =2;
-            if(userRollId=="Admi")indEsta =3;
+            if (userRollId == "Coor") indEsta = 1;
+            if (userRollId == "Inst") indEsta = 2;
+            if (userRollId == "Admi") indEsta = 3;
         }
     }
 
@@ -185,15 +186,38 @@ public partial class ChipsIndex
     }
     private async Task ShowModalOpAsync(int id = 0)
     {
-        //buscar 
-        bool lb = false;
+        var tableRow = table.Context.Rows.FirstOrDefault(x => x.Key.Id == id);
 
-        var responseHttp2 = await repository.GetAsync<ChipCoordinator>($"api/chips/full?id={id}&indEsta={lb}");
+        if (!tableRow.Key.idEsta)
+        {
+            var message = Localizer["UpdateRow"];
+            Snackbar.Add(Localizer[message!], Severity.Warning   );
+            return;
+        }
 
-        var chipCoordinator = responseHttp2.Response;
+        var chipCoordinator = new ChipCoordinator()
+        {
+            Id = id,
+            ChipNo = tableRow.Key.ChipNo,
+            Code = "E",
+            Identificacion = tableRow.Key.Instructor.DocumentId,
+            StartDate = tableRow.Key.StartDate,
+            InstructorName = tableRow.Key.Instructor.FullName,
+            InstructorId = tableRow.Key.InstructorId,
+            ChipProgramId = tableRow.Key.ChipProgramId,
+            ChipProgramName = tableRow.Key.ChipProgram.Designation,
+            StatuId = tableRow.Key.StatuId + 1,
+            idEsta = false
+        };
 
-        chipCoordinator.Code = "E";
-        chipCoordinator.StatuId = 7;
+        //TODO: PARA BORRAR
+
+        //var responseHttp2 = await repository.GetAsync<ChipCoordinator>($"api/chips/full?id={id}&indEsta={lb}");
+
+        //var chipCoordinator = responseHttp2.Response;
+
+        //chipCoordinator.Code = "E";
+        //chipCoordinator.StatuId = 7;
 
         var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
 
@@ -205,11 +229,12 @@ public partial class ChipsIndex
             return;
         }
 
-
-        Snackbar.Add(Localizer["InstructorEmail"], Severity.Success);
+        //1. coordinaor, 2. Instructor
+        string messageSend = indEsta.Equals(1) ? "InstructorEmail" : "CoordinatorInfo";
+        Snackbar.Add(Localizer[messageSend], Severity.Success);
         await table.ReloadServerData();
     }
-    
+
 
     private async Task DeleteAsync(Chip entity)
     {

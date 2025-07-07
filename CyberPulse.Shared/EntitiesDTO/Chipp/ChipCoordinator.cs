@@ -15,7 +15,7 @@ public class ChipCoordinator
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [MaxLength(10, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     public string Code { get; set; } = null!;
-        
+
     [Display(Name = "Instructor", ResourceType = typeof(Literals))]
     [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
@@ -31,4 +31,5 @@ public class ChipCoordinator
 
     public string ChipProgramName { get; set; } = null!;
     public int StatuId { get; set; }
+    public bool idEsta { get; set; }
 }

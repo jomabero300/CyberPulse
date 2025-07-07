@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250704220300_chipsUpdate")]
-    partial class chipsUpdate
+    [Migration("20250707203706_ChipAddindEsta")]
+    partial class ChipAddindEsta
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,6 +120,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(23)
                         .HasColumnType("varchar(23)");
+
+                    b.Property<bool>("idEsta")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

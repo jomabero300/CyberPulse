@@ -82,7 +82,7 @@ public partial class ChipCoordinatorForm
         }
 
         chipCoordinator.Identificacion = responseHttp.Response!.DocumentId;
-        chipCoordinator.InstructorId= responseHttp.Response.Id;
+        chipCoordinator.InstructorId = responseHttp.Response.Id;
         chipCoordinator.InstructorName = responseHttp.Response.FullName;
     }
 
@@ -106,6 +106,5 @@ public partial class ChipCoordinatorForm
         chipCoordinator.Code = responseHttp.Response!.Code;
         chipCoordinator.ChipProgramId = responseHttp.Response!.Id;
         chipCoordinator.ChipProgramName = responseHttp.Response.Designation;
-
     }
 }

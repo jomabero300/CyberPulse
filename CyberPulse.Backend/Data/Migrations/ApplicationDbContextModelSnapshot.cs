@@ -118,6 +118,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(23)
                         .HasColumnType("varchar(23)");
 
+                    b.Property<bool>("idEsta")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChipProgramId");

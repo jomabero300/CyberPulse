@@ -76,7 +76,7 @@ public class ChipsController : GenericController<Chip>
                 ChipProgramId = response.Result.ChipProgramId,
                 Company = response.Result.Company,
                 InstructorId = response.Result.InstructorId,
-                StartDate = response.Result.ChipProgram.StartDate,
+                StartDate = response.Result.StartDate,
                 EndDate = response.Result.EndDate,
                 AlertDate = response.Result.EndDate.AddDays(5),
                 NeighborhoodId = response.Result.NeighborhoodId,
@@ -123,6 +123,7 @@ public class ChipsController : GenericController<Chip>
                 SundayAfternoonEnd = TimeSpan.Parse(response.Result.Sunday.Substring(18, 5)),
 
                 StatuId = response.Result.StatuId,
+                idEsta = response.Result.idEsta,
 
                 TypeOfPoblationDTO = typeOfPoblationDTO.ToList()
             };
@@ -149,9 +150,10 @@ public class ChipsController : GenericController<Chip>
                 StatuId = response.Result.StatuId,
                 ChipProgramName = response.Result.ChipProgram.Designation,
                 Code = response.Result.ChipProgram.Code,
-                Identificacion = response.Result.User.DocumentId,
-                InstructorName = response.Result.User.FullName,
-                StartDate=response.Result.StartDate,
+                Identificacion = response.Result.Instructor.DocumentId,
+                InstructorName = response.Result.Instructor.FullName,
+                StartDate = response.Result.StartDate,
+                idEsta = response.Result.idEsta
             };
 
             return Ok(result);
@@ -222,9 +224,10 @@ public class ChipsController : GenericController<Chip>
             if (model.Code == "E")
             {
                 //buscar el usuario e emails
-                var user =await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
+                var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
                 var tokenLink = "https://localhost:7244";
-                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration["Mail:BodyCreateChipEs"]!, tokenLink), "es");
+                //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
+                //_mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration["Mail:BodyCreateChipEs"]!, tokenLink), "es");
             }
 
             return Ok(action.Result);

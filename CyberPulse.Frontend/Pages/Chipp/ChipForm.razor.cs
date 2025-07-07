@@ -3,6 +3,7 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -29,7 +30,7 @@ public partial class ChipForm
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
-    [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
+
     private bool desabledCompany = false;
 
     public PatternMask mask1 = new PatternMask("##:##")
@@ -44,24 +45,24 @@ public partial class ChipForm
     private int indEsta = 0;
 
 
-    private ChipProgram selectedChipProgram = new();
-    private List<ChipProgram>? chipPrograms;
+    private ChipProgramDTO selectedChipProgram = new();
+    private List<ChipProgramDTO>? chipPrograms;
 
-    private User selectedInstructor = new();
-    private List<User>? instructors;
+    private ChipUserDTO selectedInstructor = new();
+    private List<ChipUserDTO>? instructors;
 
-    private City selectedCity = new();
-    private List<City>? cities;
+    private CityDTO selectedCity = new();
+    private List<CityDTO>? cities;
 
     private Neighborhood selectedNeighborhood = new();
     private List<Neighborhood>? neighborhoods;
 
-    private TrainingProgram selectedTrainingProgram = new();
-    private List<TrainingProgram>? trainingPrograms;
+    private TrainingProgramDTO selectedTrainingProgram = new();
+    private List<TrainingProgramDTO>? trainingPrograms;
 
-    private TypeOfTraining selectedTypeOfTraining = new();
-    private List<TypeOfTraining>? typeOfTrainings;
-    private List<TypeOfTraining>? typeOfTrainingsGen;
+    private TypeOfTrainingDTO selectedTypeOfTraining = new();
+    private List<TypeOfTrainingDTO>? typeOfTrainings;
+    private List<TypeOfTrainingDTO>? typeOfTrainingsGen;
 
     protected override void OnInitialized()
     {
@@ -77,17 +78,19 @@ public partial class ChipForm
         user = authState.User;
         userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
+
         if (userRollId != null)
         {
             if (userRollId == "Coor") indEsta = 1;
             if (userRollId == "Inst") indEsta = 2;
             if (userRollId == "Admi") indEsta = 3;
         }
+
         if (userRollId == "Inst")
         {
             await LoadChipProgramAsync(chipDTO.ChipProgramId);
             await LoadInstructorsync(chipDTO.InstructorId);
-            desabledCompany=true;
+            desabledCompany = true;
         }
         else
         {
@@ -101,21 +104,32 @@ public partial class ChipForm
         if (chipDTO.Id != 0)
         {
             selectedChipProgram = chipPrograms!.SingleOrDefault(x => x.Id == chipDTO.ChipProgramId)!;
-            desabledCompany = chipDTO.WingMeasure;
-
+            chipDTO.ChipProgram = chipPrograms!.SingleOrDefault(x => x.Id == chipDTO.ChipProgramId)!;
+            chipDTO.Apprentices = chipDTO.Apprentices == 1 ? 0 : chipDTO.Apprentices;
             selectedInstructor = instructors!.SingleOrDefault(x => x.Id == chipDTO.InstructorId)!;
+            chipDTO.Instructor = instructors!.SingleOrDefault(x => x.Id == chipDTO.InstructorId)!;
 
-            var cityId = chipDTO.NeighborhoodId.ToString();
-            selectedCity = cities!.FirstOrDefault(x => x.Id == int.Parse(cityId.Substring(0, 5)))!;
-            await LoadNeighborhoodAsync(int.Parse(cityId.Substring(0, 5)));
-
-            if (cityId.Substring(5) != "000")
+            if (chipDTO.StatuId > 6 && chipDTO.idEsta)
             {
-                selectedNeighborhood = neighborhoods!.FirstOrDefault(x => x.Id == chipDTO.NeighborhoodId)!;
-            }
+                selectedTrainingProgram = trainingPrograms!.FirstOrDefault(x => x.Id == chipDTO.TrainingProgramId)!;
+                chipDTO.TrainingProgram = trainingPrograms!.FirstOrDefault(x => x.Id == chipDTO.TrainingProgramId)!;
+                selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == chipDTO.TypeOfTrainingId)!;
+                chipDTO.TypeOfTraining = selectedTypeOfTraining;
+                var cityId = chipDTO.NeighborhoodId.ToString();
+                selectedCity = cities!.FirstOrDefault(x => x.Id == int.Parse(cityId.Substring(0, 5)))!;
+                chipDTO.City = selectedCity;
+                await LoadNeighborhoodAsync(int.Parse(cityId.Substring(0, 5)));
 
-            selectedTrainingProgram = trainingPrograms!.FirstOrDefault(x => x.Id == chipDTO.TrainingProgramId)!;
-            selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == chipDTO.TypeOfTrainingId)!;
+                if (cityId.Substring(5) != "000")
+                {
+                    selectedNeighborhood = neighborhoods!.FirstOrDefault(x => x.Id == chipDTO.NeighborhoodId)!;
+                }
+
+            }
+            else
+            {
+                selectedCity = new CityDTO();
+            }
         }
         else
         {
@@ -154,9 +168,9 @@ public partial class ChipForm
         context.PreventNavigation();
     }
 
-    private async Task LoadChipProgramAsync(int id=0)
+    private async Task LoadChipProgramAsync(int id = 0)
     {
-        var responseHttp = await repository.GetAsync<List<ChipProgram>>($"/api/chipprograms/combo?id={id}");
+        var responseHttp = await repository.GetAsync<List<ChipProgramDTO>>($"/api/chipprograms/combo?id={id}");
 
         if (responseHttp.Error)
         {
@@ -167,7 +181,7 @@ public partial class ChipForm
 
         chipPrograms = responseHttp.Response;
     }
-    private async Task<IEnumerable<ChipProgram>> SearchChipProgram(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<ChipProgramDTO>> SearchChipProgram(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -179,25 +193,28 @@ public partial class ChipForm
             .Where(x => x.Code.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) || x.Designation.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void ChipProgramChanged(ChipProgram entity)
+    private void ChipProgramChanged(ChipProgramDTO entity)
     {
-        selectedChipProgram = entity;
-        chipDTO.ChipProgramId = entity.Id;
-        chipDTO.WingMeasure = entity.WingMeasure;
-        //desabledCompany = entity.WingMeasure;
-        chipDTO.Company = "";
-        chipDTO.StartDate = entity.StartDate;
-        chipDTO.Duration = entity.Duration;
+        if (!desabledCompany)
+        {
+            selectedChipProgram = entity;
+            chipDTO.ChipProgramId = entity.Id;
+            chipDTO.WingMeasure = entity.WingMeasure;
+            chipDTO.Company = "";
+            chipDTO.StartDate = entity.StartDate;
+            chipDTO.Duration = entity.Duration;
+            chipDTO.ChipProgram = entity;
+        }
     }
 
 
-    private async Task LoadInstructorsync(string id="")
+    private async Task LoadInstructorsync(string id = "")
     {
         var userType = UserType.Inst;
 
-        var responseHttp = string.IsNullOrWhiteSpace(id)? 
-            await repository.GetAsync<List<User>>($"/api/accounts/LoadUsers/{userType}"):
-            await repository.GetAsync<List<User>>($"/api/accounts/LoadUser/{id}");
+        var responseHttp = string.IsNullOrWhiteSpace(id) ?
+            await repository.GetAsync<List<ChipUserDTO>>($"/api/accounts/LoadUsers/{userType}") :
+            await repository.GetAsync<List<ChipUserDTO>>($"/api/accounts/LoadUser/{id}");
 
         if (responseHttp.Error)
         {
@@ -208,7 +225,7 @@ public partial class ChipForm
 
         instructors = responseHttp.Response;
     }
-    private async Task<IEnumerable<User>> SearchInstructor(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<ChipUserDTO>> SearchInstructor(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -222,15 +239,16 @@ public partial class ChipForm
                         x.DocumentId.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void InstructorChanged(User entity)
+    private void InstructorChanged(ChipUserDTO entity)
     {
         selectedInstructor = entity;
         chipDTO.InstructorId = entity.Id;
+        chipDTO.Instructor = entity;
     }
 
     private async Task LoadCityAsync()
     {
-        var responseHttp = await repository.GetAsync<List<City>>("/api/cities/combo/81");
+        var responseHttp = await repository.GetAsync<List<CityDTO>>("/api/cities/combo/81");
 
         if (responseHttp.Error)
         {
@@ -241,7 +259,7 @@ public partial class ChipForm
 
         cities = responseHttp.Response;
     }
-    private async Task<IEnumerable<City>> SearchCity(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<CityDTO>> SearchCity(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -253,9 +271,10 @@ public partial class ChipForm
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private async Task CityChanged(City entity)
+    private async Task CityChanged(CityDTO entity)
     {
         selectedCity = entity;
+        chipDTO.City = entity;
         await LoadNeighborhoodAsync(entity.Id);
         var neighborhood = neighborhoods!.FirstOrDefault(x => x.Name.Contains(entity.Name));
         chipDTO.NeighborhoodId = neighborhood!.Id;
@@ -298,7 +317,7 @@ public partial class ChipForm
 
     private async Task LoadTrainingProgramAsync()
     {
-        var responseHttp = await repository.GetAsync<List<TrainingProgram>>("/api/trainingPrograms/combo");
+        var responseHttp = await repository.GetAsync<List<TrainingProgramDTO>>("/api/trainingPrograms/combo");
 
         if (responseHttp.Error)
         {
@@ -309,7 +328,7 @@ public partial class ChipForm
 
         trainingPrograms = responseHttp.Response;
     }
-    private async Task<IEnumerable<TrainingProgram>> SearchTrainingProgram(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<TrainingProgramDTO>> SearchTrainingProgram(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -321,9 +340,10 @@ public partial class ChipForm
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void TrainingProgramChanged(TrainingProgram entity)
+    private void TrainingProgramChanged(TrainingProgramDTO entity)
     {
         selectedTrainingProgram = entity;
+        chipDTO.TrainingProgram = entity;
         chipDTO.TrainingProgramId = entity.Id;
 
         if (entity.Name.Contains("Titulada"))
@@ -331,6 +351,7 @@ public partial class ChipForm
             typeOfTrainings = typeOfTrainingsGen!.Where(x => !x.Name.Contains("Ninguno")).ToList();
             chipDTO.TypeOfTrainingId = 0;
             selectedTypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
+            chipDTO.TypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
             DisabledTypeOfTraining = false;
         }
         else
@@ -340,16 +361,18 @@ public partial class ChipForm
             if (typeOfTraining != null)
             {
                 selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
+                chipDTO.TypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
                 chipDTO.TypeOfTrainingId = typeOfTraining.Id;
             }
             DisabledTypeOfTraining = true;
         }
+
     }
 
 
     private async Task LoadTypeOfTrainingAsync()
     {
-        var responseHttp = await repository.GetAsync<List<TypeOfTraining>>("/api/typeOfTrainings/combo");
+        var responseHttp = await repository.GetAsync<List<TypeOfTrainingDTO>>("/api/typeOfTrainings/combo");
 
         if (responseHttp.Error)
         {
@@ -361,7 +384,7 @@ public partial class ChipForm
         typeOfTrainingsGen = responseHttp.Response;
         typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();
     }
-    private async Task<IEnumerable<TypeOfTraining>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<TypeOfTrainingDTO>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -373,10 +396,12 @@ public partial class ChipForm
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void TypeOfTrainingChanged(TypeOfTraining entity)
+    private void TypeOfTrainingChanged(TypeOfTrainingDTO entity)
     {
         selectedTypeOfTraining = entity;
+        chipDTO.TypeOfTraining = entity;
         chipDTO.TypeOfTrainingId = entity.Id;
+
     }
 
     private async Task LoadTypeOfPoblationAsync()
@@ -508,5 +533,26 @@ public partial class ChipForm
         StateHasChanged();
     }
 
+    private string? timeValue;
 
+    private IEnumerable<string> ValidateTime(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            yield return "Time is required";
+            yield break;
+        }
+
+        if (TimeSpan.TryParse(value, out var time))
+        {
+            if (time.Hours < 12 || time.Hours >= 24)
+            {
+                yield return "Time must be between 12:00 and 23:59";
+            }
+        }
+        else
+        {
+            yield return "Invalid time format (HH:mm)";
+        }
+    }
 }

@@ -19,40 +19,13 @@ public partial class ChipCreate
     [Inject] private IRepository repository { get; set; } = null!;
     private async Task CreateAsync()
     {
-        string menssaje = "";
-
-        if (chipDTO!.ChipProgramId == 0)
+        if (chipDTO.EndDate <= DateTime.Parse("01/01/2009"))
         {
-            menssaje="SelectAChipProgram";
-        }
-        else if(string.IsNullOrWhiteSpace(chipDTO.InstructorId))
-        {
-            menssaje = "SelectAInstructor";
-        }
-        else if(chipDTO.NeighborhoodId==0)
-        {
-            menssaje = "SelectACity";
-        }
-        else if(chipDTO.TrainingProgramId==0)
-        {
-            menssaje = "TrainingProgram";
-        }
-        else if(!chipDTO.WingMeasure && string.IsNullOrWhiteSpace(chipDTO.Company))
-        {
-            menssaje = "Company";
-        }
-        else if(chipDTO.EndDate<=DateTime.Parse("01/01/2009"))
-        {
-            menssaje = "EndDateError";
-        }
-
-        if (menssaje != "")
-        {
-            Snackbar.Add(Localizer[menssaje!], Severity.Error);
+            Snackbar.Add(Localizer["EndDateError"], Severity.Error);
             return;
         }
 
-        chipDTO.UserId=await userSearchAsync();
+        chipDTO.UserId = await userSearchAsync();
 
         var responseHttp = await Repository.PostAsync("/api/chips/full", chipDTO);
 

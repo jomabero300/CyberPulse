@@ -43,46 +43,16 @@ public partial class ChipEdit
     }
     private async Task EditAsync()
     {
-        string menssaje = "";
 
-        if (chipDTO!.ChipProgramId == 0)
+        if (chipDTO!.EndDate <= DateTime.Parse("01/01/2009"))
         {
-
-            menssaje = "SelectAChipProgram";
-        }
-        else if (string.IsNullOrWhiteSpace(chipDTO.InstructorId))
-        {
-            menssaje = "SelectAInstructor";
-        }
-        else if (chipDTO.NeighborhoodId == 0)
-        {
-            menssaje = "SelectACity";
-        }
-        else if (chipDTO.TrainingProgramId == 0)
-        {
-            menssaje = "TrainingProgram";
-        }
-        else if (chipDTO.TrainingProgramId == 1 && chipDTO.TypeOfTrainingId == 0)
-        {
-            menssaje = "SelectATypeOfTraining";
-
-        }
-        else if (!chipDTO.WingMeasure && string.IsNullOrWhiteSpace(chipDTO.Company))
-        {
-            menssaje = "Company";
-        }
-        else if (chipDTO.EndDate <= DateTime.Parse("01/01/2009"))
-        {
-            menssaje = "EndDateError";
-        }
-
-        if (menssaje != "")
-        {
-            Snackbar.Add(Localizer[menssaje!], Severity.Error);
+            Snackbar.Add(Localizer["EndDateError"], Severity.Error);
             return;
         }
 
+        if (chipDTO.StatuId == 7) chipDTO.StatuId += 1;
 
+        chipDTO.idEsta = true;
 
         var responseHttp = await Repository.PutAsync("api/chips/full/", chipDTO);
 
