@@ -50,7 +50,8 @@ else
 									 Style="font-size: small;"
 									 Label="@Localizer["Holiday"]"
 									 @bind-value="@chipDTO.Holiday"									 
-										Color="Color.Primary"/>
+										Color="Color.Primary"
+									 onblur="@(() => ValidateOnBlur())" />
 
 					</MudItem>
 					<MudItem xs="12" sm="3">
@@ -318,31 +319,31 @@ else
 						<MudItem xs="12" sm="3">
 							<MudTextField Label="@Localizer["DateStart"]"
 										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayMorningStart"
-										  For="@(() => chipDTO.TursdayMorningStart)"
+										  @bind-Value="@chipDTO.ThursdayMorningStart"
+										  For="@(() => chipDTO.ThursdayMorningStart)"
 										  onblur="@(() => ValidateOnBlur())" />
 
 						</MudItem>
 						<MudItem xs="12" sm="3">
 							<MudTextField Label="@Localizer["DateEnd"]"
 										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayMorningEnd"
-										  For="@(() => chipDTO.TursdayMorningEnd)"
+										  @bind-Value="@chipDTO.ThursdayMorningEnd"
+										  For="@(() => chipDTO.ThursdayMorningEnd)"
 										  onblur="@(() => ValidateOnBlur())" />
 						</MudItem>
 
 						<MudItem xs="12" sm="3">
 							<MudTextField Label="@Localizer["DateStart"]"
 										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayAfternoonStart"
-										  For="@(() => chipDTO.TursdayAfternoonStart)"
+										  @bind-Value="@chipDTO.ThursdayAfternoonStart"
+										  For="@(() => chipDTO.ThursdayAfternoonStart)"
 										  onblur="@(() => ValidateOnBlur())" />
 						</MudItem>
 						<MudItem xs="12" sm="3">
 							<MudTextField Label="@Localizer["DateEnd"]"
 										  Mask="@mask1"
-										  @bind-Value="@chipDTO.TursdayAfternoonEnd"
-										  For="@(() => chipDTO.TursdayAfternoonEnd)"
+										  @bind-Value="@chipDTO.ThursdayAfternoonEnd"
+										  For="@(() => chipDTO.ThursdayAfternoonEnd)"
 										  onblur="@(() => ValidateOnBlur())" />
 
 						</MudItem>

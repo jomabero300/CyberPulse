@@ -138,22 +138,22 @@ public class ChipDTO
 
     [ValidarRangoHora(true, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayMorningStart { get; set; }
+    public TimeSpan ThursdayMorningStart { get; set; }
 
-    [ValidareEndTime(nameof(TursdayMorningStart), true, ErrorMessage = "")]
+    [ValidareEndTime(nameof(ThursdayMorningStart), true, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayMorningEnd { get; set; }
+    public TimeSpan ThursdayMorningEnd { get; set; }
 
     [ValidarRangoHora(false, ErrorMessageResourceName = "ValidarRangoHora", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayAfternoonStart { get; set; }
+    public TimeSpan ThursdayAfternoonStart { get; set; }
 
-    [ValidareEndTime(nameof(TursdayAfternoonStart), false, ErrorMessage = "")]
+    [ValidareEndTime(nameof(ThursdayAfternoonStart), false, ErrorMessage = "")]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public TimeSpan TursdayAfternoonEnd { get; set; }
-    public TimeSpan TursdayTotalHoras =>
-        (TursdayMorningStart > TimeSpan.Zero && TursdayMorningEnd > TursdayMorningStart ? TursdayMorningEnd - TursdayMorningStart : TimeSpan.Zero) +
-        (TursdayAfternoonStart > TimeSpan.Zero && TursdayAfternoonEnd > TursdayAfternoonStart ? TursdayAfternoonEnd - TursdayAfternoonStart : TimeSpan.Zero);
+    public TimeSpan ThursdayAfternoonEnd { get; set; }
+    public TimeSpan ThursdayTotalHoras =>
+        (ThursdayMorningStart > TimeSpan.Zero && ThursdayMorningEnd > ThursdayMorningStart ? ThursdayMorningEnd - ThursdayMorningStart : TimeSpan.Zero) +
+        (ThursdayAfternoonStart > TimeSpan.Zero && ThursdayAfternoonEnd > ThursdayAfternoonStart ? ThursdayAfternoonEnd - ThursdayAfternoonStart : TimeSpan.Zero);
 
 
 

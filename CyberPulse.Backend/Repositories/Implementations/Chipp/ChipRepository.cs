@@ -126,7 +126,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         string monday = HoraCadena(entity.MondayMorningStart, entity.MondayMorningEnd, entity.MondayAfternoonStart, entity.MondayAfternoonEnd);
         string tuesday = HoraCadena(entity.TuesdayMorningStart, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStart, entity.TuesdayAfternoonEnd);
         string wednesday = HoraCadena(entity.WednesdayMorningStart, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStart, entity.WednesdayAfternoonEnd);
-        string tursday = HoraCadena(entity.TursdayMorningStart, entity.TursdayMorningEnd, entity.TursdayAfternoonStart, entity.TursdayAfternoonEnd);
+        string tursday = HoraCadena(entity.ThursdayMorningStart, entity.ThursdayMorningEnd, entity.ThursdayAfternoonStart, entity.ThursdayAfternoonEnd);
         string friday = HoraCadena(entity.FridayMorningStart, entity.FridayMorningEnd, entity.FridayAfternoonStart, entity.FridayAfternoonEnd);
         string saturday = HoraCadena(entity.SaturdayMorningStart, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStart, entity.SaturdayAfternoonEnd);
         string sunday = HoraCadena(entity.SundayMorningStart, entity.SundayMorningEnd, entity.SundayAfternoonStart, entity.SundayAfternoonEnd);
@@ -231,7 +231,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         string monday = HoraCadena(entity.MondayMorningStart, entity.MondayMorningEnd, entity.MondayAfternoonStart, entity.MondayAfternoonEnd);
         string tuesday = HoraCadena(entity.TuesdayMorningStart, entity.TuesdayMorningEnd, entity.TuesdayAfternoonStart, entity.TuesdayAfternoonEnd);
         string wednesday = HoraCadena(entity.WednesdayMorningStart, entity.WednesdayMorningEnd, entity.WednesdayAfternoonStart, entity.WednesdayAfternoonEnd);
-        string tursday = HoraCadena(entity.TursdayMorningStart, entity.TursdayMorningEnd, entity.TursdayAfternoonStart, entity.TursdayAfternoonEnd);
+        string tursday = HoraCadena(entity.ThursdayMorningStart, entity.ThursdayMorningEnd, entity.ThursdayAfternoonStart, entity.ThursdayAfternoonEnd);
         string friday = HoraCadena(entity.FridayMorningStart, entity.FridayMorningEnd, entity.FridayAfternoonStart, entity.FridayAfternoonEnd);
         string saturday = HoraCadena(entity.SaturdayMorningStart, entity.SaturdayMorningEnd, entity.SaturdayAfternoonStart, entity.SaturdayAfternoonEnd);
         string sunday = HoraCadena(entity.SundayMorningStart, entity.SundayMorningEnd, entity.SundayAfternoonStart, entity.SundayAfternoonEnd);

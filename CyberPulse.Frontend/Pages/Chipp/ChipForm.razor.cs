@@ -449,7 +449,7 @@ public partial class ChipForm
         var monday = chipDTO.MondayTotalHoras;
         var tuesday = chipDTO.TuesdayTotalHoras;
         var wednesday = chipDTO.WednesdayTotalHoras;
-        var tursday = chipDTO.TursdayTotalHoras;
+        var thursday = chipDTO.ThursdayTotalHoras;
         var friday = chipDTO.FridayTotalVertas;
         var saturday = chipDTO.SaturdayTotalHoras;
         var sunday = chipDTO.SundayTotalHoras;
@@ -457,7 +457,7 @@ public partial class ChipForm
         if (monday == TimeSpan.Zero &&
             tuesday == TimeSpan.Zero &&
             wednesday == TimeSpan.Zero &&
-            tursday == TimeSpan.Zero &&
+            thursday == TimeSpan.Zero &&
             friday == TimeSpan.Zero &&
             saturday == TimeSpan.Zero &&
             sunday == TimeSpan.Zero) return;
@@ -482,7 +482,7 @@ public partial class ChipForm
         {
             var Valor = tuesday.ToString()[..5].Replace(':', ',');
             horas.Add(double.Parse(Valor));
-            numeroDia.Add((int)DayOfWeek.Monday);
+            numeroDia.Add((int)DayOfWeek.Tuesday);
         }
 
         if (wednesday != TimeSpan.Zero)
@@ -492,11 +492,11 @@ public partial class ChipForm
             numeroDia.Add((int)DayOfWeek.Wednesday);
         }
 
-        if (tursday != TimeSpan.Zero)
+        if (thursday != TimeSpan.Zero)
         {
-            var Valor = tursday.ToString()[..5].Replace(':', ',');
+            var Valor = thursday.ToString()[..5].Replace(':', ',');
             horas.Add(double.Parse(Valor));
-            numeroDia.Add((int)DayOfWeek.Friday);
+            numeroDia.Add((int)DayOfWeek.Thursday);
         }
 
         if (friday != TimeSpan.Zero)

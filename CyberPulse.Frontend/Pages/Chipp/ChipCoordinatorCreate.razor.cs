@@ -52,10 +52,10 @@ public partial class ChipCoordinatorCreate
         chipDTO.WednesdayAfternoonEnd = TimeSpan.Zero;
         chipDTO.WednesdayAfternoonStart = TimeSpan.Zero;
 
-        chipDTO.TursdayMorningStart = TimeSpan.Zero;
-        chipDTO.TursdayMorningEnd = TimeSpan.Zero;
-        chipDTO.TursdayAfternoonEnd = TimeSpan.Zero;
-        chipDTO.TursdayAfternoonStart = TimeSpan.Zero;
+        chipDTO.ThursdayMorningStart = TimeSpan.Zero;
+        chipDTO.ThursdayMorningEnd = TimeSpan.Zero;
+        chipDTO.ThursdayAfternoonEnd = TimeSpan.Zero;
+        chipDTO.ThursdayAfternoonStart = TimeSpan.Zero;
 
         chipDTO.FridayMorningStart = TimeSpan.Zero;
         chipDTO.FridayMorningEnd = TimeSpan.Zero;

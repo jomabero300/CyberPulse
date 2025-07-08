@@ -102,10 +102,10 @@ public class ChipsController : GenericController<Chip>
                 WednesdayAfternoonStart = TimeSpan.Parse(response.Result.Wednesday.Substring(12, 5)),
                 WednesdayAfternoonEnd = TimeSpan.Parse(response.Result.Wednesday.Substring(18, 5)),
 
-                TursdayMorningStart = TimeSpan.Parse(response.Result.Tursday.Substring(0, 5)),
-                TursdayMorningEnd = TimeSpan.Parse(response.Result.Tursday.Substring(6, 5)),
-                TursdayAfternoonStart = TimeSpan.Parse(response.Result.Tursday.Substring(12, 5)),
-                TursdayAfternoonEnd = TimeSpan.Parse(response.Result.Tursday.Substring(18, 5)),
+                ThursdayMorningStart = TimeSpan.Parse(response.Result.Tursday.Substring(0, 5)),
+                ThursdayMorningEnd = TimeSpan.Parse(response.Result.Tursday.Substring(6, 5)),
+                ThursdayAfternoonStart = TimeSpan.Parse(response.Result.Tursday.Substring(12, 5)),
+                ThursdayAfternoonEnd = TimeSpan.Parse(response.Result.Tursday.Substring(18, 5)),
 
                 FridayMorningStart = TimeSpan.Parse(response.Result.Friday.Substring(0, 5)),
                 FridayMorningEnd = TimeSpan.Parse(response.Result.Friday.Substring(6, 5)),
@@ -232,16 +232,16 @@ public class ChipsController : GenericController<Chip>
                 
                 string Mailbody=model.StatuId switch
                                     {
-                                        7 => language == "es" ? "BodyCreateChipEs" : "BodyCreateChipEn",
-                                        9 => language == "es" ? "BodyReviewChipEs" : "BodyReviewChipEn",
-                                        10 => language == "es" ? "BodyDeclineChipEs" : "BodyDeclineChipEn",
-                                        11 => language == "es" ? "BodySuccessChipEs" : "BodySuccessChipEn",
-                                        _ => language == "es" ? "BodyFinishChipEs" : "BodyFinishChipEn",
+                                        7 => language == "es" ? "Mail:BodyCreateChipEs" : "Mail:BodyCreateChipEn",
+                                        9 => language == "es" ? "Mail:BodyReviewChipEs" : "Mail:BodyReviewChipEn",
+                                        10 => language == "es" ? "Mail:BodyDeclineChipEs" : "Mail:BodyDeclineChipEn",
+                                        11 => language == "es" ? "Mail:BodySuccessChipEs" : "Mail:BodySuccessChipEn",
+                                        _ => language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
                                     };
 
 
                 //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
-                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[$"Mail:{Mailbody}"]!, tokenLink), language);
+                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[Mailbody]!, tokenLink), language);
             }
 
             return Ok(action.Result);
