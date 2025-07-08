@@ -30,21 +30,30 @@ else
 
 
 				<MudGrid Style="margin-top: 1px;">
-					<MudItem xs="12" sm="4">
+					<MudItem xs="12" sm="3">
 						<MudTextField Label="@Localizer["ChipNo"]"
 									  @bind-Value="@chipDTO.ChipNo"
 									  Disabled="@desabledCompany"
 									  For="@(() => chipDTO.ChipNo)" />
 
 					</MudItem>
-					<MudItem xs="12" sm="4">
+					<MudItem xs="12" sm="3">
 						<MudTextField Label="@Localizer["Duration"]"
 									  @bind-Value="@chipDTO.Duration"
 									  ReadOnly="true"
 									  For="@(() => chipDTO.Duration)" />
 
 					</MudItem>
-					<MudItem xs="12" sm="4">
+					<MudItem xs="12" sm="3">
+						<MudCheckBox T="bool"
+									 LabelPosition="Start" 
+									 Style="font-size: small;"
+									 Label="@Localizer["Holiday"]"
+									 @bind-value="@chipDTO.Holiday"									 
+										Color="Color.Primary"/>
+
+					</MudItem>
+					<MudItem xs="12" sm="3">
 						<MudNumericField Label="@Localizer["Apprentices"]"
 										 @bind-Value="@chipDTO.Apprentices"
 										 Min=0

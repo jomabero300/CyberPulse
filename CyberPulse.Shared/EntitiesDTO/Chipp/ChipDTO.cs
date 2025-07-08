@@ -245,4 +245,5 @@ public class ChipDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
     public TypeOfTrainingDTO? TypeOfTraining { get; set; }
+    public bool Holiday { get; set; }
 }

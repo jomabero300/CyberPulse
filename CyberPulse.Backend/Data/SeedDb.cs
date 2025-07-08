@@ -29,7 +29,7 @@ public class SeedDb
         await CheckRolesAsync();
         await CheckUserAsync("Marcos", "Suarez", "marcos301234@gmail.com", "3133670740", UserType.Admi, "17588236");
         await CheckUserAsync("Angelina", "Jolie", "angelina@yopmail.com", "3133678526", UserType.Coor, "17588237");
-        await CheckUserAsync("Freddie", "Mercury", "fredie@yopmail.com", "3134568271", UserType.Inst, "17588238");
+        await CheckUserAsync("Freddie", "Mercury", "freddie@yopmail.com", "3134568271", UserType.Inst, "17588238");
         await CheckUserAsync("Felipe", "Pelaes", "felipe@yopmail.com", "3137776666", UserType.Inst, "17588239");
         await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
     }

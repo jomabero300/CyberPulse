@@ -64,10 +64,11 @@ public partial class ChipForm
     private List<TypeOfTrainingDTO>? typeOfTrainings;
     private List<TypeOfTrainingDTO>? typeOfTrainingsGen;
 
+    private HashSet<DateTime>? Holidays;
+
     protected override void OnInitialized()
     {
         editContext = new(chipDTO);
-
     }
 
     protected override async Task OnInitializedAsync()
@@ -97,6 +98,8 @@ public partial class ChipForm
             await LoadChipProgramAsync();
             await LoadInstructorsync();
         }
+
+        await loadHolidaysAsync();
         await LoadCityAsync();
         await LoadTrainingProgramAsync();
         await LoadTypeOfTrainingAsync();
@@ -139,6 +142,14 @@ public partial class ChipForm
         }
 
         loading = false;
+    }
+
+    private async Task loadHolidaysAsync()
+    {
+        var holidays = await repository.GetAsync<HashSet<DateTime>>("/api/calendars");
+        if (holidays == null) return;
+        Holidays = holidays.Response;
+
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -512,15 +523,17 @@ public partial class ChipForm
 
         while (sumaTotal < horasProgramadas)
         {
-            for (int i = 0; i < numeroDia.Count; i++)
+            if (!(chipDTO.Holiday && Holidays!.Contains(dateStart)))
             {
-                if ((int)dateStart.DayOfWeek == numeroDia[i])
+                for (int i = 0; i < numeroDia.Count; i++)
                 {
-                    sumaTotal += horas[i];
-                    break;
+                    if ((int)dateStart.DayOfWeek == numeroDia[i])
+                    {
+                        sumaTotal += horas[i];
+                        break;
+                    }
                 }
             }
-
             if (sumaTotal < horasProgramadas)
             {
                 dateStart = dateStart.AddDays(1);

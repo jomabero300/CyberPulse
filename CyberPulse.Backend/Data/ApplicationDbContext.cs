@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<TypeOfTraining> TypeOfTraining { get; set; }
 
 
+    //public DbSet<Calendar> Calendars { get; set; }
     public DbSet<City> Cities { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Neighborhood> Neighborhoods { get; set; }
@@ -42,7 +43,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<TypeOfPoblation>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<TypeOfTraining>().HasIndex(x => x.Name).IsUnique();
 
-
+        //builder.Entity<Calendar>().HasIndex(x => x.Holiday).IsUnique();
         builder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
         builder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Neighborhood>().HasIndex(x => new {x.CityId, x.Name }).IsUnique();

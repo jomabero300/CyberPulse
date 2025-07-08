@@ -637,6 +637,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Holiday.
+        /// </summary>
+        public static string Holiday {
+            get {
+                return ResourceManager.GetString("Holiday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a holidays.
+        /// </summary>
+        public static string holidays {
+            get {
+                return ResourceManager.GetString("holidays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Home.
         /// </summary>
         public static string Home {

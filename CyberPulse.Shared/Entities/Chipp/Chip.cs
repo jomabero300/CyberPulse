@@ -126,7 +126,7 @@ public class Chip
     [Range(0, int.MaxValue, ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
     public bool idEsta { get; set; }
-
+    public bool Holiday { get; set; }
     public User Instructor { get; set; } = null!;
     public User User { get; set; } = null!;
     public ChipProgram ChipProgram { get; set; } = null!;

@@ -571,4 +571,10 @@
   <data name="ChipExecute" xml:space="preserve">
     <value>Execute</value>
   </data>
+  <data name="Holiday" xml:space="preserve">
+    <value>Holiday</value>
+  </data>
+  <data name="holidays" xml:space="preserve">
+    <value>holidays</value>
+  </data>
 </root>

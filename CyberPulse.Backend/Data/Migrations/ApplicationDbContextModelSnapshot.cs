@@ -58,6 +58,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(23)
                         .HasColumnType("varchar(23)");
 
+                    b.Property<bool>("Holiday")
+                        .HasColumnType("bit");
+
                     b.Property<string>("InstructorId")
                         .IsRequired()
                         .HasMaxLength(450)
