@@ -15,7 +15,7 @@ else
             <MudGrid>
                 <MudItem xs="12" sm="6">
                     <MudCardContent>
-                        <MudTextField Label="@Localizer["DocumentoId"]"
+                        <MudTextField @ref="myTextField" Label="@Localizer["DocumentoId"]"
                                       @bind-Value="userDTO.DocumentId"
                                       For="@(() => userDTO.DocumentId)" />
                         <MudTextField Label="@Localizer["FirstName"]"

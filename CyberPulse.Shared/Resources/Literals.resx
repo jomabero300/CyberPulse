@@ -545,7 +545,7 @@
     <value>Alert date</value>
   </data>
   <data name="InstructorEmail" xml:space="preserve">
-    <value>The form has been sent, an email will be sent to the instructor to notify him/her.</value>
+    <value>The form has been sent, the instructor will receive an email to notify</value>
   </data>
   <data name="StartDateNull" xml:space="preserve">
     <value>You must enter a start date</value>
@@ -561,5 +561,14 @@
   </data>
   <data name="SelectAInstructor" xml:space="preserve">
     <value>Select an instructor</value>
+  </data>
+  <data name="ChipView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ChipDecline" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="ChipExecute" xml:space="preserve">
+    <value>Execute</value>
   </data>
 </root>

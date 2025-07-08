@@ -11,6 +11,7 @@ public partial class RecoverPassword
 {
     private EmailDTO emailDTO = new();
     private bool loading;
+    private MudBlazor.MudTextField<string>? myTextField;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
@@ -18,6 +19,18 @@ public partial class RecoverPassword
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
 
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2);
+            await myTextField!.FocusAsync();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     private async Task SendRecoverPasswordEmailTokenAsync()
     {
         emailDTO.Language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);

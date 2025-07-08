@@ -78,7 +78,7 @@ else
                     }
                     
                 }
-                else @if(indEsta==2 && (@context.StatuId==7 || @context.StatuId==8)) @* instrucotr *@
+                else @if(indEsta==2 && (@context.StatuId==7 || @context.StatuId==8)) @* instructor *@
                 {
                     <MudTooltip Text="@Localizer["Send"]">
                         <MudButton Size="Size.Small"
@@ -100,18 +100,41 @@ else
                 else @if(indEsta==1 && context.StatuId ==9)
                 {
                     //ejecutar, rechazar ver informe
-@*                     <MudTooltip Text="@Localizer["Edit"]">
+                    <MudTooltip Text="@Localizer["ChipView"]">
                         <MudButton Size="Size.Small"
                                    Variant="Variant.Filled"
-                                   Color="Color.Warning"
-                                   OnClick="@(() => ShowModalAsync(context.Id, true))">
-                            <MudIcon Icon="@Icons.Material.Filled.AccessibleForward" />
+                                   Color="Color.Info"
+                                   OnClick="@(() => ActionAsync("V"))">
+                            <MudIcon Icon="@Icons.Material.Filled.Preview" />
                         </MudButton>
                     </MudTooltip>
- *@                }
+                    <MudTooltip Text="@Localizer["ChipExecute"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Success"
+                                   OnClick="@(() => ActionAsync("E",context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.DirectionsRun" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["ChipDecline"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(() => ActionAsync("D",context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.DoNotTouch" />
+                        </MudButton>
+                    </MudTooltip>
+                }
                 else @if(context.StatuId==11)
                 {
-                    //reporte
+                    <MudTooltip Text="@Localizer["ChipView"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Info"
+                                   OnClick="@(() => ActionAsync("V"))">
+                            <MudIcon Icon="@Icons.Material.Filled.Preview" />
+                        </MudButton>
+                    </MudTooltip>
                 }
 
             </MudTd>

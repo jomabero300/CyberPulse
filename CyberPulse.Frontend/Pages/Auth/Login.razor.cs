@@ -19,9 +19,21 @@ public partial class Login
     [Inject] private IRepository repository { get; set; } = null!;
     [Inject] private ILoginService LoginService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
+    private MudBlazor.MudTextField<string>? myTextField;
 
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2);
+            await myTextField!.FocusAsync();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+
+    }
     private void ShowModalRecoverPassword()
     {
         var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true, MaxWidth = MaxWidth.ExtraExtraLarge };

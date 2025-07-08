@@ -565,7 +565,7 @@
     <value>Fecha Alerta</value>
   </data>
   <data name="InstructorEmail" xml:space="preserve">
-    <value>La ficha de ha enviado, le llegara un email al instructor para notificarle</value>
+    <value>La ficha se ha enviado, le llegara un email al instructor para notificarle</value>
   </data>
   <data name="StartDateNull" xml:space="preserve">
     <value>Debe ingresar una fecha inicial</value>
@@ -581,5 +581,14 @@
   </data>
   <data name="SelectAInstructor" xml:space="preserve">
     <value>Seleccionar un instructor</value>
+  </data>
+  <data name="ChipView" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="ChipDecline" xml:space="preserve">
+    <value>Rechazar</value>
+  </data>
+  <data name="ChipExecute" xml:space="preserve">
+    <value>Ejecutar</value>
   </data>
 </root>

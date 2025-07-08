@@ -51,6 +51,7 @@ public class SeedDb
             _context.Status.Add(new Statu { Name = "Revisión", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Rechazada", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Ejecución", Nivel = 1 });
+            _context.Status.Add(new Statu { Name = "Terminada", Nivel = 1 });
 
             await _context.SaveChangesAsync();
         }

@@ -225,9 +225,23 @@ public class ChipsController : GenericController<Chip>
             {
                 //buscar el usuario e emails
                 var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
+                
                 var tokenLink = "https://localhost:7244";
+                
+                string language = "es";
+                
+                string Mailbody=model.StatuId switch
+                                    {
+                                        7 => language == "es" ? "BodyCreateChipEs" : "BodyCreateChipEn",
+                                        9 => language == "es" ? "BodyReviewChipEs" : "BodyReviewChipEn",
+                                        10 => language == "es" ? "BodyDeclineChipEs" : "BodyDeclineChipEn",
+                                        11 => language == "es" ? "BodySuccessChipEs" : "BodySuccessChipEn",
+                                        _ => language == "es" ? "BodyFinishChipEs" : "BodyFinishChipEn",
+                                    };
+
+
                 //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
-                //_mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration["Mail:BodyCreateChipEs"]!, tokenLink), "es");
+                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[$"Mail:{Mailbody}"]!, tokenLink), language);
             }
 
             return Ok(action.Result);

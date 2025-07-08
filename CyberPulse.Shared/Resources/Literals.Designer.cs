@@ -205,6 +205,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Decline.
+        /// </summary>
+        public static string ChipDecline {
+            get {
+                return ResourceManager.GetString("ChipDecline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Execute.
+        /// </summary>
+        public static string ChipExecute {
+            get {
+                return ResourceManager.GetString("ChipExecute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Chip No.
         /// </summary>
         public static string ChipNo {
@@ -228,6 +246,15 @@ namespace CyberPulse.Shared.Resources {
         public static string Chips {
             get {
                 return ResourceManager.GetString("Chips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a View.
+        /// </summary>
+        public static string ChipView {
+            get {
+                return ResourceManager.GetString("ChipView", resourceCulture);
             }
         }
         
@@ -637,7 +664,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The form has been sent, an email will be sent to the instructor to notify him/her..
+        ///   Busca una cadena traducida similar a The form has been sent, the instructor will receive an email to notify.
         /// </summary>
         public static string InstructorEmail {
             get {

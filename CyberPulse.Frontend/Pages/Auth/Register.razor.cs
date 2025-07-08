@@ -18,7 +18,7 @@ public partial class Register
     private bool loading;
     private string? imageUrl;
     private string? titleLabel;
-
+    private MudBlazor.MudTextField<string>? myTextField;
     private Country selectedCountry = new();
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -40,7 +40,16 @@ public partial class Register
         base.OnParametersSet();
         titleLabel = IsAdmin ? Localizer["AdminRegister"] : Localizer["UserRegister"];
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2);
+            await myTextField!.FocusAsync();
+        }
 
+        await base.OnAfterRenderAsync(firstRender);
+    }
     private void ImageSelected(string imageBase64)
     {
         userDTO.Photo = imageBase64;

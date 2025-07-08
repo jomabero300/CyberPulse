@@ -4,6 +4,7 @@ using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
+using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Localization;
@@ -186,38 +187,35 @@ public partial class ChipsIndex
     }
     private async Task ShowModalOpAsync(int id = 0)
     {
-        var tableRow = table.Context.Rows.FirstOrDefault(x => x.Key.Id == id);
+        //var tableRow = table.Context.Rows.FirstOrDefault(x => x.Key.Id == id);
 
-        if (!tableRow.Key.idEsta)
-        {
-            var message = Localizer["UpdateRow"];
-            Snackbar.Add(Localizer[message!], Severity.Warning   );
-            return;
-        }
+        //if (!tableRow.Key.idEsta)
+        //{
+        //    var message = Localizer["UpdateRow"];
+        //    Snackbar.Add(Localizer[message!], Severity.Warning);
+        //    return;
+        //}
 
-        var chipCoordinator = new ChipCoordinator()
-        {
-            Id = id,
-            ChipNo = tableRow.Key.ChipNo,
-            Code = "E",
-            Identificacion = tableRow.Key.Instructor.DocumentId,
-            StartDate = tableRow.Key.StartDate,
-            InstructorName = tableRow.Key.Instructor.FullName,
-            InstructorId = tableRow.Key.InstructorId,
-            ChipProgramId = tableRow.Key.ChipProgramId,
-            ChipProgramName = tableRow.Key.ChipProgram.Designation,
-            StatuId = tableRow.Key.StatuId + 1,
-            idEsta = false
-        };
+        //var chipCoordinator = new ChipCoordinator()
+        //{
+        //    Id = id,
+        //    ChipNo = tableRow.Key.ChipNo,
+        //    Code = "E",
+        //    Identificacion = tableRow.Key.Instructor.DocumentId,
+        //    StartDate = tableRow.Key.StartDate,
+        //    InstructorName = tableRow.Key.Instructor.FullName,
+        //    InstructorId = tableRow.Key.InstructorId,
+        //    ChipProgramId = tableRow.Key.ChipProgramId,
+        //    ChipProgramName = tableRow.Key.ChipProgram.Designation,
+        //    StatuId = tableRow.Key.StatuId + 1,
+        //    idEsta = false
+        //};
 
-        //TODO: PARA BORRAR
+        var response = ConverAsync(id);
 
-        //var responseHttp2 = await repository.GetAsync<ChipCoordinator>($"api/chips/full?id={id}&indEsta={lb}");
+        if (!response.WasSuccess) return;
 
-        //var chipCoordinator = responseHttp2.Response;
-
-        //chipCoordinator.Code = "E";
-        //chipCoordinator.StatuId = 7;
+        var chipCoordinator = response.Result;
 
         var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
 
@@ -235,6 +233,79 @@ public partial class ChipsIndex
         await table.ReloadServerData();
     }
 
+    private ActionResponse<ChipCoordinator> ConverAsync(int id,int StatuId=0)
+    {
+        var tableRow = table.Context.Rows.FirstOrDefault(x => x.Key.Id == id);
+
+        if (!tableRow.Key.idEsta && StatuId<10)
+        {
+            var message = Localizer["UpdateRow"];
+            Snackbar.Add(Localizer[message!], Severity.Warning);
+            return new ActionResponse<ChipCoordinator>
+            {
+                WasSuccess = false,
+            };
+        }
+
+        int statuId = StatuId != 0 ? StatuId : tableRow.Key.StatuId + 1;
+
+        var chipCoordinator = new ChipCoordinator()
+        {
+            Id = tableRow.Key.Id,
+            ChipNo = tableRow.Key.ChipNo,
+            Code = "E",
+            Identificacion = tableRow.Key.Instructor.DocumentId,
+            StartDate = tableRow.Key.StartDate,
+            InstructorName = tableRow.Key.Instructor.FullName,
+            InstructorId = tableRow.Key.InstructorId,
+            ChipProgramId = tableRow.Key.ChipProgramId,
+            ChipProgramName = tableRow.Key.ChipProgram.Designation,
+            StatuId = statuId,
+            idEsta = false
+        };
+
+        return new ActionResponse<ChipCoordinator>
+        {
+            WasSuccess = true,
+            Result = chipCoordinator
+        };
+
+    }
+
+
+    private async Task ActionAsync(string type, int id = 0)
+    {
+        int indEsta = type switch
+        {
+            "D" => 10,
+            "E" => 11,
+            _ => 0
+        };
+
+        if (indEsta > 0)
+        {
+            var response = ConverAsync(id, indEsta);
+
+            if (!response.WasSuccess) return;
+
+            var chipCoordinator = response.Result;
+
+            var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
+
+            if (responseHttp.Error)
+            {
+                var messageError = await responseHttp.GetErrorMessageAsync();
+
+                Snackbar.Add(Localizer[messageError!], Severity.Error);
+                return;
+            }
+
+            //1. coordinaor, 2. Instructor
+            string messageSend = indEsta.Equals(10) ? "InstructorEmail" : "CoordinatorInfo";
+            Snackbar.Add(Localizer[messageSend], Severity.Success);
+            await table.ReloadServerData();
+        }
+    }
 
     private async Task DeleteAsync(Chip entity)
     {
