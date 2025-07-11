@@ -577,4 +577,10 @@
   <data name="holidays" xml:space="preserve">
     <value>holidays</value>
   </data>
+  <data name="InstructorEjecutar" xml:space="preserve">
+    <value>The instructor will be notified of the decision via email.</value>
+  </data>
+  <data name="SentAlert" xml:space="preserve">
+    <value>Alerts Sent Today</value>
+  </data>
 </root>

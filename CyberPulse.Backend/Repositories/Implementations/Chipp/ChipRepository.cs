@@ -5,8 +5,8 @@ using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.Xml;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Chipp;
 
@@ -18,13 +18,38 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         _context = context;
     }
 
+    public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync()
+    {
+        var entity = await _context.Chips
+            .Include(x => x.Instructor)
+            .Include(x => x.ChipProgram)
+            .Include(x => x.Statu)
+            .ToListAsync();
+        if (entity == null)
+        {
+            return new ActionResponse<IEnumerable<Chip>>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+        
+        return new ActionResponse<IEnumerable<Chip>>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
     public override async Task<ActionResponse<Chip>> GetAsync(int id)
     {
         var entity = await _context.Chips
-            .Include(x => x.ChipPoblations)
             .Include(x => x.ChipProgram)
-            .Include(x=>x.Statu)
-            .Include(x=>x.User)
+            .Include(x => x.TrainingProgram)
+            .Include(x => x.TypeOfTraining)
+            .Include(x => x.Statu)
+            .Include(x => x.Instructor)
+            .Include(x => x.ChipPoblations)
+            .Include(x=>x.Neighborhood).ThenInclude(x=>x.City)
             .Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (entity == null)
@@ -148,23 +173,23 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             ChipProgramId = entity.ChipProgramId,
             Company = entity.Company,
             InstructorId = entity.InstructorId,
-            StartDate=entity.StartDate,
+            StartDate = entity.StartDate,
             EndDate = entity.EndDate,
-            AlertDate= entity.AlertDate,
+            AlertDate = entity.AlertDate,
             NeighborhoodId = entity.NeighborhoodId,
             TrainingProgramId = entity.TrainingProgramId,
             TypeOfTrainingId = entity.TypeOfTrainingId,
             UserId = entity.UserId,
             Justification = entity.Justification,
-            Monday=monday,
+            Monday = monday,
             Tuesday = tuesday,
             Wednesday = wednesday,
             Tursday = tursday,
             Friday = friday,
             Saturday = saturday,
             Sunday = sunday,
-            StatuId=entity.StatuId,
-            idEsta=entity.idEsta,
+            StatuId = entity.StatuId,
+            idEsta = entity.idEsta,
             ChipPoblations = chipPoblations.ToList(),
         };
 
@@ -242,6 +267,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         chip.Company = entity.Company;
         chip.InstructorId = entity.InstructorId;
         chip.EndDate = entity.EndDate;
+        chip.AlertDate = entity.AlertDate;
+        chip.StartDate = entity.StartDate;
         chip.NeighborhoodId = entity.NeighborhoodId;
         chip.TrainingProgramId = entity.TrainingProgramId;
         chip.TypeOfTrainingId = entity.TypeOfTrainingId;
@@ -328,26 +355,9 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     }
 
-    private string HoraCadena(TimeSpan MorningStar, TimeSpan MorningEnd, TimeSpan AfternoonStar, TimeSpan AfternoonEnd)
-    {
-        string Morning = "00:00-00:00";
-        string Afternoon = "00:00-00:00";
-
-        if (MorningStar > TimeSpan.Zero && MorningEnd > MorningStar)
-        {
-            Morning = $"{MorningStar.ToString(@"hh\:mm")}-{MorningEnd.ToString(@"hh\:mm")}";
-        }
-
-        if (AfternoonStar > TimeSpan.Zero && AfternoonEnd > AfternoonStar)
-        {
-            Afternoon = $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
-        }
-        return $"{Morning}-{Afternoon}";
-    }
-
     public async Task<ActionResponse<Chip>> UpdateAsync(ChipCoordinator entity)
     {
-        var chip=await _context.Chips.Where(x=>x.Id==entity.Id).FirstOrDefaultAsync();
+        var chip = await _context.Chips.Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
 
         if (chip == null)
         {
@@ -359,11 +369,11 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
         }
 
 
-        chip.ChipProgramId=entity.ChipProgramId;
-        chip.InstructorId=entity.InstructorId;
+        chip.ChipProgramId = entity.ChipProgramId;
+        chip.InstructorId = entity.InstructorId;
         chip.StatuId = entity.StatuId;
-        chip.StartDate= entity.StartDate??DateTime.UtcNow;
-        chip.ChipNo=entity.ChipNo;
+        chip.StartDate = entity.StartDate ?? DateTime.UtcNow;
+        chip.ChipNo = entity.ChipNo;
         chip.idEsta = entity.idEsta;
 
         _context.Update(chip);
@@ -394,5 +404,81 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
                 Message = ex.Message
             };
         }
+    }
+
+    public async Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity)
+    {
+        var chip = await _context.Chips
+            .Include(x => x.ChipPoblations)
+            .Include(x => x.ChipProgram)
+            .Include(x => x.Statu)
+            .Include(x => x.User)
+            .Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+
+        if (chip == null)
+        {
+            return new ActionResponse<Chip>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<Chip>
+        {
+            WasSuccess = true,
+            Result = chip
+        };
+    }
+
+    private string HoraCadena(TimeSpan MorningStar, TimeSpan MorningEnd, TimeSpan AfternoonStar, TimeSpan AfternoonEnd)
+    {
+        string Morning = "00:00-00:00";
+        string Afternoon = "00:00-00:00";
+
+        if (MorningStar > TimeSpan.Zero && MorningEnd > MorningStar)
+        {
+            Morning = $"{MorningStar.ToString(@"hh\:mm")}-{MorningEnd.ToString(@"hh\:mm")}";
+        }
+
+        if (AfternoonStar > TimeSpan.Zero && AfternoonEnd > AfternoonStar)
+        {
+            Afternoon = $"{AfternoonStar.ToString(@"hh\:mm")}-{AfternoonEnd.ToString(@"hh\:mm")}";
+        }
+        return $"{Morning}-{Afternoon}";
+    }
+
+    public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date)
+    {
+
+        var entity = await _context.Chips
+            .Include(x => x.Instructor)
+            .Include(x => x.ChipProgram)
+            .Where(x => x.AlertDate.Date == date.Date).ToListAsync();
+
+        if (entity == null || entity!.Count()==0)
+        {
+            return new ActionResponse<IEnumerable<Chip>>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        var entityUpdate =await _context.Chips.Where(x=>x.AlertDate.Date == date.Date && !x.SentStatus).Select(x=>x.Id).ToListAsync();
+
+        if (entityUpdate != null && entityUpdate.Count()>0)
+        {
+            await _context.Chips
+                                .Where(x=>entityUpdate.Contains(x.Id))
+                                .ExecuteUpdateAsync(y=>y.SetProperty(c=>c.SentStatus,true));
+        }
+
+
+        return new ActionResponse<IEnumerable<Chip>>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
     }
 }

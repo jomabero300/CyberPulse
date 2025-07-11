@@ -36,7 +36,6 @@ public partial class ChipCoordinatorForm
 
     }
 
-
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
         var formwasEditad = editContext.IsModified();

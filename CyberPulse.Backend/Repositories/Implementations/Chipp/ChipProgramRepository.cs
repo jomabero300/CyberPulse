@@ -1,8 +1,6 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
-using CyberPulse.Shared.Entities.Gene;
-using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,8 +38,8 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     public async Task<IEnumerable<ChipProgram>> GetComboAsync(int id)
     {
         return id == 0 ? await _context.ChipPrograms
-            .OrderBy(x => x.Code).ToListAsync():
+            .OrderBy(x => x.Code).ToListAsync() :
             await _context.ChipPrograms
-            .Where(x=>x.Id==id).ToListAsync();
+            .Where(x => x.Id == id).ToListAsync();
     }
 }

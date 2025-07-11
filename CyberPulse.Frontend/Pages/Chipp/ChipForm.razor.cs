@@ -79,7 +79,7 @@ public partial class ChipForm
         user = authState.User;
         userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
-
+        
         if (userRollId != null)
         {
             if (userRollId == "Coor") indEsta = 1;
@@ -140,7 +140,7 @@ public partial class ChipForm
             chipDTO.UserId = "XXYY";
             chipDTO.StatuId = await SearchIndEstaAsync("Creada", 1);
         }
-
+        chipDTO.language= System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2); 
         loading = false;
     }
 

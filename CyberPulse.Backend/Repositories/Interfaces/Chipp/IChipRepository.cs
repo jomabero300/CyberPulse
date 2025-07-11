@@ -8,7 +8,8 @@ namespace CyberPulse.Backend.Repositories.Interfaces.Chipp;
 public interface IChipRepository
 {
     Task<ActionResponse<Chip>> GetAsync(int id);
-
+    Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity);
+    Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date);
     Task<ActionResponse<IEnumerable<Chip>>> GetAsync();
 
     Task<ActionResponse<Chip>> AddAsync(ChipDTO entity);

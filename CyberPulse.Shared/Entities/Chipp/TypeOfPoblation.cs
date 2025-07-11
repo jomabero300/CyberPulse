@@ -14,4 +14,7 @@ public class TypeOfPoblation
     [MaxLength(80, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
+
+    public ICollection<ChipPoblation>? ChipPoblations { get; set; }
+
 }

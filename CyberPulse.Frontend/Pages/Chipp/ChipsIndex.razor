@@ -33,6 +33,11 @@ else
 
         <HeaderContent>
             <MudTh>@Localizer["ChipNo"]</MudTh>
+            @if(indEsta<2)
+            {
+                <MudTh>@Localizer["Usua"]</MudTh>
+                
+            }
             <MudTh>@Localizer["ChipProgram"]</MudTh>
             <MudTh>@Localizer["Apprentices"]</MudTh>
             <MudTh>@Localizer["Statu"]</MudTh>
@@ -40,6 +45,10 @@ else
         </HeaderContent>
         <RowTemplate>
             <MudTd Style="width:100px">@context.ChipNo</MudTd>
+            @if(indEsta<2)
+            {
+                <MudTd Class="text-center"  Style="width:125px">@context.Instructor.FirstName</MudTd>
+            }
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Statu.Name</MudTd>
@@ -82,6 +91,7 @@ else
                 {
                     <MudTooltip Text="@Localizer["Send"]">
                         <MudButton Size="Size.Small"
+                                   Disabled="@lbEsta"
                                    Variant="Variant.Filled"
                                    Color="Color.Primary"
                                    OnClick="@(() => ShowModalOpAsync(context.Id))">
@@ -90,6 +100,7 @@ else
                     </MudTooltip>
                     <MudTooltip Text="@Localizer["Edit"]">
                             <MudButton Size="Size.Small"
+                                        Disabled="@lbEsta"
                                        Variant="Variant.Filled"
                                        Color="Color.Warning"
                                        OnClick="@(() => ShowModalAsync(context.Id, true))">
@@ -102,14 +113,16 @@ else
                     //ejecutar, rechazar ver informe
                     <MudTooltip Text="@Localizer["ChipView"]">
                         <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
                                    Variant="Variant.Filled"
                                    Color="Color.Info"
-                                   OnClick="@(() => ActionAsync("V"))">
+                                   OnClick="@(() => ActionAsync("V", context.Id))">
                             <MudIcon Icon="@Icons.Material.Filled.Preview" />
                         </MudButton>
                     </MudTooltip>
                     <MudTooltip Text="@Localizer["ChipExecute"]">
                         <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
                                    Variant="Variant.Filled"
                                    Color="Color.Success"
                                    OnClick="@(() => ActionAsync("E",context.Id))">
@@ -118,6 +131,7 @@ else
                     </MudTooltip>
                     <MudTooltip Text="@Localizer["ChipDecline"]">
                         <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
                                    Variant="Variant.Filled"
                                    Color="Color.Error"
                                    OnClick="@(() => ActionAsync("D",context.Id))">
@@ -131,7 +145,7 @@ else
                         <MudButton Size="Size.Small"
                                    Variant="Variant.Filled"
                                    Color="Color.Info"
-                                   OnClick="@(() => ActionAsync("V"))">
+                                   OnClick="@(() => ActionAsync("V", context.Id))">
                             <MudIcon Icon="@Icons.Material.Filled.Preview" />
                         </MudButton>
                     </MudTooltip>

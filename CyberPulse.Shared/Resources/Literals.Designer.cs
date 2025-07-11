@@ -682,6 +682,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The instructor will be notified of the decision via email..
+        /// </summary>
+        public static string InstructorEjecutar {
+            get {
+                return ResourceManager.GetString("InstructorEjecutar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The form has been sent, the instructor will receive an email to notify.
         /// </summary>
         public static string InstructorEmail {
@@ -1227,6 +1236,15 @@ namespace CyberPulse.Shared.Resources {
         public static string SendEmailConfirmationMessage {
             get {
                 return ResourceManager.GetString("SendEmailConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Alerts Sent Today.
+        /// </summary>
+        public static string SentAlert {
+            get {
+                return ResourceManager.GetString("SentAlert", resourceCulture);
             }
         }
         

@@ -25,7 +25,7 @@ public partial class ChipCoordinatorCreate
 
     private async Task CreateAsync()
     {
-        chipDTO.ChipNo = chipCoordinator.ChipNo ?? "0000";
+        chipDTO.ChipNo = string.IsNullOrWhiteSpace(chipCoordinator.ChipNo) ? "0000": chipCoordinator.ChipNo;
         chipDTO.ChipProgramId = chipCoordinator.ChipProgramId;
         chipDTO.InstructorId = chipCoordinator.InstructorId;
         chipDTO.StartDate = chipCoordinator.StartDate ?? DateTime.Now;
@@ -107,6 +107,7 @@ public partial class ChipCoordinatorCreate
         };
 
         chipDTO.TypeOfPoblationDTO = new();
+        chipDTO.language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
 
         var responseHttp = await Repository.PostAsync("/api/chips/full", chipDTO);
 

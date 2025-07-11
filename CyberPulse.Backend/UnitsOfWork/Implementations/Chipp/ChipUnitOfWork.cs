@@ -16,7 +16,7 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
     {
         _chipRepository = chipRepository;
     }
-
+    public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync()=>await _chipRepository.GetAsync();
     public override async Task<ActionResponse<Chip>> GetAsync(int id)=>await _chipRepository.GetAsync(id);
 
     public override async Task<ActionResponse<Chip>> DeleteAsync(int id)=>await _chipRepository.DeleteAsync(id);
@@ -31,4 +31,8 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
     public async Task<ActionResponse<Chip>> UpdateAsync(ChipDTO entity)=>await _chipRepository.UpdateAsync(entity);
 
     public async Task<ActionResponse<Chip>> UpdateAsync(ChipCoordinator entity) => await _chipRepository.UpdateAsync(entity);
+
+    public async Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity)=>await _chipRepository.GetAsync(entity);
+
+    public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date)=>await _chipRepository.GetAsync(date);
 }

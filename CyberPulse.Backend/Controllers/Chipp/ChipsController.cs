@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CyberPulse.Backend.Controllers.Chipp;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
 public class ChipsController : GenericController<Chip>
@@ -133,6 +133,83 @@ public class ChipsController : GenericController<Chip>
 
         return BadRequest();
     }
+    [HttpGet("paginated")]
+    public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+    {
+        var response = await _chipRepository.GetAsync(pagination);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest();
+    }
+    [HttpDelete("full/{id}")]
+    public override async Task<IActionResult> DeleteAsync(int id)
+    {
+        var response = await _chipUnitOfWork.DeleteAsync(id);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest();
+
+    }
+
+    [HttpGet("Report")]
+    public override async Task<IActionResult> GetAsync()
+    {
+        var response=await _chipUnitOfWork.GetAsync();
+
+        var pdf = ChipReporteService.GenerarPdf(response.Result!.ToList());
+
+        return File(pdf, "application/pdf", "reporte_productos.pdf");
+    }
+
+    [HttpGet("ReportFull")]
+    public async Task<IActionResult> GetAsync(int id,string dto)
+    {
+        var response=await _chipUnitOfWork.GetAsync(id);
+
+        var pdf = ChipReporteService.ChipPdf(response.Result!);
+
+        return File(pdf, "application/pdf", "chipreporte.pdf");
+    }
+
+
+    [HttpGet("verificar/{language}")]
+    public async Task<IActionResult> VerificarYEnviarAlertas(string language)
+    {
+        var entity=await _chipUnitOfWork.GetAsync(DateTime.UtcNow);
+
+        if(entity.WasSuccess)
+        {
+            if (entity.Result!.FirstOrDefault()!.SentStatus == false)
+            {
+                //envair emails
+                var tokenLink = "https://localhost:7244";
+
+                string Mailbody = language == "es" ? "Mail:BodyAlertChipEs" : "Mail:BodyAlertChipEn";
+
+                string mail = language == "es" ? "Mail:SubjectCreateChipEs" : "Mail:SubjectCreateChipEn";
+
+                foreach (var item in entity.Result!)
+                {
+                    _mailHelper.SendMail(item.Instructor.FullName, item.Instructor.Email!, _configuration[mail]!, string.Format(_configuration[Mailbody]!, item.ChipNo, tokenLink), language);
+
+                    await Task.Delay(5);
+                }
+            }
+
+            return Ok(entity.Result);
+        }
+
+        return BadRequest();
+    }
+
     [HttpGet("full")]
     public async Task<IActionResult> GetAsync(int id, bool indEsta)
     {
@@ -162,33 +239,6 @@ public class ChipsController : GenericController<Chip>
         return BadRequest();
     }
 
-
-    [HttpGet("paginated")]
-    public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
-    {
-        var response = await _chipRepository.GetAsync(pagination);
-
-        if (response.WasSuccess)
-        {
-            return Ok(response.Result);
-        }
-
-        return BadRequest();
-    }
-    [HttpDelete("full/{id}")]
-    public override async Task<IActionResult> DeleteAsync(int id)
-    {
-        var response = await _chipUnitOfWork.DeleteAsync(id);
-
-        if (response.WasSuccess)
-        {
-            return Ok(response.Result);
-        }
-
-        return BadRequest();
-
-    }
-
     [HttpPost("full")]
     public async Task<IActionResult> PostAsync([FromBody] ChipDTO entity)
     {
@@ -201,6 +251,7 @@ public class ChipsController : GenericController<Chip>
 
         return BadRequest();
     }
+
     [HttpPut("full")]
     public async Task<IActionResult> PustAsync([FromBody] ChipDTO model)
     {
@@ -227,21 +278,18 @@ public class ChipsController : GenericController<Chip>
                 var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
                 
                 var tokenLink = "https://localhost:7244";
-                
-                string language = "es";
-                
+                                
                 string Mailbody=model.StatuId switch
                                     {
-                                        7 => language == "es" ? "Mail:BodyCreateChipEs" : "Mail:BodyCreateChipEn",
-                                        9 => language == "es" ? "Mail:BodyReviewChipEs" : "Mail:BodyReviewChipEn",
-                                        10 => language == "es" ? "Mail:BodyDeclineChipEs" : "Mail:BodyDeclineChipEn",
-                                        11 => language == "es" ? "Mail:BodySuccessChipEs" : "Mail:BodySuccessChipEn",
-                                        _ => language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
+                                        7 => model.language == "es" ? "Mail:BodyCreateChipEs" : "Mail:BodyCreateChipEn",
+                                        9 => model.language == "es" ? "Mail:BodyReviewChipEs" : "Mail:BodyReviewChipEn",
+                                        10 => model.language == "es" ? "Mail:BodyDeclineChipEs" : "Mail:BodyDeclineChipEn",
+                                        11 => model.language == "es" ? "Mail:BodySuccessChipEs" : "Mail:BodySuccessChipEn",
+                                        _ => model.language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
                                     };
 
-
                 //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
-                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[Mailbody]!, tokenLink), language);
+                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[Mailbody]!, model.ChipNo, tokenLink), model.language);
             }
 
             return Ok(action.Result);

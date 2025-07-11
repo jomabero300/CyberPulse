@@ -18,6 +18,13 @@
             @Localizer["Title"]
         </MudLink>
         <MudSpacer />
+ 
+        @if (HayAlertas)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Api" Color="Color.Error"
+                           Class="blink-icon" OnClick="MostrarModalAlertas" />
+        }
+
         <MudMenu Icon="@Icons.Material.Filled.Settings"
                  Color="Color.Inherit"
                  ActivationEvent="@MouseEvent.MouseOver"

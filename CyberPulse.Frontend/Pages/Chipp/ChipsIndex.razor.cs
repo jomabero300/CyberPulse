@@ -8,6 +8,7 @@ using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
 using MudBlazor;
 using System.Net;
 using System.Security.Claims;
@@ -30,13 +31,14 @@ public partial class ChipsIndex
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
+    [Inject] IJSRuntime JS { get; set; } = null!;
 
     [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
     private ClaimsPrincipal? user;
     private string? userId;
     private string? userRollId;
     private int indEsta = 0;
-
+    private bool lbEsta = false;
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
 
 
@@ -51,9 +53,9 @@ public partial class ChipsIndex
         userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
         if (userRollId != null)
         {
+            if (userRollId == "Admi") indEsta = 0;
             if (userRollId == "Coor") indEsta = 1;
             if (userRollId == "Inst") indEsta = 2;
-            if (userRollId == "Admi") indEsta = 3;
         }
     }
 
@@ -187,35 +189,19 @@ public partial class ChipsIndex
     }
     private async Task ShowModalOpAsync(int id = 0)
     {
-        //var tableRow = table.Context.Rows.FirstOrDefault(x => x.Key.Id == id);
 
-        //if (!tableRow.Key.idEsta)
-        //{
-        //    var message = Localizer["UpdateRow"];
-        //    Snackbar.Add(Localizer[message!], Severity.Warning);
-        //    return;
-        //}
-
-        //var chipCoordinator = new ChipCoordinator()
-        //{
-        //    Id = id,
-        //    ChipNo = tableRow.Key.ChipNo,
-        //    Code = "E",
-        //    Identificacion = tableRow.Key.Instructor.DocumentId,
-        //    StartDate = tableRow.Key.StartDate,
-        //    InstructorName = tableRow.Key.Instructor.FullName,
-        //    InstructorId = tableRow.Key.InstructorId,
-        //    ChipProgramId = tableRow.Key.ChipProgramId,
-        //    ChipProgramName = tableRow.Key.ChipProgram.Designation,
-        //    StatuId = tableRow.Key.StatuId + 1,
-        //    idEsta = false
-        //};
+        lbEsta = true;
 
         var response = ConverAsync(id);
 
-        if (!response.WasSuccess) return;
+        if (!response.WasSuccess)
+        {
+            lbEsta = false; 
+            return;
+        }
 
         var chipCoordinator = response.Result;
+
 
         var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
 
@@ -224,6 +210,7 @@ public partial class ChipsIndex
             var messageError = await responseHttp.GetErrorMessageAsync();
 
             Snackbar.Add(Localizer[messageError!], Severity.Error);
+            lbEsta = false;
             return;
         }
 
@@ -248,7 +235,7 @@ public partial class ChipsIndex
         }
 
         int statuId = StatuId != 0 ? StatuId : tableRow.Key.StatuId + 1;
-
+        var language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         var chipCoordinator = new ChipCoordinator()
         {
             Id = tableRow.Key.Id,
@@ -261,7 +248,8 @@ public partial class ChipsIndex
             ChipProgramId = tableRow.Key.ChipProgramId,
             ChipProgramName = tableRow.Key.ChipProgram.Designation,
             StatuId = statuId,
-            idEsta = false
+            idEsta = false,
+            language=language,
         };
 
         return new ActionResponse<ChipCoordinator>
@@ -272,46 +260,66 @@ public partial class ChipsIndex
 
     }
 
-
     private async Task ActionAsync(string type, int id = 0)
     {
-        int indEsta = type switch
+        if(type=="V")
         {
-            "D" => 10,
-            "E" => 11,
-            _ => 0
-        };
-
-        if (indEsta > 0)
-        {
-            var response = ConverAsync(id, indEsta);
-
-            if (!response.WasSuccess) return;
-
-            var chipCoordinator = response.Result;
-
-            var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
-
-            if (responseHttp.Error)
+            var report = new ChipReportDTO
             {
-                var messageError = await responseHttp.GetErrorMessageAsync();
+                Id=id,
+            };
 
-                Snackbar.Add(Localizer[messageError!], Severity.Error);
+            var response = await repository.GetBytesAsync($"api/chips/reportFull?id={id}&dto=pero");
+
+            if (response.Error || response.Response == null)
+            {
+                // Handle error
                 return;
             }
 
-            //1. coordinaor, 2. Instructor
-            string messageSend = indEsta.Equals(10) ? "InstructorEmail" : "CoordinatorInfo";
-            Snackbar.Add(Localizer[messageSend], Severity.Success);
-            await table.ReloadServerData();
+            await JS.InvokeVoidAsync("mostrarPdfEnNuevaPestana", response.Response);
         }
+        else
+        {
+            lbEsta = true;
+            int statuId = type switch
+            {
+                "D" => 10,
+                "E" => 11,
+                _ => 0
+            };
+
+            if (statuId > 0)
+            {
+                var response = ConverAsync(id, statuId);
+
+                if (!response.WasSuccess) return;
+
+                var chipCoordinator = response.Result;
+
+                var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
+
+                if (responseHttp.Error)
+                {
+                    var messageError = await responseHttp.GetErrorMessageAsync();
+
+                    Snackbar.Add(Localizer[messageError!], Severity.Error);
+                    return;
+                }
+
+                string messageSend = "InstructorEjecutar";
+                Snackbar.Add(Localizer[messageSend], Severity.Success);
+                await table.ReloadServerData();
+            }
+        }
+        
     }
 
     private async Task DeleteAsync(Chip entity)
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Statu"], entity.ChipNo) }
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Chip"], entity.ChipNo) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -348,5 +356,4 @@ public partial class ChipsIndex
 
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
     }
-
 }

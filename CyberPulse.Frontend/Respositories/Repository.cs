@@ -92,4 +92,18 @@ public class Repository : IRepository
         var response = await responseHttp.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
     }
+
+    public async Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url)
+    {
+        var responseHTTP = await _httpClient.GetAsync(url);
+
+        if (responseHTTP.IsSuccessStatusCode)
+        {
+            var bytes = await responseHTTP.Content.ReadAsByteArrayAsync();
+            return new HttpResponseWrapper<byte[]>(bytes, false, responseHTTP);
+        }
+
+        return new HttpResponseWrapper<byte[]>(null, true, responseHTTP);
+    }
+
 }

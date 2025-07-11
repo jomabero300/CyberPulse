@@ -40,6 +40,7 @@ public partial class ChipCoordinatorEdit
     }
     private async Task EditAsync()
     {
+        chipCoordinator.language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         var responseHttp = await Repository.PutAsync("api/chips/fullc/", chipCoordinator);
 
         if (responseHttp.Error)

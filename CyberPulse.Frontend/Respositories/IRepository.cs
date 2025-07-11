@@ -2,6 +2,9 @@
 
 public interface IRepository
 {
+    //TODO:PARA BORRA
+    Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url);
+
     Task<HttpResponseWrapper<T>> GetAsync<T>(string url);
 
     Task<HttpResponseWrapper<object>> GetAsync(string url);

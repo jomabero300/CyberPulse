@@ -2,7 +2,6 @@
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
-using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;

@@ -246,4 +246,6 @@ public class ChipDTO
     [Display(Name = "TrainingProgram", ResourceType = typeof(Literals))]
     public TypeOfTrainingDTO? TypeOfTraining { get; set; }
     public bool Holiday { get; set; }
+
+    public string language { get; set; }
 }

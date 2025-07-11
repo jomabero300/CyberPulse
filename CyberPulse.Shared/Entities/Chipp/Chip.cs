@@ -127,6 +127,8 @@ public class Chip
     public int StatuId { get; set; }
     public bool idEsta { get; set; }
     public bool Holiday { get; set; }
+    public bool SentStatus { get; set; }
+
     public User Instructor { get; set; } = null!;
     public User User { get; set; } = null!;
     public ChipProgram ChipProgram { get; set; } = null!;

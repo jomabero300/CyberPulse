@@ -32,4 +32,6 @@ public class ChipCoordinator
     public string ChipProgramName { get; set; } = null!;
     public int StatuId { get; set; }
     public bool idEsta { get; set; }
+
+    public string language { get; set; }
 }
