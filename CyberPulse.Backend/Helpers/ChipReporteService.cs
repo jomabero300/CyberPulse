@@ -171,28 +171,33 @@ public class ChipReporteService
                 column.Spacing(10); // Espacio entre secciones
 
                 // Sección de Información General
-                column.Item().Scale(tamañoDeLetraTitle).BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingBottom(2).Text("Información General").Bold();
-                column.Item().PaddingLeft(10).Column(subColumn =>
+                column.Item().Scale(tamañoDeLetra).PaddingTop(10).BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingBottom(1).Text("Información General").Bold();
+                column.Item().Scale(tamañoDeLetra).PaddingLeft(10).Column(subColumn =>
                 {
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Scale(tamañoDeLetra).Scale(1).BorderColor(Colors.Grey.Medium).Text("Ficha No:");
-                        row.RelativeItem().Scale(tamañoDeLetra).Text(entity.ChipNo);
+                        row.ConstantItem(150).Text("Ficha No:");
+                        row.RelativeItem().Text(entity.ChipNo);
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Scale(tamañoDeLetra).Text("Programa: ");
-                        row.RelativeItem().Scale(tamañoDeLetra).Text(entity.ChipProgram.Designation);
+                        row.ConstantItem(150).Text("Programa: ");
+                        row.RelativeItem().Text(entity.ChipProgram.Designation);
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Scale(tamañoDeLetra).Text("Compañía:");
-                        row.RelativeItem().Scale(tamañoDeLetra).Text(entity.Company);
+                        row.ConstantItem(150).Text("Compañía:");
+                        row.RelativeItem().Text(entity.Company);
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Scale(tamañoDeLetra).Text("Instructor: ");
-                        row.RelativeItem().Scale(tamañoDeLetra).Text(entity.Instructor.FullName);
+                        row.ConstantItem(150).Text("Instructor: ");
+                        row.RelativeItem().Text(entity.Instructor.FullName);
+                    });
+                    subColumn.Item().Row(row =>
+                    {
+                        row.ConstantItem(150).Text("Estado");
+                        row.RelativeItem().Text(entity.Statu.Name);
                     });
                 });
 
@@ -202,17 +207,17 @@ public class ChipReporteService
                 {
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Fecha de Inicio:");
+                        row.ConstantItem(150).Text("Fecha de Inicio:");
                         row.RelativeItem().Text(entity.StartDate.ToShortDateString());
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Fecha de Fin:");
+                        row.ConstantItem(150).Text("Fecha de Fin:");
                         row.RelativeItem().Text(entity.EndDate.ToShortDateString());
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Fecha de Alerta:");
+                        row.ConstantItem(150).Text("Fecha de Alerta:");
                         row.RelativeItem().Text(entity.AlertDate.ToShortDateString());
                     });
                 });
@@ -223,7 +228,7 @@ public class ChipReporteService
                 {
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Municipio:");
+                        row.ConstantItem(150).Text("Municipio:");
                         row.RelativeItem().Text(entity.Neighborhood.City!.Name);
                         if (entity.NeighborhoodId.ToString().Substring(5) != "000")
                         {
@@ -232,12 +237,12 @@ public class ChipReporteService
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Programa  a la medida: ");
+                        row.ConstantItem(150).Text("Programa  a la medida: ");
                         row.RelativeItem().Text(entity.TrainingProgram!.Name);
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Formación:");
+                        row.ConstantItem(150).Text("Formación:");
                         row.RelativeItem().Text(entity.TypeOfTraining.Name);
                     });
                 });
@@ -248,27 +253,27 @@ public class ChipReporteService
                 {
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Aprendices:");
+                        row.ConstantItem(150).Text("Aprendices:");
                         row.RelativeItem().Text(entity.Apprentices.ToString());
                     });
                     subColumn.Item().Row(row =>
                     {
-                        row.ConstantItem(120).Text("Justificación:");
+                        row.ConstantItem(150).Text("Justificación:");
                         row.RelativeItem().Text(entity.Justification).FontSize(10); // Texto más pequeño si es largo
                     });
                 });
 
 
-                // Sección de Estado
-                column.Item().Scale(tamañoDeLetraTitle).PaddingTop(10).BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingBottom(1).Text("Estado").Bold();
-                column.Item().Scale(tamañoDeLetra).PaddingLeft(10).Column(subColumn =>
-                {
-                    subColumn.Item().Row(row =>
-                    {
-                        row.ConstantItem(120).Text("Estado:");
-                        row.RelativeItem().Text(entity.Statu.Name);
-                    });
-                });
+                //// Sección de Estado
+                //column.Item().Scale(tamañoDeLetraTitle).PaddingTop(10).BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingBottom(1).Text("Estado").Bold();
+                //column.Item().Scale(tamañoDeLetra).PaddingLeft(10).Column(subColumn =>
+                //{
+                //    subColumn.Item().Row(row =>
+                //    {
+                //        row.ConstantItem(120).Text("Estado:");
+                //        row.RelativeItem().Text(entity.Statu.Name);
+                //    });
+                //});
 
                 // Sección de Horario Semanal
                 column.Item().Scale(tamañoDeLetraTitle).PaddingTop(10).BorderBottom(1).BorderColor(Colors.Grey.Medium).PaddingBottom(1).Text("Horario Semanal").Bold();
@@ -410,7 +415,7 @@ public class ChipReporteService
                             {
                                 table.Cell().Border(0).BorderColor(Colors.Grey.Medium).Padding(5).AlignCenter().AlignMiddle().Text(consecutivo++.ToString());
                                 //table.Cell().Border(1).Padding(5).AlignMiddle().Text(poblation.TypeOfPoblation?.Name ?? "N/A"); // Usa el nombre del tipo de población
-                                table.Cell().Border(0).BorderColor(Colors.Grey.Medium).Padding(5).AlignMiddle().Text("N/A"); // Usa el nombre del tipo de población
+                                table.Cell().Border(0).BorderColor(Colors.Grey.Medium).Padding(5).AlignMiddle().Text(poblation.TypePoblation.Name); // Usa el nombre del tipo de población
                                 table.Cell().Border(0).BorderColor(Colors.Grey.Medium).Padding(5).AlignCenter().AlignMiddle().Text(poblation.Quantity.ToString());
                             }
 

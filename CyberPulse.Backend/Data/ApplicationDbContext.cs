@@ -21,7 +21,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<TypeOfTraining> TypeOfTraining { get; set; }
 
 
-    public DbSet<Alerta> Alertas { get; set; }
     public DbSet<City> Cities { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Neighborhood> Neighborhoods { get; set; }

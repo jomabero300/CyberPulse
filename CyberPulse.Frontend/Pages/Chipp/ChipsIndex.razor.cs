@@ -273,11 +273,11 @@ public partial class ChipsIndex
 
             if (response.Error || response.Response == null)
             {
-                // Handle error
                 return;
             }
 
-            await JS.InvokeVoidAsync("mostrarPdfEnNuevaPestana", response.Response);
+            //await JS.InvokeVoidAsync("mostrarPdfEnNuevaPestana", response.Response);
+            await JS.InvokeVoidAsync("displayPdf", response.Response);
         }
         else
         {

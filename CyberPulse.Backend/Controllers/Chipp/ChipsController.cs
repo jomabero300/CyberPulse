@@ -179,7 +179,7 @@ public class ChipsController : GenericController<Chip>
         return File(pdf, "application/pdf", "chipreporte.pdf");
     }
 
-
+    [AllowAnonymous]
     [HttpGet("verificar/{language}")]
     public async Task<IActionResult> VerificarYEnviarAlertas(string language)
     {
@@ -207,7 +207,7 @@ public class ChipsController : GenericController<Chip>
             return Ok(entity.Result);
         }
 
-        return BadRequest();
+        return BadRequest(entity.Message);
     }
 
     [HttpGet("full")]

@@ -5,4 +5,6 @@
     window.open(url, '_blank');
     // Remember to revoke the URL when done to free memory
     // URL.revokeObjectURL(url); // Can be done after loading
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+
 }

@@ -1,6 +1,7 @@
 ﻿using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
@@ -35,6 +36,10 @@ public class UsersUnitOfWork : IUsersUnitOfWork
 
     public async Task<IEnumerable<User>> GetAsync(string id)=>await _userRepository.GetAsync(id);
 
+    public async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination)=>await _userRepository.GetAsync(pagination);
+
+    public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _userRepository.GetTotalRecordsAsync(pagination);
+
     public async Task<User> GetUserAsync(Guid userId) => await _userRepository.GetUserAsync(userId);
 
     public async Task<User> GetUserAsync(string email)=>await _userRepository.GetUserAsync(email);
@@ -50,4 +55,6 @@ public class UsersUnitOfWork : IUsersUnitOfWork
     public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)=>await _userRepository.ResetPasswordAsync(user,token,password);
 
     public async Task<IdentityResult> UpdateUserAsync(User user)=>await _userRepository.UpdateUserAsync(user);
+
+    public async Task UpdateUserAsync(string userId, UserType userType) => await _userRepository.UpdateUserAsync(userId,userType);
 }

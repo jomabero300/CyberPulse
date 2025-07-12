@@ -3,6 +3,7 @@ using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
@@ -35,6 +36,30 @@ public class AccountsController : ControllerBase
         _mailHelper = mailHelper;
         _context = context;
         _userRepository = userRepository;
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("paginated")]
+    public async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+    {
+        var response = await _usersUnitOfWork.GetAsync(pagination);
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+        return BadRequest();
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("totalRecordsPaginated")]
+    public async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _usersUnitOfWork.GetTotalRecordsAsync(pagination);
+        if (action.WasSuccess)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
     }
 
     [HttpPost("RecoverPassword")]
@@ -113,6 +138,14 @@ public class AccountsController : ControllerBase
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPut]
+    public async Task<IActionResult> PutAsync(string userId,UserType userType)
+    {
+        await _usersUnitOfWork.UpdateUserAsync(userId, userType);
+        return BadRequest();
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
@@ -138,6 +171,7 @@ public class AccountsController : ControllerBase
         return Ok(result);
 
     }
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("Instructor")]
     public async Task<IActionResult> GetAsync(string id, UserType userType)
@@ -152,7 +186,19 @@ public class AccountsController : ControllerBase
         return BadRequest(result.Message);
     }
 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("UserType")]
+    public async Task<IActionResult> UserTypeAsync(string id)
+    {
+        var result = await _usersUnitOfWork.GetUserAsync(new Guid(id));
 
+        if(result!=null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest();
+    }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost("ChangePassword")]
@@ -276,7 +322,14 @@ public class AccountsController : ControllerBase
         return BadRequest("ERR006");
     }
     
-    
+    [HttpGet("UserTypeUp")]
+    public async Task<IActionResult> UserTypeAsync(string id,UserType userType)
+    {
+        await _usersUnitOfWork.UpdateUserAsync(id, userType);
+
+        return NoContent();
+    }
+
     private async Task<ActionResponse<string>> SendConfirmationEmailAsync(User user, string language)
     {
         var myToken = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);

@@ -1,4 +1,5 @@
 ﻿using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
@@ -8,11 +9,14 @@ namespace CyberPulse.Backend.Repositories.Interfaces.Gene;
 
 public interface IUserRepository
 {
+    Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination);
+    Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
     Task<string> GeneratePasswordResetTokenAsync(User user);
     Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
     Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
     Task<IdentityResult> UpdateUserAsync(User user);
+    Task UpdateUserAsync(string userId, UserType userType);
     Task<User> GetUserAsync(Guid userId);
     Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType);
     Task<IEnumerable<User>> GetAsync(UserType userType);

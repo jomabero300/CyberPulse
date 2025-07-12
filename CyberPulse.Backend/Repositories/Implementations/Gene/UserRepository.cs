@@ -1,11 +1,11 @@
 ﻿using CyberPulse.Backend.Data;
+using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
-using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Responses;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -142,9 +142,9 @@ public class UserRepository : IUserRepository
 
     public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)
     {
-        var entity = userDocument.Length<15? 
-            await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType==userType).FirstOrDefaultAsync():
-            await _context.Users.Where(x => x.Id == userDocument && x.UserType==userType).FirstOrDefaultAsync();
+        var entity = userDocument.Length < 15 ?
+            await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType == userType).FirstOrDefaultAsync() :
+            await _context.Users.Where(x => x.Id == userDocument && x.UserType == userType).FirstOrDefaultAsync();
 
         if (entity == null)
         {
@@ -204,5 +204,53 @@ public class UserRepository : IUserRepository
 
         return resul;
 
+    }
+    public async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination)
+    {
+        var queryable = _context.Users
+            .Include(x => x.Country)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => x.FirstName.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.LastName.ToLower().Contains(pagination.Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<User>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .Paginate(pagination)
+                .ToListAsync()
+        };
+    }
+
+    public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
+    {
+        var queryable = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => x.FirstName.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.LastName.ToLower().Contains(pagination.Filter.ToLower()));
+        }
+
+        double count = await queryable.CountAsync();
+        return new ActionResponse<int>
+        {
+            WasSuccess = true,
+            Result = (int)count
+        };
+    }
+    public async Task UpdateUserAsync(string userId, UserType userType)
+    {
+        var entity = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+        if (entity == null) return;
+
+        _context.Database.ExecuteSql($"UPDATE Admi.AspNetUsers SET UserType={userType} WHERE Id={userId}");
     }
 }
