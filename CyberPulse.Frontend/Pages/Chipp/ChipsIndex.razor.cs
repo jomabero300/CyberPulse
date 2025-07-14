@@ -161,7 +161,6 @@ public partial class ChipsIndex
 
             }
         }
-
         else
         {
             if (user!.IsInRole(UserType.Coor.ToString()))

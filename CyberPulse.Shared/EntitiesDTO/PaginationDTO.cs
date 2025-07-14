@@ -1,4 +1,6 @@
-﻿namespace CyberPulse.Shared.EntitiesDTO;
+﻿using CyberPulse.Shared.Enums;
+
+namespace CyberPulse.Shared.EntitiesDTO;
 
 public class PaginationDTO
 {
@@ -12,4 +14,6 @@ public class PaginationDTO
 
     public string? Email { get; set; }
     public string? otro {  get; set; }
+
+    public UserType? UserType { get; set; } 
 }

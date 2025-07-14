@@ -168,14 +168,9 @@ public class SeedDb
 
         if (!_context.TypeOfTraining.Any())
         {
-            _context.Add(new TypeOfTraining { Name = "Ninguno" });
-            _context.Add(new TypeOfTraining { Name = "Aula movil" });
-            _context.Add(new TypeOfTraining { Name = "Campesena" });
-            _context.Add(new TypeOfTraining { Name = "Evento de Divulgación tecnológica" });
-            _context.Add(new TypeOfTraining { Name = "Formacion complementaria regulad" });
-            _context.Add(new TypeOfTraining { Name = "Otro" });
-            _context.Add(new TypeOfTraining { Name = "Tecno - Academia" });
-            _context.Add(new TypeOfTraining { Name = "Victimas" });
+            _context.Add(new TypeOfTraining { Name = "Abierta" });
+            _context.Add(new TypeOfTraining { Name = "Cerrada" });
+            _context.Add(new TypeOfTraining { Name = "Ambas" });
 
             indEsta = true;
         }
@@ -221,10 +216,12 @@ public class SeedDb
 
         if(!_context.TrainingPrograms.Any())
         {
-            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Titulada" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Regular" });
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Articulación con la media técnica" });
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Atención A poblacion victima" });
             _context.TrainingPrograms.Add(new TrainingProgram { Name = "Campesena" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Tecno - Academia" });
+            _context.TrainingPrograms.Add(new TrainingProgram { Name = "Otro" });
             indEsta = true;
         }
 

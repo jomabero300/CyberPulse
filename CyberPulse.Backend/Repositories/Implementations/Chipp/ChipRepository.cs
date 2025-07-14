@@ -124,7 +124,6 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
                                 .AsQueryable();
 
 
-
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => x.ChipNo.ToLower().Contains(pagination.Filter.ToLower()) ||

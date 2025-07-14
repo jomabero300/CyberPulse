@@ -11,11 +11,14 @@ else
 			<MudItem xs="12" sm="2">
 				<MudTextField Label="@Localizer["Instructor"]"
 							  @bind-Value="@chipCoordinator.Identificacion"
-							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  Adornment="Adornment.End"
+							  AdornmentIcon="@Icons.Material.Filled.Search"
 							  For="@(() => chipCoordinator.Identificacion)"
-							  onblur="@(() => SearchInstructor())" />
+							  onblur="@(() => SearchInstructor())"
+							  OnAdornmentClick="UserDialogo" />
 
 			</MudItem>
+
 			<MudItem xs="12" sm="10">
 				<MudTextField @bind-Value="chipCoordinator.InstructorName" Label="@Localizer["Instructor"]" Disabled="true" />
 			</MudItem>
@@ -24,9 +27,11 @@ else
 			<MudItem xs="12" sm="2">
 				<MudTextField Label="@Localizer["ChipProgram"]"
 							  @bind-Value="@chipCoordinator.Code"
-							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  Adornment="Adornment.End"
+							  AdornmentIcon="@Icons.Material.Filled.Search"
 							  For="@(() => chipCoordinator.Code)"
-							  onblur="@(() => SearchProgram())" />
+							  onblur="@(() => SearchProgram())"
+							  OnAdornmentClick="ProgramDialogo"/>
 
 			</MudItem>
 			<MudItem xs="12" sm="10">

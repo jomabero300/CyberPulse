@@ -207,7 +207,12 @@ public class UserRepository : IUserRepository
     }
     public async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Users
+        var queryable = pagination.UserType!=null?  
+            _context.Users
+            .Include(x => x.Country)
+            .Where(x=>x.UserType==pagination.UserType)
+            .AsQueryable():
+            _context.Users
             .Include(x => x.Country)
             .AsQueryable();
 

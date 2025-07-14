@@ -5,12 +5,10 @@ using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using System.Security.Claims;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
@@ -23,8 +21,9 @@ public partial class ChipCoordinatorForm
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
-
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private IDialogService DialogService { get; set; } = null!;
+
 
     public bool FormPostedSuccessfully { get; set; } = false;
     private bool DisabledTypeOfTraining = true;
@@ -105,5 +104,61 @@ public partial class ChipCoordinatorForm
         chipCoordinator.Code = responseHttp.Response!.Code;
         chipCoordinator.ChipProgramId = responseHttp.Response!.Id;
         chipCoordinator.ChipProgramName = responseHttp.Response.Designation;
+    }
+
+    private async Task UserDialogo()
+    {
+        var parameters = new DialogParameters();
+        var dialog = await DialogService.ShowAsync<ChipCoordinatorSearchInstructor>("Buscar Persona", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is User userDTO)
+        {
+            chipCoordinator.InstructorId=userDTO.Id;
+            chipCoordinator.Identificacion = userDTO.DocumentId;
+            chipCoordinator.InstructorName = $"{userDTO.FirstName} {userDTO.LastName}" ;
+        }
+    }
+
+    private async Task ProgramDialogo()
+    {
+        var parameters = new DialogParameters();
+        var dialog = await DialogService.ShowAsync<ChipCoordinatorSearchPrograms>("Buscar programa", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is ChipProgram programDTO)
+        {
+            chipCoordinator.Code = programDTO.Code;
+            chipCoordinator.ChipProgramId= programDTO.Id;
+            chipCoordinator.ChipProgramName = programDTO.Designation;
+        }
+
+    }
+
+    private async Task ShowPersonSearchDialog()
+    {
+        var options = new DialogOptions
+        {
+            CloseButton = true,
+            MaxWidth = MaxWidth.Medium,
+            FullWidth = true
+        };
+
+        var dialog =await DialogService.ShowAsync<ChipCoordinatorSearchInstructor>(
+            "Search Person",
+            options);
+
+        var result = await dialog.Result;
+
+        if (!result!.Canceled)
+        {
+            var selectedPerson = (ChipUserDTO)result.Data!;
+
+            chipCoordinator.Identificacion = selectedPerson.DocumentId;
+
+            chipCoordinator.InstructorName =$"{selectedPerson.FirstName} {selectedPerson.LastName}";
+            
+            StateHasChanged();
+        }
     }
 }

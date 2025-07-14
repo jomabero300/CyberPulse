@@ -146,60 +146,6 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.ToTable("Chips", "Chip");
                 });
 
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipHour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChipId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Friday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Monday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Saturday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Sunday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Thursday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Tuesday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.Property<string>("Wednesday")
-                        .IsRequired()
-                        .HasMaxLength(23)
-                        .HasColumnType("varchar(23)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChipId")
-                        .IsUnique();
-
-                    b.ToTable("ChipHours", "Chip");
-                });
-
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipPoblation", b =>
                 {
                     b.Property<int>("Id")
@@ -386,29 +332,6 @@ namespace CyberPulse.Backend.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("TypeOfTrainings", "Chip");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Alerta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EstadoEnviado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("FechaAlerta")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Alertas", "Admi");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.City", b =>
@@ -813,17 +736,6 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("TypeOfTraining");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipHour", b =>
-                {
-                    b.HasOne("CyberPulse.Shared.Entities.Chipp.Chip", "Chip")
-                        .WithMany()
-                        .HasForeignKey("ChipId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Chip");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Chipp.ChipPoblation", b =>

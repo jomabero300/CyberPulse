@@ -11,7 +11,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
     }
     public DbSet<Chip> Chips { get; set; }
-    public DbSet<ChipHour> ChipHours { get; set; }
     public DbSet<ChipPoblation> ChipPoblations { get; set; }
     public DbSet<ChipProgram> ChipPrograms { get; set; }
     public DbSet<PriorityBet> PriorityBets { get; set; }
@@ -33,7 +32,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
         base.OnModelCreating(builder);
         builder.HasDefaultSchema("Admi");
 
-        builder.Entity<ChipHour>().HasIndex(x => x.ChipId).IsUnique();
         builder.Entity<ChipPoblation>().HasIndex(x => new { x.TypePoblationId, x.ChipId }).IsUnique();
         builder.Entity<ChipProgram>().HasIndex(x => new {x.Code,x.Version }).IsUnique();
         builder.Entity<PriorityBet>().HasIndex(x => x.Name).IsUnique();

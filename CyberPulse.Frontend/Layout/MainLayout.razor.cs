@@ -37,7 +37,7 @@ public partial class MainLayout
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();
-            //await SweetAlertService.FireAsync("Error",Localizer[message!], SweetAlertIcon.Error);
+            //await SweetAlertService.FireAsync("Error", Localizer[message!], SweetAlertIcon.Error);
             return;
         }
 

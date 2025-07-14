@@ -1321,7 +1321,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Dynamic and reactive software.
+        ///   Busca una cadena traducida similar a SENA - Arauca Section.
         /// </summary>
         public static string Subtitle {
             get {
@@ -1348,7 +1348,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Dynamic and reactive software.
+        ///   Busca una cadena traducida similar a SENA - Arauca Section.
         /// </summary>
         public static string Title {
             get {

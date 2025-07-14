@@ -1,0 +1,39 @@
+﻿@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudTable Items="@users"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true"
+              RowClass="cursor-pointer">
+
+        <ToolBarContent>
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>@Localizer["User"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTableRow onclick="@(() => SeleccionarPersona(context))">
+                <MudTd>@context.DocumentId</MudTd>
+                <MudTd>@context.FullName</MudTd>
+            </MudTableRow>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+    </MudTable>
+}

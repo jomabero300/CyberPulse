@@ -7,7 +7,6 @@ using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Enums;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -162,7 +161,7 @@ public class ChipsController : GenericController<Chip>
     [HttpGet("Report")]
     public override async Task<IActionResult> GetAsync()
     {
-        var response=await _chipUnitOfWork.GetAsync();
+        var response = await _chipUnitOfWork.GetAsync();
 
         var pdf = ChipReporteService.GenerarPdf(response.Result!.ToList());
 
@@ -170,9 +169,9 @@ public class ChipsController : GenericController<Chip>
     }
 
     [HttpGet("ReportFull")]
-    public async Task<IActionResult> GetAsync(int id,string dto)
+    public async Task<IActionResult> GetAsync(int id, string dto)
     {
-        var response=await _chipUnitOfWork.GetAsync(id);
+        var response = await _chipUnitOfWork.GetAsync(id);
 
         var pdf = ChipReporteService.ChipPdf(response.Result!);
 
@@ -183,9 +182,9 @@ public class ChipsController : GenericController<Chip>
     [HttpGet("verificar/{language}")]
     public async Task<IActionResult> VerificarYEnviarAlertas(string language)
     {
-        var entity=await _chipUnitOfWork.GetAsync(DateTime.UtcNow);
+        var entity = await _chipUnitOfWork.GetAsync(DateTime.UtcNow);
 
-        if(entity.WasSuccess)
+        if (entity.WasSuccess)
         {
             if (entity.Result!.FirstOrDefault()!.SentStatus == false)
             {
@@ -276,17 +275,17 @@ public class ChipsController : GenericController<Chip>
             {
                 //buscar el usuario e emails
                 var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
-                
+
                 var tokenLink = "https://localhost:7244";
-                                
-                string Mailbody=model.StatuId switch
-                                    {
-                                        7 => model.language == "es" ? "Mail:BodyCreateChipEs" : "Mail:BodyCreateChipEn",
-                                        9 => model.language == "es" ? "Mail:BodyReviewChipEs" : "Mail:BodyReviewChipEn",
-                                        10 => model.language == "es" ? "Mail:BodyDeclineChipEs" : "Mail:BodyDeclineChipEn",
-                                        11 => model.language == "es" ? "Mail:BodySuccessChipEs" : "Mail:BodySuccessChipEn",
-                                        _ => model.language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
-                                    };
+
+                string Mailbody = model.StatuId switch
+                {
+                    7 => model.language == "es" ? "Mail:BodyCreateChipEs" : "Mail:BodyCreateChipEn",
+                    9 => model.language == "es" ? "Mail:BodyReviewChipEs" : "Mail:BodyReviewChipEn",
+                    10 => model.language == "es" ? "Mail:BodyDeclineChipEs" : "Mail:BodyDeclineChipEn",
+                    11 => model.language == "es" ? "Mail:BodySuccessChipEs" : "Mail:BodySuccessChipEn",
+                    _ => model.language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
+                };
 
                 //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
                 _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[Mailbody]!, model.ChipNo, tokenLink), model.language);

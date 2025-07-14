@@ -1,6 +1,9 @@
 ﻿using CyberPulse.Backend.Data;
+using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +17,27 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     {
         _context = context;
     }
+    public override async Task<ActionResponse<IEnumerable<ChipProgram>>> GetAsync(PaginationDTO pagination)
+    {
+        var queryable = _context.ChipPrograms.AsQueryable();
 
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => x.Code.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Designation.ToLower().Contains(pagination.Filter.ToLower()));
+        }
+
+        var resul = await queryable
+            .OrderBy(x => x.Code)
+            .Paginate(pagination)
+            .ToListAsync();
+
+        return new ActionResponse<IEnumerable<ChipProgram>>
+        {
+            WasSuccess = true,
+            Result = resul,
+        };
+    }
     public async Task<ActionResponse<ChipProgram>> GetAsync(string code)
     {
         var entity = await _context.ChipPrograms.Where(x => x.Code == code).FirstOrDefaultAsync();
@@ -41,5 +64,25 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
             .OrderBy(x => x.Code).ToListAsync() :
             await _context.ChipPrograms
             .Where(x => x.Id == id).ToListAsync();
+    }
+
+    public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
+    {
+        var queryable = _context.ChipPrograms.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => 
+                                        x.Code.ToLower().Contains(pagination.Filter.ToLower()) || 
+                                        x.Designation.ToLower().Contains(pagination.Filter.ToLower()));
+        }
+
+        double count = await queryable.CountAsync();
+
+        return new ActionResponse<int>
+        {
+            WasSuccess = true,
+            Result = (int)count,
+        };
     }
 }

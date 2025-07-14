@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CyberPulse.Backend.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ChipAddHolidays : Migration
+    public partial class chipPrevio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -310,7 +310,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     Sunday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false),
                     idEsta = table.Column<bool>(type: "bit", nullable: false),
-                    Holiday = table.Column<bool>(type: "bit", nullable: false)
+                    Holiday = table.Column<bool>(type: "bit", nullable: false),
+                    SentStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -367,34 +368,6 @@ namespace CyberPulse.Backend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChipHours",
-                schema: "Chip",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChipId = table.Column<int>(type: "int", nullable: false),
-                    Monday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Tuesday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Wednesday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Thursday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Friday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Saturday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false),
-                    Sunday = table.Column<string>(type: "varchar(23)", maxLength: 23, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChipHours", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChipHours_Chips_ChipId",
-                        column: x => x.ChipId,
-                        principalSchema: "Chip",
-                        principalTable: "Chips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChipPoblations",
                 schema: "Chip",
                 columns: table => new
@@ -435,13 +408,6 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Gene",
                 table: "Status",
                 columns: new[] { "Name", "Nivel" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChipHours_ChipId",
-                schema: "Chip",
-                table: "ChipHours",
-                column: "ChipId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -599,10 +565,6 @@ namespace CyberPulse.Backend.Data.Migrations
                 name: "FK_AspNetUsers_Countries_CountryId",
                 schema: "Admi",
                 table: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "ChipHours",
-                schema: "Chip");
 
             migrationBuilder.DropTable(
                 name: "ChipPoblations",

@@ -1,0 +1,39 @@
+﻿@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudTable Items="@programs"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true"
+              RowClass="cursor-pointer">
+
+        <ToolBarContent>
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>@Localizer["Program"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTableRow onclick="@(() => SelectProgram(context))">
+                <MudTd>@context.Code</MudTd>
+                <MudTd>@context.Designation</MudTd>
+            </MudTableRow>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+    </MudTable>
+}
