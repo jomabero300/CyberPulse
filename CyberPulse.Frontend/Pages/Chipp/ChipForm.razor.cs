@@ -25,7 +25,7 @@ public partial class ChipForm
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
     public bool FormPostedSuccessfully { get; set; } = false;
-    private bool DisabledTypeOfTraining = true;
+    //private bool DisabledTypeOfTraining = true;
     private bool loading;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -357,26 +357,26 @@ public partial class ChipForm
         chipDTO.TrainingProgram = entity;
         chipDTO.TrainingProgramId = entity.Id;
 
-        if (entity.Name.Contains("Titulada"))
-        {
-            typeOfTrainings = typeOfTrainingsGen!.Where(x => !x.Name.Contains("Ninguno")).ToList();
-            chipDTO.TypeOfTrainingId = 0;
-            selectedTypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
-            chipDTO.TypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
-            DisabledTypeOfTraining = false;
-        }
-        else
-        {
-            typeOfTrainings = typeOfTrainingsGen;
-            var typeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Name.Contains("Ninguno"));
-            if (typeOfTraining != null)
-            {
-                selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
-                chipDTO.TypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
-                chipDTO.TypeOfTrainingId = typeOfTraining.Id;
-            }
-            DisabledTypeOfTraining = true;
-        }
+        //if (entity.Name.Contains("Titulada"))
+        //{
+        //    typeOfTrainings = typeOfTrainingsGen!.Where(x => !x.Name.Contains("Ninguno")).ToList();
+        //    chipDTO.TypeOfTrainingId = 0;
+        //    selectedTypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
+        //    chipDTO.TypeOfTraining = typeOfTrainings.FirstOrDefault(x => x.Id == 0)!;
+        //    DisabledTypeOfTraining = false;
+        //}
+        //else
+        //{
+        //    typeOfTrainings = typeOfTrainingsGen;
+        //    var typeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Name.Contains("Ninguno"));
+        //    if (typeOfTraining != null)
+        //    {
+        //        selectedTypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
+        //        chipDTO.TypeOfTraining = typeOfTrainings!.FirstOrDefault(x => x.Id == typeOfTraining.Id)!;
+        //        chipDTO.TypeOfTrainingId = typeOfTraining.Id;
+        //    }
+        //    DisabledTypeOfTraining = true;
+        //}
 
     }
 
@@ -392,8 +392,11 @@ public partial class ChipForm
             return;
         }
 
-        typeOfTrainingsGen = responseHttp.Response;
-        typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();
+
+        typeOfTrainings= responseHttp.Response;
+
+        //typeOfTrainingsGen = responseHttp.Response;
+        //typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();
     }
     private async Task<IEnumerable<TypeOfTrainingDTO>> SearchTypeOfTraining(string searchText, CancellationToken cancellationToken)
     {

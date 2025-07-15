@@ -98,7 +98,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ClockSkew = TimeSpan.Zero
     });
 
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSenaraucaApp", policy =>
+//    {
+//        policy.WithOrigins("https://senarauca.runasp.net")
+//              .AllowAnyHeader()
+//              .AllowAnyMethod()
+//              .AllowCredentials();
+//    });
+//});
+
 var app = builder.Build();
+
 SeedData(app);
 void SeedData(WebApplication app)
 {
@@ -108,15 +121,19 @@ void SeedData(WebApplication app)
     service!.SeedAsync().Wait();
 }
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+//app.UseCors("AllowSenaraucaApp");
+
+
 app.UseCors(x => x
-    .AllowAnyMethod()
     .AllowAnyHeader()
+    .AllowAnyMethod()
     .SetIsOriginAllowed(origin => true)
     .AllowCredentials());
 
