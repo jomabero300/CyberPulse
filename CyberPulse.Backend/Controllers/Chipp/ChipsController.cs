@@ -188,19 +188,19 @@ public class ChipsController : GenericController<Chip>
         {
             if (entity.Result!.FirstOrDefault()!.SentStatus == false)
             {
-                //envair emails
-                var tokenLink = "https://localhost:7244";
+                //envair emails https://localhost:7244
+                var tokenLink = _configuration["Url Frontend"];
 
                 string Mailbody = language == "es" ? "Mail:BodyAlertChipEs" : "Mail:BodyAlertChipEn";
 
                 string mail = language == "es" ? "Mail:SubjectCreateChipEs" : "Mail:SubjectCreateChipEn";
 
-                foreach (var item in entity.Result!)
-                {
-                    _mailHelper.SendMail(item.Instructor.FullName, item.Instructor.Email!, _configuration[mail]!, string.Format(_configuration[Mailbody]!, item.ChipNo, tokenLink), language);
+                //foreach (var item in entity.Result!)
+                //{
+                //    _mailHelper.SendMail(item.Instructor.FullName, item.Instructor.Email!, _configuration[mail]!, string.Format(_configuration[Mailbody]!, item.ChipNo, tokenLink), language);
 
-                    await Task.Delay(5);
-                }
+                //    await Task.Delay(5);
+                //}
             }
 
             return Ok(entity.Result);
@@ -276,7 +276,8 @@ public class ChipsController : GenericController<Chip>
                 //buscar el usuario e emails
                 var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
 
-                var tokenLink = "https://localhost:7244";
+                //var tokenLink = "https://localhost:7244";
+                var tokenLink = _configuration["Url Frontend"];
 
                 string Mailbody = model.StatuId switch
                 {

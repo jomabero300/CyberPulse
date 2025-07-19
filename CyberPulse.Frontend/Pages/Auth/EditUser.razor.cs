@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Auth;
 
@@ -27,8 +28,8 @@ public partial class EditUser
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     protected override async Task OnInitializedAsync()
     {
-        await LoadCountiesAsync();
         await LoadUserAsync();
+        await LoadCountiesAsync();
 
         selectedCountry = user!.Country!;
 
@@ -50,7 +51,7 @@ public partial class EditUser
 
         if (responseHttp.Error)
         {
-            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
                 NavigationManager.NavigateTo("/");
                 return;

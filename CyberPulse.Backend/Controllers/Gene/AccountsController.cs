@@ -10,6 +10,7 @@ using CyberPulse.Shared.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,17 +26,19 @@ public class AccountsController : ControllerBase
     private readonly IUsersUnitOfWork _usersUnitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
-    
+    private readonly IWebHostEnvironment _env;
+
     private readonly IMailHelper _mailHelper;
     private readonly ApplicationDbContext _context;
 
-    public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, ApplicationDbContext context, IUserRepository userRepository)
+    public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, ApplicationDbContext context, IUserRepository userRepository, IWebHostEnvironment env)
     {
         _usersUnitOfWork = usersUnitOfWork;
         _configuration = configuration;
         _mailHelper = mailHelper;
         _context = context;
         _userRepository = userRepository;
+        _env = env;
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -43,10 +46,12 @@ public class AccountsController : ControllerBase
     public async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
         var response = await _usersUnitOfWork.GetAsync(pagination);
+
         if (response.WasSuccess)
         {
             return Ok(response.Result);
         }
+
         return BadRequest();
     }
 
@@ -120,7 +125,11 @@ public class AccountsController : ControllerBase
             currentUser.FirstName = user.FirstName;
             currentUser.LastName = user.LastName;
             currentUser.CountryId = user.CountryId;
-            currentUser.Photo = !string.IsNullOrEmpty(user.Photo) && currentUser.Photo != user.Photo ? user.Photo : currentUser.Photo!.Substring(currentUser.Photo.IndexOf("\\Images\\Users\\"));
+            if (!string.IsNullOrEmpty(user.Photo))
+            {
+                var photo = await UploadImageAsync(user.Photo,user.Id);
+                currentUser.Photo = photo;
+            }
 
             var result = await _usersUnitOfWork.UpdateUserAsync(currentUser);
 
@@ -138,8 +147,8 @@ public class AccountsController : ControllerBase
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpPut]
-    public async Task<IActionResult> PutAsync(string userId,UserType userType)
+    [HttpPut("UserType")]
+    public async Task<IActionResult> PutAsync(string userId, UserType userType)
     {
         await _usersUnitOfWork.UpdateUserAsync(userId, userType);
         return BadRequest();
@@ -154,7 +163,7 @@ public class AccountsController : ControllerBase
 
 
 
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("LoadUsers/{userType}")]
     public async Task<IActionResult> GetAsync(UserType userType)
     {
@@ -263,7 +272,9 @@ public class AccountsController : ControllerBase
         if (result.Succeeded)
         {
             await _usersUnitOfWork.AddUserToRoleAsync(user, user.UserType.ToString());
+
             var response = await SendConfirmationEmailAsync(user, model.Language);
+
             if (response.WasSuccess)
             {
                 return NoContent();
@@ -391,5 +402,40 @@ public class AccountsController : ControllerBase
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = expiration,
         };
+    }
+    private async Task<string?> UploadImageAsync(string image, string id)
+    {
+        string webRootPath = _env.WebRootPath;
+
+        string directoryFolder = "\\Images\\Users\\";
+
+        string DirectoryPath = $"{webRootPath}{directoryFolder}";
+
+        var imageBase64 = Convert.FromBase64String(image!);
+
+        string pathImage = $"{Guid.NewGuid()}.jpg";
+
+        if (!Directory.Exists(DirectoryPath))
+        {
+            Directory.CreateDirectory(DirectoryPath);
+        }
+
+        var path = $"{DirectoryPath}{pathImage}";
+
+        await System.IO.File.WriteAllBytesAsync(path, imageBase64);
+
+        if (!string.IsNullOrWhiteSpace(id))
+        {
+            var user = await _context.Users
+                                         .Where(x => x.Id == id)
+                                         .Select(p => p.Photo)
+                                         .FirstOrDefaultAsync();
+            if (!string.IsNullOrWhiteSpace(user) && user != null )
+            {
+                System.IO.File.Delete($"{webRootPath}{user}");
+            }
+        }
+
+        return $"{directoryFolder}{pathImage}";
     }
 }

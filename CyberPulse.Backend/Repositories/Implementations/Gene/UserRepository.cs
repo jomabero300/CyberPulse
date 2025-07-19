@@ -80,7 +80,6 @@ public class UserRepository : IUserRepository
         var resul = await _context.Users.Where(x => x.UserType == userType).OrderBy(x => x.FirstName).ToListAsync();
 
         return resul;
-
     }
 
     public async Task<User> GetUserAsync(Guid userId)
@@ -189,7 +188,7 @@ public class UserRepository : IUserRepository
                                          .Where(x => x.Id == id)
                                          .Select(p => p.Photo)
                                          .FirstOrDefaultAsync();
-            if (user != null)
+            if (!string.IsNullOrWhiteSpace(user) && user != null)
             {
                 System.IO.File.Delete($"{webRootPath}{user}");
             }
@@ -208,13 +207,13 @@ public class UserRepository : IUserRepository
     public async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = pagination.UserType!=null?  
-            _context.Users
-            .Include(x => x.Country)
-            .Where(x=>x.UserType==pagination.UserType)
-            .AsQueryable():
-            _context.Users
-            .Include(x => x.Country)
-            .AsQueryable();
+                                                _context.Users
+                                                        .Include(x => x.Country)
+                                                        .Where(x=>x.UserType==pagination.UserType)
+                                                        .AsQueryable():
+                                                _context.Users
+                                                        .Include(x => x.Country)
+                                                        .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -226,6 +225,30 @@ public class UserRepository : IUserRepository
         {
             WasSuccess = true,
             Result = await queryable
+                .Select(x=>new User
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Photo = !string.IsNullOrWhiteSpace(x.Photo) ? $"{_configuration["UrlBackend"]}/{x.Photo}": $"{_configuration["UrlBackend"]}/Images/NoImage.png",
+                        UserType=x.UserType,
+                        NormalizedUserName=x.NormalizedUserName,
+                        Email = x.Email,
+                        NormalizedEmail=x.NormalizedEmail,
+                        EmailConfirmed=x.EmailConfirmed,
+                        PasswordHash=x.PasswordHash,
+                        SecurityStamp=x.SecurityStamp,
+                        ConcurrencyStamp=x.ConcurrencyStamp,
+                        PhoneNumber=x.PhoneNumber,
+                        PhoneNumberConfirmed=x.PhoneNumberConfirmed,
+                        TwoFactorEnabled=x.TwoFactorEnabled,
+                        LockoutEnd=x.LockoutEnd,
+                        LockoutEnabled=x.LockoutEnabled,
+                        AccessFailedCount=x.AccessFailedCount,
+                        Country = x.Country,
+                        CountryId = x.CountryId,
+                        DocumentId = x.DocumentId,                    
+                    })
                 .OrderBy(x => x.FirstName)
                 .ThenBy(x => x.LastName)
                 .Paginate(pagination)

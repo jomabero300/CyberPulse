@@ -41,6 +41,10 @@ public class Repository : IRepository
     {
         var messageJSON = JsonSerializer.Serialize(model);
         var messageContet = new StringContent(messageJSON, Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = messageContet;
+
         var responseHttp = await _httpClient.PostAsync(url, messageContet);
         if (responseHttp.IsSuccessStatusCode)
         {
