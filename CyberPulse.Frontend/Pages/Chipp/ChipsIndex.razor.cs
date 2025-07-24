@@ -5,6 +5,7 @@ using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
 using CyberPulse.Shared.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Localization;
@@ -15,7 +16,7 @@ using System.Security.Claims;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
-//[Authorize(Roles = "Admin,inst")]
+[Authorize(Roles = "Admi,Coor,Inst")]
 public partial class ChipsIndex
 {
     private List<Chip>? chips { get; set; }

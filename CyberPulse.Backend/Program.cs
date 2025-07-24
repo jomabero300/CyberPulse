@@ -28,15 +28,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            // Especifica el origen exacto de tu aplicación Blazor WebAssembly.
-            // Asegúrate de que sea el URL completo, incluyendo el protocolo (http/https).
             //builder.WithOrigins("https://localhost:7244")
+            //builder.WithOrigins("jomabero301-001-site1.jtempurl.com")
             builder.WithOrigins("https://senarauca.runasp.net")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
-            // Nota: No puedes usar AllowAnyOrigin() con AllowCredentials().
-            // Como estamos usando WithOrigins(), AllowCredentials() es posible.
         });
 
     // Si realmente quieres permitir cualquier origen (menos seguro para producción):
@@ -118,6 +115,7 @@ builder.Services.AddIdentity<User, IdentityRole>(x =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+    //.AddUserValidator<CustomEmailValidator>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters

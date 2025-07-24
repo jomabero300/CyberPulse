@@ -1,12 +1,14 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
+[Authorize(Roles = "Coor")]
 public partial class ChipCoordinatorEdit
 {
     private ChipCoordinatorForm? chipCoordinatorForm;

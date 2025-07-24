@@ -3,6 +3,7 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Localization;
@@ -11,6 +12,7 @@ using System.Security.Claims;
 
 namespace CyberPulse.Frontend.Pages.Chipp;
 
+[Authorize(Roles = "Coor")]
 public partial class ChipCoordinatorCreate
 {
     private ChipCoordinatorForm? chipCoordinatorForm;

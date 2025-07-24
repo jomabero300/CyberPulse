@@ -9,7 +9,7 @@
 				  @bind-Value="@user.FirstName"
 				  For="@(() => user.FullName)"
 				  class="mb-3" />
-    
+	@* Value="@($"{user.FirstName} {user.LastName}")" *@
 	<MudSelect T="UserType" @bind-Value="@user.UserType" Label="Tipo">
 		@foreach (UserType tipo in Enum.GetValues(typeof(UserType)))
 		{

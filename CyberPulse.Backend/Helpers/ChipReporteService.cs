@@ -123,7 +123,7 @@ public class ChipReporteService
         }
         return document.GeneratePdf();
     }
-    public static byte[] ChipPdf(Chip entity)
+    public static byte[] ChipPdf(Chip entity,string rutaPath)
     {
 
         QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
@@ -148,7 +148,7 @@ public class ChipReporteService
             container.Row(row =>
             {
                 var tamañoDeLetra = 0.8f;
-                var imagePath = "C:\\Projects\\CyberPulse\\CyberPulse.Backend\\wwwroot\\Images\\Reports\\Sena.jpg";
+                var imagePath = $"{rutaPath}\\Images\\Reports\\Sena.jpg";
 
                 row.RelativeItem().Column(column =>
                 {

@@ -1,6 +1,8 @@
 ﻿using CyberPulse.Shared.Responses;
 using MailKit.Net.Smtp;
 using MimeKit;
+using MimeKit.Text;
+using System.Threading.Tasks;
 
 namespace CyberPulse.Backend.Helpers;
 
@@ -13,7 +15,7 @@ public class MailHelper : IMailHelper
         _configuration = configuration;
     }
 
-    public ActionResponse<string> SendMail(string toName, string toEmail, string subject, string body, string language)
+    public async Task<ActionResponse<string>> SendMail(string toName, string toEmail, string subject, string body, string language)
     {
         try
         {
@@ -40,19 +42,33 @@ public class MailHelper : IMailHelper
 
             message.Subject = subject;
 
+            // Añadir headers importantes
+            message.Headers.Add("X-Mailer", "CyberPulse");
+            message.Headers.Add("X-Priority", "3"); // Normal priority
+
+
             BodyBuilder bodyBuilder = new BodyBuilder
             {
                 HtmlBody = body,
+                TextBody=HtmlUtilities.StripTags(body),
+                //TextBody = TextToHtml.StripTags(body) // Añadir versión texto plano
             };
 
             message.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new SmtpClient())
             {
-                client.Connect(smtp, int.Parse(port!), false);
-                client.Authenticate(from, password);
-                client.Send(message);
-                client.Disconnect(true);
+                // Configuración más robusta para Outlook
+                client.Timeout = 30000; // 30 segundos timeout
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                // Conexión segura
+                await client.ConnectAsync(smtp, int.Parse(port!),MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
+//                client.Connect(smtp, int.Parse(port!), false);
+
+                await client.AuthenticateAsync(from, password);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
 
             return new ActionResponse<string> { WasSuccess = true };

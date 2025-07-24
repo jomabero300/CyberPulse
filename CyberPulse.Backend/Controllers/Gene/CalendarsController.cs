@@ -139,7 +139,7 @@ public class CalendarsController : GenericController<Calendar>
 
                 var festivosApi = JsonSerializer.Deserialize<List<FestivoApiResponse>>(content, options);
 
-                foreach (var festivo in festivosApi)
+                foreach (var festivo in festivosApi!)
                 {
                     festivos.Add(festivo.Date);
                 }
@@ -170,10 +170,10 @@ public class CalendarsController : GenericController<Calendar>
         public DateTime Date { get; set; }
 
         [JsonPropertyName("localName")]
-        public string LocalName { get; set; }
+        public string LocalName { get; set; } = null!;
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; set; }= null!;
     }
 
     public class DateTimeConverter : JsonConverter<DateTime>

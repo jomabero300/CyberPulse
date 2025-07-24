@@ -4,6 +4,7 @@ using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;

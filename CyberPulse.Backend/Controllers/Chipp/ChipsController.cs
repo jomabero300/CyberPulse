@@ -22,9 +22,10 @@ public class ChipsController : GenericController<Chip>
     private readonly IChipRepository _chipRepository;
     private readonly IMailHelper _mailHelper;
     private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _env;
     private readonly IUsersUnitOfWork _usersUnitOfWork;
 
-    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork, IChipRepository chipRepository, IMailHelper mailHelper, IConfiguration configuration, IUsersUnitOfWork usersUnitOfWork) : base(unitOfWork)
+    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork, IChipRepository chipRepository, IMailHelper mailHelper, IConfiguration configuration, IUsersUnitOfWork usersUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _chipUnitOfWork = chipUnitOfWork;
         _poblationUnitOfWork = poblationUnitOfWork;
@@ -32,6 +33,7 @@ public class ChipsController : GenericController<Chip>
         _mailHelper = mailHelper;
         _configuration = configuration;
         _usersUnitOfWork = usersUnitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -132,6 +134,7 @@ public class ChipsController : GenericController<Chip>
 
         return BadRequest();
     }
+
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
@@ -144,6 +147,7 @@ public class ChipsController : GenericController<Chip>
 
         return BadRequest();
     }
+
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
@@ -172,8 +176,8 @@ public class ChipsController : GenericController<Chip>
     public async Task<IActionResult> GetAsync(int id, string dto)
     {
         var response = await _chipUnitOfWork.GetAsync(id);
-
-        var pdf = ChipReporteService.ChipPdf(response.Result!);
+        string rutaPath = _env.WebRootPath;
+        var pdf = ChipReporteService.ChipPdf(response.Result!, rutaPath);
 
         return File(pdf, "application/pdf", "chipreporte.pdf");
     }
@@ -288,8 +292,10 @@ public class ChipsController : GenericController<Chip>
                     _ => model.language == "es" ? "Mail:BodyFinishChipEs" : "Mail:BodyFinishChipEn",
                 };
 
+                string subject =model.language== "es" ? "Mail:SubjectCreateChipEs":"Mail:SubjectCreateChipEn";
+
                 //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
-                _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration["Mail:SubjectCreateChipEs"]!, string.Format(_configuration[Mailbody]!, model.ChipNo, tokenLink), model.language);
+                await _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration[subject]!, string.Format(_configuration[Mailbody]!, model.ChipNo, tokenLink), model.language);
             }
 
             return Ok(action.Result);

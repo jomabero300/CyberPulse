@@ -108,7 +108,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
                                 .Include(x => x.Instructor)
-                                .Where(x => x.Instructor.Email == pagination.Email && x.StatuId > 6 && x.StatuId < 11)
+                                .Where(x => x.Instructor.Email == pagination.Email && x.StatuId > 6 && x.StatuId < 12)
                                 .AsQueryable() :
                        pagination.otro == "Coor" ?
                             _context.Chips
