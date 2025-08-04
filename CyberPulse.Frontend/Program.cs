@@ -12,7 +12,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("http://jomabero302-001-site1.jtempurl.com") });
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("http://jomabero300-002-site2.qtempurl.com") });
 //builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7233") });
 //builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://senaraucapi.runasp.net") });
 

@@ -29,8 +29,8 @@ builder.Services.AddCors(options =>
         builder =>
         {
             //builder.WithOrigins("https://localhost:7244")
-            //builder.WithOrigins("jomabero301-001-site1.jtempurl.com")
-            builder.WithOrigins("https://senarauca.runasp.net")
+            //builder.WithOrigins("https://senarauca.runasp.net")
+            builder.WithOrigins("http://senagestionformacion.com")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
