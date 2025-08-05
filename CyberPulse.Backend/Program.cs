@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
         {
             //builder.WithOrigins("https://localhost:7244")
             //builder.WithOrigins("https://senarauca.runasp.net")
-            builder.WithOrigins("http://senagestionformacion.com")
+            builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
