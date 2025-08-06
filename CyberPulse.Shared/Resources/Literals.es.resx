@@ -603,4 +603,7 @@
   <data name="SentAlert" xml:space="preserve">
     <value>Alertas Enviadas Hoy</value>
   </data>
+  <data name="RegularExpression" xml:space="preserve">
+    <value>Caracteres no permitidos</value>
+  </data>
 </root>

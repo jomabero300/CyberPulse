@@ -19,12 +19,15 @@ public class User : IdentityUser
     [Display(Name = "FirstName", ResourceType = typeof(Literals))]
     [MaxLength(50, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [RegularExpression(@"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]*$",ErrorMessageResourceName ="RegularExpression",ErrorMessageResourceType =typeof(Literals))]
+
     public string FirstName { get; set; } = null!;
 
     [Column(TypeName = "varchar(50)")]
     [Display(Name = "LastName", ResourceType = typeof(Literals))]
     [MaxLength(50, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [RegularExpression(@"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]*$", ErrorMessageResourceName = "RegularExpression", ErrorMessageResourceType = typeof(Literals))]
     public string LastName { get; set; } = null!;
 
     [Column(TypeName = "varchar(100)")]

@@ -583,4 +583,7 @@
   <data name="SentAlert" xml:space="preserve">
     <value>Alerts Sent Today</value>
   </data>
+  <data name="RegularExpression" xml:space="preserve">
+    <value>Illegal characters</value>
+  </data>
 </root>

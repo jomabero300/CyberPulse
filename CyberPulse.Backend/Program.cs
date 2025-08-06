@@ -28,8 +28,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            //builder.WithOrigins("https://localhost:7244")
             //builder.WithOrigins("https://senarauca.runasp.net")
+            //builder.WithOrigins("https://localhost:7244")
             builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
                    .AllowAnyHeader()
                    .AllowAnyMethod();

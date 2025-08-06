@@ -9,6 +9,7 @@ using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace CyberPulse.Backend.Controllers.Chipp;
 
@@ -280,8 +281,7 @@ public class ChipsController : GenericController<Chip>
                 //buscar el usuario e emails
                 var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
 
-                //var tokenLink = "https://localhost:7244";
-                var tokenLink = _configuration["Url Frontend"];
+                var tokenLink = $"{HttpContext.Request.Scheme}://{_configuration["Url Frontend"]}";
 
                 string Mailbody = model.StatuId switch
                 {
