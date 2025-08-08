@@ -8,6 +8,7 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Text.RegularExpressions;
 
 namespace CyberPulse.Frontend.Pages.Auth;
 
@@ -115,12 +116,15 @@ public partial class Register
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();
+
             if (message!.Contains("DuplicateUserName"))
             {
                 Snackbar.Add(Localizer["EmailAlreadyExists"], Severity.Error);
                 return;
             }
+
             Snackbar.Add(Localizer[message], Severity.Error);
+
             return;
         }
 
@@ -178,6 +182,13 @@ public partial class Register
             hasErrors = true;
         }
 
+        string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+
+        if(!Regex.IsMatch(userDTO.Password, pattern))
+        {
+            Snackbar.Add(string.Format(Localizer["PasswordParameters"], string.Format(Localizer["Password"])), Severity.Error);
+            hasErrors = true;
+        }
         return !hasErrors;
     }
 }

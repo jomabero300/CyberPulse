@@ -606,4 +606,10 @@
   <data name="RegularExpression" xml:space="preserve">
     <value>Caracteres no permitidos</value>
   </data>
+  <data name="ERR009" xml:space="preserve">
+    <value>Este enlace ya no se encuentra disponible.</value>
+  </data>
+  <data name="PasswordParameters" xml:space="preserve">
+    <value>La contraseña debe tener al menos una letra minúscula, una letra mayúscula, un número, un carácter especial (@$!%*?&amp;), y un mínimo de 8 caracteres.</value>
+  </data>
 </root>

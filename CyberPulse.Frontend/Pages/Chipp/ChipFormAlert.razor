@@ -17,7 +17,7 @@
             <RowTemplate>
                 <MudTd>@context.ChipNo</MudTd>
                 <MudTd>@context.Instructor.FirstName</MudTd>
-                <MudTd>@context.ChipProgram.Designation.Substring(0, 20)</MudTd>
+                <MudTd>@context.ChipProgram.Designation.Substring(0, Math.Min(15, context.ChipProgram.Designation.Length))</MudTd>
                 <MudTd>@context.StartDate.ToString("dd/MM/yyyy")</MudTd>
                 <MudTd>@(context.EndDate.ToString("dd/MM/yyyy"))</MudTd>
                 <MudTd>@(context.AlertDate.ToString("dd/MM/yyyy"))</MudTd>

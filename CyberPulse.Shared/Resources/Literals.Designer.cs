@@ -583,6 +583,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a This link is no longer available..
+        /// </summary>
+        public static string ERR009 {
+            get {
+                return ResourceManager.GetString("ERR009", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string Error {
@@ -948,6 +957,15 @@ namespace CyberPulse.Shared.Resources {
         public static string PasswordConfirm {
             get {
                 return ResourceManager.GetString("PasswordConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The password must have at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&amp;), and a minimum of 8 characters..
+        /// </summary>
+        public static string PasswordParameters {
+            get {
+                return ResourceManager.GetString("PasswordParameters", resourceCulture);
             }
         }
         

@@ -29,8 +29,8 @@ builder.Services.AddCors(options =>
         builder =>
         {
             //builder.WithOrigins("https://senarauca.runasp.net")
-            //builder.WithOrigins("https://localhost:7244")
-            builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            //builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            builder.WithOrigins("https://localhost:7244")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
@@ -106,16 +106,17 @@ builder.Services.AddIdentity<User, IdentityRole>(x =>
     x.User.RequireUniqueEmail = true;
     x.Password.RequireDigit = false;
     x.Password.RequiredUniqueChars = 0;
-    x.Password.RequireLowercase = false;
-    x.Password.RequireNonAlphanumeric = false;
-    x.Password.RequireUppercase = false;
+    x.Password.RequireLowercase = true;
+    x.Password.RequireNonAlphanumeric = true;
+    x.Password.RequireUppercase = true;
     x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     x.Lockout.MaxFailedAccessAttempts = 3;
     x.Lockout.AllowedForNewUsers = true;
+    x.Password.RequiredLength = 8;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-    //.AddUserValidator<CustomEmailValidator>();
+    .AddDefaultTokenProviders()
+    .AddUserValidator<CustomEmailValidator>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters

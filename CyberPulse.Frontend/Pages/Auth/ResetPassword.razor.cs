@@ -4,6 +4,7 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Text.RegularExpressions;
 
 namespace CyberPulse.Frontend.Pages.Auth;
 
@@ -21,6 +22,11 @@ public partial class ResetPassword
 
     private async Task ChangePasswordAsync()
     {
+        if (!ValidateForm())
+        {
+            return;
+        }
+
         resetPasswordDTO.Token = Token;
         loading = true;
         var responseHttp = await repository.PostAsync("/api/accounts/ResetPassword", resetPasswordDTO);
@@ -35,5 +41,19 @@ public partial class ResetPassword
         Snackbar.Add(Localizer["PasswordRecoveredMessage"], Severity.Success);
         var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
         await DialogService.ShowAsync<Login>(Localizer["Login"], closeOnEscapeKey);
+    }
+    private bool ValidateForm()
+    {
+        var hasErrors = false;
+
+        string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+
+        if (!Regex.IsMatch(resetPasswordDTO.NewPassword, pattern))
+        {
+            Snackbar.Add(string.Format(Localizer["PasswordParameters"], string.Format(Localizer["Password"])), Severity.Error);
+            hasErrors = true;
+        }
+
+        return !hasErrors;
     }
 }

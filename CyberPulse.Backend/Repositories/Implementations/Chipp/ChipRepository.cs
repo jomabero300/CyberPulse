@@ -48,8 +48,8 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             .Include(x => x.TypeOfTraining)
             .Include(x => x.Statu)
             .Include(x => x.Instructor)
-            .Include(x => x.ChipPoblations).ThenInclude(x=>x.TypePoblation)
-            .Include(x=>x.Neighborhood).ThenInclude(x=>x.City)
+            .Include(x => x.ChipPoblations).ThenInclude(y=>y.TypePoblation)
+            .Include(x=>x.Neighborhood).ThenInclude(z=>z.City)
             .Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (entity == null)

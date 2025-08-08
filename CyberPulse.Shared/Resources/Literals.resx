@@ -586,4 +586,10 @@
   <data name="RegularExpression" xml:space="preserve">
     <value>Illegal characters</value>
   </data>
+  <data name="ERR009" xml:space="preserve">
+    <value>This link is no longer available.</value>
+  </data>
+  <data name="PasswordParameters" xml:space="preserve">
+    <value>The password must have at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&amp;), and a minimum of 8 characters.</value>
+  </data>
 </root>

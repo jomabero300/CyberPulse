@@ -13,7 +13,10 @@ public class ResetPasswordDTO
     [DataType(DataType.Password)]
     [Display(Name = "NewPassword", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    [StringLength(20, MinimumLength = 6, ErrorMessageResourceName = "LengthField", ErrorMessageResourceType = typeof(Literals))]
+    [StringLength(20, MinimumLength = 8, ErrorMessageResourceName = "LengthField", ErrorMessageResourceType = typeof(Literals))]
+
+    [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+        ErrorMessageResourceName = "PasswordParameters", ErrorMessageResourceType = typeof(Literals))]
     public string NewPassword { get; set; } = null!;
 
     [Compare("NewPassword", ErrorMessageResourceName = "PasswordAndConfirmationDifferent", ErrorMessageResourceType = typeof(Literals))]
