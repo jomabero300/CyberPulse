@@ -77,7 +77,7 @@ public class CustomEmailValidator : IUserValidator<User>
         {
             return Task.FromResult(IdentityResult.Failed(new IdentityError
             {
-                Code = "InvalidEmailDomain",
+                Code = "EmailDomainInvalid",
                 Description = "El correo electrónico es obligatorio y debe ser de un dominio válido."
             }));
         }
@@ -88,7 +88,7 @@ public class CustomEmailValidator : IUserValidator<User>
         {
             return Task.FromResult(IdentityResult.Failed(new IdentityError
             {
-                Code = "InvalidEmailDomain",
+                Code = "EmailDomainInvalid",
                 Description = "El correo electrónico debe ser de un dominio permitido (sena.edu.co o sedarauca.edu.co)."
             }));
         }

@@ -122,6 +122,11 @@ public partial class Register
                 Snackbar.Add(Localizer["EmailAlreadyExists"], Severity.Error);
                 return;
             }
+            if (message!.Contains("EmailDomainInvalid"))
+            {
+                Snackbar.Add(Localizer["EmailDomainInvalid"], Severity.Error);
+                return;
+            }
 
             Snackbar.Add(Localizer[message], Severity.Error);
 

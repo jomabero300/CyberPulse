@@ -101,7 +101,7 @@
     <value>SENA - Arauca Section</value>
   </data>
   <data name="Subtitle" xml:space="preserve">
-    <value>SENA - Arauca Section</value>
+    <value>Instructor Sheet</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -425,7 +425,7 @@
     <value>Priority bet</value>
   </data>
   <data name="StartDate" xml:space="preserve">
-    <value>StartDate</value>
+    <value>Start date</value>
   </data>
   <data name="SupportFic" xml:space="preserve">
     <value>Support Fic</value>
@@ -591,5 +591,11 @@
   </data>
   <data name="PasswordParameters" xml:space="preserve">
     <value>The password must have at least one lowercase letter, one uppercase letter, one number, one special character (@$!%*?&amp;), and a minimum of 8 characters.</value>
+  </data>
+  <data name="EmailDomainInvalid" xml:space="preserve">
+    <value>The email must be an allowed domain</value>
+  </data>
+  <data name="ReportPdf" xml:space="preserve">
+    <value>Report</value>
   </data>
 </root>

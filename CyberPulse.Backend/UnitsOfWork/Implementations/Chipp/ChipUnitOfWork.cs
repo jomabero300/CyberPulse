@@ -4,6 +4,7 @@ using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
 using CyberPulse.Shared.Responses;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Chipp;
@@ -35,4 +36,6 @@ public class ChipUnitOfWork : GenericUnitOfWork<Chip>, IChipUnitOfWork
     public async Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity)=>await _chipRepository.GetAsync(entity);
 
     public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date)=>await _chipRepository.GetAsync(date);
+
+    public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(ChipReport entity)=>await _chipRepository.GetAsync(entity);
 }

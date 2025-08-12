@@ -121,7 +121,7 @@
     <value>SENA - Seccional Arauca</value>
   </data>
   <data name="Subtitle" xml:space="preserve">
-    <value>SENA - Seccional Arauca</value>
+    <value>Fichas para instructores</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nombre</value>
@@ -611,5 +611,11 @@
   </data>
   <data name="PasswordParameters" xml:space="preserve">
     <value>La contraseña debe tener al menos una letra minúscula, una letra mayúscula, un número, un carácter especial (@$!%*?&amp;), y un mínimo de 8 caracteres.</value>
+  </data>
+  <data name="EmailDomainInvalid" xml:space="preserve">
+    <value>El correo electrónco debe ser de un dominio permitido</value>
+  </data>
+  <data name="ReportPdf" xml:space="preserve">
+    <value>Reporte</value>
   </data>
 </root>

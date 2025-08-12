@@ -6,6 +6,7 @@ using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
 using CyberPulse.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -163,21 +164,36 @@ public class ChipsController : GenericController<Chip>
 
     }
 
-    [HttpGet("Report")]
+    [HttpGet("ReportP")]
     public override async Task<IActionResult> GetAsync()
     {
         var response = await _chipUnitOfWork.GetAsync();
+        string rutaPath = _env.WebRootPath;
 
-        var pdf = ChipReporteService.GenerarPdf(response.Result!.ToList());
+        var pdf = ChipReporteService.GenerarPdf([..response.Result!], rutaPath);
 
-        return File(pdf, "application/pdf", "reporte_productos.pdf");
+        return File(pdf, "application/pdf", "ProductosPdf.pdf");
+    }
+
+    [HttpGet("Report")]
+    public async Task<IActionResult> GetAsync([FromQuery] ChipReport chipReport)
+    {
+        var response = await _chipUnitOfWork.GetAsync(chipReport);
+
+        string rutaPath = _env.WebRootPath;
+        
+        var pdf = ChipReporteService.GenerarPdf([..response.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "chipreporte.pdf");
     }
 
     [HttpGet("ReportFull")]
     public async Task<IActionResult> GetAsync(int id, string dto)
     {
         var response = await _chipUnitOfWork.GetAsync(id);
+
         string rutaPath = _env.WebRootPath;
+        
         var pdf = ChipReporteService.ChipPdf(response.Result!, rutaPath);
 
         return File(pdf, "application/pdf", "chipreporte.pdf");

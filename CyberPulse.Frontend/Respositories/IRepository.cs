@@ -1,9 +1,12 @@
-﻿namespace CyberPulse.Frontend.Respositories;
+﻿using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
+
+namespace CyberPulse.Frontend.Respositories;
 
 public interface IRepository
 {
     //TODO:PARA BORRA
     Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url);
+    Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url, ChipReport model);
 
     Task<HttpResponseWrapper<T>> GetAsync<T>(string url);
 

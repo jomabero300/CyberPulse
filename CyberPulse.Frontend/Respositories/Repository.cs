@@ -1,4 +1,5 @@
 ﻿
+using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
 using System.Text;
 using System.Text.Json;
 
@@ -110,4 +111,73 @@ public class Repository : IRepository
         return new HttpResponseWrapper<byte[]>(null, true, responseHTTP);
     }
 
+    public async Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url, ChipReport chipReport)
+    {
+        var queryParameters = new List<string>();
+
+        // Aquí puedes agregar los parámetros de tu objeto ChipReport
+        // Por ejemplo:
+        string strChipNo = "ChipNo=''";
+        string strCode = "Code=''";
+        string strInstructorId = "InstructorId=''";
+        string strIdentificacion = "Identificacion=''";
+        string strInstructorName = "InstructorName=''";
+
+        string strProgramName = "ChipProgramName=''";
+        
+        if (!string.IsNullOrWhiteSpace(chipReport.ChipNo)) strChipNo = $"ChipNo={chipReport.ChipNo}";
+        if (!string.IsNullOrWhiteSpace(chipReport.Code)) strCode = $"Code={chipReport.Code}";
+        if (!string.IsNullOrWhiteSpace(chipReport.InstructorId)) strInstructorId = $"InstructorId={chipReport.InstructorId}";
+        if (!string.IsNullOrWhiteSpace(chipReport.Identificacion)) strIdentificacion = $"Identificacion={chipReport.Identificacion}";
+        if (!string.IsNullOrWhiteSpace(chipReport.InstructorName)) strInstructorName = $"InstructorName={chipReport.InstructorName}";
+        if (!string.IsNullOrWhiteSpace(chipReport.ChipProgramName)) strProgramName = $"ChipProgramName={chipReport.ChipProgramName}";
+
+        queryParameters.Add(strChipNo);
+        queryParameters.Add(strCode);
+        queryParameters.Add(strInstructorId);
+        queryParameters.Add(strIdentificacion);
+        queryParameters.Add(strInstructorName);
+        queryParameters.Add(strProgramName);
+
+        if (chipReport.StartDate.HasValue)
+        {
+            queryParameters.Add($"StartDate={chipReport.StartDate.Value:yyyy-MM-dd}");
+        }
+
+        if (chipReport.EndDate.HasValue)
+        {
+            queryParameters.Add($"EndDate={chipReport.EndDate.Value:yyyy-MM-dd}");
+        }
+
+        // ... y otros parámetros del reporte
+
+        var fullUrl = url;
+        if (queryParameters.Any())
+        {
+            fullUrl += "?" + string.Join("&", queryParameters);
+        }
+
+        var responseHTTP = await _httpClient.GetAsync(fullUrl);
+
+        if (responseHTTP.IsSuccessStatusCode)
+        {
+            var bytes = await responseHTTP.Content.ReadAsByteArrayAsync();
+            return new HttpResponseWrapper<byte[]>(bytes, false, responseHTTP);
+        }
+        else
+        {
+            // 🎉 Lee el mensaje de error del servidor
+            var errorContent = await responseHTTP.Content.ReadAsStringAsync();
+
+            // Imprime o registra este mensaje para ver el detalle del error
+            Console.WriteLine("Error del servidor: " + errorContent);
+
+            // Si el error es un JSON, puedes deserializarlo para una mejor lectura
+            // var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(errorContent);
+            // Console.WriteLine(problemDetails.Detail);
+
+            return new HttpResponseWrapper<byte[]>(null, true, responseHTTP);
+        }
+        //return new HttpResponseWrapper<byte[]>(null, true, responseHTTP);
+    }
 }

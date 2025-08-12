@@ -484,6 +484,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The email must be an allowed domain.
+        /// </summary>
+        public static string EmailDomainInvalid {
+            get {
+                return ResourceManager.GetString("EmailDomainInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Instructor.
         /// </summary>
         public static string Employee {
@@ -1114,6 +1123,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Report.
+        /// </summary>
+        public static string ReportPdf {
+            get {
+                return ResourceManager.GetString("ReportPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Field {0} is required..
         /// </summary>
         public static string RequiredField {
@@ -1276,7 +1294,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a StartDate.
+        ///   Busca una cadena traducida similar a Start date.
         /// </summary>
         public static string StartDate {
             get {
@@ -1348,7 +1366,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a SENA - Arauca Section.
+        ///   Busca una cadena traducida similar a Instructor Sheet.
         /// </summary>
         public static string Subtitle {
             get {

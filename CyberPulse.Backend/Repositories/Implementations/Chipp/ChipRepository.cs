@@ -4,6 +4,7 @@ using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
 using CyberPulse.Shared.Responses;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.EntityFrameworkCore;
@@ -479,5 +480,45 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             WasSuccess = true,
             Result = entity
         };
+    }
+
+    public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(ChipReport entity)
+    {
+        var queryable = _context.Chips.Include(x => x.Instructor).Include(x => x.ChipProgram).AsQueryable();
+
+        if (entity.ChipNo !="''")
+        {
+            queryable= queryable.Where(x=>x.ChipNo==entity.ChipNo);
+        }
+        if(entity.InstructorId !="''")
+        {
+            queryable = queryable.Where(x => x.InstructorId == entity.InstructorId);
+        }
+        if(entity.ChipProgramId!=0)
+        {
+            queryable = queryable.Where(x => x.ChipProgramId == entity.ChipProgramId);
+        }
+        if (entity.StartDate != null)
+        {
+            queryable = queryable.Where(x => x.StartDate == entity.StartDate);
+
+        }
+        if (entity.EndDate != null)
+        {
+            queryable = queryable.Where(x => x.EndDate == entity.EndDate);
+
+        }
+        if (entity.AlertDate != null)
+        {
+            queryable = queryable.Where(x => x.AlertDate == entity.AlertDate);
+
+        }
+
+        return new ActionResponse<IEnumerable<Chip>>
+        {
+            WasSuccess = true,
+            Result = await queryable.ToListAsync()
+        };
+
     }
 }
