@@ -16,6 +16,6 @@ public class TypeOfTrainingRepository : GenericRepository<TypeOfTraining>, IType
 
     public async Task<IEnumerable<TypeOfTraining>> GetComboAsync()
     {
-        return await _context.TypeOfTraining.OrderBy(x => x.Name).ToListAsync();
+        return await _context.TypeOfTraining.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
     }
 }

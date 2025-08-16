@@ -1411,6 +1411,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Training programs.
+        /// </summary>
+        public static string TrainingPrograms {
+            get {
+                return ResourceManager.GetString("TrainingPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Trining level.
         /// </summary>
         public static string TriningLevel {

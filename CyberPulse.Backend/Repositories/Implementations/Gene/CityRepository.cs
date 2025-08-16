@@ -16,6 +16,6 @@ public class CityRepository : GenericRepository<City>, ICityRepository
 
     public async Task<IEnumerable<City>> GetComboAsync(int id)
     {
-        return await _context.Cities.Where(x => x.StateId == id).OrderBy(x=>x.Name).ToListAsync();
+        return await _context.Cities.AsNoTracking().Where(x => x.StateId == id).OrderBy(x=>x.Name).ToListAsync();
     }
 }

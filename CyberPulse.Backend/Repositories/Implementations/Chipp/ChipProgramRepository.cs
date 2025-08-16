@@ -19,7 +19,7 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     }
     public override async Task<ActionResponse<IEnumerable<ChipProgram>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.ChipPrograms.AsQueryable();
+        var queryable = _context.ChipPrograms.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -40,7 +40,7 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     }
     public async Task<ActionResponse<ChipProgram>> GetAsync(string code)
     {
-        var entity = await _context.ChipPrograms.Where(x => x.Code == code).FirstOrDefaultAsync();
+        var entity = await _context.ChipPrograms.AsNoTracking().Where(x => x.Code == code).FirstOrDefaultAsync();
 
         if (entity == null)
         {
@@ -61,14 +61,18 @@ public class ChipProgramRepository : GenericRepository<ChipProgram>, IChipProgra
     public async Task<IEnumerable<ChipProgram>> GetComboAsync(int id)
     {
         return id == 0 ? await _context.ChipPrograms
-            .OrderBy(x => x.Code).ToListAsync() :
-            await _context.ChipPrograms
-            .Where(x => x.Id == id).ToListAsync();
+                                        .AsNoTracking()
+                                        .OrderBy(x => x.Code)
+                                        .ToListAsync() :
+                        await _context.ChipPrograms
+                                        .AsNoTracking()
+                                        .Where(x => x.Id == id)
+                                        .ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.ChipPrograms.AsQueryable();
+        var queryable = _context.ChipPrograms.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {

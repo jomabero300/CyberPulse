@@ -21,7 +21,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync()
     {
-        var entity = await _context.Chips
+        var entity = await _context.Chips.AsNoTracking()
             .Include(x => x.Instructor)
             .Include(x => x.ChipProgram)
             .Include(x => x.Statu)
@@ -43,7 +43,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     }
     public override async Task<ActionResponse<Chip>> GetAsync(int id)
     {
-        var entity = await _context.Chips
+        var entity = await _context.Chips.AsNoTracking()
             .Include(x => x.ChipProgram)
             .Include(x => x.TrainingProgram)
             .Include(x => x.TypeOfTraining)
@@ -105,20 +105,20 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     public override async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = pagination.otro == "Inst" ?
-                            _context.Chips
+                            _context.Chips.AsNoTracking()
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
                                 .Include(x => x.Instructor)
                                 .Where(x => x.Instructor.Email == pagination.Email && x.StatuId > 6 && x.StatuId < 12)
                                 .AsQueryable() :
                        pagination.otro == "Coor" ?
-                            _context.Chips
+                            _context.Chips.AsNoTracking()
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
                                 .Include(x => x.Instructor)
                                 .Where(x => x.User.Email == pagination.Email)
                                 .AsQueryable() :
-                            _context.Chips
+                            _context.Chips.AsNoTracking()
                                 .Include(x => x.ChipProgram)
                                 .Include(x => x.Statu)
                                 .Include(x => x.Instructor)
@@ -225,7 +225,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Chips.AsQueryable();
+        var queryable = _context.Chips.AsNoTracking().AsQueryable();
 
         //if (!string.IsNullOrWhiteSpace(pagination.Filter))
         //{
@@ -408,7 +408,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     public async Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity)
     {
-        var chip = await _context.Chips
+        var chip = await _context.Chips.AsNoTracking()
             .Include(x => x.ChipPoblations)
             .Include(x => x.ChipProgram)
             .Include(x => x.Statu)
@@ -451,7 +451,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date)
     {
 
-        var entity = await _context.Chips
+        var entity = await _context.Chips.AsNoTracking()
             .Include(x => x.Instructor)
             .Include(x => x.ChipProgram)
             .Where(x => x.AlertDate.Date == date.Date).ToListAsync();
@@ -484,7 +484,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(ChipReport entity)
     {
-        var queryable = _context.Chips.Include(x => x.Instructor).Include(x => x.ChipProgram).AsQueryable();
+        var queryable = _context.Chips.AsNoTracking().Include(x => x.Instructor).Include(x => x.ChipProgram).AsQueryable();
 
         if (entity.ChipNo !="''")
         {

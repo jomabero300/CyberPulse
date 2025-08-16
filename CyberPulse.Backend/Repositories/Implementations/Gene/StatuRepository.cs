@@ -19,7 +19,7 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
 
     public override async Task<ActionResponse<IEnumerable<Statu>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Status.AsQueryable();
+        var queryable = _context.Status.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -41,7 +41,7 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
 
     public async Task<ActionResponse<Statu>> GetAsync(string name, int nivel)
     {
-        var response=await _context.Status.Where(x=>x.Name.ToLower()==name.ToLower() && x.Nivel==nivel).FirstOrDefaultAsync();
+        var response=await _context.Status.AsNoTracking().Where(x=>x.Name.ToLower()==name.ToLower() && x.Nivel==nivel).FirstOrDefaultAsync();
         
         if(response==null)
         {
@@ -76,12 +76,12 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
     //}
     public async Task<IEnumerable<Statu>> GetComboAsync()
     {
-        return await _context.Status.OrderBy(x => x.Name).ToListAsync();
+        return await _context.Status.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Status.AsQueryable();
+        var queryable = _context.Status.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {

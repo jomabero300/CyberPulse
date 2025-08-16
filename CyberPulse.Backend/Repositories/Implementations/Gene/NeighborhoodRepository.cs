@@ -15,6 +15,6 @@ public class NeighborhoodRepository : GenericRepository<Neighborhood>, INeighbor
 
     public async Task<IEnumerable<Neighborhood>> GetComboAsync(int id)
     {
-        return await _context.Neighborhoods.Where(x=>x.CityId==id).OrderBy(x=>x.Name).ToListAsync();
+        return await _context.Neighborhoods.AsNoTracking().Where(x=>x.CityId==id).OrderBy(x=>x.Name).ToListAsync();
     }
 }

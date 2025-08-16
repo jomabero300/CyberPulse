@@ -52,6 +52,8 @@ public class UsersUnitOfWork : IUsersUnitOfWork
 
     public async Task LogoutAsync()=>await _userRepository.LogoutAsync();
 
+    public async Task ResetAccessFailedCountAsync(User user)=>await _userRepository.ResetAccessFailedCountAsync(user);
+
     public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)=>await _userRepository.ResetPasswordAsync(user,token,password);
 
     public async Task<IdentityResult> UpdateUserAsync(User user)=>await _userRepository.UpdateUserAsync(user);

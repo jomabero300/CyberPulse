@@ -2,6 +2,25 @@
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.Home">@Localizer["Home"]</MudNavLink>
     <MudDivider />
 
+@*     <MudNavGroup Title="Inventrios" Icon="@Icons.Material.Filled.FactCheck" @bind-Expanded=_expandedInv>
+        <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+        <MudDivider />
+
+
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
+
+    </MudNavGroup>
+    <MudNavGroup Title="Fichas" Icon="@Icons.Material.Filled.Settings" @bind-Expanded=_expandedChi>
+        <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+        <MudDivider />
+
+
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
+
+    </MudNavGroup> *@
+
     <AuthorizeView Roles="Admi">
         <Authorized>
             <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
@@ -10,9 +29,11 @@
             <MudDivider />
             <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
             <MudDivider />
-            <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Users"]</MudNavLink>
+            <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SupervisedUserCircle">@Localizer["Users"]</MudNavLink>
             <MudDivider />
-            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">Reporte</MudNavLink>
+            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
+            <MudDivider />
+            <MudNavLink Href="/programs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["TrainingPrograms"]</MudNavLink>
             <MudDivider />
             <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
         </Authorized>
@@ -21,7 +42,7 @@
         <Authorized>
             <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
             <MudDivider />
-            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">Reporte</MudNavLink>
+            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
         </Authorized>
     </AuthorizeView>
 

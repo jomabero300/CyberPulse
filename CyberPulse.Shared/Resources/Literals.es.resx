@@ -618,4 +618,7 @@
   <data name="ReportPdf" xml:space="preserve">
     <value>Reporte</value>
   </data>
+  <data name="TrainingPrograms" xml:space="preserve">
+    <value>Programas de formación</value>
+  </data>
 </root>

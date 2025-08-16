@@ -29,8 +29,8 @@ builder.Services.AddCors(options =>
         builder =>
         {
             //builder.WithOrigins("https://senarauca.runasp.net")
-            //builder.WithOrigins("https://localhost:7244")
-            builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            //builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            builder.WithOrigins("https://localhost:7244")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
@@ -149,14 +149,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-
-//app.UseCors(x => x
-//    .AllowAnyHeader()
-//    .AllowAnyMethod()
-//    .SetIsOriginAllowed(origin => true)
-//    .AllowCredentials());
-
 
 app.UseHttpsRedirection();
 

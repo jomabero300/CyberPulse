@@ -66,12 +66,12 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
 
     public async Task<IEnumerable<Country>> GetComboAsync()
     {
-        return await _context.Countries.OrderBy(x => x.Name).ToListAsync();
+        return await _context.Countries.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Countries.AsQueryable();
+        var queryable = _context.Countries.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {

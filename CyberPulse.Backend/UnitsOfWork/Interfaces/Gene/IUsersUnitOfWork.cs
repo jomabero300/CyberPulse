@@ -26,6 +26,7 @@ public interface IUsersUnitOfWork
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
     Task<IdentityResult> ConfirmEmailAsync(User user, string token);
     Task<SignInResult> LoginAsync(LoginDTO model);
+    Task ResetAccessFailedCountAsync(User user);
     Task LogoutAsync();
     Task<User> GetUserAsync(string email);
     Task<IdentityResult> AddUserASync(User user, string password);

@@ -1,6 +1,7 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
@@ -321,7 +322,13 @@ public class AccountsController : ControllerBase
         if (result.Succeeded)
         {
             var user = await _usersUnitOfWork.GetUserAsync(model.Email);
-            return Ok(BuildToken(user));
+
+            if (user != null)
+            {
+                await _usersUnitOfWork.ResetAccessFailedCountAsync(user);
+            }
+
+            return Ok(BuildToken(user!));
         }
 
         if (result.IsLockedOut)

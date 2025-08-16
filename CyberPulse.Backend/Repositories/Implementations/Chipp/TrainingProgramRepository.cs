@@ -2,7 +2,9 @@
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Shared.Entities.Chipp;
+using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +18,47 @@ public class TrainingProgramRepository : GenericRepository<TrainingProgram>, ITr
         _context = context;
     }
 
+    public async Task<ActionResponse<TrainingProgram>> AddAsync(TrainingProgramDTO entity)
+    {
+        var trainingProgram = new TrainingProgram
+        {
+            Id = entity.Id,
+            Name = entity.Name,            
+        };
+
+        _context.Add(trainingProgram);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = true,
+                Result = trainingProgram
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = false,
+                Message = ex.Message,
+            };
+        }
+    }
+
     public override async Task<ActionResponse<IEnumerable<TrainingProgram>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.TrainingPrograms.AsQueryable();
+        var queryable = _context.TrainingPrograms.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -44,7 +84,7 @@ public class TrainingProgramRepository : GenericRepository<TrainingProgram>, ITr
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.TrainingPrograms.AsQueryable();
+        var queryable = _context.TrainingPrograms.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -59,5 +99,50 @@ public class TrainingProgramRepository : GenericRepository<TrainingProgram>, ITr
             Result = (int)count,
         };
 
+    }
+
+    public async Task<ActionResponse<TrainingProgram>> UpdateAsync(TrainingProgramDTO entity)
+    {
+        var trainingPrograms = await _context.TrainingPrograms.FindAsync(entity.Id);
+
+        if (trainingPrograms == null)
+        {
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = false,
+                Message = "ERR005",
+            };
+        }
+
+        trainingPrograms.Name = entity.Name;
+
+        _context.Update(trainingPrograms);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = true,
+                Result = trainingPrograms,
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<TrainingProgram>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
     }
 }

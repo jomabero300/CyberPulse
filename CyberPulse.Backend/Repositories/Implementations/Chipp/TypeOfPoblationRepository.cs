@@ -20,13 +20,13 @@ public class TypeOfPoblationRepository : GenericRepository<TypeOfPoblation>, ITy
         return new ActionResponse<IEnumerable<TypeOfPoblation>>
         {
             WasSuccess = true,
-            Result = await _context.TypeOfPoblations.OrderBy(x => x.Name).ToListAsync(),
+            Result = await _context.TypeOfPoblations.AsNoTracking().OrderBy(x => x.Name).ToListAsync(),
         };
     }
 
     public async Task<IEnumerable<TypeOfPoblationDTO>> GetAsync(string filter)
     {
-        var response = await _context.TypeOfPoblations.Where(x=>x.Name.ToLower()!= filter).ToListAsync();
+        var response = await _context.TypeOfPoblations.AsNoTracking().Where(x=>x.Name.ToLower()!= filter).ToListAsync();
         
 
         var typeOfPoblationDto = response.Select(x => new TypeOfPoblationDTO

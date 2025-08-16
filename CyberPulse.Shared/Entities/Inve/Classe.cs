@@ -1,0 +1,30 @@
+﻿using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.Resources;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CyberPulse.Shared.Entities.Inve;
+
+[Table("Classes", Schema = "Inve")]
+public class Classe
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int FamilyId { get; set; }
+
+    [Column(TypeName = "varchar(60)")]
+    [Display(Name = "Name", ResourceType = typeof(Literals))]
+    [MaxLength(60, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string Name { get; set; } = null!;
+
+    [Display(Name = "Statu", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int StatuId { get; set; }
+
+    public Statu? Segment { get; set; }
+
+    public Family? Family { get; set; }
+
+}

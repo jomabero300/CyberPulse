@@ -77,14 +77,14 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAsync(UserType userType)
     {
-        var resul = await _context.Users.Where(x => x.UserType == userType).OrderBy(x => x.FirstName).ToListAsync();
+        var resul = await _context.Users.AsNoTracking().Where(x => x.UserType == userType).OrderBy(x => x.FirstName).ToListAsync();
 
         return resul;
     }
 
     public async Task<User> GetUserAsync(Guid userId)
     {
-        var user = await _context.Users
+        var user = await _context.Users.AsNoTracking()
                                 .Include(x => x.Country)
                                 .FirstOrDefaultAsync(x => x.Id == userId.ToString());
         if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))
@@ -97,7 +97,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetUserAsync(string email)
     {
-        var user = await _context.Users
+        var user = await _context.Users.AsNoTracking()
             .Include(c => c.Country)
             .FirstOrDefaultAsync(x => x.Email == email);
 
@@ -116,7 +116,7 @@ public class UserRepository : IUserRepository
 
     public async Task<SignInResult> LoginAsync(LoginDTO model)
     {
-        return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+        return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
     }
 
     public async Task LogoutAsync()
@@ -142,8 +142,8 @@ public class UserRepository : IUserRepository
     public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)
     {
         var entity = userDocument.Length < 15 ?
-            await _context.Users.Where(x => x.DocumentId == userDocument && x.UserType == userType).FirstOrDefaultAsync() :
-            await _context.Users.Where(x => x.Id == userDocument && x.UserType == userType).FirstOrDefaultAsync();
+            await _context.Users.AsNoTracking().Where(x => x.DocumentId == userDocument && x.UserType == userType).FirstOrDefaultAsync() :
+            await _context.Users.AsNoTracking().Where(x => x.Id == userDocument && x.UserType == userType).FirstOrDefaultAsync();
 
         if (entity == null)
         {
@@ -184,7 +184,7 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(id))
         {
-            var user = await _context.Users
+            var user = await _context.Users.AsNoTracking()
                                          .Where(x => x.Id == id)
                                          .Select(p => p.Photo)
                                          .FirstOrDefaultAsync();
@@ -199,7 +199,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAsync(string id)
     {
-        var resul = await _context.Users.Where(x => x.Id == id).OrderBy(x => x.FirstName).ToListAsync();
+        var resul = await _context.Users.AsNoTracking().Where(x => x.Id == id).OrderBy(x => x.FirstName).ToListAsync();
 
         return resul;
 
@@ -208,10 +208,12 @@ public class UserRepository : IUserRepository
     {
         var queryable = pagination.UserType!=null?  
                                                 _context.Users
+                                                        .AsNoTracking()
                                                         .Include(x => x.Country)
                                                         .Where(x=>x.UserType==pagination.UserType)
                                                         .AsQueryable():
                                                 _context.Users
+                                                        .AsNoTracking()
                                                         .Include(x => x.Country)
                                                         .AsQueryable();
 
@@ -225,6 +227,8 @@ public class UserRepository : IUserRepository
         {
             WasSuccess = true,
             Result = await queryable
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
                 .Select(x=>new User
                     {
                         Id = x.Id,
@@ -249,8 +253,6 @@ public class UserRepository : IUserRepository
                         CountryId = x.CountryId,
                         DocumentId = x.DocumentId,                    
                     })
-                .OrderBy(x => x.FirstName)
-                .ThenBy(x => x.LastName)
                 .Paginate(pagination)
                 .ToListAsync()
         };
@@ -258,7 +260,7 @@ public class UserRepository : IUserRepository
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Users.AsQueryable();
+        var queryable = _context.Users.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -280,5 +282,11 @@ public class UserRepository : IUserRepository
         if (entity == null) return;
 
         _context.Database.ExecuteSql($"UPDATE Admi.AspNetUsers SET UserType={userType} WHERE Id={userId}");
+    }
+
+    public async Task ResetAccessFailedCountAsync(User user)
+    {
+        await _userManager.ResetAccessFailedCountAsync(user);
+
     }
 }
