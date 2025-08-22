@@ -616,9 +616,15 @@
     <value>El correo electrónco debe ser de un dominio permitido</value>
   </data>
   <data name="ReportPdf" xml:space="preserve">
-    <value>Reporte</value>
+    <value>Pdf</value>
   </data>
   <data name="TrainingPrograms" xml:space="preserve">
     <value>Programas de formación</value>
+  </data>
+  <data name="ChipNoNull" xml:space="preserve">
+    <value>Debe ingresar el número de la ficha antes de ejecutarla.</value>
+  </data>
+  <data name="ReportExcel" xml:space="preserve">
+    <value>Excel</value>
   </data>
 </root>

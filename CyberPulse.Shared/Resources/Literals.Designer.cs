@@ -232,6 +232,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the token number before executing it..
+        /// </summary>
+        public static string ChipNoNull {
+            get {
+                return ResourceManager.GetString("ChipNoNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Chip program.
         /// </summary>
         public static string ChipProgram {
@@ -1123,7 +1132,16 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Report.
+        ///   Busca una cadena traducida similar a Excel.
+        /// </summary>
+        public static string ReportExcel {
+            get {
+                return ResourceManager.GetString("ReportExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pdf.
         /// </summary>
         public static string ReportPdf {
             get {

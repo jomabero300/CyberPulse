@@ -105,7 +105,6 @@ public class ChipReporteService
                         return contenedor.BorderBottom(1).BorderColor(Colors.Grey.Lighten1).PaddingVertical(5);
                     }
                 }
-
             });
         }
         void ComposeFooter(IContainer container)
@@ -114,6 +113,8 @@ public class ChipReporteService
 
             container.Row(row =>
             {
+                row.ConstantItem(150).Text("Total de registros:");
+                row.RelativeItem().Text(entity.Count.ToString()).Bold();
                 row.RelativeItem().Scale(tamañoDeLetraTitle).Text(text =>
                 {
                     text.Span("Seccional Arauca - ");

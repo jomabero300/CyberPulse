@@ -291,7 +291,9 @@ public class AccountsController : ControllerBase
     public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
     {
         token = token.Replace(" ", "+");
+
         var user = await _usersUnitOfWork.GetUserAsync(new Guid(userId));
+
         if (user == null)
         {
             return NotFound();
@@ -311,6 +313,7 @@ public class AccountsController : ControllerBase
             }
             return NoContent();
         }
+
         return BadRequest("ERR009");
     }
 

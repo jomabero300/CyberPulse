@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace CyberPulse.Shared.EntitiesDTO.Chipp.Report;
@@ -26,7 +27,11 @@ public class ChipReport
     [Display(Name = "AlertDate", ResourceType = typeof(Literals))]
     public DateTime? AlertDate { get; set; }
 
+    [Display(Name = "Statu", ResourceType = typeof(Literals))]
+    public StatuDTO? Statu { get; set; }
 
+
+    public int StatuId { get; set; }
     public string InstructorName { get; set; } = null!;
     public string InstructorId { get; set; } = null!;
 

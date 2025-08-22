@@ -1,5 +1,5 @@
 ﻿@page "/ChipReport"
-<h3>Reporte Fichas para instructores</h3>
+<h3>Reporte fichas para instructores</h3>
 
 <MudGrid>
 	<MudItem xs="12" sm="3">
@@ -43,9 +43,26 @@
 
 	</MudItem>
 
-	<MudItem xs="12" sm="10">
+	<MudItem xs="12" sm="8">
 		<MudTextField @bind-Value="chipReport!.InstructorName" Label="@Localizer["Instructor"]" Disabled="true" />
 	</MudItem>
+
+	<MudItem xs="12" sm="2">
+		<MudAutocomplete T="StatuDTO"
+						 Label=@Localizer["Statu"]
+						 Placeholder=@Localizer["SelectAStatu"]
+						 SearchFunc="SearchStatusAsync"
+						 Value="selectedStatu"
+						 ValueChanged="StatuChanged"
+						 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+						 For="@(()=>chipReport.Statu)">
+			<ItemTemplate Context="itemContext">
+				@itemContext.Name
+			</ItemTemplate>
+		</MudAutocomplete>
+
+	</MudItem>
+
 </MudGrid>
 <MudGrid>
 	<MudItem xs="12" sm="2">
@@ -70,8 +87,15 @@
 </MudButton>
 
 <MudButton Variant="Variant.Outlined"
-		   StartIcon="@Icons.Material.Filled.Check"
+		   StartIcon="@Icons.Material.Filled.PictureAsPdf"
 		   Color="Color.Primary"
 		   OnClick="ReportPdf">
 	@Localizer["ReportPdf"]
+</MudButton>
+
+<MudButton Variant="Variant.Outlined"
+		   StartIcon="@Icons.Custom.FileFormats.FileExcel"
+		   Color="Color.Warning"
+		   OnClick="ReportExcel">
+	@Localizer["ReportExcel"]
 </MudButton>

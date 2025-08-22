@@ -28,12 +28,17 @@ public partial class ChipCoordinatorForm
 
     public bool FormPostedSuccessfully { get; set; } = false;
     private bool DisabledTypeOfTraining = true;
+    private bool DisabledEjecutarChipNo = false;
+
     private bool loading;
-    private DateTime minDate = DateTime.Today.AddDays(-5);
+    private DateTime minDate = DateTime.Today.AddDays(0);
     protected override void OnInitialized()
     {
         editContext = new(chipCoordinator);
-
+        if(string.IsNullOrEmpty(chipCoordinator.ChipNo)&& chipCoordinator.StatuId==9 )
+        {
+            DisabledEjecutarChipNo=true;
+        }
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)

@@ -74,9 +74,16 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
     //        throw;
     //    }
     //}
-    public async Task<IEnumerable<Statu>> GetComboAsync()
+    public async Task<IEnumerable<Statu>> GetComboAsync(int id)
     {
-        return await _context.Status.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
+        var query= _context.Status.AsNoTracking();
+
+        if(id != 0)
+        {
+            query = query.Where(x => x.Nivel == id);
+        }
+
+        return await query.OrderBy(x => x.Name).ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)

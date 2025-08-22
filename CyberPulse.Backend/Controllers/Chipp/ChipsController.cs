@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.Helpers;
+﻿using ClosedXML.Excel;
+using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
@@ -150,6 +151,17 @@ public class ChipsController : GenericController<Chip>
         return BadRequest();
     }
 
+    [HttpGet("ReportP")]
+    public override async Task<IActionResult> GetAsync()
+    {
+        var response = await _chipUnitOfWork.GetAsync();
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = ChipReporteService.GenerarPdf([..response.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "ProductosPdf.pdf");
+    }
+
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
@@ -164,15 +176,58 @@ public class ChipsController : GenericController<Chip>
 
     }
 
-    [HttpGet("ReportP")]
-    public override async Task<IActionResult> GetAsync()
+
+
+
+    [HttpGet("excel")]
+    public async Task<IActionResult> ExportToExcel([FromQuery] ChipReport chipReport)
     {
-        var response = await _chipUnitOfWork.GetAsync();
-        string rutaPath = _env.WebRootPath;
+        var response = await _chipUnitOfWork.GetAsync(chipReport);
 
-        var pdf = ChipReporteService.GenerarPdf([..response.Result!], rutaPath);
+        using var workbook = new XLWorkbook();
+        var worksheet = workbook.Worksheets.Add("Ficha");
+        var currentRow = 1;
+        worksheet.Cell(currentRow, 1).Value = "Ficha No";
+        worksheet.Cell(currentRow, 2).Value = "Instructor";
+        worksheet.Cell(currentRow, 3).Value = "F. Inicio";
+        worksheet.Cell(currentRow, 4).Value = "F. Final";
+        worksheet.Cell(currentRow, 5).Value = "F. alerta";
+        worksheet.Cell(currentRow, 6).Value = "Codigo";
+        worksheet.Cell(currentRow, 7).Value = "Programa";
 
-        return File(pdf, "application/pdf", "ProductosPdf.pdf");
+        foreach (var item in response.Result!)
+        {
+            currentRow++;
+            worksheet.Cell(currentRow, 1).Value = item.ChipNo;
+            worksheet.Cell(currentRow, 2).Value = item.Instructor.FullName;
+            worksheet.Cell(currentRow, 3).Value = item.StartDate;
+            worksheet.Cell(currentRow, 4).Value = item.EndDate;
+            worksheet.Cell(currentRow, 5).Value = item.AlertDate;
+            worksheet.Cell(currentRow, 6).Value = item.ChipProgram.Code;
+            worksheet.Cell(currentRow, 7).Value = item.ChipProgram.Designation;
+        }
+
+        using var stream = new MemoryStream();
+        workbook.SaveAs(stream);
+        var content = stream.ToArray();
+
+        return File(
+            content,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "Ficha.xlsx");
+    }
+
+    [HttpGet("TotalRecordsPaginated")]
+    public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
+    {
+        var response = await _chipRepository.GetTotalRecordsAsync(pagination);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest();
     }
 
     [HttpGet("Report")]
@@ -216,12 +271,12 @@ public class ChipsController : GenericController<Chip>
 
                 string mail = language == "es" ? "Mail:SubjectCreateChipEs" : "Mail:SubjectCreateChipEn";
 
-                //foreach (var item in entity.Result!)
-                //{
-                //    _mailHelper.SendMail(item.Instructor.FullName, item.Instructor.Email!, _configuration[mail]!, string.Format(_configuration[Mailbody]!, item.ChipNo, tokenLink), language);
+                foreach (var item in entity.Result!)
+                {
+                    await _mailHelper.SendMail(item.Instructor.FullName, item.Instructor.Email!, _configuration[mail]!, string.Format(_configuration[Mailbody]!, item.ChipNo, tokenLink), language);
 
-                //    await Task.Delay(5);
-                //}
+                    await Task.Delay(5);
+                }
             }
 
             return Ok(entity.Result);
@@ -240,7 +295,7 @@ public class ChipsController : GenericController<Chip>
 
             var result = new ChipCoordinator
             {
-                Id = response.Result.Id,
+                Id = response.Result!.Id,
                 ChipNo = response.Result.ChipNo,
                 ChipProgramId = response.Result.ChipProgramId,
                 InstructorId = response.Result.InstructorId,
@@ -318,18 +373,5 @@ public class ChipsController : GenericController<Chip>
         }
 
         return BadRequest(action.Message);
-    }
-
-    [HttpGet("TotalRecordsPaginated")]
-    public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
-    {
-        var response = await _chipRepository.GetTotalRecordsAsync(pagination);
-
-        if (response.WasSuccess)
-        {
-            return Ok(response.Result);
-        }
-
-        return BadRequest();
     }
 }

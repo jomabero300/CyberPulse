@@ -14,6 +14,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 //builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://api.senagestionformacion.com") });
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7233") });
+
+
+
 //builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://senaraucapi.runasp.net") });
 
 builder.Services.AddScoped<IRepository,Repository>();

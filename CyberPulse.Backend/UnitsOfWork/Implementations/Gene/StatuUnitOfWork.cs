@@ -24,7 +24,7 @@ public class StatuUnitOfWork : GenericUnitOfWork<Statu>, IStatuUnitOfWork
 
 
     //public async Task<ActionResponse<Statu>> AddAsync(StatuDTO statuDTO)=>await _statuRepository.AddAsync(statuDTO);
-    public async Task<IEnumerable<Statu>> GetComboAsync() => await _statuRepository.GetComboAsync();
+    public async Task<IEnumerable<Statu>> GetComboAsync(int id) => await _statuRepository.GetComboAsync(id);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination) => await _statuRepository.GetTotalRecordsAsync(pagination);
 
     //public async Task<ActionResponse<Statu>> UpdateAsync(StatuDTO statuDTO) => await _statuRepository.UpdateAsync(statuDTO);

@@ -52,7 +52,7 @@ else
             <MudTd>@context.ChipProgram.Designation</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
             <MudTd Class="text-center"  Style="width:125px">@context.Statu.Name</MudTd>
-            <MudTd Class="text-center me-2" Style="width:250px">
+            <MudTd Class="text-center me-2" Style="width:300px">
 
                 @if(indEsta==1 && context.StatuId<8) @* Coordinador *@
                 {
@@ -110,6 +110,18 @@ else
                 }
                 else @if(indEsta==1 && context.StatuId ==9)
                 {
+                    @if(string.IsNullOrWhiteSpace(context.ChipNo) )
+                    {
+                        <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                        Variant="Variant.Filled"
+                                        Color="Color.Warning"
+                                        OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                    }
+
                     //ejecutar, rechazar ver informe
                     <MudTooltip Text="@Localizer["ChipView"]">
                         <MudButton Size="Size.Small"

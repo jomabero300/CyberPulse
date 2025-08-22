@@ -14,7 +14,7 @@ public interface IStatuRepository
 
     Task<ActionResponse<Statu>> DeleteAsync(int id);
 
-    Task<IEnumerable<Statu>> GetComboAsync();
+    Task<IEnumerable<Statu>> GetComboAsync(int id);
 
     Task<ActionResponse<IEnumerable<Statu>>> GetAsync(PaginationDTO pagination);
 

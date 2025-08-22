@@ -1,7 +1,9 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -21,9 +23,53 @@ public partial class ChipReports
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IDialogService DialogService { get; set; } = null!;
+    [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] IJSRuntime JS { get; set; } = null!;
 
     [Parameter] public int Id { get; set; }
+
+    private StatuDTO selectedStatu = new();
+    private List<StatuDTO>? status;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStatusAsync();
+    }
+
+    private async Task LoadStatusAsync()
+    {
+        var responseHttp = await repository.GetAsync<List<StatuDTO>>("/api/status/combo/1");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        status = responseHttp.Response;
+    }
+    private async Task<IEnumerable<StatuDTO>> SearchStatusAsync(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return status!;
+        }
+
+        return status!
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void StatuChanged(StatuDTO entity)
+    {
+        selectedStatu = entity;
+        chipReport.Statu = entity;
+        chipReport.StatuId = entity.Id;
+    }
+
+
+
     private async Task SearchInstructor()
     {
         if (string.IsNullOrWhiteSpace(chipReport!.Identificacion))
@@ -110,42 +156,8 @@ public partial class ChipReports
 
     private async Task ReportPdf()
     {
-        //string filter = "api/chips/report?";
-        //if(!string.IsNullOrEmpty(chipReport.ChipNo))
-        //{
-        //    filter += $"ChipNo={chipReport.ChipNo}&";
-        //}
-        //if(!string.IsNullOrEmpty(chipReport.Identificacion))
-        //{
-        //    filter += $"InstructorId={chipReport.InstructorId}&";
-        //}
-        //if(!string.IsNullOrEmpty(chipReport.Code))
-        //{
-        //    filter += $"ChipProgramId={chipReport.ChipProgramId} &";
-        //}
-        //if (chipReport.StartDate != null)
-        //{
-        //    filter += $"StartDate={chipReport.StartDate}&";
-        //}
-        //if (chipReport.EndDate!= null)
-        //{
-        //    filter += $"EndDate={chipReport.EndDate}&";
-        //}
-        //if (chipReport.AlertDate != null)
-        //{
-        //    filter += $"AlertDate ={chipReport.AlertDate}&";
-        //}
 
-        //if (filter == "?")
-        //{
-        //    filter = "";
-        //}
-        //else
-        //{
-        //    filter=filter.Substring(0, filter.Length-1);
-        //}
-
-        var response = await repository.GetBytesAsync("api/chips/report/",chipReport);
+        var response = await repository.GetBytesAsync("api/chips/report/", chipReport);
 
         if (response.Error || response.Response == null)
         {
@@ -154,6 +166,18 @@ public partial class ChipReports
         }
 
         await JS.InvokeVoidAsync("displayPdf", response.Response);
+    }
+    private async Task ReportExcel()
+    {
+        var response = await repository.GetBytesAsync("api/chips/excel/", chipReport);
 
+        if (response.Error || response.Response == null)
+        {
+            // Handle error
+            return;
+        }
+
+        var base64String = Convert.ToBase64String(response.Response);
+        await JS.InvokeVoidAsync("saveAsFile", "ficha.xlsx", base64String);
     }
 }

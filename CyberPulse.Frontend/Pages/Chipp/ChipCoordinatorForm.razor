@@ -10,6 +10,7 @@ else
 		<MudGrid>
 			<MudItem xs="12" sm="2">
 				<MudTextField Label="@Localizer["Instructor"]"
+							  Disabled="@DisabledEjecutarChipNo"
 							  @bind-Value="@chipCoordinator.Identificacion"
 							  Adornment="Adornment.End"
 							  AdornmentIcon="@Icons.Material.Filled.Search"
@@ -26,6 +27,7 @@ else
 		<MudGrid>
 			<MudItem xs="12" sm="2">
 				<MudTextField Label="@Localizer["ChipProgram"]"
+							  Disabled="@DisabledEjecutarChipNo"
 							  @bind-Value="@chipCoordinator.Code"
 							  Adornment="Adornment.End"
 							  AdornmentIcon="@Icons.Material.Filled.Search"
@@ -42,11 +44,12 @@ else
 		<MudGrid>
 			<MudItem xs="12" sm="3">
 				<MudDatePicker Label="@Localizer["StarDate"]"
-                   @bind-Date="chipCoordinator.StartDate"
-				   PickerVariant="PickerVariant.Dialog"
-					MinDate="@minDate"
-					For="@(()=>chipCoordinator.StartDate)"
-								   ShowToolbar="false" />
+							   Disabled="@DisabledEjecutarChipNo"
+								@bind-Date="chipCoordinator.StartDate"
+								PickerVariant="PickerVariant.Dialog"
+								MinDate="@minDate"
+							   For="@(()=>chipCoordinator.StartDate)"
+							   ShowToolbar="false" />
 			</MudItem>
 
 			<MudItem xs="12" sm="3">

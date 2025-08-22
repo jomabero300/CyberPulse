@@ -229,10 +229,20 @@ public partial class ChipsIndex
             var message = Localizer["UpdateRow"];
             Snackbar.Add(Localizer[message!], Severity.Warning);
             return new ActionResponse<ChipCoordinator>
+                        {
+                            WasSuccess = false,
+                        };
+        }
+        else if(string.IsNullOrWhiteSpace(tableRow.Key.ChipNo))
+        {
+            Snackbar.Add(Localizer["ChipNoNull"], Severity.Error);
+
+            return new ActionResponse<ChipCoordinator>
             {
                 WasSuccess = false,
             };
         }
+
 
         int statuId = StatuId != 0 ? StatuId : tableRow.Key.StatuId + 1;
         var language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
@@ -282,12 +292,13 @@ public partial class ChipsIndex
         else
         {
             lbEsta = true;
+
             int statuId = type switch
-            {
-                "D" => 10,
-                "E" => 11,
-                _ => 0
-            };
+                                {
+                                    "D" => 10,
+                                    "E" => 11,
+                                    _ => 0
+                                };
 
             if (statuId > 0)
             {

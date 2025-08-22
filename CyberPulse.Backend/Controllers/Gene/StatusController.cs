@@ -72,10 +72,9 @@ public class StatusController : GenericController<Statu>
     }
 
     [AllowAnonymous]
-    [HttpGet("Combo")]
-    public async Task<IActionResult> GetComboAsync()
+    [HttpGet("Combo/{id}")]
+    public async Task<IActionResult> GetComboAsync(int id)
     {
-        return Ok(await _statuUnitOfWork.GetComboAsync());
+        return Ok(await _statuUnitOfWork.GetComboAsync(id));
     }
-
 }

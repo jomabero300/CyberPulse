@@ -21,7 +21,7 @@ public partial class ConfirmEmail
 
     protected async Task ConfirmAccountAsync()
     {
-        var responseHttp = await repository.GetAsync($"/api/accounts/confirmEmail/?UserId={UserId}&token={Token}");
+        var responseHttp = await repository.GetAsync($"/api/accounts/confirmEmail/?userId={UserId}&token={Token}");
 
         if (responseHttp.Error)
         {

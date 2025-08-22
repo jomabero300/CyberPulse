@@ -596,9 +596,15 @@
     <value>The email must be an allowed domain</value>
   </data>
   <data name="ReportPdf" xml:space="preserve">
-    <value>Report</value>
+    <value>Pdf</value>
   </data>
   <data name="TrainingPrograms" xml:space="preserve">
     <value>Training programs</value>
+  </data>
+  <data name="ChipNoNull" xml:space="preserve">
+    <value>You must enter the token number before executing it.</value>
+  </data>
+  <data name="ReportExcel" xml:space="preserve">
+    <value>Excel</value>
   </data>
 </root>
