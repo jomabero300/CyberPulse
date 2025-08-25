@@ -67,7 +67,7 @@ public class CustomEmailValidator : IUserValidator<User>
     //    return Task.FromResult(IdentityResult.Success);
     //}
 
-    private readonly List<string> _allowedEmailDomains = new List<string> { "sena.edu.co", "sedarauca.edu.co" };
+    private readonly List<string> _allowedEmailDomains = new List<string> { "sena.edu.co", "sedarauca.edu.co"};
 
     public Task<IdentityResult> ValidateAsync(UserManager<User> manager, User user)
     {

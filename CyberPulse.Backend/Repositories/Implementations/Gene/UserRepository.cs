@@ -84,7 +84,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetUserAsync(Guid userId)
     {
-        var user = await _context.Users.AsNoTracking()
+        var user = await _context.Users
                                 .Include(x => x.Country)
                                 .FirstOrDefaultAsync(x => x.Id == userId.ToString());
         if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))

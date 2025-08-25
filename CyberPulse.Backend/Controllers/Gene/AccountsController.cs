@@ -302,15 +302,19 @@ public class AccountsController : ControllerBase
         if (user.EmailConfirmed == false)
         {
             string url = _configuration["UrlBackend"]!;
+
             if (!string.IsNullOrWhiteSpace(user.Photo) && user.Photo.Contains(url))
             {
-                user.Photo= user.Photo.Substring(url.Length);
+                user.Photo = user.Photo.Substring(url.Length);
             }
+
             var result = await _usersUnitOfWork.ConfirmEmailAsync(user, token);
+
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors.FirstOrDefault());
             }
+
             return NoContent();
         }
 

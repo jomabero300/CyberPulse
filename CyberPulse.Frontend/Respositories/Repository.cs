@@ -21,6 +21,7 @@ public class Repository : IRepository
     public async Task<HttpResponseWrapper<T>> GetAsync<T>(string url)
     {
         var responseHttp = await _httpClient.GetAsync(url);
+
         if (responseHttp.IsSuccessStatusCode)
         {
             var response = await UnserializeAnswer<T>(responseHttp);
