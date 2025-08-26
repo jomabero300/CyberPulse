@@ -20,5 +20,5 @@ public class Lot
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
 
-    public Statu Statu { get; set; }
+    public Statu? Statu { get; set; }
 }

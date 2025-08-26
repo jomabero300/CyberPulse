@@ -19,7 +19,7 @@ public class ProductCurrentValue
     public double worth { get; set; }
 
     [Column(TypeName = "decimal(3,1)")]
-    [Display(Name = "Worth", ResourceType = typeof(Literals))]
+    [Display(Name = "Porcentaje", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Porcentaje { get; set; }
 

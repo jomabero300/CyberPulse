@@ -3,15 +3,19 @@ using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Implementations;
 using CyberPulse.Backend.Repositories.Implementations.Chipp;
 using CyberPulse.Backend.Repositories.Implementations.Gene;
+using CyberPulse.Backend.Repositories.Implementations.Inve;
 using CyberPulse.Backend.Repositories.Interfaces;
 using CyberPulse.Backend.Repositories.Interfaces.Chipp;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
+using CyberPulse.Backend.Repositories.Interfaces.Inve;
 using CyberPulse.Backend.UnitsOfWork.Implementations;
 using CyberPulse.Backend.UnitsOfWork.Implementations.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Chipp;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
+using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Gene;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -94,6 +98,9 @@ builder.Services.AddScoped<ITrainingProgramUnitOfWork, TrainingProgramUnitOfWork
 
 builder.Services.AddScoped<ITypeOfTrainingRepository, TypeOfTrainingRepository>();
 builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>();
+
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
+builder.Services.AddScoped<IBudgetUnitOfWork, BudgetUnitOfWork>();
 
 
 

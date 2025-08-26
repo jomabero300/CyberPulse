@@ -2,10 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CyberPulse.Shared.Entities.Inve;
+namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
-[Table("Budgets", Schema = "Inve")]
-public class Budget
+public class BudgetDTO
 {
     public int Id { get; set; }
 
@@ -27,7 +26,4 @@ public class Budget
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double worth { get; set; }
-
-    public Validity? Validity { get; set; }
-    public BudgetType? BudgetType { get; set; }
 }

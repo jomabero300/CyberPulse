@@ -24,6 +24,7 @@ public partial class UserTypeForm
     protected override void OnInitialized()
     {
         editContext = new(user);
+
         selectedValue = (int)user.UserType;
     }
 

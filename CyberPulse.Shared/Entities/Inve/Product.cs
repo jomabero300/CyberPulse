@@ -29,7 +29,7 @@ public class Product
     public string Name { get; set; } = null!;
 
     [Column(TypeName = "varchar(100)")]
-    [Display(Name = "Name", ResourceType = typeof(Literals))]
+    [Display(Name = "Description", ResourceType = typeof(Literals))]
     [MaxLength(100, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Description { get; set; } = null!;

@@ -607,4 +607,46 @@
   <data name="ReportExcel" xml:space="preserve">
     <value>Excel</value>
   </data>
+  <data name="BaseValue" xml:space="preserve">
+    <value>Base value</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="QuotedValue" xml:space="preserve">
+    <value>Quoted value</value>
+  </data>
+  <data name="AcceptedQuantity" xml:space="preserve">
+    <value>Accepted Quantity</value>
+  </data>
+  <data name="RequestedQuantity" xml:space="preserve">
+    <value>Requested quantity</value>
+  </data>
+  <data name="ProductCurrentValue" xml:space="preserve">
+    <value>Current value</value>
+  </data>
+  <data name="BudgetCourse" xml:space="preserve">
+    <value>Budget course</value>
+  </data>
+  <data name="Worth" xml:space="preserve">
+    <value>Worth</value>
+  </data>
+  <data name="Porcentaje" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="Lot" xml:space="preserve">
+    <value>Lot</value>
+  </data>
+  <data name="Classe" xml:space="preserve">
+    <value>Classe</value>
+  </data>
+  <data name="UnitMeasurement" xml:space="preserve">
+    <value>Unit measurement</value>
+  </data>
+  <data name="BudgetType" xml:space="preserve">
+    <value>Budget type</value>
+  </data>
+  <data name="Validity" xml:space="preserve">
+    <value>Validity</value>
+  </data>
 </root>

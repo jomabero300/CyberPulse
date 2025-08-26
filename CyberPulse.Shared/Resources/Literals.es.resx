@@ -627,4 +627,46 @@
   <data name="ReportExcel" xml:space="preserve">
     <value>Excel</value>
   </data>
+  <data name="BaseValue" xml:space="preserve">
+    <value>Valor base</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="QuotedValue" xml:space="preserve">
+    <value>Valor cotizado</value>
+  </data>
+  <data name="AcceptedQuantity" xml:space="preserve">
+    <value>Cantidad aceptada</value>
+  </data>
+  <data name="RequestedQuantity" xml:space="preserve">
+    <value>Cantidad requerida</value>
+  </data>
+  <data name="ProductCurrentValue" xml:space="preserve">
+    <value>Valor vigente</value>
+  </data>
+  <data name="BudgetCourse" xml:space="preserve">
+    <value>Presupuesto del curso</value>
+  </data>
+  <data name="Worth" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="Porcentaje" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="Lot" xml:space="preserve">
+    <value>Lote</value>
+  </data>
+  <data name="Classe" xml:space="preserve">
+    <value>Clase</value>
+  </data>
+  <data name="UnitMeasurement" xml:space="preserve">
+    <value>Unidad de medida</value>
+  </data>
+  <data name="BudgetType" xml:space="preserve">
+    <value>Tipo de presupuesto</value>
+  </data>
+  <data name="Validity" xml:space="preserve">
+    <value>Vigencia</value>
+  </data>
 </root>
