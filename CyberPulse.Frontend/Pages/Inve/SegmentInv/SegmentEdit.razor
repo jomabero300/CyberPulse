@@ -1,0 +1,12 @@
+﻿@if (segmentDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<SegmentForm @ref="segmentForm" SegmentDTO="segmentDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

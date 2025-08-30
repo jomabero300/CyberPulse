@@ -18,7 +18,7 @@ public class BudgetUnitOfWork : GenericUnitOfWork<Budget>, IBudgetUnitOfWork
 
     public override async Task<ActionResponse<IEnumerable<Budget>>> GetAsync()=>await _budgetRepository.GetAsync();
     public override async Task<ActionResponse<Budget>> GetAsync(int id)=>await _budgetRepository.GetAsync(id);
-    public override async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(PaginationDTO pagination)=>await _budgetRepository.GetAsync<Budget>(pagination);
+    public override async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(PaginationDTO pagination)=>await _budgetRepository.GetAsync(pagination);
     public override async Task<ActionResponse<Budget>> DeleteAsync(int id)=>await _budgetRepository.DeleteAsync(id);
 
 

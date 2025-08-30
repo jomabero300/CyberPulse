@@ -23,8 +23,6 @@ public class Classe
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
 
-    public Statu? Segment { get; set; }
-
     public Family? Family { get; set; }
-
+    public Statu? Statu { get; set; }
 }

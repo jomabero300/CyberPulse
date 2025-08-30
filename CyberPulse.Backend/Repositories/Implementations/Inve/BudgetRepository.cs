@@ -20,24 +20,23 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
     }
     public override async Task<ActionResponse<IEnumerable<Budget>>> GetAsync()
     {
-        var countries = await _context.Budgets
+        var entity = await _context.Budgets
             .AsNoTracking()
             .ToListAsync();
 
         return new ActionResponse<IEnumerable<Budget>>
         {
             WasSuccess = true,
-            Result = countries
+            Result = entity
         };
-
     }
     public override async Task<ActionResponse<Budget>> GetAsync(int id)
     {
-        var country = await _context.Budgets
+        var entity = await _context.Budgets
             .AsNoTracking()
              .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (country == null)
+        if (entity == null)
         {
             return new ActionResponse<Budget>
             {
@@ -49,7 +48,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         return new ActionResponse<Budget>
         {
             WasSuccess = true,
-            Result = country
+            Result = entity
         };
 
     }
@@ -74,9 +73,9 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
     }
     public override async Task<ActionResponse<Budget>> DeleteAsync(int id)
     {
-        var state = await _context.Budgets.FindAsync(id);
+        var entity = await _context.Budgets.FindAsync(id);
 
-        if (state == null)
+        if (entity == null)
         {
             return new ActionResponse<Budget>
             {
@@ -85,7 +84,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             };
         }
 
-        _context.Remove(state);
+        _context.Remove(entity);
 
         try
         {
@@ -108,9 +107,45 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
 
 
 
-    public Task<ActionResponse<Budget>> AddAsync(BudgetDTO country)
+    public async Task<ActionResponse<Budget>> AddAsync(BudgetDTO entity)
     {
-        throw new NotImplementedException();
+        var model = new Budget
+        {
+            Id = entity.Id,
+            BudgetTypeId = entity.BudgetTypeId,
+            Rubro=entity.Rubro,
+            ValidityId = entity.ValidityId,
+            worth = entity.worth
+        };
+
+        _context.Add(model);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<Budget>
+            {
+                WasSuccess = true,
+                Result = model
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<Budget>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<Budget>
+            {
+                WasSuccess = false,
+                Message = ex.Message,
+            };
+        }
     }
 
     public async Task<IEnumerable<Budget>> GetComboAsync()

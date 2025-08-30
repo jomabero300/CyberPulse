@@ -1303,6 +1303,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Segment.
+        /// </summary>
+        public static string Segment {
+            get {
+                return ResourceManager.GetString("Segment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Segments.
+        /// </summary>
+        public static string Segments {
+            get {
+                return ResourceManager.GetString("Segments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Select a chip program.
         /// </summary>
         public static string SelectAChipProgram {

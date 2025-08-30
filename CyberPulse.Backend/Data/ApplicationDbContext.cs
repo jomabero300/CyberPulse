@@ -31,6 +31,9 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
 
     public DbSet<Budget> Budgets { get; set; }
+    public DbSet<BudgetCourse> BudgetCourses { get; set; }
+    public DbSet<BudgetLot> BudgetLots { get; set; }
+    public DbSet<BudgetProgram> BudgetPrograms { get; set; }
     public DbSet<BudgetType> BudgetTypes { get; set; }
     public DbSet<Classe> Classes { get; set; }
     public DbSet<Course> Courses { get; set; }
@@ -39,6 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Lot> Lots { get; set; }
     public DbSet<Product> Products{ get; set; }
     public DbSet<ProductCurrentValue> ProductCurrentValues { get; set; }
+    public DbSet<ProductQuotation> ProductQuotations { get; set; }
     public DbSet<ProgramLot> ProgramLots { get; set; }
     public DbSet<Segment> Segments { get; set; }
     public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
@@ -67,6 +71,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<Statu>().HasIndex(x => new {x.Name,x.Nivel }).IsUnique();
 
 
+        builder.Entity<BudgetCourse>().HasIndex(x => new { x.ValidityId,x.CourseId,x.StartDate }).IsUnique();
         builder.Entity<BudgetType>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Classe>().HasIndex(x =>new {x.FamilyId, x.Name }).IsUnique();
         builder.Entity<Family>().HasIndex(x => new { x.SegmentId, x.Name }).IsUnique();
@@ -76,6 +81,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<ProgramLot>().HasIndex(x => new {x.ProgramId,x.LotId }).IsUnique();
         builder.Entity<Segment>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<UnitMeasurement>().HasIndex(x => x.Name).IsUnique();
+        builder.Entity<Validity>().HasIndex(x => x.Value).IsUnique();
         
 
 

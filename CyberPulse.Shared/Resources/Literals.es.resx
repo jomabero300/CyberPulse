@@ -669,4 +669,10 @@
   <data name="Validity" xml:space="preserve">
     <value>Vigencia</value>
   </data>
+  <data name="Segments" xml:space="preserve">
+    <value>Segmentos</value>
+  </data>
+  <data name="Segment" xml:space="preserve">
+    <value>Segmento</value>
+  </data>
 </root>

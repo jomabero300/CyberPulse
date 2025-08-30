@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace CyberPulse.Backend.Helpers;
 
@@ -20,4 +21,11 @@ public static class HtmlUtilities
 
         return html;
     }
+    public static string ToTitleCase(string html)
+    {
+        CultureInfo culture=CultureInfo.InvariantCulture;
+        TextInfo textinfo=culture.TextInfo;
+        return textinfo.ToTitleCase(html);
+    }
+
 }

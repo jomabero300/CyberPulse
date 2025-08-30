@@ -383,6 +383,35 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.ToTable("Countries", "Gene");
                 });
 
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Iva", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("varchar(3)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Worth")
+                        .HasColumnType("decimal(3,1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Ivas", "Gene");
+                });
+
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Neighborhood", b =>
                 {
                     b.Property<int>("Id")
@@ -544,6 +573,519 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", "Admi");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Budget", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BudgetTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Rubro")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("worth")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetTypeId");
+
+                    b.HasIndex("ValidityId");
+
+                    b.ToTable("Budgets", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("worth")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StatuId");
+
+                    b.HasIndex("ValidityId", "CourseId", "StartDate")
+                        .IsUnique();
+
+                    b.ToTable("BudgetCourses", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetLot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BudgetProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("worth")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetProgramId");
+
+                    b.HasIndex("LotId");
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("BudgetLots", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetProgram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BudgetTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("worth")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("BudgetTypeId");
+
+                    b.HasIndex("ProgramId");
+
+                    b.HasIndex("StatuId");
+
+                    b.HasIndex("ValidityId");
+
+                    b.ToTable("BudgetPrograms", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("BudgetTypes", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Classe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FamilyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatuId");
+
+                    b.HasIndex("FamilyId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Classes", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotId");
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Courses", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Family", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("SegmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatuId");
+
+                    b.HasIndex("SegmentId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Families", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.InvProgram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Programs", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Lot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Lots", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClasseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitMeasurementId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotId");
+
+                    b.HasIndex("StatuId");
+
+                    b.HasIndex("UnitMeasurementId");
+
+                    b.HasIndex("ClasseId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Products", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProductCurrentValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IvaId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Porcentaje")
+                        .HasColumnType("decimal(3,1)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ValidityId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("worth")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IvaId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ValidityId");
+
+                    b.ToTable("ProductCurrentValues", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProductQuotation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AcceptedQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BudgetCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductCurrentValueId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("QuotedValue")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<int>("RequestedQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetCourseId");
+
+                    b.HasIndex("ProductCurrentValueId");
+
+                    b.ToTable("ProductQuotations", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProgramLot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LotId");
+
+                    b.HasIndex("ProgramId", "LotId")
+                        .IsUnique();
+
+                    b.ToTable("ProgramLots", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Segment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Segments", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.UnitMeasurement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("BaseValue")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("UnitMeasurements", "Inve");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Validity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
+
+                    b.ToTable("Validities", "Inve");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -787,6 +1329,17 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Iva", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
+                });
+
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Neighborhood", b =>
                 {
                     b.HasOne("CyberPulse.Shared.Entities.Gene.City", "City")
@@ -818,6 +1371,323 @@ namespace CyberPulse.Backend.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Budget", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.BudgetType", "BudgetType")
+                        .WithMany()
+                        .HasForeignKey("BudgetTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
+                        .WithMany()
+                        .HasForeignKey("ValidityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BudgetType");
+
+                    b.Navigation("Validity");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetCourse", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
+                        .WithMany()
+                        .HasForeignKey("ValidityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Statu");
+
+                    b.Navigation("Validity");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetLot", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.BudgetProgram", "BudgetProgram")
+                        .WithMany()
+                        .HasForeignKey("BudgetProgramId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Lot", "Lot")
+                        .WithMany()
+                        .HasForeignKey("LotId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BudgetProgram");
+
+                    b.Navigation("Lot");
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetProgram", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Budget", "Budget")
+                        .WithMany()
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.BudgetType", "BudgetType")
+                        .WithMany()
+                        .HasForeignKey("BudgetTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.InvProgram", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
+                        .WithMany()
+                        .HasForeignKey("ValidityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Budget");
+
+                    b.Navigation("BudgetType");
+
+                    b.Navigation("Program");
+
+                    b.Navigation("Statu");
+
+                    b.Navigation("Validity");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Classe", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Family", "Family")
+                        .WithMany()
+                        .HasForeignKey("FamilyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Segment")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Family");
+
+                    b.Navigation("Segment");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Course", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Lot", "Lot")
+                        .WithMany()
+                        .HasForeignKey("LotId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Lot");
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Family", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Segment", "Segment")
+                        .WithMany()
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.InvProgram", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Lot", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Product", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Classe", "Classe")
+                        .WithMany()
+                        .HasForeignKey("ClasseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Lot", "Lot")
+                        .WithMany()
+                        .HasForeignKey("LotId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.UnitMeasurement", "UnitMeasurement")
+                        .WithMany()
+                        .HasForeignKey("UnitMeasurementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Classe");
+
+                    b.Navigation("Lot");
+
+                    b.Navigation("Statu");
+
+                    b.Navigation("UnitMeasurement");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProductCurrentValue", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Iva", "Iva")
+                        .WithMany()
+                        .HasForeignKey("IvaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
+                        .WithMany()
+                        .HasForeignKey("ValidityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Iva");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Validity");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProductQuotation", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.BudgetCourse", "BudgetCourse")
+                        .WithMany()
+                        .HasForeignKey("BudgetCourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.ProductCurrentValue", "ProductCurrentValue")
+                        .WithMany()
+                        .HasForeignKey("ProductCurrentValueId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BudgetCourse");
+
+                    b.Navigation("ProductCurrentValue");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProgramLot", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Lot", "Lot")
+                        .WithMany()
+                        .HasForeignKey("LotId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.InvProgram", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Lot");
+
+                    b.Navigation("Program");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Segment", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
+                });
+
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.UnitMeasurement", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany("UnitMeasurements")
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -926,6 +1796,8 @@ namespace CyberPulse.Backend.Data.Migrations
             modelBuilder.Entity("CyberPulse.Shared.Entities.Gene.Statu", b =>
                 {
                     b.Navigation("Chips");
+
+                    b.Navigation("UnitMeasurements");
                 });
 #pragma warning restore 612, 618
         }

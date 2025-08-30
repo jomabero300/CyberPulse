@@ -33,8 +33,8 @@ builder.Services.AddCors(options =>
         builder =>
         {
             //builder.WithOrigins("https://senarauca.runasp.net")
-            //builder.WithOrigins("https://localhost:7244")
-            builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            //builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
+            builder.WithOrigins("https://localhost:7244")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
@@ -99,8 +99,40 @@ builder.Services.AddScoped<ITrainingProgramUnitOfWork, TrainingProgramUnitOfWork
 builder.Services.AddScoped<ITypeOfTrainingRepository, TypeOfTrainingRepository>();
 builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>();
 
+
+
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<IBudgetUnitOfWork, BudgetUnitOfWork>();
+
+builder.Services.AddScoped<IBudgetTypeRepository, BudgetTypeRepository>();
+builder.Services.AddScoped<IBudgetTypeUnitOfWork, BudgetTypeUnitOfWork>();
+
+builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
+builder.Services.AddScoped<IClasseUnitOfWork, ClasseUnitOfWork>();
+
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseUnitOfWork, CourseUnitOfWork>();
+
+builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
+builder.Services.AddScoped<IFamilyUnitOfWork, FamilyUnitOfWork>();
+
+builder.Services.AddScoped<IInvProgramRepository, InvProgramRepository>();
+builder.Services.AddScoped<IInvProgramUnitOfWork, InvProgramUnitOfWork>();
+
+builder.Services.AddScoped<ILotRepository, LotRepository>();
+builder.Services.AddScoped<ILotUnitOfWork, LotUnitOfWork>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
+
+builder.Services.AddScoped<ISegmentRepository, SegmentRepository>();
+builder.Services.AddScoped<ISegmentUnitOfWork, SegmentUnitOfWork>();
+
+builder.Services.AddScoped<IUnitMeasurementRepository, UnitMeasurementRepository>();
+builder.Services.AddScoped<IUnitMeasurementUnitOfWork, UnitMeasurementUnitOfWork>();
+
+builder.Services.AddScoped<IValidityRepository, ValidityRepository>();
+builder.Services.AddScoped<IValidityUnitOfWork, ValidityUnitOfWork>();
 
 
 

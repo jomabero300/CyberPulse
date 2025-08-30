@@ -23,19 +23,26 @@
 
     <AuthorizeView Roles="Admi">
         <Authorized>
-            <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/uploadFile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FileUpload">@Localizer["uploadFile"]</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SupervisedUserCircle">@Localizer["Users"]</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/programs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["TrainingPrograms"]</MudNavLink>
-            <MudDivider />
-            <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
+            <MudNavGroup Title="General" Expanded="false">
+                <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/uploadFile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FileUpload">@Localizer["uploadFile"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SupervisedUserCircle">@Localizer["Users"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/programs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["TrainingPrograms"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Inventarios" Expanded="false">
+                <MudDivider />
+                <MudNavLink Href="/segments" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["Segments"]</MudNavLink>
+
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
     <AuthorizeView Roles="Coor">

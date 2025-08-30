@@ -9,13 +9,14 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.EntitiesDTO.Chipp.Report;
 using CyberPulse.Shared.Enums;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 
 namespace CyberPulse.Backend.Controllers.Chipp;
 
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
 public class ChipsController : GenericController<Chip>

@@ -13,6 +13,7 @@ public class BudgetCourse
     [Display(Name = "Validity", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ValidityId { get; set; }
+
     [Display(Name = "Course", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int CourseId { get; set; }
