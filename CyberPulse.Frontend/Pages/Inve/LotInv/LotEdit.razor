@@ -1,0 +1,12 @@
+﻿@if (lotDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<LotForm @ref="lotForm" LotDTO="lotDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

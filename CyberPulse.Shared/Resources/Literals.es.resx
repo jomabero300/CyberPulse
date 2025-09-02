@@ -675,4 +675,22 @@
   <data name="Segment" xml:space="preserve">
     <value>Segmento</value>
   </data>
+  <data name="InvProgram" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="InvPrograms" xml:space="preserve">
+    <value>Programas</value>
+  </data>
+  <data name="BudgetTypes" xml:space="preserve">
+    <value>Tipos de pesupuesto</value>
+  </data>
+  <data name="Lots" xml:space="preserve">
+    <value>Lotes</value>
+  </data>
+  <data name="Family" xml:space="preserve">
+    <value>Familia</value>
+  </data>
+  <data name="Families" xml:space="preserve">
+    <value>Familias</value>
+  </data>
 </root>

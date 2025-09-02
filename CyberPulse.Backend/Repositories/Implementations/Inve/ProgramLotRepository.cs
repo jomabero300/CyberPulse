@@ -5,65 +5,67 @@ using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
-public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRepository
+public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRepository
 {
     private readonly ApplicationDbContext _context;
-    public InvProgramRepository(ApplicationDbContext context) : base(context)
+    public ProgramLotRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
 
-    public override async Task<ActionResponse<InvProgram>> GetAsync(int id)
+
+    public override async Task<ActionResponse<ProgramLot>> GetAsync(int id)
     {
-        var entity = await _context.InvPrograms
+        var entity = await _context.ProgramLots
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (entity == null)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR001"
             };
         }
 
-        return new ActionResponse<InvProgram>
+        return new ActionResponse<ProgramLot>
         {
             WasSuccess = true,
             Result = entity
         };
     }
-    public override async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(PaginationDTO pagination)
+    public override async Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.InvPrograms.AsNoTracking()
+        var queryable = _context.ProgramLots.AsNoTracking()
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
-        }
+        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        //{
+        //    queryable = queryable.Where(x => x.Rubro.ToLower().Contains(pagination.Filter.ToLower()));
+        //}
 
-        return new ActionResponse<IEnumerable<InvProgram>>
+        return new ActionResponse<IEnumerable<ProgramLot>>
         {
             WasSuccess = true,
             Result = await queryable
-                .OrderBy(x => x.Name)
+                .OrderBy(x => x.Id)
                 .Paginate(pagination)
                 .ToListAsync()
         };
     }
-    public override async Task<ActionResponse<InvProgram>> DeleteAsync(int id)
+    public override async Task<ActionResponse<ProgramLot>> DeleteAsync(int id)
     {
-        var entity = await _context.InvPrograms.FindAsync(id);
+        var entity = await _context.ProgramLots.FindAsync(id);
 
         if (entity == null)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR001",
@@ -76,14 +78,14 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = true,
             };
         }
         catch (Exception)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR002"
@@ -93,13 +95,13 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
 
 
 
-    public async Task<ActionResponse<InvProgram>> AddAsync(InvProgramDTO entity)
+    public async Task<ActionResponse<ProgramLot>> AddAsync(ProgramLotDTO entity)
     {
-        var model = new InvProgram
+        var model = new ProgramLot
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase( entity.Name),
-            StatuId=entity.StatuId
+            LotId = entity.LotId,
+            ProgramId = entity.ProgramId,
         };
 
         _context.Add(model);
@@ -108,7 +110,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = true,
                 Result = model
@@ -116,7 +118,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         }
         catch (DbUpdateException)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR003"
@@ -124,28 +126,22 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         }
         catch (Exception ex)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = ex.Message,
             };
         }
     }
-    public async Task<IEnumerable<InvProgram>> GetComboAsync()
-    {
-        return await _context.InvPrograms
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync();
-    }
+
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.InvPrograms.AsQueryable();
+        var queryable = _context.ProgramLots.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
-        }
+        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        //{
+        //    queryable = queryable.Where(x => x.Rubro.ToLower().Contains(pagination.Filter.ToLower()));
+        //}
 
         double count = await queryable.CountAsync();
 
@@ -155,21 +151,21 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
             Result = (int)count
         };
     }
-    public async Task<ActionResponse<InvProgram>> UpdateAsync(InvProgramDTO entity)
+    public async Task<ActionResponse<ProgramLot>> UpdateAsync(ProgramLotDTO entity)
     {
-        var model = await _context.InvPrograms.FindAsync(entity.Id);
+        var model = await _context.ProgramLots.FindAsync(entity.Id);
 
         if (model == null)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR005",
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name);
-        model.StatuId=entity.StatuId;
+        model.ProgramId = entity.ProgramId;
+        model.LotId = entity.LotId;
 
         _context.Update(model);
 
@@ -177,7 +173,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = true,
                 Result = model,
@@ -185,7 +181,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         }
         catch (DbUpdateException)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR003"
@@ -193,7 +189,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         }
         catch (Exception ex)
         {
-            return new ActionResponse<InvProgram>
+            return new ActionResponse<ProgramLot>
             {
                 WasSuccess = false,
                 Message = ex.Message

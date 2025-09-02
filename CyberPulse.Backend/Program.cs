@@ -125,6 +125,9 @@ builder.Services.AddScoped<ILotUnitOfWork, LotUnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
 
+builder.Services.AddScoped<IProgramLotRepository, ProgramLotRepository>();
+builder.Services.AddScoped<IProgramLotUnitOfWork, ProgramLotUnitOfWork>();
+
 builder.Services.AddScoped<ISegmentRepository, SegmentRepository>();
 builder.Services.AddScoped<ISegmentUnitOfWork, SegmentUnitOfWork>();
 

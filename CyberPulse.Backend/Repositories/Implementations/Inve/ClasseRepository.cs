@@ -22,6 +22,7 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
     {
         var entity = await _context.Classes
             .AsNoTracking()
+            .Include(x=>x.Family)
              .FirstOrDefaultAsync(x => x.Id == id);
 
         if (entity == null)
@@ -41,7 +42,10 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
     }
     public override async Task<ActionResponse<IEnumerable<Classe>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Classes.AsNoTracking()
+        var queryable = _context.Classes
+            .AsNoTracking()
+            .Include(x=>x.Family)
+            .ThenInclude(s=>s.Segment)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -137,7 +141,7 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
     {
         return await _context.Classes
             .AsNoTracking()
-            .Where(x => x.Id == id)
+            .Where(x => x.FamilyId == id)
             .OrderBy(x => x.Name)
             .ToListAsync();
     }
@@ -175,7 +179,7 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
 
         model.Name = entity.Name;
         model.StatuId = entity.StatuId; 
-        model.StatuId=entity.StatuId;
+        model.FamilyId=entity.FamilyId;
 
         _context.Update(model);
 

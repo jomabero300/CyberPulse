@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,4 +21,11 @@ public class ClasseDTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public StatuDTO? Statu { get; set; }
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public Family2DTO? Family { get; set; }
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public SegmentDTO? Segment { get; set; }
 }

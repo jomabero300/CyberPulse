@@ -655,4 +655,22 @@
   <data name="Segment" xml:space="preserve">
     <value>Segment</value>
   </data>
+  <data name="InvProgram" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="InvPrograms" xml:space="preserve">
+    <value>Programs</value>
+  </data>
+  <data name="BudgetTypes" xml:space="preserve">
+    <value>Budgets type</value>
+  </data>
+  <data name="Lots" xml:space="preserve">
+    <value>Lots</value>
+  </data>
+  <data name="Family" xml:space="preserve">
+    <value>Family</value>
+  </data>
+  <data name="Families" xml:space="preserve">
+    <value>Families</value>
+  </data>
 </root>

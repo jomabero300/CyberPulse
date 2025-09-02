@@ -41,7 +41,9 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
     }
     public override async Task<ActionResponse<IEnumerable<Family>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Families.AsNoTracking()
+        var queryable = _context.Families
+            .AsNoTracking()
+            .Include(x => x.Segment)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))

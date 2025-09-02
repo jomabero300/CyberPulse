@@ -1,26 +1,23 @@
-using CyberPulse.Frontend.Pages.Genes.Status;
+using CyberPulse.Frontend.Pages.Inve.FamilyInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
-using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Net;
 
-namespace CyberPulse.Frontend.Pages.Inve.SegmentInv;
+namespace CyberPulse.Frontend.Pages.Inve.ClasseInv;
 
-[Authorize(Roles = "Admi")]
-public partial class SegmentIndex
+public partial class ClasseIndex
 {
-    private List<Segment>? segments { get; set; }
-    private MudTable<Segment> table = new();
+    private List<Classe>? Classes { get; set; }
+    private MudTable<Classe> table = new();
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
-    private const string baseUrl = "api/segments";
+    private const string baseUrl = "api/classes";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
     [Inject] private IRepository repository { get; set; } = null!;
@@ -59,7 +56,7 @@ public partial class SegmentIndex
 
         loading = false;
     }
-    private async Task<TableData<Segment>> LoadListAsync(TableState state, CancellationToken cancellationToken)
+    private async Task<TableData<Classe>> LoadListAsync(TableState state, CancellationToken cancellationToken)
     {
         int page = state.Page + 1;
 
@@ -72,7 +69,7 @@ public partial class SegmentIndex
             url += $"&filter={Filter}";
         }
 
-        var responseHttp = await repository.GetAsync<List<Segment>>(url);
+        var responseHttp = await repository.GetAsync<List<Classe>>(url);
 
         if (responseHttp.Error)
         {
@@ -80,15 +77,15 @@ public partial class SegmentIndex
 
             Snackbar.Add(Localizer[message!], Severity.Error);
 
-            return new TableData<Segment> { Items = [], TotalItems = 0 };
+            return new TableData<Classe> { Items = [], TotalItems = 0 };
         }
 
         if (responseHttp.Response == null)
         {
-            return new TableData<Segment> { Items = [], TotalItems = 0 };
+            return new TableData<Classe> { Items = [], TotalItems = 0 };
         }
 
-        return new TableData<Segment>
+        return new TableData<Classe>
         {
             Items = responseHttp.Response,
 
@@ -117,14 +114,14 @@ public partial class SegmentIndex
             {
                 { "Id", id }
             };
-            dialog = await DialogService.ShowAsync<SegmentEdit>(
-                $"{Localizer["Edit"]} {Localizer["Segment"]}",
+            dialog = await DialogService.ShowAsync<ClasseEdit>(
+                $"{Localizer["Edit"]} {Localizer["Classe"]}",
                 parameters,
                 options);
         }
         else
         {
-            dialog = await DialogService.ShowAsync<SegmentCreate>($"{Localizer["New"]} {Localizer["Segment"]}", options);
+            dialog = await DialogService.ShowAsync<ClasseCreate>($"{Localizer["New"]} {Localizer["Classe"]}", options);
         }
 
         var result = await dialog.Result;
@@ -136,11 +133,11 @@ public partial class SegmentIndex
             await table.ReloadServerData();
         }
     }
-    private async Task DeleteAsync(Segment entity)
+    private async Task DeleteAsync(Classe entity)
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Statu"], entity.Name) }
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Classe"], entity.Name) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -161,7 +158,7 @@ public partial class SegmentIndex
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/Segment");
+                NavigationManager.NavigateTo("/classes");
             }
             else
             {

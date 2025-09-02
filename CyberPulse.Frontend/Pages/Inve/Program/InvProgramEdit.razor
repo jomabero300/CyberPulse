@@ -1,0 +1,12 @@
+﻿@if (invProgramDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<InvProgramForm @ref="invProgramForm" InvProgramDTO="invProgramDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

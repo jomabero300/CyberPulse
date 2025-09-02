@@ -187,6 +187,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Budgets type.
+        /// </summary>
+        public static string BudgetTypes {
+            get {
+                return ResourceManager.GetString("BudgetTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cancel.
         /// </summary>
         public static string Cancel {
@@ -664,6 +673,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Families.
+        /// </summary>
+        public static string Families {
+            get {
+                return ResourceManager.GetString("Families", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Family.
+        /// </summary>
+        public static string Family {
+            get {
+                return ResourceManager.GetString("Family", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter.
         /// </summary>
         public static string Filter {
@@ -772,6 +799,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Program.
+        /// </summary>
+        public static string InvProgram {
+            get {
+                return ResourceManager.GetString("InvProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Programs.
+        /// </summary>
+        public static string InvPrograms {
+            get {
+                return ResourceManager.GetString("InvPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Justification.
         /// </summary>
         public static string Justification {
@@ -849,6 +894,15 @@ namespace CyberPulse.Shared.Resources {
         public static string Lot {
             get {
                 return ResourceManager.GetString("Lot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lots.
+        /// </summary>
+        public static string Lots {
+            get {
+                return ResourceManager.GetString("Lots", resourceCulture);
             }
         }
         

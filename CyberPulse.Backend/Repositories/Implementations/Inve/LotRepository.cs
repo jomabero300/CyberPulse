@@ -99,7 +99,7 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
         var model = new Lot
         {
             Id = entity.Id,
-            Name = entity.Name,
+            Name = HtmlUtilities.ToTitleCase(entity.Name),
             StatuId = entity.StatuId,
         };
 
@@ -172,7 +172,7 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name);
         model.StatuId=entity.StatuId;
 
         _context.Update(model);

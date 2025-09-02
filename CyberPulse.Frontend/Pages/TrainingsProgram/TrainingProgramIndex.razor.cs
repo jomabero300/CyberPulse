@@ -4,6 +4,7 @@ using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -11,6 +12,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.TrainingsProgram;
 
+[Authorize(Roles = "Admi")]
 public partial class TrainingProgramIndex
 {
     private List<TrainingProgram>? trainingProgram { get; set; }

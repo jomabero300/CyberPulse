@@ -1,13 +1,15 @@
-﻿using CyberPulse.Shared.EntitiesDTO.Gene;
-using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
-public class InvProgramDTO
+public class Family2DTO
 {
     public int Id { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int SegmentId { get; set; }
 
     [Column(TypeName = "varchar(60)")]
     [Display(Name = "Name", ResourceType = typeof(Literals))]
@@ -19,5 +21,4 @@ public class InvProgramDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
 
-    public StatuDTO? Statu { get; set; }
 }

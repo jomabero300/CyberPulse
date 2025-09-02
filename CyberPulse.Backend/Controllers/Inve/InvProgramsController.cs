@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -12,20 +13,21 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class SegmentsController : GenericController<Segment>
+public class InvProgramsController : GenericController<InvProgram>
 {
-    private readonly ISegmentUnitOfWork _segmentUnitOfWork;
-    public SegmentsController(IGenericUnitOfWork<Segment> unitOfWork, ISegmentUnitOfWork segmentUnitOfWork) : base(unitOfWork)
+                     
+    private readonly IInvProgramUnitOfWork _invProgramUnitofWork;
+    public InvProgramsController(IGenericUnitOfWork<InvProgram> unitOfWork, IInvProgramUnitOfWork invProgramUnitofWork) : base(unitOfWork)
     {
-        _segmentUnitOfWork = segmentUnitOfWork;
+        _invProgramUnitofWork = invProgramUnitofWork;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("full/{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response=await _segmentUnitOfWork.GetAsync(id);
+        var response = await _invProgramUnitofWork.GetAsync(id);
 
-        if(response.WasSuccess)
+        if (response.WasSuccess)
         {
             return Ok(response.Result);
         }
@@ -35,7 +37,7 @@ public class SegmentsController : GenericController<Segment>
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _segmentUnitOfWork.GetAsync(pagination);
+        var response = await _invProgramUnitofWork.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -44,10 +46,11 @@ public class SegmentsController : GenericController<Segment>
 
         return BadRequest();
     }
+
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
-        var response = await _segmentUnitOfWork.DeleteAsync(id);
+        var response = await _invProgramUnitofWork.DeleteAsync(id);
 
         if (response.WasSuccess)
         {
@@ -57,10 +60,12 @@ public class SegmentsController : GenericController<Segment>
         return BadRequest();
     }
 
+
+
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] SegmentDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] InvProgramDTO entity)
     {
-        var response = await _segmentUnitOfWork.AddAsync(entity);
+        var response = await _invProgramUnitofWork.AddAsync(entity);
 
         if (response.WasSuccess)
         {
@@ -71,9 +76,9 @@ public class SegmentsController : GenericController<Segment>
     }
 
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync([FromBody] SegmentDTO model)
+    public async Task<IActionResult> PustAsync([FromBody] InvProgramDTO model)
     {
-        var action = await _segmentUnitOfWork.UpdateAsync(model);
+        var action = await _invProgramUnitofWork.UpdateAsync(model);
 
         if (action.WasSuccess)
         {
@@ -86,18 +91,12 @@ public class SegmentsController : GenericController<Segment>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _segmentUnitOfWork.GetTotalRecordsAsync(pagination);
+        var response = await _invProgramUnitofWork.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {
             return Ok(response.Result);
         }
         return BadRequest();
-    }
-
-    [HttpGet("Combo")]
-    public async Task<IActionResult> GetComboAsync()
-    {
-        return Ok(await _segmentUnitOfWork.GetComboAsync());
     }
 }
