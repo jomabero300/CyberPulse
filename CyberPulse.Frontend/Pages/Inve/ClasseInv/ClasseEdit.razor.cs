@@ -1,4 +1,3 @@
-using CyberPulse.Frontend.Pages.Inve.FamilyInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
@@ -13,7 +12,6 @@ public partial class ClasseEdit
     private ClasseForm? ClasseForm;
 
     private ClasseDTO? ClasseDTO;
-
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;

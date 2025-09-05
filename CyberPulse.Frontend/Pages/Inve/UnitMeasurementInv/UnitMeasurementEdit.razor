@@ -1,0 +1,12 @@
+﻿@if (unitmeasurementDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<UnitMeasurementForm @ref="unitmeasurementForm" UnitMeasurementDTO="unitmeasurementDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

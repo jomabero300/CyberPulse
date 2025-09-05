@@ -15,6 +15,8 @@ public class ProgramLotDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int LotId { get; set; }
 
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public InvProgramDTO? Program { get; set; }
-    public LotDTO? Lot { get; set; }
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public Lot2DTO? Lot { get; set; }
 }

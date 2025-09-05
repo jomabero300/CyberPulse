@@ -149,7 +149,6 @@ public partial class ChipForm
         var holidays = await repository.GetAsync<HashSet<DateTime>>("/api/calendars");
         if (holidays == null) return;
         Holidays = holidays.Response;
-
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)

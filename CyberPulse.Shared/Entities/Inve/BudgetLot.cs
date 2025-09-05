@@ -10,7 +10,7 @@ public class BudgetLot
 {
     public int Id { get; set; }
     public int BudgetProgramId { get; set; }
-    public int LotId { get; set; }
+    public int ProgramLotId { get; set; }
 
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
@@ -21,7 +21,7 @@ public class BudgetLot
     public int StatuId { get; set; }
 
     public BudgetProgram? BudgetProgram { get; set; }
-    public Lot? Lot { get; set; }
+    public ProgramLot? ProgramLot { get; set; }
     public Statu? Statu { get; set; }
 
 }

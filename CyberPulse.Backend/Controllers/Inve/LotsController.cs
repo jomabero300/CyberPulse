@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -54,7 +55,7 @@ public class LotsController : GenericController<Lot>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
 
@@ -95,5 +96,11 @@ public class LotsController : GenericController<Lot>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("Combo")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        return Ok(await _lotunitOfWork.GetComboAsync());
     }
 }

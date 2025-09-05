@@ -35,9 +35,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Inve\Budget\" />
-    <Folder Include="Pages\Inve\Validities\" />
-  </ItemGroup>
-
 </Project>

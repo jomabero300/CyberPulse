@@ -23,7 +23,7 @@ public partial class LotEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<LotDTO>($"/api/lots/full/{Id}");
+        var responseHttp = await Repository.GetAsync<LotDTO>($"/api/lots/{Id}");
 
         if (responseHttp.Error)
         {
@@ -68,5 +68,4 @@ public partial class LotEdit
 
         NavigationManager.NavigateTo("/lots");
     }
-
 }

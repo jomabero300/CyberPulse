@@ -13,9 +13,9 @@ public class Family
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int SegmentId { get; set; }
 
-    [Column(TypeName = "varchar(60)")]
+    [Column(TypeName = "varchar(150)")]
     [Display(Name = "Name", ResourceType = typeof(Literals))]
-    [MaxLength(60, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [MaxLength(150, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
 

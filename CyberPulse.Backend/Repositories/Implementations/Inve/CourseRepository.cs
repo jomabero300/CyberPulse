@@ -40,7 +40,9 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
     }
     public override async Task<ActionResponse<IEnumerable<Course>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Courses.AsNoTracking()
+        var queryable = _context.Courses
+            .AsNoTracking()
+            .Include(x=>x.Statu)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -98,8 +100,8 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         var model = new Course
         {
             Id = entity.Id,
-            Name = entity.Name,
-            StatuId=entity.StatuId,
+            Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower()),
+            StatuId=entity.StatuId
         };
 
         _context.Add(model);
@@ -135,7 +137,6 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
     {
         return await _context.Courses
             .AsNoTracking()
-            .Where(x=>x.LotId==id)
             .OrderBy(x => x.Name)
             .ToListAsync();
     }
@@ -171,8 +172,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
             };
         }
 
-        model.Name = entity.Name;
-        model.LotId = entity.LotId;
+        model.Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower());
         model.StatuId=entity.StatuId;
 
         _context.Update(model);

@@ -169,7 +169,7 @@ public partial class ClasseForm
 
     private async Task LoadStatusAsync()
     {
-        var responseHttp = await Repository.GetAsync<List<StatuDTO>>("/api/status");
+        var responseHttp = await Repository.GetAsync<List<StatuDTO>>("/api/status/combo/0");
 
         if (responseHttp.Error)
         {

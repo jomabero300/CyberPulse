@@ -1,0 +1,12 @@
+﻿@if (CourseDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<CourseForm @ref="CourseForm" CourseDTO="CourseDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

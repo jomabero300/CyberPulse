@@ -66,7 +66,7 @@ public partial class SegmentForm
 
     private async Task LoadStatusAsync()
     {
-        var responseHttp = await Repository.GetAsync<List<Statu>>("/api/status");
+        var responseHttp = await Repository.GetAsync<List<Statu>>("/api/status/combo/0");
 
         if (responseHttp.Error)
         {

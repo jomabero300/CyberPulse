@@ -27,10 +27,12 @@ else
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
+            <MudTh>@Localizer["Id"]</MudTh>
             <MudTh>@Localizer["Segment"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
+            <MudTd>@context.Id</MudTd>
             <MudTd>@context.Name</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Edit"]">

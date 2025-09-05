@@ -1,8 +1,8 @@
-using CyberPulse.Frontend.Pages.Inve.FamilyInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -10,6 +10,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Inve.ClasseInv;
 
+[Authorize(Roles = "Admi")]
 public partial class ClasseIndex
 {
     private List<Classe>? Classes { get; set; }

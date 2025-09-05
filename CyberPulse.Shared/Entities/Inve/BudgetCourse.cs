@@ -16,7 +16,7 @@ public class BudgetCourse
 
     [Display(Name = "Course", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public int CourseId { get; set; }
+    public int CourseProgramLotId { get; set; }
 
     [Column(TypeName = "datetime")]
     [Display(Name = "StartDate", ResourceType = typeof(Literals))]
@@ -37,7 +37,7 @@ public class BudgetCourse
     public int StatuId { get; set; }
 
     public Validity? Validity { get; set; }
-    public Course? Course { get; set; }
+    public CourseProgramLot? CourseProgramLot { get; set; }
     public Statu? Statu { get; set; }
 
 }

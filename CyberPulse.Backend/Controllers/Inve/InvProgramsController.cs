@@ -7,6 +7,8 @@ using CyberPulse.Shared.EntitiesDTO.Inve;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
+using Microsoft.OpenApi.Writers;
 
 namespace CyberPulse.Backend.Controllers.Inve;
 
@@ -57,7 +59,7 @@ public class InvProgramsController : GenericController<InvProgram>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
 
@@ -98,5 +100,19 @@ public class InvProgramsController : GenericController<InvProgram>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("ProgramLot/{id}")]
+    public async Task<ActionResult> GetAsync(int id, bool lb=false)
+    {
+        var response = await _invProgramUnitofWork.GetAsync(id,lb);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest();
+
     }
 }

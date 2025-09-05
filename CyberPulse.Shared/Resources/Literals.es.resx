@@ -693,4 +693,28 @@
   <data name="Families" xml:space="preserve">
     <value>Familias</value>
   </data>
+  <data name="SelectASegment" xml:space="preserve">
+    <value>-- Seleccione un segmento --</value>
+  </data>
+  <data name="SelectAFamily" xml:space="preserve">
+    <value>-- Selecione una familia --</value>
+  </data>
+  <data name="SelectAStatu" xml:space="preserve">
+    <value>-- Seleccione un estado --</value>
+  </data>
+  <data name="UnitMeasurements" xml:space="preserve">
+    <value>Unidad de medidas</value>
+  </data>
+  <data name="Course" xml:space="preserve">
+    <value>Curso</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Cursos</value>
+  </data>
+  <data name="SelectALot" xml:space="preserve">
+    <value>-- Seleccione un lote --</value>
+  </data>
+  <data name="ProgramLots" xml:space="preserve">
+    <value>Programa y lotes</value>
+  </data>
 </root>

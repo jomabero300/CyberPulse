@@ -46,7 +46,8 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower())|| 
+                                             x.Id.ToString().ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Segment>>
@@ -99,7 +100,7 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
         var model = new Segment
         {
             Id = entity.Id,
-            Name = entity.Name,
+            Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower()),
             StatuId = entity.StatuId,
         };
 
@@ -169,7 +170,7 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
         model.StatuId = entity.StatuId;
 
         _context.Update(model);

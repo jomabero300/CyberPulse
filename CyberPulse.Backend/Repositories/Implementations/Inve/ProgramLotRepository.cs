@@ -42,13 +42,18 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
     }
     public override async Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.ProgramLots.AsNoTracking()
+        var queryable = _context.ProgramLots
+            .AsNoTracking()
+            .Include(x=>x.Program)
+            .Include(x=>x.Lot)
             .AsQueryable();
 
-        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        //{
-        //    queryable = queryable.Where(x => x.Rubro.ToLower().Contains(pagination.Filter.ToLower()));
-        //}
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => 
+                                            x.Program!.Name.ToLower().Contains(pagination.Filter.ToLower())||
+                                            x.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+        }
 
         return new ActionResponse<IEnumerable<ProgramLot>>
         {

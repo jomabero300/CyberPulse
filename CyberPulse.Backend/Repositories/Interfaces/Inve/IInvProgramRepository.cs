@@ -8,6 +8,7 @@ namespace CyberPulse.Backend.Repositories.Interfaces.Inve;
 public interface IInvProgramRepository
 {
     Task<ActionResponse<InvProgram>> GetAsync(int id);
+    Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id,bool lb);
 
     Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync();
 
@@ -22,4 +23,5 @@ public interface IInvProgramRepository
     Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
+
 }

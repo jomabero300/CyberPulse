@@ -25,15 +25,46 @@ public class SeedDb
         await CheckCitiesAsync();
         await CheckNeighborhoodsAsync();
         await CheckChipAsync();
-
-        await CheckRolesAsync();
-        
+        await CheckSegmenetsAsync();
+        await CheckFamiliesAsync();
+        await CheckClassesAsync();
+        await CheckRolesAsync();        
         await CheckUserAsync("Manuel", "Bello", "jbellor@sena.edu.co", "3133670740", UserType.Admi, "17588236");
         //await CheckUserAsync("Manuel", "Bello", "jomabero300@gmail.com", "3133670740", UserType.Admi, "17588236");
         //await CheckUserAsync("Angelina", "Jolie", "angelina@yopmail.com", "3133678526", UserType.Coor, "17588237");
         //await CheckUserAsync("Freddie", "Mercury", "freddie@yopmail.com", "3134568271", UserType.Inst, "17588238");
         //await CheckUserAsync("Felipe", "Pelaes", "felipe@yopmail.com", "3137776666", UserType.Inst, "17588239");
         //await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
+    }
+
+    private async Task CheckClassesAsync()
+    {
+        if (!_context.Classes.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\Classes.sql");
+
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckFamiliesAsync()
+    {
+        if (!_context.Families.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\Families.sql");
+
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckSegmenetsAsync()
+    {
+        if (!_context.Segments.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\Segments.sql");
+
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
     }
 
     private async Task CheckStatusAsync()
@@ -118,7 +149,6 @@ public class SeedDb
             var statesSqlScript = File.ReadAllText("Data\\Scripts\\States.sql");
 
             await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
-
         }
     }
     private async Task CheckCitiesAsync()

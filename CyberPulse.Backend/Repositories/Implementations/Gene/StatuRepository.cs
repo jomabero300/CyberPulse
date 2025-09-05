@@ -76,12 +76,13 @@ public class StatuRepository : GenericRepository<Statu>, IStatuRepository
     //}
     public async Task<IEnumerable<Statu>> GetComboAsync(int id)
     {
-        var query= _context.Status.AsNoTracking();
+        var query=  _context.Status.AsNoTracking().AsQueryable();
 
-        if(id != 0)
+        if (id >= 0)
         {
             query = query.Where(x => x.Nivel == id);
         }
+
 
         return await query.OrderBy(x => x.Name).ToListAsync();
     }

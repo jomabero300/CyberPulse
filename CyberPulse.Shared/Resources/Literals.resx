@@ -673,4 +673,28 @@
   <data name="Families" xml:space="preserve">
     <value>Families</value>
   </data>
+  <data name="SelectASegment" xml:space="preserve">
+    <value>--Select a segment --</value>
+  </data>
+  <data name="SelectAFamily" xml:space="preserve">
+    <value>-- Select a family --</value>
+  </data>
+  <data name="SelectAStatu" xml:space="preserve">
+    <value>-- Selecta statu --</value>
+  </data>
+  <data name="UnitMeasurements" xml:space="preserve">
+    <value>Unit of measurements</value>
+  </data>
+  <data name="Course" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="SelectALot" xml:space="preserve">
+    <value>-- Select a lot --</value>
+  </data>
+  <data name="ProgramLots" xml:space="preserve">
+    <value>Program and lots</value>
+  </data>
 </root>

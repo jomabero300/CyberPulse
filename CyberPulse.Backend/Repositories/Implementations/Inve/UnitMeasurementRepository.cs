@@ -42,8 +42,10 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
     }
     public override async Task<ActionResponse<IEnumerable<UnitMeasurement>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.UnitMeasurements.AsNoTracking()
-            .AsQueryable();
+        var queryable = _context.UnitMeasurements
+                                .AsNoTracking()
+                                .Include(x => x.Statu)
+                                .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
@@ -99,8 +101,8 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
         var model = new UnitMeasurement
         {
             Id = entity.Id,
-            Name = entity.Name,
-            Symbol=entity.Symbol,
+            Name =HtmlUtilities.ToTitleCase(entity.Name),
+            Symbol=entity.Symbol.ToUpper(),
             BaseValue = entity.BaseValue,
             StatuId = entity.StatuId,
         };
@@ -171,7 +173,10 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
+        model.Symbol =entity.Symbol.ToUpper();
+        model.BaseValue = entity.BaseValue;
+        model.StatuId = entity.StatuId;
 
         _context.Update(model);
 

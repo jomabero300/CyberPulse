@@ -6,6 +6,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -40,7 +41,8 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
     }
     public override async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.InvPrograms.AsNoTracking()
+        var queryable = _context.InvPrograms
+            .AsNoTracking()
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -90,7 +92,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
             };
         }
     }
-
+    
 
 
     public async Task<ActionResponse<InvProgram>> AddAsync(InvProgramDTO entity)
@@ -98,7 +100,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         var model = new InvProgram
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase( entity.Name),
+            Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower()),
             StatuId=entity.StatuId
         };
 
@@ -168,7 +170,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name);
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
         model.StatuId=entity.StatuId;
 
         _context.Update(model);
@@ -200,4 +202,31 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
             };
         }
     }
+
+
+    public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb)
+    {
+        var entity = _context.InvPrograms.AsNoTracking()
+              .Where(p => !_context.ProgramLots
+                  .Any(pl => pl.ProgramId == p.Id && pl.LotId == id))
+              .AsQueryable();
+
+        if (entity == null)
+        {
+            return new ActionResponse<IEnumerable<InvProgram>>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<IEnumerable<InvProgram>>
+        {
+            WasSuccess = true,
+            Result = await entity
+                        .OrderBy(x => x.Name)
+                        .ToListAsync()
+        };
+    }
+
 }
