@@ -23,6 +23,8 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
     {
         var entity = await _context.ProgramLots
             .AsNoTracking()
+            .Include(x=>x.Program)
+            .Include(x=>x.Lot)
              .FirstOrDefaultAsync(x => x.Id == id);
 
         if (entity == null)

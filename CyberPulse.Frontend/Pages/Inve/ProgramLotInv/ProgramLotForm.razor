@@ -9,21 +9,7 @@ else
 		<DataAnnotationsValidator />
 
 		<MudGrid>
-			<MudItem xs="12">
-				<MudAutocomplete T="Lot2DTO"
-								 Label=@Localizer["Lot"]
-								 Placeholder=@Localizer["SelectALot"]
-								 SearchFunc="SearchLot"
-								 Value="selectedLot"
-								 ValueChanged="LotChanged"
-								 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-								 For="@(() => ProgramLotDTO.Lot)">
-					<ItemTemplate Context="itemContext">
-						@itemContext.Name
-					</ItemTemplate>
-				</MudAutocomplete>
 
-			</MudItem>
 			<MudItem xs="12">
 				<MudAutocomplete T="InvProgramDTO"
 								 Label=@Localizer["Program"]
@@ -37,9 +23,25 @@ else
 						@itemContext.Name
 					</ItemTemplate>
 				</MudAutocomplete>
+			</MudItem>
 
+			<MudItem xs="12">
+				<MudAutocomplete T="Lot2DTO"
+								 Label=@Localizer["Lot"]
+								 Placeholder=@Localizer["SelectALot"]
+								 SearchFunc="SearchLot"
+								 Value="selectedLot"
+								 ValueChanged="LotChanged"
+								 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+								 For="@(() => ProgramLotDTO.Lot)">
+					<ItemTemplate Context="itemContext">
+						@itemContext.Name
+					</ItemTemplate>
+				</MudAutocomplete>
 			</MudItem>
 		</MudGrid>
+
+
 		<MudDivider Class="my-2" DividerType="DividerType.Inset" />
 
 		<MudButton Variant="Variant.Outlined"

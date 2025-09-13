@@ -13,6 +13,7 @@ public partial class TrainingProgramEdit
 
     private TrainingProgram? trainingProgram;
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -43,6 +44,11 @@ public partial class TrainingProgramEdit
 
     private async Task EditAsync()
     {
+        if (_sqlValidator.HasSqlInjection(trainingProgram!.Name))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var responseHttp = await Repository.PutAsync("api/Trainingprograms", trainingProgram);
 
         if (responseHttp.Error)

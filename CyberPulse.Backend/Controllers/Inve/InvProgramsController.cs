@@ -102,17 +102,23 @@ public class InvProgramsController : GenericController<InvProgram>
         return BadRequest();
     }
 
-    [HttpGet("ProgramLot/{id}")]
-    public async Task<ActionResult> GetAsync(int id, bool lb=false)
+    [HttpGet("Combo")]
+    public async Task<IActionResult> GetComboAsync()
     {
-        var response = await _invProgramUnitofWork.GetAsync(id,lb);
-
-        if (response.WasSuccess)
-        {
-            return Ok(response.Result);
-        }
-
-        return BadRequest();
-
+        return Ok(await _invProgramUnitofWork.GetComboAsync());
     }
+
+    //[HttpGet("ProgramLot/{id}")]
+    //public async Task<ActionResult> GetAsync(int id, bool lb=false)
+    //{
+    //    var response = await _invProgramUnitofWork.GetAsync(id,lb);
+
+    //    if (response.WasSuccess)
+    //    {
+    //        return Ok(response.Result);
+    //    }
+
+    //    return BadRequest();
+
+    //}
 }

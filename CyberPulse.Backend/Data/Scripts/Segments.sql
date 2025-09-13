@@ -36,7 +36,6 @@ INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (55,'Publicaciones Impresas,
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (56,'Muebles, Mobiliario y Decoración',1)
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (60,'Instrumentos Musicales, Juegos, Juguetes, Artes, Artesanías y Equipo educativo, Materiales, Accesorios y Suministros',1)
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (70,'Servicios de Contratación Agrícola, Pesquera, Forestal y de Fauna',1)
-INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (70,'Servicios de Contratación Agrícola, Pesquera, Forestal y de Fauna',1)
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (71,'Servicios de Minería, Petróleo y Gas',1)
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (72,'Servicios de Edificación, Construcción de Instalaciones y Mantenimiento',1)
 INSERT INTO Inve.Segments(Id, Name, StatuId) VALUES (73,'Servicios de Producción Industrial y Manufactura',1)

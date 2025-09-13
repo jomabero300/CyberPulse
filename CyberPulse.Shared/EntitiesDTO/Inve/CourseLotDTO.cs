@@ -1,11 +1,9 @@
 ﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CyberPulse.Shared.Entities.Inve;
+namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
-[Table("CourseProgramLotes", Schema = "Inve")]
-public class CourseProgramLot
+public class CourseLotDTO
 {
     public int Id { get; set; }
 
@@ -14,6 +12,9 @@ public class CourseProgramLot
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ProgramLotId { get; set; }
 
-    public Course? Course { get; set; }
-    public ProgramLot? ProgramLot { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public CourseDTO? Course { get; set; }
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public ProgramLotDTO? ProgramLot { get; set; }
 }

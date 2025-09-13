@@ -14,6 +14,7 @@ public partial class ChipCoordinatorEdit
     private ChipCoordinatorForm? chipCoordinatorForm;
     private ChipCoordinator? chipCoordinator;
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -42,6 +43,14 @@ public partial class ChipCoordinatorEdit
     }
     private async Task EditAsync()
     {
+        if (_sqlValidator.HasSqlInjection(chipCoordinator!.Identificacion) ||
+            _sqlValidator.HasSqlInjection(chipCoordinator!.Code) ||
+            _sqlValidator.HasSqlInjection(chipCoordinator!.ChipNo))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
         chipCoordinator.language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         var responseHttp = await Repository.PutAsync("api/chips/fullc/", chipCoordinator);
 

@@ -24,6 +24,7 @@ public partial class EditUser
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private ILoginService LoginService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     protected override async Task OnInitializedAsync()
@@ -103,6 +104,15 @@ public partial class EditUser
     }
     private async Task SaveUserAsync()
     {
+        if (_sqlValidator.HasSqlInjection(user.FirstName) ||
+            _sqlValidator.HasSqlInjection(user.LastName) ||
+            _sqlValidator.HasSqlInjection(user.PhoneNumber!))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
         var responseHttp = await repository.PutAsync<User, TokenDTO>("/api/accounts", user!);
 
         if (responseHttp.Error)

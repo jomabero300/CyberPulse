@@ -13,12 +13,22 @@ public partial class ClasseCreate
     private ClasseDTO ClasseDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
 
     private async Task CreateAsync()
     {
+        // Validar contra SQL injection
+        if (_sqlValidator.HasSqlInjection(ClasseDTO.Name))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
+
         var responseHttp = await Repository.PostAsync("/api/classes/full", ClasseDTO);
 
         if (responseHttp.Error)

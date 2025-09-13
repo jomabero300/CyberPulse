@@ -25,5 +25,12 @@ public class BudgetDTO
     [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public double Worth { get; set; }
+
+
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public BudgetTypeDTO? BudgetType { get; set; }
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public ValidityDTO? Validity { get; set; }
 }

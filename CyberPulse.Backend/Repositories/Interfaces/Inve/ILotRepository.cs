@@ -18,6 +18,7 @@ public interface ILotRepository
     Task<ActionResponse<Lot>> DeleteAsync(int id);
 
     Task<IEnumerable<Lot>> GetComboAsync();
+    Task<IEnumerable<Lot>> GetComboAsync(int id);
 
     Task<ActionResponse<IEnumerable<Lot>>> GetAsync(PaginationDTO pagination);
 

@@ -17,6 +17,7 @@ public partial class ResetPassword
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Parameter, SupplyParameterFromQuery] public string Token { get; set; } = string.Empty;
 
@@ -26,6 +27,15 @@ public partial class ResetPassword
         {
             return;
         }
+
+        if (_sqlValidator.HasSqlInjection(resetPasswordDTO.Email!)||
+            _sqlValidator.HasSqlInjection(resetPasswordDTO.NewPassword) ||
+            _sqlValidator.HasSqlInjection(resetPasswordDTO.ConfirmPassword))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
 
         resetPasswordDTO.Token = Token;
         loading = true;

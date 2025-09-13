@@ -104,6 +104,9 @@ builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>(
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<IBudgetUnitOfWork, BudgetUnitOfWork>();
 
+builder.Services.AddScoped<IBudgetProgramRepository, BudgetProgramRepository>();
+builder.Services.AddScoped<IBudgetProgramUnitOfWork, BudgetProgramUnitOfWork>();
+
 builder.Services.AddScoped<IBudgetTypeRepository, BudgetTypeRepository>();
 builder.Services.AddScoped<IBudgetTypeUnitOfWork, BudgetTypeUnitOfWork>();
 
@@ -112,6 +115,9 @@ builder.Services.AddScoped<IClasseUnitOfWork, ClasseUnitOfWork>();
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseUnitOfWork, CourseUnitOfWork>();
+
+builder.Services.AddScoped<ICourseLotRepository, CourseLotRepository>();
+builder.Services.AddScoped<ICourseLotUnitOfWork, CourseLotUnitOfWork>();
 
 builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
 builder.Services.AddScoped<IFamilyUnitOfWork, FamilyUnitOfWork>();

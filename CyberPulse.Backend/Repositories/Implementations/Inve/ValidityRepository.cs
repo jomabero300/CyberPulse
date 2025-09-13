@@ -7,6 +7,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
@@ -101,6 +102,7 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
         {
             Id = entity.Id,
             Value=entity.Value,
+            StatuId = entity.StatuId,
         };
 
         _context.Add(model);
@@ -135,7 +137,9 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
 
     public async Task<IEnumerable<Validity>> GetComboAsync()
     {
-        return await _context.Validities.AsNoTracking().OrderBy(x => x.Value).ToListAsync();
+        return await _context.Validities.AsNoTracking()
+                                        .OrderBy(x => x.Value)
+                                        .ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
@@ -169,7 +173,28 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
             };
         }
 
+        //preguntar si es para cerrar la vigencia
+
+
+        if(entity.StatuId==6)
+        {
+            var movimieto=await _context.Budgets.FirstOrDefaultAsync(x=>x.ValidityId==entity.Id);
+            if (movimieto == null)
+            {
+                return new ActionResponse<Validity>
+                {
+                    WasSuccess = false,
+                    Message = "ERR013",
+                };
+            }
+            //buscr si tiene regitro de la vigencia
+        }
+
+
+
         model.Value = entity.Value;
+        model.StatuId = entity.StatuId;
+
 
         _context.Update(model);
 
@@ -199,5 +224,38 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
                 Message = ex.Message
             };
         }
+    }
+
+    public async Task<ActionResponse<int>> GetNewValidityAsync()
+    {
+
+        //Validar si hay registro
+        var vigenciaUltima=await _context.Validities.AsNoTracking().OrderByDescending(x => x.Value).FirstOrDefaultAsync();
+
+        if(vigenciaUltima == null)
+        {
+            return new ActionResponse<int>
+            {
+                WasSuccess = false,
+                Message="ERRO11"
+            };
+        }
+
+        var vigenciaActivA=await _context.Validities.AsNoTracking().FirstOrDefaultAsync(x=>x.StatuId==1);
+
+        if (vigenciaActivA != null)
+        {
+            return new ActionResponse<int>
+            {
+                WasSuccess = false,
+                Message = "ERRO12"
+            };
+        }
+
+        return new ActionResponse<int>
+        {
+            WasSuccess = true,
+            Result = (int)(vigenciaUltima.Value+1)
+        };
     }
 }

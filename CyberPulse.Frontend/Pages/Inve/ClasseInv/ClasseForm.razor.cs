@@ -34,6 +34,8 @@ public partial class ClasseForm
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
+
+
     public bool FormPostedSuccessfully { get; set; } = false;
     protected override void OnInitialized()
     {

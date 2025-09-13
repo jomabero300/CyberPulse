@@ -104,7 +104,7 @@ public partial class CourseIndex
     }
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
-        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
+        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
 
         IDialogReference? dialog;
 

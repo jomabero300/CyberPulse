@@ -16,6 +16,7 @@ public partial class RecoverPassword
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
 
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
@@ -33,6 +34,13 @@ public partial class RecoverPassword
 
     private async Task SendRecoverPasswordEmailTokenAsync()
     {
+        if (_sqlValidator.HasSqlInjection(emailDTO.Email))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
         emailDTO.Language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         loading = true;
         var responseHttp = await repository.PostAsync("/api/accounts/RecoverPassword", emailDTO);

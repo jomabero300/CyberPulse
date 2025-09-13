@@ -136,7 +136,6 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
             };
         }
     }
-
     public async Task<IEnumerable<Classe>> GetComboAsync(int id)
     {
         return await _context.Classes
@@ -145,7 +144,6 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
             .OrderBy(x => x.Name)
             .ToListAsync();
     }
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.Classes.AsQueryable();
@@ -163,7 +161,6 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
             Result = (int)count
         };
     }
-
     public async Task<ActionResponse<Classe>> UpdateAsync(ClasseDTO entity)
     {
         var model = await _context.Classes.FindAsync(entity.Id);

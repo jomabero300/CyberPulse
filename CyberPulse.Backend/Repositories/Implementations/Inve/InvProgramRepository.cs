@@ -135,10 +135,25 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
     }
     public async Task<IEnumerable<InvProgram>> GetComboAsync()
     {
+     //TODO: Para borrar
+
+        //return await _context.InvPrograms
+        //    .AsNoTracking()
+        //    .Where(x=>)
+        //    .OrderBy(x => x.Name)
+        //    .ToListAsync();
+
         return await _context.InvPrograms
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync();
+                            .AsNoTracking()
+                            .Select(p => new InvProgram
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                StatuId = _context.BudgetPrograms
+                                    .Any(bp => bp.ProgramId == p.Id && bp.Validity!.StatuId == 1) ? 1 : 2
+                            })
+                            .ToListAsync();
+        
     }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
@@ -204,29 +219,29 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
     }
 
 
-    public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb)
-    {
-        var entity = _context.InvPrograms.AsNoTracking()
-              .Where(p => !_context.ProgramLots
-                  .Any(pl => pl.ProgramId == p.Id && pl.LotId == id))
-              .AsQueryable();
+    //public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb)
+    //{
+    //    var entity = _context.InvPrograms.AsNoTracking()
+    //          .Where(p => !_context.ProgramLots
+    //              .Any(pl => pl.ProgramId == p.Id && pl.LotId == id))
+    //          .AsQueryable();
 
-        if (entity == null)
-        {
-            return new ActionResponse<IEnumerable<InvProgram>>
-            {
-                WasSuccess = false,
-                Message = "ERR001"
-            };
-        }
+    //    if (entity == null)
+    //    {
+    //        return new ActionResponse<IEnumerable<InvProgram>>
+    //        {
+    //            WasSuccess = false,
+    //            Message = "ERR001"
+    //        };
+    //    }
 
-        return new ActionResponse<IEnumerable<InvProgram>>
-        {
-            WasSuccess = true,
-            Result = await entity
-                        .OrderBy(x => x.Name)
-                        .ToListAsync()
-        };
-    }
+    //    return new ActionResponse<IEnumerable<InvProgram>>
+    //    {
+    //        WasSuccess = true,
+    //        Result = await entity
+    //                    .OrderBy(x => x.Name)
+    //                    .ToListAsync()
+    //    };
+    //}
 
 }

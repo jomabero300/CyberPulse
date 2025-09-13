@@ -1,4 +1,5 @@
 using CyberPulse.Frontend.Respositories;
+using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -13,12 +14,18 @@ public partial class StatuCreate
     private Statu statu = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
 
     private async Task CreateAsync()
     {
+        if (_sqlValidator.HasSqlInjection(statu!.Name))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var responseHttp = await Repository.PostAsync("/api/status", statu);
 
         if (responseHttp.Error)

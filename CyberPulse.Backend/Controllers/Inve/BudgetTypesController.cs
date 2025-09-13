@@ -96,4 +96,10 @@ public class BudgetTypesController : GenericController<BudgetType>
         }
         return BadRequest();
     }
+
+    [HttpGet("Combo")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        return Ok(await _budgetTypeUnitOfWork.GetComboAsync());
+    }
 }

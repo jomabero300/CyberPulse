@@ -20,6 +20,7 @@ public partial class ChipCoordinatorCreate
     private ChipDTO chipDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -27,6 +28,17 @@ public partial class ChipCoordinatorCreate
 
     private async Task CreateAsync()
     {
+
+        if (_sqlValidator.HasSqlInjection(chipCoordinator!.Identificacion) ||
+            _sqlValidator.HasSqlInjection(chipCoordinator!.Code) ||
+            _sqlValidator.HasSqlInjection(chipCoordinator!.ChipNo))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
+
+
         chipDTO.ChipNo = string.IsNullOrWhiteSpace(chipCoordinator.ChipNo) ? "0000": chipCoordinator.ChipNo;
         chipDTO.ChipProgramId = chipCoordinator.ChipProgramId;
         chipDTO.InstructorId = chipCoordinator.InstructorId;

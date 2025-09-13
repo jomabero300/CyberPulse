@@ -6,6 +6,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -140,6 +141,33 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
             .OrderBy(x => x.Name)
             .ToListAsync();
     }
+    public async Task<IEnumerable<Lot>> GetComboAsync(int id)
+    {
+
+        var assignedLotIds = _context.ProgramLots.AsNoTracking()
+                                         .Where(pl => pl.ProgramId == id)
+                                         .Select(pl => pl.LotId)
+                                         .AsQueryable();
+
+        var unassignedLots = _context.Lots.AsNoTracking()
+                                         .Where(lot => !assignedLotIds.Contains(lot.Id))
+                                         .AsQueryable();
+
+        //return new ActionResponse<IEnumerable<Lot>>
+        //{
+        //    WasSuccess = true,
+        //    Result = await unassignedLots
+        //        .OrderBy(x => x.Name)
+        //        .ToListAsync()
+        //};
+
+
+        return await unassignedLots
+            .AsNoTracking()
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+    }
+    
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
@@ -204,4 +232,5 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
             };
         }
     }
+
 }

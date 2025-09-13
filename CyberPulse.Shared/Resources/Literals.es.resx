@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>SENA - Seccional Arauca</value>
+    <value>SENA - Regional Arauca</value>
   </data>
   <data name="Subtitle" xml:space="preserve">
     <value>Fichas para instructores</value>
@@ -716,5 +716,62 @@
   </data>
   <data name="ProgramLots" xml:space="preserve">
     <value>Programa y lotes</value>
+  </data>
+  <data name="ERR010" xml:space="preserve">
+    <value>Datos del formulario no válidos</value>
+  </data>
+  <data name="ERR011" xml:space="preserve">
+    <value>Inicio de vigencia</value>
+  </data>
+  <data name="ERR012" xml:space="preserve">
+    <value>Ya existe una vigencia</value>
+  </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Presupuesto</value>
+  </data>
+  <data name="Budgets" xml:space="preserve">
+    <value>Presupuestos</value>
+  </data>
+  <data name="Rubro" xml:space="preserve">
+    <value>Rubro</value>
+  </data>
+  <data name="SelectABudgetType" xml:space="preserve">
+    <value>-- Seleccione tipo de presupuesto --</value>
+  </data>
+  <data name="SelectAProgram" xml:space="preserve">
+    <value>-- Seleccione un programa --</value>
+  </data>
+  <data name="ProgramLot" xml:space="preserve">
+    <value>Programa y Lote</value>
+  </data>
+  <data name="BudgetPrograms" xml:space="preserve">
+    <value>Programas Presupuesto</value>
+  </data>
+  <data name="BudgetProgram" xml:space="preserve">
+    <value>Programa presupuesto</value>
+  </data>
+  <data name="CloseValidity" xml:space="preserve">
+    <value>Cerrar vigencia</value>
+  </data>
+  <data name="CloseValidityConfirm" xml:space="preserve">
+    <value>Esta seguro de {0} {1}?</value>
+  </data>
+  <data name="PudgetPrograms" xml:space="preserve">
+    <value>Presupuesto a programas</value>
+  </data>
+  <data name="RecordCloseValidityConfirmdOk" xml:space="preserve">
+    <value>Vigencia cerrada con éxito.</value>
+  </data>
+  <data name="ERR013" xml:space="preserve">
+    <value>La vigencia actual no tiene movimientos, Debes crearle movimiento o borrarla</value>
+  </data>
+  <data name="RequiredWorth" xml:space="preserve">
+    <value>El valor debe superior a cero</value>
+  </data>
+  <data name="BudgetProgramWorth" xml:space="preserve">
+    <value>El valor ingresado superar el valor del rubro.</value>
+  </data>
+  <data name="RequiredRubro" xml:space="preserve">
+    <value>Debe seleccional un rubro</value>
   </data>
 </root>

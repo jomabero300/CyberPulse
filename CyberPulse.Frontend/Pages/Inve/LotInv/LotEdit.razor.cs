@@ -1,4 +1,3 @@
-using CyberPulse.Frontend.Pages.Inve.SegmentInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
@@ -16,6 +15,7 @@ public partial class LotEdit
 
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -46,6 +46,12 @@ public partial class LotEdit
 
     private async Task EditAsync()
     {
+        if (_sqlValidator.HasSqlInjection(lotDTO!.Name))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var responseHttp = await Repository.PutAsync("api/lots/full", lotDTO);
 
         if (responseHttp.Error)

@@ -25,9 +25,9 @@ public class BudgetCourseDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public DateTime EndDate { get; set; }
 
-    [Display(Name = "worth", ResourceType = typeof(Literals))]
+    [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public double Worth { get; set; }
 
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]

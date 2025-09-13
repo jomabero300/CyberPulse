@@ -19,11 +19,28 @@ public class BudgetProgramDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ValidityId { get; set; }
 
-    [Display(Name = "worth", ResourceType = typeof(Literals))]
+    [Display(Name = "Budget", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public int BudgetId { get; set; }
+
+    [Display(Name = "Worth", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+
+    [Range(1, int.MaxValue, ErrorMessageResourceName = "RequiredWorth", ErrorMessageResourceType = typeof(Literals))]
+    public double Worth { get; set; }
 
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
+
+
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public BudgetDTO? Budget { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public InvProgramDTO? Program { get; set; }
+
+    public bool Indesta { get; set; } = false;
+
 }

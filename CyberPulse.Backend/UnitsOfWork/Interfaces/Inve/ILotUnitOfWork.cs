@@ -19,6 +19,8 @@ public interface ILotUnitOfWork
 
     Task<IEnumerable<Lot>> GetComboAsync();
 
+    Task<IEnumerable<Lot>> GetComboAsync(int id);
+
     Task<ActionResponse<IEnumerable<Lot>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);

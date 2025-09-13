@@ -1,5 +1,6 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Gene;
+using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -16,10 +17,21 @@ public partial class ChangePassword
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
     private async Task ChangePasswordAsync()
     {
+
+        if (_sqlValidator.HasSqlInjection(changePasswordDTO.CurrentPassword) ||
+            _sqlValidator.HasSqlInjection(changePasswordDTO.NewPassword)||
+            _sqlValidator.HasSqlInjection(changePasswordDTO.Confirm))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
         loading = true;
 
         var responseHttp = await repository.PostAsync("/api/accounts/changePassword", changePasswordDTO);

@@ -1,5 +1,6 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Services;
+using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +18,7 @@ public partial class Login
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private ILoginService LoginService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     private MudBlazor.MudTextField<string>? myTextField;
@@ -57,6 +59,15 @@ public partial class Login
         if (wasClore)
         {
             NavigationManager.NavigateTo("/");
+            return;
+        }
+
+
+        if (_sqlValidator.HasSqlInjection(loginDTO.Email) ||
+            _sqlValidator.HasSqlInjection(loginDTO.Password))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }
 

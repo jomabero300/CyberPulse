@@ -28,14 +28,14 @@ else
         </ToolBarContent>
         <HeaderContent>
             <MudTh>@Localizer["Id"]</MudTh>
-            <MudTh>@Localizer["Lot"]</MudTh>
             <MudTh>@Localizer["Program"]</MudTh>
+            <MudTh>@Localizer["Lot"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.Id</MudTd>
-            <MudTd>@context.Lot!.Name</MudTd>
             <MudTd>@context.Program!.Name</MudTd>
+            <MudTd>@context.Lot!.Name</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Edit"]">
                     <MudButton Variant="Variant.Filled"

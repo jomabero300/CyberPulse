@@ -15,6 +15,7 @@ public partial class ResendConfirmationEmailToken
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
 
@@ -30,6 +31,13 @@ public partial class ResendConfirmationEmailToken
     }
     private async Task ResendConfirmationEmailTokenAsync()
     {
+        if (_sqlValidator.HasSqlInjection(emailDTO.Email!))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
         emailDTO.Language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         loading = true;
         var responseHttp = await Repository.PostAsync("/api/accounts/ResedToken", emailDTO);

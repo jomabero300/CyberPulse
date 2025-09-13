@@ -1,0 +1,12 @@
+﻿@if (ValidityDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ValidityForm @ref="ValidityForm" ValidityDTO="ValidityDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

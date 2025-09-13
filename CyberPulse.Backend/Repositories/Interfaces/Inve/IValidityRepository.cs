@@ -22,4 +22,5 @@ public interface IValidityRepository
     Task<ActionResponse<IEnumerable<Validity>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
+    Task<ActionResponse<int>> GetNewValidityAsync();
 }

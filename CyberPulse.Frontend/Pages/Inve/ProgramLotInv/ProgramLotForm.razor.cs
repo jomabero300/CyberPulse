@@ -19,11 +19,11 @@ public partial class ProgramLotForm
 {
     private EditContext editContext = null!;
 
-    private Lot2DTO selectedLot= new();
-    private List<Lot2DTO>? lots;
-
     private InvProgramDTO selectedProgram= new();
     private List<InvProgramDTO>? programs;
+
+    private Lot2DTO selectedLot= new();
+    private List<Lot2DTO>? lots;
 
     [EditorRequired, Parameter] public ProgramLotDTO ProgramLotDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
@@ -43,7 +43,16 @@ public partial class ProgramLotForm
     }
     protected override async Task OnInitializedAsync()
     {
-        await LoadLotsAsync();
+        await LoadProgramsAsync();
+        if(ProgramLotDTO.Id>0)
+        {
+            selectedProgram = programs!.FirstOrDefault(x => x.Id == ProgramLotDTO!.ProgramId)!;
+            ProgramLotDTO.Program=selectedProgram;
+            await LoadLotsAsync(selectedProgram.Id);
+
+            selectedLot = lots!.FirstOrDefault(x => x.Id == ProgramLotDTO.LotId)!;
+            ProgramLotDTO.Lot=selectedLot;
+        }
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -73,44 +82,12 @@ public partial class ProgramLotForm
         context.PreventNavigation();
     }
 
-    private async Task LoadLotsAsync()
+    private async Task LoadProgramsAsync()
     {
-        var responseHttp = await repository.GetAsync<List<Lot2DTO>>("/api/lots/combo");
-
-        if (responseHttp.Error)
-        {
-            var message = await responseHttp.GetErrorMessageAsync();
-            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            return;
-        }
-
-        lots = responseHttp.Response;
-
-    }
-    private async Task<IEnumerable<Lot2DTO>> SearchLot(string searchText, CancellationToken cancellationToken)
-    {
-        await Task.Delay(5);
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return lots!;
-        }
-
-        return lots!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
-            .ToList();
-    }
-    private async Task LotChanged(Lot2DTO entity)
-    {
-        selectedLot = entity;
-        ProgramLotDTO.LotId = entity.Id;
-        ProgramLotDTO.Lot = entity;
-        await LoadProgramsAsync(entity.Id);
-    }
+        //var responseHttp = await repository.GetAsync<List<InvProgramDTO>>($"/api/InvPrograms/ProgramLot/{id}");
 
 
-    private async Task LoadProgramsAsync(int id)
-    {
-        var responseHttp = await repository.GetAsync<List<InvProgramDTO>>($"/api/InvPrograms/ProgramLot/{id}");
+        var responseHttp = await repository.GetAsync<List<InvProgramDTO>>("/api/InvPrograms/combo");
 
         if (responseHttp.Error)
         {
@@ -134,10 +111,48 @@ public partial class ProgramLotForm
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void ProgramChanged(InvProgramDTO entity)
+    private async Task ProgramChanged(InvProgramDTO entity)
     {
         selectedProgram = entity;
         ProgramLotDTO.ProgramId = entity.Id;
         ProgramLotDTO.Program = entity;
+
+        selectedLot = null;
+
+        await LoadLotsAsync(entity.Id);
+    }
+
+    private async Task LoadLotsAsync(int id)
+    {
+        selectedLot = new();
+        var responseHttp = await repository.GetAsync<List<Lot2DTO>>($"/api/lots/Combo/{id}");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        lots = responseHttp.Response;
+
+    }
+    private async Task<IEnumerable<Lot2DTO>> SearchLot(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return lots!;
+        }
+
+        return lots!
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void LotChanged(Lot2DTO entity)
+    {
+        selectedLot = entity;
+        ProgramLotDTO.LotId = entity.Id;
+        ProgramLotDTO.Lot = entity;
     }
 }

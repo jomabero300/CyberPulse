@@ -1,4 +1,4 @@
-﻿@if (unitmeasurementDTO is null)
+﻿@if (unitMeasurementDTO is null)
 {
 	<Loading />
 }
@@ -6,7 +6,7 @@ else
 {
 	<MudDialog>
 		<DialogContent>
-			<UnitMeasurementForm @ref="unitmeasurementForm" UnitMeasurementDTO="unitmeasurementDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+			<UnitMeasurementForm @ref="unitmeasurementForm" UnitMeasurementDTO="unitMeasurementDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
 		</DialogContent>
 	</MudDialog>
 }

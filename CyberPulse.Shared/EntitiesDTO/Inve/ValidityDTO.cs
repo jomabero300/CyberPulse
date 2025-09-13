@@ -10,4 +10,6 @@ public class ValidityDTO
     [Display(Name = "Name", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int Value { get; set; }
+    public int StatuId {  get; set; }
+    public bool IsInvalid { get; set; }
 }

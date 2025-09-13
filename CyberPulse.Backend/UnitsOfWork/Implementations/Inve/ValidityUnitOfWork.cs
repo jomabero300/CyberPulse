@@ -28,4 +28,6 @@ public class ValidityUnitOfWork : GenericUnitOfWork<Validity>, IValidityUnitOfWo
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _validityRepository.GetTotalRecordsAsync(pagination);
 
     public async Task<ActionResponse<Validity>> UpdateAsync(ValidityDTO entity)=> await _validityRepository.UpdateAsync(entity);
+
+    public async Task<ActionResponse<int>> GetNewValidityAsync()=>await _validityRepository.GetNewValidityAsync();
 }

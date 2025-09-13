@@ -11,10 +11,11 @@ public partial class UnitMeasurementEdit
 {
     private UnitMeasurementForm? unitmeasurementForm;
 
-    private UnitMeasurementDTO? unitmeasurementDTO;
+    private UnitMeasurementDTO? unitMeasurementDTO;
 
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -39,13 +40,20 @@ public partial class UnitMeasurementEdit
         }
         else
         {
-            unitmeasurementDTO = responseHttp.Response;
+            unitMeasurementDTO = responseHttp.Response;
         }
     }
 
     private async Task EditAsync()
     {
-        var responseHttp = await Repository.PutAsync("api/unitmeasurements/full", unitmeasurementDTO);
+        if (_sqlValidator.HasSqlInjection(unitMeasurementDTO!.Name) ||
+            _sqlValidator.HasSqlInjection(unitMeasurementDTO!.Symbol))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
+        var responseHttp = await Repository.PutAsync("api/unitmeasurements/full", unitMeasurementDTO);
 
         if (responseHttp.Error)
         {

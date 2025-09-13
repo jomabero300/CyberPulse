@@ -26,7 +26,7 @@ public class Budget
     [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public double Worth { get; set; }
 
     public Validity? Validity { get; set; }
     public BudgetType? BudgetType { get; set; }

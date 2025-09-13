@@ -19,6 +19,7 @@ public partial class ChipReports
     private ChipReport chipReport = new();
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
@@ -141,7 +142,7 @@ public partial class ChipReports
         var dialog = await DialogService.ShowAsync<ChipCoordinatorSearchPrograms>("Buscar programa", parameters);
         var result = await dialog.Result;
 
-        if (!result.Canceled && result.Data is ChipProgram programDTO)
+        if (!result!.Canceled && result.Data is ChipProgram programDTO)
         {
             chipReport.Code = programDTO.Code;
             chipReport.ChipProgramId = programDTO.Id;
@@ -156,6 +157,16 @@ public partial class ChipReports
 
     private async Task ReportPdf()
     {
+        if (_sqlValidator.HasSqlInjection(chipReport!.InstructorName)||
+            _sqlValidator.HasSqlInjection(chipReport!.InstructorId)||
+            _sqlValidator.HasSqlInjection(chipReport!.Identificacion)||
+            _sqlValidator.HasSqlInjection(chipReport!.Code)||
+            _sqlValidator.HasSqlInjection(chipReport!.ChipProgramName)||
+            _sqlValidator.HasSqlInjection(chipReport!.ChipNo))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
 
         var response = await repository.GetBytesAsync("api/chips/report/", chipReport);
 
@@ -169,6 +180,16 @@ public partial class ChipReports
     }
     private async Task ReportExcel()
     {
+        if (_sqlValidator.HasSqlInjection(chipReport!.InstructorName) ||
+            _sqlValidator.HasSqlInjection(chipReport!.InstructorId) ||
+            _sqlValidator.HasSqlInjection(chipReport!.Identificacion) ||
+            _sqlValidator.HasSqlInjection(chipReport!.Code) ||
+            _sqlValidator.HasSqlInjection(chipReport!.ChipProgramName) ||
+            _sqlValidator.HasSqlInjection(chipReport!.ChipNo))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var response = await repository.GetBytesAsync("api/chips/excel/", chipReport);
 
         if (response.Error || response.Response == null)

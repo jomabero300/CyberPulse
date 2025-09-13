@@ -1,5 +1,6 @@
 using CyberPulse.Frontend.Pages.Inve.ClasseInv;
 using CyberPulse.Frontend.Respositories;
+using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +16,7 @@ public partial class CourseEdit
     private CourseDTO? CourseDTO;
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -45,6 +47,12 @@ public partial class CourseEdit
 
     private async Task EditAsync()
     {
+        if (_sqlValidator.HasSqlInjection(CourseDTO!.Name))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var responseHttp = await Repository.PutAsync("api/courses/full", CourseDTO);
 
         if (responseHttp.Error)

@@ -28,6 +28,7 @@ public partial class Register
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
@@ -68,12 +69,6 @@ public partial class Register
         }
         countries = responseHttp.Response;
     }
-
-    private void CountryChanged(Country country)
-    {
-        selectedCountry = country;
-    }
-
     private async Task<IEnumerable<Country>> SearchCountries(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
@@ -86,6 +81,12 @@ public partial class Register
             .Where(c => c.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
+    private void CountryChanged(Country country)
+    {
+        selectedCountry = country;
+    }
+
+
 
     private void ReturnAction()
     {
@@ -96,6 +97,22 @@ public partial class Register
     {
         if (!ValidateForm())
         {
+            return;
+        }
+
+        if (_sqlValidator.HasSqlInjection(userDTO.Email!) ||
+            _sqlValidator.HasSqlInjection(userDTO.LastName!) ||
+            _sqlValidator.HasSqlInjection(userDTO.FirstName!) ||
+            _sqlValidator.HasSqlInjection(userDTO.DocumentId!) ||
+            _sqlValidator.HasSqlInjection(userDTO.UserName!) ||
+            _sqlValidator.HasSqlInjection(userDTO.PhotoFull!) ||
+            _sqlValidator.HasSqlInjection(userDTO.Photo!) ||
+            _sqlValidator.HasSqlInjection(userDTO.PhoneNumber!) ||
+            _sqlValidator.HasSqlInjection(userDTO.PasswordConfirm!) ||
+            _sqlValidator.HasSqlInjection(userDTO.Password))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }
 

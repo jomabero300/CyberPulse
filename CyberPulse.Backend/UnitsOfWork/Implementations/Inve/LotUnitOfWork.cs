@@ -24,6 +24,8 @@ public class LotUnitOfWork : GenericUnitOfWork<Lot>, ILotUnitOfWork
 
     public async Task<ActionResponse<Lot>> AddAsync(LotDTO entity)=>await _lotRepository.AddAsync(entity);
     public async Task<IEnumerable<Lot>> GetComboAsync()=> await _lotRepository.GetComboAsync();
+    public async Task<IEnumerable<Lot>> GetComboAsync(int id)=> await _lotRepository.GetComboAsync(id);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _lotRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<Lot>> UpdateAsync(LotDTO entity)=>await _lotRepository.UpdateAsync(entity);
+
 }

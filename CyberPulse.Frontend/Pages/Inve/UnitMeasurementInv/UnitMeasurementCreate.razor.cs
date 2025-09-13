@@ -13,12 +13,19 @@ public partial class UnitMeasurementCreate
     private UnitMeasurementDTO unitMeasurementDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
 
     private async Task CreateAsync()
     {
+        if (_sqlValidator.HasSqlInjection(unitMeasurementDTO!.Name) ||
+            _sqlValidator.HasSqlInjection(unitMeasurementDTO!.Symbol))
+        {
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
         var responseHttp = await Repository.PostAsync("/api/unitmeasurements/full", unitMeasurementDTO);
 
         if (responseHttp.Error)
