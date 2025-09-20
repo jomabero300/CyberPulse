@@ -102,7 +102,8 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
         var model = new Classe
         {
             Id = entity.Id,
-            Name = entity.Name,
+            Code=entity.Code,
+            Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             FamilyId = entity.FamilyId,
             StatuId = entity.StatuId,
         };
@@ -174,7 +175,8 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower());
+        model.Code= entity.Code;
         model.StatuId = entity.StatuId; 
         model.FamilyId=entity.FamilyId;
 

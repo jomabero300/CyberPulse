@@ -6,6 +6,7 @@
 
     <MudAutocomplete T="BudgetDTO"
                      Label=@Localizer["Budget"]
+                     Disabled="_enabled"
                      Placeholder=@Localizer["SelectABudget"]
                      SearchFunc="SearchBudget"
                      Value="selectedBudget"
@@ -18,6 +19,7 @@
     </MudAutocomplete>
 
     <MudAutocomplete T="InvProgramDTO"
+                     Disabled="_enabled"
                      Label=@Localizer["Program"]
                      Placeholder=@Localizer["SelectAProgram"]
                      SearchFunc="SearchProgram"

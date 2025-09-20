@@ -100,7 +100,8 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
         var model = new Segment
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower()),
+            Code= entity.Code,
+            Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             StatuId = entity.StatuId,
         };
 
@@ -170,7 +171,8 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
+        model.Code=entity.Code;
         model.StatuId = entity.StatuId;
 
         _context.Update(model);

@@ -15,6 +15,7 @@ public class CourseLotDTO
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public CourseDTO? Course { get; set; }
+
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public ProgramLotDTO? ProgramLot { get; set; }
+    public ProgramLot2DTO? ProgramLot { get; set; }
 }

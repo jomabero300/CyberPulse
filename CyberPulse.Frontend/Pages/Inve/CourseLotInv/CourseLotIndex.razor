@@ -29,12 +29,14 @@ else
         <HeaderContent>
             <MudTh>@Localizer["Id"]</MudTh>
             <MudTh>@Localizer["Program"]</MudTh>
+            <MudTh>@Localizer["Lot"]</MudTh>
             <MudTh>@Localizer["Course"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.Id</MudTd>
             <MudTd>@context.ProgramLot!.Program!.Name</MudTd>
+            <MudTd>@context.ProgramLot!.Lot!.Name</MudTd>
             <MudTd>@context.Course!.Name</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Edit"]">

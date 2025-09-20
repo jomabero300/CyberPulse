@@ -1,5 +1,6 @@
 ﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
@@ -17,6 +18,8 @@ public class ProgramLotDTO
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public InvProgramDTO? Program { get; set; }
+
+
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public Lot2DTO? Lot { get; set; }
 }

@@ -3,6 +3,10 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
 
 	<DataAnnotationsValidator />
+	<MudTextField Label="@Localizer["Unspsc"]"
+				  @bind-Value="@ClasseDTO.Code"
+				  For="@(() => ClasseDTO.Code)"
+				  class="mb-3" />
 
 	<MudTextField Label="@Localizer["Family"]"
 				  @bind-Value="@ClasseDTO.Name"

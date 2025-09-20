@@ -1,6 +1,4 @@
-using CyberPulse.Frontend.Pages.Inve.ClasseInv;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +10,7 @@ namespace CyberPulse.Frontend.Pages.Inve.CourseInv;
 public partial class CourseCreate
 {
     private CourseForm? CourseForm;
-    private CourseDTO CourseDTO = new();
+    private Course1DTO CourseDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
@@ -24,7 +22,6 @@ public partial class CourseCreate
     {
         if (_sqlValidator.HasSqlInjection(CourseDTO!.Name))
         {
-            //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }

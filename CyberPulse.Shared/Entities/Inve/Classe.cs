@@ -10,6 +10,11 @@ public class Classe
 {
     public int Id { get; set; }
 
+
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int Code { get; set; }
+
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int FamilyId { get; set; }
 

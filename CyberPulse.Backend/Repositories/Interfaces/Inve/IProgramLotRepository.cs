@@ -16,6 +16,7 @@ public interface IProgramLotRepository
     Task<ActionResponse<ProgramLot>> UpdateAsync(ProgramLotDTO entity);
 
     Task<ActionResponse<ProgramLot>> DeleteAsync(int id);
+    Task<IEnumerable<ProgramLot>> GetComboAsync(int id);
 
     Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(PaginationDTO pagination);
 

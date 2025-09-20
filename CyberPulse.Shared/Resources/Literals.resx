@@ -413,7 +413,7 @@
     <value>Neighborhoods</value>
   </data>
   <data name="Code" xml:space="preserve">
-    <value>Code</value>
+    <value>Code Unspsc</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
@@ -464,7 +464,7 @@
     <value>Instructor</value>
   </data>
   <data name="SelectAChipProgram" xml:space="preserve">
-    <value>Select a chip program</value>
+    <value>-- Select a chip program --</value>
   </data>
   <data name="SelectANeighborhood" xml:space="preserve">
     <value>-- Select a neighborhood --</value>
@@ -560,7 +560,7 @@
     <value>The are no program to select</value>
   </data>
   <data name="SelectAInstructor" xml:space="preserve">
-    <value>Select an instructor</value>
+    <value>-- Select an instructor --</value>
   </data>
   <data name="ChipView" xml:space="preserve">
     <value>View</value>
@@ -753,5 +753,32 @@
   </data>
   <data name="RequiredRubro" xml:space="preserve">
     <value>You must select a rubro</value>
+  </data>
+  <data name="SelectABudget" xml:space="preserve">
+    <value>-- Select a budget --</value>
+  </data>
+  <data name="BudgetLots" xml:space="preserve">
+    <value>Budget lots</value>
+  </data>
+  <data name="BudgetLot" xml:space="preserve">
+    <value>Budget lot</value>
+  </data>
+  <data name="SelectABudgetProgram" xml:space="preserve">
+    <value>-- Select a budget program --</value>
+  </data>
+  <data name="SelectACourse" xml:space="preserve">
+    <value>-- Select a course --</value>
+  </data>
+  <data name="CourseLot" xml:space="preserve">
+    <value>Course and lots</value>
+  </data>
+  <data name="SelectAUnitMeasurement" xml:space="preserve">
+    <value>-- Selecta unit measurement --</value>
+  </data>
+  <data name="SelectAClasse" xml:space="preserve">
+    <value>-- Select a classe --</value>
+  </data>
+  <data name="Unspsc" xml:space="preserve">
+    <value>Unspsc</value>
   </data>
 </root>

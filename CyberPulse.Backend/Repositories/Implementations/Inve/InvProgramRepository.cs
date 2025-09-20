@@ -100,7 +100,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         var model = new InvProgram
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower()),
+            Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             StatuId=entity.StatuId
         };
 
@@ -135,14 +135,6 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
     }
     public async Task<IEnumerable<InvProgram>> GetComboAsync()
     {
-     //TODO: Para borrar
-
-        //return await _context.InvPrograms
-        //    .AsNoTracking()
-        //    .Where(x=>)
-        //    .OrderBy(x => x.Name)
-        //    .ToListAsync();
-
         return await _context.InvPrograms
                             .AsNoTracking()
                             .Select(p => new InvProgram
@@ -150,7 +142,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
                                 Id = p.Id,
                                 Name = p.Name,
                                 StatuId = _context.BudgetPrograms
-                                    .Any(bp => bp.ProgramId == p.Id && bp.Validity!.StatuId == 1) ? 1 : 2
+                                    .Any(bp => bp.ProgramId == p.Id && bp.Validity!.StatuId == 1) ? 2 : 1
                             })
                             .ToListAsync();
         
@@ -185,7 +177,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
         model.StatuId=entity.StatuId;
 
         _context.Update(model);
@@ -218,7 +210,7 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
         }
     }
 
-
+    //TODO: BORRAR
     //public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb)
     //{
     //    var entity = _context.InvPrograms.AsNoTracking()

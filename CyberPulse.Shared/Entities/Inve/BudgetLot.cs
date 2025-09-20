@@ -12,9 +12,10 @@ public class BudgetLot
     public int BudgetProgramId { get; set; }
     public int ProgramLotId { get; set; }
 
+    [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public double Worth { get; set; }
 
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]

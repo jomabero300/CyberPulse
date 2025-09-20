@@ -47,7 +47,8 @@ public partial class FamilyEdit
 
     private async Task EditAsync()
     {
-        if (_sqlValidator.HasSqlInjection(familyDTO!.Name))
+        if (_sqlValidator.HasSqlInjection(familyDTO!.Name) || 
+            _sqlValidator.HasSqlInjection(familyDTO!.Code.ToString()))
         {
             //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);

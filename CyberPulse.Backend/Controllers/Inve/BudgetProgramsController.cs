@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -94,4 +95,11 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
         }
         return BadRequest();
     }
+
+    [HttpGet("Combo")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        return Ok(await _budgetProgramUnitOfWork.GetComboAsync());
+    }
+
 }

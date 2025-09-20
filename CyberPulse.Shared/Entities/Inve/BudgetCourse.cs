@@ -28,6 +28,7 @@ public class BudgetCourse
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public DateTime EndDate { get; set; }
 
+    [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Worth { get; set; }

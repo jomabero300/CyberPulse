@@ -1,0 +1,62 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator />
+
+    <MudAutocomplete T="BudgetProgram2DTO"
+                     Label=@Localizer["Program"]
+                     Disabled="_disable"
+                     Placeholder=@Localizer["SelectAProgram"]
+                     SearchFunc="SearchBudgetProgram"
+                     Value="selectedBudgetProgram"
+                     ValueChanged="BudgetProgramChanged"
+                     ToStringFunc="@(e=> e==null?null : $"{e.Program!.Name} {e.Worth:N2} {e.BudgetType!.Name}")"
+                     For="@(() => BudgetLotDTO.BudgetProgram)">
+        <ItemTemplate Context="itemContext">
+            @itemContext.Program!.Name @itemContext.Worth.ToString("N2") @itemContext.BudgetType!.Name
+        </ItemTemplate>
+    </MudAutocomplete>
+
+    <MudAutocomplete T="ProgramLot2DTO"
+                     Label=@Localizer["Lot"]
+                     Disabled="_disable"
+                     Placeholder=@Localizer["SelectALot"]
+                     SearchFunc="SearchLot"
+                     Value="selectedLot"
+                     ValueChanged="LotChanged"
+                     ToStringFunc="@(e=> e==null?null : e.Lot!.Name)"
+                     For="@(() => BudgetLotDTO.ProgramLot)">
+        <ItemTemplate Context="itemContext">
+            @itemContext.Lot!.Name
+        </ItemTemplate>
+    </MudAutocomplete>
+
+    <MudForm Model="BudgetLotDTO">
+        <MudTextField Label="@Localizer["Worth"]"
+                      @bind-Value="@BudgetLotDTO.Worth"
+                      For="@(() => BudgetLotDTO.Worth)"
+                      onblur="@(() => ValidateWorth())"
+                      InputType="InputType.Number"
+                      Error="@_worthHasError"
+                      ErrorText="@_worthErrorMessage"
+                      class="mb-3" />
+    </MudForm>
+
+
+    <MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+    <MudButton Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.ArrowBack"
+               Color="Color.Info"
+               OnClick="ReturnAction">
+        @Localizer["Return"]
+    </MudButton>
+
+    <MudButton Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.Check"
+               Color="Color.Primary"
+               ButtonType="ButtonType.Submit">
+        @Localizer["SaveChanges"]
+    </MudButton>
+</EditForm>

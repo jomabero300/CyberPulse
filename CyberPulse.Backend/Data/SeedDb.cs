@@ -19,22 +19,47 @@ public class SeedDb
     public async Task SeedAsync()
     {
         await _context.Database.EnsureCreatedAsync();
+        await CheckUnitMeasurementsAsync();
+        await CheckBudgetTypesAsync();
         await CheckStatusAsync();
         await CheckCountriesAsync();
         await CheckStatesAsync();
         await CheckCitiesAsync();
         await CheckNeighborhoodsAsync();
         await CheckChipAsync();
+
         await CheckSegmenetsAsync();
-        await CheckFamiliesAsync();
-        await CheckClassesAsync();
-        await CheckRolesAsync();        
+        //await CheckFamiliesAsync();
+        //await CheckClassesAsync();
+
+        await CheckRolesAsync();
+        
         await CheckUserAsync("Manuel", "Bello", "jbellor@sena.edu.co", "3133670740", UserType.Admi, "17588236");
         //await CheckUserAsync("Manuel", "Bello", "jomabero300@gmail.com", "3133670740", UserType.Admi, "17588236");
         //await CheckUserAsync("Angelina", "Jolie", "angelina@yopmail.com", "3133678526", UserType.Coor, "17588237");
         //await CheckUserAsync("Freddie", "Mercury", "freddie@yopmail.com", "3134568271", UserType.Inst, "17588238");
         //await CheckUserAsync("Felipe", "Pelaes", "felipe@yopmail.com", "3137776666", UserType.Inst, "17588239");
         //await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
+    }
+
+    private async Task CheckBudgetTypesAsync()
+    {
+        if (!_context.BudgetTypes.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\BudgetTypes.sql");
+
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckUnitMeasurementsAsync()
+    {
+        if (!_context.UnitMeasurements.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\UnitMeasurements.sql");
+
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
     }
 
     private async Task CheckClassesAsync()

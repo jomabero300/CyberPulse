@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.Entities.Inve;
 
-[Table("CourseLotes", Schema = "Inve")]
+[Table("CourseLots", Schema = "Inve")]
 public class CourseLot
 {
     public int Id { get; set; }

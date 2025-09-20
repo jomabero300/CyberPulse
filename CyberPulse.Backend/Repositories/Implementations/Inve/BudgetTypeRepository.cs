@@ -97,7 +97,7 @@ public class BudgetTypeRepository : GenericRepository<BudgetType>, IBudgetTypeRe
         var model = new BudgetType
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower()),
+            Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower()),
         };
 
         _context.Add(model);
@@ -166,7 +166,7 @@ public class BudgetTypeRepository : GenericRepository<BudgetType>, IBudgetTypeRe
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
 
         _context.Update(model);
 

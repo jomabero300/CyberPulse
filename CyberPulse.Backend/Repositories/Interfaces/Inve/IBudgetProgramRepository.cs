@@ -12,7 +12,8 @@ public interface IBudgetProgramRepository
     Task<ActionResponse<BudgetProgram>> AddAsync(BudgetProgramDTO entity);
     Task<ActionResponse<BudgetProgram>> UpdateAsync(BudgetProgramDTO entity);
     Task<ActionResponse<    BudgetProgram>> DeleteAsync(int id);
-    Task<IEnumerable<BudgetProgram>> GetComboAsync(int id);
+    //Task<IEnumerable<BudgetProgram>> GetComboAsync(int id);
+    Task<IEnumerable<BudgetProgram>> GetComboAsync();
     Task<ActionResponse<IEnumerable<BudgetProgram>>> GetAsync(PaginationDTO pagination);
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
 }

@@ -21,7 +21,8 @@ public partial class ClasseCreate
     private async Task CreateAsync()
     {
         // Validar contra SQL injection
-        if (_sqlValidator.HasSqlInjection(ClasseDTO.Name))
+        if (_sqlValidator.HasSqlInjection(ClasseDTO.Name) ||
+            _sqlValidator.HasSqlInjection(ClasseDTO.Code.ToString()))
         {
             //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);

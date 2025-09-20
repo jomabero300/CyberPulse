@@ -4,6 +4,11 @@
 
 	<DataAnnotationsValidator />
 
+	<MudTextField Label="@Localizer["Unspsc"]"
+				  @bind-Value="@SegmentDTO.Code"
+				  For="@(() => SegmentDTO.Code)"
+				  class="mb-3" />
+
 	<MudTextField Label="@Localizer["Name"]"
 				  @bind-Value="@SegmentDTO.Name"
 				  For="@(() => SegmentDTO.Name)"

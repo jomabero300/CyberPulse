@@ -46,7 +46,7 @@ public partial class ClasseEdit
     private async Task EditAsync()
     {
 
-        if (_sqlValidator.HasSqlInjection(ClasseDTO!.Name))
+        if (_sqlValidator.HasSqlInjection(ClasseDTO!.Name) || _sqlValidator.HasSqlInjection(ClasseDTO!.Code.ToString()))
         {
             //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
@@ -68,12 +68,10 @@ public partial class ClasseEdit
         Snackbar.Add(Localizer["RecordSavedOk"], Severity.Success);
 
     }
-
     private void Return()
     {
         ClasseForm!.FormPostedSuccessfully = true;
 
         NavigationManager.NavigateTo("/classes");
     }
-
 }

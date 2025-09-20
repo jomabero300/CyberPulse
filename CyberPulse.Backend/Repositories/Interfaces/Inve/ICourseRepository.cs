@@ -17,7 +17,7 @@ public interface ICourseRepository
 
     Task<ActionResponse<Course>> DeleteAsync(int id);
 
-    Task<IEnumerable<Course>> GetComboAsync(int id);
+    Task<IEnumerable<Course>> GetComboAsync(int id,bool indEsta);
 
     Task<ActionResponse<IEnumerable<Course>>> GetAsync(PaginationDTO pagination);
 

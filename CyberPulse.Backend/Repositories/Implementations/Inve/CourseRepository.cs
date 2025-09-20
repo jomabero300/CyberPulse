@@ -6,6 +6,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -100,7 +101,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         var model = new Course
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower()),
+            Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower()),
             StatuId=entity.StatuId
         };
 
@@ -133,12 +134,47 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
             };
         }
     }
-    public async Task<IEnumerable<Course>> GetComboAsync(int id)
+    public async Task<IEnumerable<Course>> GetComboAsync(int id,bool indEsta)
     {
-        return await _context.Courses
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync();
+        if (indEsta)
+        {
+            var courseLot = await _context.CourseLots
+                .AsNoTracking()
+                .Where(c => c.Id == id)
+                .Select(c => new { c.CourseId, c.ProgramLotId })
+                .FirstOrDefaultAsync();
+
+            //// Si no se encuentra el CourseLot, retorna una lista vacía o maneja el error.
+            //if (courseLot == null)
+            //{
+            //    return new List<Course>();
+            //}
+
+            // Combina todas las consultas en una sola
+            var result = await _context.Courses
+                .AsNoTracking()
+                .Where(c => c.Id == courseLot!.CourseId || !_context.CourseLots
+                    .Where(cl => cl.ProgramLotId == courseLot.ProgramLotId)
+                    .Select(cl => cl.CourseId)
+                    .Contains(c.Id))
+                .ToListAsync();
+
+            return result;
+
+        }
+        else
+        {
+
+          var coursesInLot = _context.CourseLots.AsNoTracking()
+                .Where(cl => cl.ProgramLotId == id)
+                .Select(cl => cl.CourseId);
+
+            return await _context.Courses
+                .AsNoTracking()
+                .Where(c => !coursesInLot.Contains(c.Id))
+                .ToListAsync();
+
+        }
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
@@ -172,7 +208,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase( entity.Name.ToLower());
+        model.Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower());
         model.StatuId=entity.StatuId;
 
         _context.Update(model);

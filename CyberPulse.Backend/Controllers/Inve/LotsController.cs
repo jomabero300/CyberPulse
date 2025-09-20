@@ -104,10 +104,10 @@ public class LotsController : GenericController<Lot>
         return Ok(await _lotunitOfWork.GetComboAsync());
     }
 
-    [HttpGet("Combo/{id}")]
-    public async Task<IActionResult> GetComboAsync(int id)
+    [HttpGet("Combo/{id}/{indEsta}")]
+    public async Task<IActionResult> GetComboAsync(int id,bool indEsta)
     {
-        return Ok(await _lotunitOfWork.GetComboAsync(id));
+        return Ok(await _lotunitOfWork.GetComboAsync(id,indEsta));
 
     }
 }

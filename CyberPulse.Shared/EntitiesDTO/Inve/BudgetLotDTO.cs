@@ -7,13 +7,22 @@ public class BudgetLotDTO
 {
     public int Id { get; set; }
     public int BudgetProgramId { get; set; }
-    public int LotId { get; set; }
+    public int ProgramLotId { get; set; }
 
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public double worth { get; set; }
+    public double Worth { get; set; }
 
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public BudgetProgram2DTO? BudgetProgram { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public ProgramLot2DTO? ProgramLot { get; set; }
+
+    public bool Indesta { get; set; } = false;
+
 }

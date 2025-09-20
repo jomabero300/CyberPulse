@@ -13,7 +13,7 @@ public partial class CourseEdit
 {
     private CourseForm? CourseForm;
 
-    private CourseDTO? CourseDTO;
+    private Course1DTO? CourseDTO;
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
@@ -24,7 +24,7 @@ public partial class CourseEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<CourseDTO>($"/api/courses/{Id}");
+        var responseHttp = await Repository.GetAsync<Course1DTO>($"/api/courses/{Id}");
 
         if (responseHttp.Error)
         {

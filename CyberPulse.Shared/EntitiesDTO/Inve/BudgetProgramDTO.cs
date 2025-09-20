@@ -32,15 +32,6 @@ public class BudgetProgramDTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
-
-
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public BudgetDTO? Budget { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public InvProgramDTO? Program { get; set; }
-
-    public bool Indesta { get; set; } = false;
-
+    public bool Estado { get; set; }
+    public BudgetTypeDTO? BudgetType { get; set; }
 }

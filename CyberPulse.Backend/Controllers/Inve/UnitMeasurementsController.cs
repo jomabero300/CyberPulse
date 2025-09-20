@@ -95,7 +95,7 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
         return BadRequest();
     }
 
-    [HttpGet("Combo/{id}")]
+    [HttpGet("Combo")]
     public async Task<IActionResult> GetComboAsync()
     {
         return Ok(await _unitMeasurementUnitOfWork.GetComboAsync());

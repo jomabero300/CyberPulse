@@ -21,7 +21,7 @@ public class CourseUnitOfWork : GenericUnitOfWork<Course>, ICourseUnitOfWork
     public override async Task<ActionResponse<Course>> DeleteAsync(int id)=>await _courseRepository.DeleteAsync(id);
 
     public async Task<ActionResponse<Course>> AddAsync(CourseDTO entity)=>await _courseRepository.AddAsync(entity);
-    public async Task<IEnumerable<Course>> GetComboAsync(int id)=>await _courseRepository.GetComboAsync(id);
+    public async Task<IEnumerable<Course>> GetComboAsync(int id,bool indEsta)=>await _courseRepository.GetComboAsync(id,indEsta);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _courseRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<Course>> UpdateAsync(CourseDTO entity)=>await _courseRepository.UpdateAsync(entity);
 }

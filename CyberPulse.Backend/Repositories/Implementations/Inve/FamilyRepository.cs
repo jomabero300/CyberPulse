@@ -100,7 +100,8 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
         var model = new Family
         {
             Id = entity.Id,
-            Name = entity.Name,
+            Code = entity.Code,
+            Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             SegmentId = entity.SegmentId,
             StatuId=entity.StatuId,
         };
@@ -172,7 +173,8 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
             };
         }
 
-        model.Name = entity.Name;
+        model.Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower());
+        model.Code=entity.Code;
         model.StatuId=entity.StatuId;
         model.SegmentId=entity.SegmentId;
 

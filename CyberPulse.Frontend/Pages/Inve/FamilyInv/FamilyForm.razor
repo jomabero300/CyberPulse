@@ -4,6 +4,12 @@
 
 	<DataAnnotationsValidator />
 
+	<MudTextField Label="@Localizer["Unspsc"]"
+				  @bind-Value="@FamilyDTO.Code"
+				  For="@(() => FamilyDTO.Code)"
+				  class="mb-3" />
+
+
 	<MudTextField Label="@Localizer["Family"]"
 				  @bind-Value="@FamilyDTO.Name"
 				  For="@(() => FamilyDTO.Name)"

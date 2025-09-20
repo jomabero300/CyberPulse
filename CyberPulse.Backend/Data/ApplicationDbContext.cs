@@ -77,7 +77,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<Classe>().HasIndex(x =>new {x.Id ,x.FamilyId, x.Name }).IsUnique();
         builder.Entity<Course>().HasIndex(x =>x.Name).IsUnique();
         builder.Entity<CourseLot>().HasIndex(x =>new { x.CourseId,x.ProgramLotId }).IsUnique();
-        builder.Entity<Family>().HasIndex(x => new {x.Id, x.SegmentId, x.Name }).IsUnique();
+        builder.Entity<Family>().HasIndex(x => new {x.SegmentId, x.Code, x.Name }).IsUnique();
         builder.Entity<InvProgram>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Lot>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Product>().HasIndex(x => new { x.ClasseId, x.Name }).IsUnique();

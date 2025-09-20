@@ -101,8 +101,8 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
         var model = new UnitMeasurement
         {
             Id = entity.Id,
-            Name =HtmlUtilities.ToTitleCase(entity.Name),
-            Symbol=entity.Symbol.ToUpper(),
+            Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
+            Symbol=entity.Symbol.Trim().ToUpper(),
             BaseValue = entity.BaseValue,
             StatuId = entity.StatuId,
         };
@@ -173,8 +173,8 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
-        model.Symbol =entity.Symbol.ToUpper();
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
+        model.Symbol =entity.Symbol.Trim().ToUpper();
         model.BaseValue = entity.BaseValue;
         model.StatuId = entity.StatuId;
 

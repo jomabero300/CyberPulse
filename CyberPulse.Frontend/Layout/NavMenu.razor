@@ -49,18 +49,30 @@
                     <MudDivider />
                     <MudNavLink Href="/classes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Class">@Localizer["Classes"]</MudNavLink>
                 </MudNavGroup>
-                <MudDivider />
-                <MudNavLink Href="/invprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["InvPrograms"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/lots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Article">@Localizer["Lots"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/programlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Assignment">@Localizer["ProgramLots"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/courses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Courses"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/courselots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BatchPrediction">@Localizer["CourseLot"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/unitmeasurements" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["UnitMeasurements"]</MudNavLink>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["InvPrograms"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/invprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["InvPrograms"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/lots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Article">@Localizer["Lots"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/programlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Assignment">@Localizer["ProgramLots"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["Courses"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/courses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Courses"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/courselots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BatchPrediction">@Localizer["CourseLot"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/unitmeasurements" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["UnitMeasurements"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["Products"]" Expanded="false">
+
+                    <MudDivider />
+                    <MudNavLink Href="/products" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Products"]</MudNavLink>
+                </MudNavGroup>
 
                 <MudNavGroup Icon="@Icons.Material.Filled.AttachMoney" Title="@Localizer["Budgets"]" Expanded="false">
                     <MudDivider />
@@ -69,6 +81,8 @@
                     <MudNavLink Href="/budgets" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["Budgets"]</MudNavLink>
                     <MudDivider />
                     <MudNavLink Href="/budgetprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetPrograms"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/budgetlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetLots"]</MudNavLink>
                 </MudNavGroup>
 
             </MudNavGroup>

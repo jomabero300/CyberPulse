@@ -155,16 +155,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
 
     public async Task<IEnumerable<Budget>> GetComboAsync()
     {
-        //return await _context.Budgets
-        //    .AsNoTracking()
-        //    .Include(x=>x.Validity)
-        //    .Include(x=>x.BudgetType)
-        //    .OrderBy(x => x.Rubro)
-        //    .Where(x=>x.Validity!.StatuId==1)
-        //    .ToListAsync();
-
-
-        var xxx= await _context.Budgets
+        return await _context.Budgets
             .AsNoTracking()
             .Include(x=>x.Validity)
             .Include(x=>x.BudgetType)
@@ -183,8 +174,6 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             })
             .OrderBy(x => x.Rubro)
             .ToListAsync();
-
-        return xxx;
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)

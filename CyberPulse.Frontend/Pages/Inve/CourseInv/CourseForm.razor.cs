@@ -14,16 +14,13 @@ public partial class CourseForm
 {
     private EditContext editContext = null!;
 
-    private Lot2DTO selectedLot = new();
-    private List<Lot2DTO>? lots;
-
     private StatuDTO selectedStatu = new();
     private List<StatuDTO>? status;
 
     private bool loading;
     private bool _disable;
 
-    [EditorRequired, Parameter] public CourseDTO CourseDTO { get; set; } = null!;
+    [EditorRequired, Parameter] public Course1DTO CourseDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
@@ -41,13 +38,10 @@ public partial class CourseForm
         loading = true;
 
         await LoadStatusAsync();
-        await LoadLotsAsync();
 
         if (CourseDTO.Id > 0)
         {
             selectedStatu = status!.FirstOrDefault(x => x.Id == CourseDTO.StatuId)!;
-            selectedLot = lots!.FirstOrDefault(x => x.Id == CourseDTO.LotId)!;
-            CourseDTO.Lot = selectedLot;
         }
         else
         {
@@ -59,38 +53,6 @@ public partial class CourseForm
         CourseDTO.StatuId = selectedStatu.Id;
 
         loading = false;
-    }
-
-    private async Task LoadLotsAsync()
-    {
-        var responseHttp = await Repository.GetAsync<List<Lot2DTO>>("/api/lots/combo");
-
-        if (responseHttp.Error)
-        {
-            var message = await responseHttp.GetErrorMessageAsync();
-            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            return;
-        }
-
-        lots = responseHttp.Response;
-    }
-    private async Task<IEnumerable<Lot2DTO>> SearchLot(string searchText, CancellationToken cancellationToken)
-    {
-        await Task.Delay(5);
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return lots!;
-        }
-
-        return lots!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
-            .ToList();
-    }
-    private void LotChanged(Lot2DTO entity)
-    {
-        selectedLot = entity;
-        CourseDTO.Lot = entity;
-        CourseDTO.LotId= entity.Id;
     }
 
 

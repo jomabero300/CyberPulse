@@ -100,7 +100,7 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
         var model = new Lot
         {
             Id = entity.Id,
-            Name = HtmlUtilities.ToTitleCase(entity.Name.ToLower()),
+            Name = HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             StatuId = entity.StatuId,
         };
 
@@ -141,31 +141,43 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
             .OrderBy(x => x.Name)
             .ToListAsync();
     }
-    public async Task<IEnumerable<Lot>> GetComboAsync(int id)
+    public async Task<IEnumerable<Lot>> GetComboAsync(int id,bool indEsta)
     {
+        if (indEsta)
+        {
 
-        var assignedLotIds = _context.ProgramLots.AsNoTracking()
-                                         .Where(pl => pl.ProgramId == id)
-                                         .Select(pl => pl.LotId)
-                                         .AsQueryable();
+            var assignedLotIds = await _context.ProgramLots.AsNoTracking()
+                                             .Where(pl => pl.Id == id)
+                                             .Select(pl => new {pl.ProgramId, pl.LotId })
+                                             .FirstOrDefaultAsync();
 
-        var unassignedLots = _context.Lots.AsNoTracking()
-                                         .Where(lot => !assignedLotIds.Contains(lot.Id))
-                                         .AsQueryable();
+            var result = _context.Lots.AsNoTracking()
+                                             .Where(lot => lot.Id== assignedLotIds!.LotId || !_context.ProgramLots
+                                                    .Where(pl=>pl.ProgramId== assignedLotIds.ProgramId)
+                                                    .Select(pl=>pl.LotId)
+                                                    .Contains(lot.Id))
+                                            .AsQueryable();
+            return await result.ToListAsync();
 
-        //return new ActionResponse<IEnumerable<Lot>>
-        //{
-        //    WasSuccess = true,
-        //    Result = await unassignedLots
-        //        .OrderBy(x => x.Name)
-        //        .ToListAsync()
-        //};
+       }
+        else
+        {
 
 
-        return await unassignedLots
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync();
+            var assignedLotIds = _context.ProgramLots.AsNoTracking()
+                                             .Where(pl => pl.ProgramId == id)
+                                             .Select(pl => pl.LotId)
+                                             .AsQueryable();
+
+            var unassignedLots = _context.Lots.AsNoTracking()
+                                             .Where(lot => !assignedLotIds.Contains(lot.Id))
+                                             .AsQueryable();
+
+            return await unassignedLots
+                .AsNoTracking()
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
     }
     
 
@@ -200,7 +212,7 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
             };
         }
 
-        model.Name =HtmlUtilities.ToTitleCase(entity.Name.ToLower());
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
         model.StatuId=entity.StatuId;
 
         _context.Update(model);

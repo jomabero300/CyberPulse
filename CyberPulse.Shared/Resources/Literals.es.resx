@@ -433,7 +433,7 @@
     <value>Corregimientos</value>
   </data>
   <data name="Code" xml:space="preserve">
-    <value>Código</value>
+    <value>Código Unspsc</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
@@ -484,7 +484,7 @@
     <value>Instructor</value>
   </data>
   <data name="SelectAChipProgram" xml:space="preserve">
-    <value>Seleccione un programa</value>
+    <value>-- Seleccione un programa --</value>
   </data>
   <data name="SelectANeighborhood" xml:space="preserve">
     <value>-- Seleccione un corregimiento --</value>
@@ -580,7 +580,7 @@
     <value>No hay programas para seleccionar</value>
   </data>
   <data name="SelectAInstructor" xml:space="preserve">
-    <value>Seleccionar un instructor</value>
+    <value>-- Seleccionar un instructor --</value>
   </data>
   <data name="ChipView" xml:space="preserve">
     <value>Ver</value>
@@ -773,5 +773,32 @@
   </data>
   <data name="RequiredRubro" xml:space="preserve">
     <value>Debe seleccional un rubro</value>
+  </data>
+  <data name="SelectABudget" xml:space="preserve">
+    <value>-- Seleccione presupueto --</value>
+  </data>
+  <data name="BudgetLots" xml:space="preserve">
+    <value>Presupuesto lotes</value>
+  </data>
+  <data name="BudgetLot" xml:space="preserve">
+    <value>Presupuesto lote</value>
+  </data>
+  <data name="SelectABudgetProgram" xml:space="preserve">
+    <value>-- Seleccione Presupuesto de programa --</value>
+  </data>
+  <data name="SelectACourse" xml:space="preserve">
+    <value>--Seleccione un curso --</value>
+  </data>
+  <data name="CourseLot" xml:space="preserve">
+    <value>Cursos y lotes</value>
+  </data>
+  <data name="SelectAUnitMeasurement" xml:space="preserve">
+    <value>-- Seleccione unidad de medida --</value>
+  </data>
+  <data name="SelectAClasse" xml:space="preserve">
+    <value>-- Seleccione una clase --</value>
+  </data>
+  <data name="Unspsc" xml:space="preserve">
+    <value>Código Unspsc</value>
   </data>
 </root>

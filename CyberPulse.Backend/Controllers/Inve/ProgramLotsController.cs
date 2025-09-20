@@ -97,5 +97,10 @@ public class ProgramLotsController : GenericController<ProgramLot>
         return BadRequest();
     }
 
+    [HttpGet("Combo/{id}")]
+    public async Task<IActionResult> GetComboAsync(int id)
+    {
+        return Ok(await _programLotUnitOf.GetComboAsync(id));
+    }
 
 }

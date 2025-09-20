@@ -39,12 +39,14 @@ else
             <MudTd>@context.Id</MudTd>
             <MudTd>@context.Validity!.Value</MudTd>
             <MudTd>@context.Program!.Name</MudTd>
-            <MudTd>@context.Budget!.Rubro</MudTd>
             <MudTd>@context.BudgetType!.Name</MudTd>
-            <MudTd>@context.Worth</MudTd>
+            <MudTd>@context.Budget!.Rubro</MudTd>
+            <MudTd>@context.Worth.ToString("N2")</MudTd>
             <MudTd Class="text-center">
-                <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Variant="Variant.Filled"
+                @if (context.StatuId == 1)
+                {
+                    <MudTooltip Text="@Localizer["Edit"]">
+                        <MudButton Variant="Variant.Filled"
                                Color="Color.Warning"
                                OnClick="@(() => ShowModalAsync(context.Id, true))">
                         <MudIcon Icon="@Icons.Material.Filled.Edit" />
@@ -57,6 +59,7 @@ else
                         <MudIcon Icon="@Icons.Material.Filled.Delete" />
                     </MudButton>
                 </MudTooltip>
+                }
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

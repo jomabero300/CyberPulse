@@ -98,9 +98,9 @@ public class CoursesController : GenericController<Course>
         return BadRequest();
     }
 
-    [HttpGet("Combo/{id}")]
-    public async Task<IActionResult> GetComboAsync(int id)
+    [HttpGet("Combo/{id}/{indEsta}")]
+    public async Task<IActionResult> GetComboAsync(int id,bool indEsta)
     {
-        return Ok(await _courseUnitOfWork.GetComboAsync(id));
+        return Ok(await _courseUnitOfWork.GetComboAsync(id,indEsta));
     }
 }

@@ -5,6 +5,7 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Linq;
 using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Inve.BudgetProgramInv;
@@ -84,6 +85,36 @@ public partial class BudgetProgramIndex
         {
             return new TableData<BudgetProgram> { Items = [], TotalItems = 0 };
         }
+
+        var groupedByProgram = responseHttp.Response.ToList().GroupBy(bp => bp.ProgramId);
+
+        foreach (var group in groupedByProgram)
+        {
+            // If there is more than one record for the same ProgramId
+            if (group.Count() > 1)
+            {
+                // Order the records to find the "last" one (e.g., by Id or creation date)
+                // Adjust the .OrderBy() property to match your definition of "last"
+                var orderedPrograms = group.OrderBy(bp => bp.Id).ToList();
+
+                // Get the last item in the ordered list
+                var lastProgram = orderedPrograms.Last();
+
+                // Update the StatusId for all but the last record
+                foreach (var programToUpdate in orderedPrograms.Where(p => p.Id != lastProgram.Id))
+                {
+                    // Set the StatusId to 0 for all but the last one
+                    programToUpdate.StatuId = 0;
+                }
+
+                // Set the StatusId for the last record
+                lastProgram.StatuId = 1;
+            }
+        }
+
+
+        //TODO: Para borrar
+        //int xx = responseHttp.Response.Count();
 
         return new TableData<BudgetProgram>
         {

@@ -45,6 +45,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         var queryable = _context.CourseLots
             .AsNoTracking()
             .Include(x => x.ProgramLot).ThenInclude(p=>p.Program)
+            .Include(x => x.ProgramLot).ThenInclude(l=>l.Lot)
             .Include(x => x.Course)
             .AsQueryable();
 
@@ -52,6 +53,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         {
             queryable = queryable.Where(x => 
                                             x.Course!.Name.ToLower().Contains(pagination.Filter.ToLower())||
+                                            x.ProgramLot!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                             x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
@@ -139,10 +141,11 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         }
     }
 
-    public async Task<IEnumerable<CourseLot>> GetComboAsync(int id)
+    public Task<IEnumerable<CourseLot>> GetComboAsync(int id)
     {
         throw new NotImplementedException();
     }
+
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
@@ -212,4 +215,5 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
             };
         }
     }
+
 }

@@ -10,20 +10,6 @@
 				  class="mb-3" />
 
 
-	<MudAutocomplete T="Lot2DTO"
-					 Label=@Localizer["Lot"]
-					 Placeholder=@Localizer["SelectALot"]
-					 SearchFunc="SearchLot"
-					 Value="selectedLot"
-					 ValueChanged="LotChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => CourseDTO.Lot)">
-		<ItemTemplate Context="itemContext">
-			@itemContext.Name
-		</ItemTemplate>
-	</MudAutocomplete>
-
-
 	<MudAutocomplete T="StatuDTO"
 					 Label=@Localizer["Statu"]
 					 Disabled="_disable"

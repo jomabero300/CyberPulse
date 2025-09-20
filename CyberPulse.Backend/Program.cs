@@ -101,6 +101,9 @@ builder.Services.AddScoped<ITypeOfTrainingUnitOfWork, TypeOfTrainingUnitOfWork>(
 
 
 
+builder.Services.AddScoped<IBudgetLotRepository, BudgetLotRepository>();
+builder.Services.AddScoped<IBudgetLotUnitOfWork, BudgetLotUnitOfWork>();
+
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<IBudgetUnitOfWork, BudgetUnitOfWork>();
 

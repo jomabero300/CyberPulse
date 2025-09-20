@@ -147,6 +147,4 @@ public partial class BudgetForm
         BudgetDTO.BudgetType = entity;
     }
 
-
-
 }

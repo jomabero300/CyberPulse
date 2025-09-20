@@ -8,6 +8,11 @@ public class Family2DTO
 {
     public int Id { get; set; }
 
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Range(1, int.MaxValue, ErrorMessageResourceName = "RequiredWorth", ErrorMessageResourceType = typeof(Literals))]
+    public int Code { get; set; }
+
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int SegmentId { get; set; }
 

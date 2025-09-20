@@ -1,6 +1,5 @@
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.Entities.Inve;
-using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
@@ -55,7 +54,7 @@ public partial class BudgetTypeEdit
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }
-        var responseHttp = await Repository.PutAsync("api/budgettypes", BudgetType);
+        var responseHttp = await Repository.PutAsync("api/budgettypes/full", BudgetType);
 
         if (responseHttp.Error)
         {

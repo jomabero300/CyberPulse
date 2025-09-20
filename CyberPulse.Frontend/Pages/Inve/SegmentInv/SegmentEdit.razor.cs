@@ -46,7 +46,8 @@ public partial class SegmentEdit
 
     private async Task EditAsync()
     {
-        if (_sqlValidator.HasSqlInjection(segmentDTO!.Name))
+        if (_sqlValidator.HasSqlInjection(segmentDTO!.Name) ||
+            _sqlValidator.HasSqlInjection(segmentDTO!.Code.ToString()))
         {
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;

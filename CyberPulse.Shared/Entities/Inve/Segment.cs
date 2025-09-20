@@ -10,6 +10,10 @@ public class Segment
 {
     public int Id { get; set; }
 
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int Code { get; set; }
+
     [Column(TypeName = "varchar(150)")]
     [Display(Name = "Name", ResourceType = typeof(Literals))]
     [MaxLength(150, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]

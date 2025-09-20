@@ -49,6 +49,7 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
                                 .Include(x => x.Budget)
                                 .Include(x => x.Validity)
                                 .Include(x => x.Statu)
+                                .Include(x => x.BudgetType)
                                 .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -104,8 +105,6 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
 
     public async Task<ActionResponse<BudgetProgram>> AddAsync(BudgetProgramDTO entity)
     {
-
-
         var model = new BudgetProgram
         {
             Id = entity.Id,
@@ -146,14 +145,64 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
             };
         }
     }
-    public async Task<IEnumerable<BudgetProgram>> GetComboAsync(int id)
+    public async Task<IEnumerable<BudgetProgram>> GetComboAsync()
     {
+        //return await _context.BudgetPrograms
+        //                    .AsNoTracking()
+        //                    .Include(X => X.Program)
+        //                    .Include(X => X.Validity)
+        //                    .Include(X => X.BudgetType)
+        //                    .Where(x => x.Validity!.StatuId == 1)
+        //                    .OrderBy(x => x.ValidityId)
+        //                    .ToListAsync();
+
         return await _context.BudgetPrograms
-            .AsNoTracking()
-            .Where(x => x.Id == id)
-            .OrderBy(x => x.ValidityId)
-            .ToListAsync();
+                            .AsNoTracking()
+                            .Include(x => x.Budget)
+                            .Include(x => x.BudgetType)
+                            .Include(x => x.Program)
+                            .Include(x => x.Validity)
+                            .Include(x => x.Statu)
+                            .Where(x => x.Validity!.StatuId == 1)
+                            .Select(bp => new BudgetProgram
+                            {
+                                Id = bp.Id,
+                                Budget = bp.Budget,
+                                BudgetId = bp.BudgetId,
+                                Program = bp.Program,
+                                ProgramId = bp.ProgramId,
+                                BudgetType = bp.BudgetType,
+                                BudgetTypeId = bp.BudgetTypeId,
+                                Validity=bp.Validity,
+                                ValidityId=bp.ValidityId,
+                                StatuId=bp.StatuId,
+                                Statu=bp.Statu,
+                                Worth=bp.Worth-(double)(_context.BudgetLots
+                                .Where(bl=>bl.BudgetProgramId==bp.Id)
+                                .Sum(bl=>(decimal?)bl.Worth)??0)
+                            })
+                            .ToListAsync();
     }
+    //public async Task<IEnumerable<BudgetProgram>> GetComboAsync(int id)
+    //{
+    //    return await _context.BudgetPrograms
+    //        .AsNoTracking()
+    //        .Include(x => x.Validity)
+    //        .Include(x => x.BudgetType)
+    //        .Where(x => x.Validity!.StatuId == 1)
+    //        .Select(bp => new BudgetProgram
+    //        {
+    //            Id=bp.Id,
+    //            Budget=bp.Budget,
+    //            BudgetId=bp.BudgetId,
+    //            Program=bp.Program,
+    //            ProgramId=bp.ProgramId,
+    //            BudgetType=bp.BudgetType,
+    //            BudgetTypeId=bp.BudgetTypeId,
+                
+    //        })
+    //        .ToListAsync();
+    //}
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.BudgetPrograms
@@ -189,6 +238,15 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
                 WasSuccess = false,
                 Message = "ERR005",
             };
+        }
+
+        if(model.Worth>entity.Worth)
+        {
+            //Restar
+        }
+        else if(model.Worth<entity.Worth)
+        {
+            //suma
         }
 
         model.Id = entity.Id;
@@ -228,4 +286,5 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
             };
         }
     }
+
 }

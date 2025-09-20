@@ -17,7 +17,7 @@ public partial class BudgetProgramForm
     private EditContext editContext = null!;
 
     private bool loading;
-    [EditorRequired, Parameter] public BudgetProgramDTO BudgetProgramDTO { get; set; } = null!;
+    [EditorRequired, Parameter] public BudgetProgram1DTO BudgetProgramDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
@@ -36,6 +36,7 @@ public partial class BudgetProgramForm
     private bool _worthHasError = false;
     private string _worthErrorMessage = string.Empty;
     public bool FormPostedSuccessfully { get; set; } = false;
+    public bool _enabled { get; set; } = false;
     protected override void OnInitialized()
     {
         editContext = new(BudgetProgramDTO);
@@ -48,14 +49,17 @@ public partial class BudgetProgramForm
         await LoadBudgetsAsync();
         await LoadProgramsAsync();
 
-        //if (BudgetProgramDTO.Id>0)
-        //{
-        //    selectedBudget=budgets!.FirstOrDefault(x=>x.Id== BudgetProgramDTO.BudgetId)!;
-        //    BudgetProgramDTO.Budget = selectedBudget;
+        if (BudgetProgramDTO.Id > 0)
+        {
+            selectedBudget = budgets!.FirstOrDefault(x => x.Id == BudgetProgramDTO.BudgetId)!;
+            BudgetProgramDTO.BudgetId = selectedBudget.Id;
+            BudgetProgramDTO.Budget = selectedBudget;
 
-        //    selectedProgram=programs!.FirstOrDefault(x=>x.Id==BudgetProgramDTO.ProgramId)!;
-        //    BudgetProgramDTO.Program=selectedProgram;
-        //}
+            selectedProgram = programs!.FirstOrDefault(x => x.Id == BudgetProgramDTO.ProgramId)!;
+            BudgetProgramDTO.ProgramId = selectedProgram.Id;
+            BudgetProgramDTO.Program = selectedProgram;
+            _enabled = true;
+        }
 
 
         var responseHttp = await Repository.GetAsync<List<ValidityDTO>>("/api/validities/combo");

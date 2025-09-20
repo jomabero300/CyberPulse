@@ -629,8 +629,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ValidityId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Worth")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Worth")
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
@@ -661,8 +661,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("StatuId")
                         .HasColumnType("int");
 
-                    b.Property<double>("worth")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Worth")
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
@@ -698,8 +698,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ValidityId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Worth")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Worth")
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
@@ -744,6 +744,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
 
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
@@ -815,7 +818,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("CourseId", "ProgramLotId")
                         .IsUnique();
 
-                    b.ToTable("CourseLotes", "Inve");
+                    b.ToTable("CourseLots", "Inve");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Family", b =>
@@ -825,6 +828,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -839,11 +845,9 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SegmentId");
-
                     b.HasIndex("StatuId");
 
-                    b.HasIndex("Id", "SegmentId", "Name")
+                    b.HasIndex("SegmentId", "Code", "Name")
                         .IsUnique();
 
                     b.ToTable("Families", "Inve");
@@ -965,7 +969,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ValidityId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("worth")
+                    b.Property<decimal>("Worth")
                         .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
@@ -1042,6 +1046,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

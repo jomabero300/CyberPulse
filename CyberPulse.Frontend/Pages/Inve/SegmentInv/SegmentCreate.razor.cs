@@ -22,7 +22,8 @@ public partial class SegmentCreate
 
     private async Task CreateAsync()
     {
-        if (_sqlValidator.HasSqlInjection(segmentDTO!.Name))
+        if (_sqlValidator.HasSqlInjection(segmentDTO!.Name) ||
+            _sqlValidator.HasSqlInjection(segmentDTO!.Code.ToString()))
         {
             //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);

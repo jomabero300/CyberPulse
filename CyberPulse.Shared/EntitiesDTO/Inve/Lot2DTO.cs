@@ -1,5 +1,4 @@
-﻿using CyberPulse.Shared.EntitiesDTO.Gene;
-using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

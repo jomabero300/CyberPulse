@@ -27,7 +27,8 @@ public class BudgetProgram
     [Display(Name = "Validity", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ValidityId { get; set; }
-    
+
+    [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Worth { get; set; }

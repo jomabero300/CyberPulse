@@ -47,6 +47,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .AsNoTracking()
             .Include(x => x.Statu)  
             .Include(x => x.Classe)  
+            .Include(x => x.UnitMeasurement)  
             .Include(x => x.Lot)  
             .AsQueryable();
 
@@ -107,10 +108,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         var model = new Product
         {
             Id = entity.Id,
-            Name = HtmlUtilities.ToTitleCase(entity.Name),
-            Description = entity.Description,
+            UnitMeasurementId=entity.UnitMeasurementId,
             ClasseId=entity.ClasseId,
             LotId=entity.LotId,
+            Name = HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
+            Description = entity.Description.Trim(),
             StatuId = entity.StatuId,
         };
 
@@ -194,8 +196,8 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             };
         }
 
-        model.Name = entity.Name;
-        model.Description = entity.Description;
+        model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
+        model.Description = entity.Description.Trim();
         model.LotId = entity.LotId;
         model.ClasseId = entity.ClasseId;
         model.StatuId = entity.StatuId;

@@ -50,5 +50,4 @@ public partial class BudgetCreate
         budgetForm!.FormPostedSuccessfully = true;
         NavigationManager.NavigateTo("/budgets");
     }
-
 }

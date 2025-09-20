@@ -48,7 +48,7 @@ public partial class ProgramLotForm
         {
             selectedProgram = programs!.FirstOrDefault(x => x.Id == ProgramLotDTO!.ProgramId)!;
             ProgramLotDTO.Program=selectedProgram;
-            await LoadLotsAsync(selectedProgram.Id);
+            await LoadLotsAsync(ProgramLotDTO.Id);
 
             selectedLot = lots!.FirstOrDefault(x => x.Id == ProgramLotDTO.LotId)!;
             ProgramLotDTO.Lot=selectedLot;
@@ -116,16 +116,14 @@ public partial class ProgramLotForm
         selectedProgram = entity;
         ProgramLotDTO.ProgramId = entity.Id;
         ProgramLotDTO.Program = entity;
-
-        selectedLot = null;
-
+        selectedLot = new();
         await LoadLotsAsync(entity.Id);
     }
 
     private async Task LoadLotsAsync(int id)
     {
         selectedLot = new();
-        var responseHttp = await repository.GetAsync<List<Lot2DTO>>($"/api/lots/Combo/{id}");
+        var responseHttp = await repository.GetAsync<List<Lot2DTO>>($"/api/lots/Combo/{id}/{(ProgramLotDTO.Id > 0)}");
 
         if (responseHttp.Error)
         {

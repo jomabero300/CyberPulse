@@ -23,7 +23,8 @@ public class BudgetProgramUnitOfWork : GenericUnitOfWork<BudgetProgram>, IBudget
 
 
     public async Task<ActionResponse<BudgetProgram>> AddAsync(BudgetProgramDTO entity)=>await _budgetProgramRepository.AddAsync(entity);
-    public async Task<IEnumerable<BudgetProgram>> GetComboAsync(int id)=>await _budgetProgramRepository.GetComboAsync(id);
+    //public async Task<IEnumerable<BudgetProgram>> GetComboAsync(int id)=>await _budgetProgramRepository.GetComboAsync(id);
+    public async Task<IEnumerable<BudgetProgram>> GetComboAsync()=>await _budgetProgramRepository.GetComboAsync();
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _budgetProgramRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<BudgetProgram>> UpdateAsync(BudgetProgramDTO entity)=>await _budgetProgramRepository.UpdateAsync(entity);
 }

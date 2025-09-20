@@ -140,7 +140,15 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
             };
         }
     }
-
+    public async Task<IEnumerable<ProgramLot>> GetComboAsync(int id)
+    {
+        return await _context.ProgramLots
+                            .AsNoTracking()
+                            .Include(x=>x.Lot)
+                            .Where(x=>x.ProgramId==id)
+                            .OrderBy(x => x.Program!.Name).ThenBy(l=>l.Lot!.Name)
+                            .ToListAsync();
+    }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProgramLots.AsQueryable();

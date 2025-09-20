@@ -1,56 +1,51 @@
-﻿@* <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
 
 	<DataAnnotationsValidator />
 
-	<MudTextField Label="@Localizer["Family"]"
-				  @bind-Value="@CourseLotDTO.Name"
-				  For="@(() => CourseLotDTO.Name)"
-				  class="mb-3" />
 
-	<MudAutocomplete T="SegmentDTO"
-					 Label=@Localizer["Segment"]
-					 Placeholder=@Localizer["SelectASegment"]
-					 SearchFunc="SearchSegment"
-					 Value="selectedSegment"
-					 ValueChanged="SegmentChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => CourseLotDTO.Segment)">
+	<MudAutocomplete T="InvProgramDTO"
+					 Label=@Localizer["Program"]
+					 Placeholder=@Localizer["SelectAProgram"]
+					 SearchFunc="SearchProgram"
+					 Value="selectedProgram"
+					 ValueChanged="ProgramChanged"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Name
 		</ItemTemplate>
 	</MudAutocomplete>
 
-	<MudAutocomplete T="Family2DTO"
-					 Label=@Localizer["Family"]
-					 Placeholder=@Localizer["SelectAFamily"]
-					 SearchFunc="SearchFamily"
-					 Value="selectedFamily"
-					 ValueChanged="FamilyChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => CourseLotDTO.Family)">
-		<ItemTemplate Context="itemContext">
-			@itemContext.Name
-		</ItemTemplate>
-	</MudAutocomplete>
-
-
-
-	<MudAutocomplete T="StatuDTO"
-					 Label=@Localizer["Statu"]
+	<MudAutocomplete T="ProgramLot2DTO"
+					 Label=@Localizer["Lot"]
 					 Disabled="_disable"
-					 Placeholder=@Localizer["SelectAStatu"]
-					 SearchFunc="SearchStatu"
-					 Value="selectedStatu"
-					 ValueChanged="StatuChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => CourseLotDTO.Statu)">
+					 Placeholder=@Localizer["SelectALot"]
+					 SearchFunc="SearchLot"
+					 Value="selectedLot"
+					 ValueChanged="LotChanged"
+					 ToStringFunc="@(e=> e==null?null : e.Lot!.Name)"
+					 For="@(() => CourseLotDTO.ProgramLot)">
+		<ItemTemplate Context="itemContext">
+			@itemContext.Lot!.Name
+		</ItemTemplate>
+	</MudAutocomplete>
 
+
+
+	<MudAutocomplete T="CourseDTO"
+					 Label=@Localizer["Course"]
+					 Placeholder=@Localizer["SelectACourse"]
+					 SearchFunc="SearchCourse"
+					 Value="selectedCourse"
+					 ValueChanged="CourseChanged"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+					 For="@(() => CourseLotDTO.Course)">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Name
 		</ItemTemplate>
 	</MudAutocomplete>
+
 
 	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
 
@@ -67,4 +62,4 @@
 			   ButtonType="ButtonType.Submit">
 		@Localizer["SaveChanges"]
 	</MudButton>
-</EditForm> *@
+</EditForm>

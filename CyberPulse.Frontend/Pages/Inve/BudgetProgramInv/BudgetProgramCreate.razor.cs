@@ -10,7 +10,7 @@ namespace CyberPulse.Frontend.Pages.Inve.BudgetProgramInv;
 public partial class BudgetProgramCreate
 {
     private BudgetProgramForm? budgetProgramForm;
-    private BudgetProgramDTO BudgetProgramDTO = new();
+    private BudgetProgram1DTO BudgetProgramDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
@@ -48,5 +48,4 @@ public partial class BudgetProgramCreate
         budgetProgramForm!.FormPostedSuccessfully = true;
         NavigationManager.NavigateTo("/budgetprograms");
     }
-
 }
