@@ -438,6 +438,7 @@ namespace CyberPulse.Backend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     UnitMeasurementId = table.Column<int>(type: "int", nullable: false),
                     ClasseId = table.Column<int>(type: "int", nullable: false),
                     LotId = table.Column<int>(type: "int", nullable: false),
@@ -527,7 +528,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     IvaId = table.Column<int>(type: "int", nullable: false),
                     Worth = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
-                    Porcentaje = table.Column<decimal>(type: "decimal(3,1)", nullable: false)
+                    Percentage = table.Column<decimal>(type: "decimal(3,1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -674,16 +675,17 @@ namespace CyberPulse.Backend.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classes_FamilyId",
+                name: "IX_Classes_Code",
                 schema: "Inve",
                 table: "Classes",
-                column: "FamilyId");
+                column: "Code",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classes_Id_FamilyId_Name",
+                name: "IX_Classes_FamilyId_Code_Name",
                 schema: "Inve",
                 table: "Classes",
-                columns: new[] { "Id", "FamilyId", "Name" },
+                columns: new[] { "FamilyId", "Code", "Name" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -717,6 +719,13 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "Courses",
                 column: "StatuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Families_Code",
+                schema: "Inve",
+                table: "Families",
+                column: "Code",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Families_SegmentId_Code_Name",
@@ -770,10 +779,11 @@ namespace CyberPulse.Backend.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCurrentValues_ValidityId",
+                name: "IX_ProductCurrentValues_ValidityId_ProductId",
                 schema: "Inve",
                 table: "ProductCurrentValues",
-                column: "ValidityId");
+                columns: new[] { "ValidityId", "ProductId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductQuotations_BudgetCourseId",
@@ -792,6 +802,13 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "Products",
                 columns: new[] { "ClasseId", "Name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Code",
+                schema: "Inve",
+                table: "Products",
+                column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -837,6 +854,13 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "Programs",
                 column: "StatuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Segments_Code",
+                schema: "Inve",
+                table: "Segments",
+                column: "Code",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Segments_Name",

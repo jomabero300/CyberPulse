@@ -17,9 +17,6 @@ public partial class BudgetForm
     private ValidityDTO selectedValidity = new();
     private List<ValidityDTO>? validities;
 
-    private BudgetTypeDTO selectedBudgetType = new();
-    private List<BudgetTypeDTO>? budgetTypes;
-
     private bool loading;
     private bool _disable;
 
@@ -43,14 +40,20 @@ public partial class BudgetForm
         loading = true;
 
         await LoadValiditiesAsync();
-        await LoadBudgetTypesAsync();
 
         if (BudgetDTO.Id > 0)
         {
             selectedValidity = validities!.FirstOrDefault(x => x.Id == BudgetDTO.ValidityId)!;
+            BudgetDTO.Validity = selectedValidity;
+        }
+        else
+        {
+            selectedValidity = validities!.FirstOrDefault(x => x.IsInvalid=true)!;
+            BudgetDTO.ValidityId = selectedValidity.Id;
             BudgetDTO.Validity = selectedValidity;            
-            selectedBudgetType = budgetTypes!.FirstOrDefault(x => x.Id == BudgetDTO.BudgetTypeId)!;
-            BudgetDTO.BudgetType = selectedBudgetType;
+
+            BudgetDTO.Validity = selectedValidity;
+            BudgetDTO.BudgetTypeId = 1;
         }
 
         loading = false;
@@ -113,38 +116,4 @@ public partial class BudgetForm
         BudgetDTO.Validity = entity;
         BudgetDTO.ValidityId = entity.Id;
     }
-
-    private async Task LoadBudgetTypesAsync()
-    {
-        var responseHttp = await Repository.GetAsync<List<BudgetTypeDTO>>("/api/budgetTypes/combo");
-
-        if (responseHttp.Error)
-        {
-            var message = await responseHttp.GetErrorMessageAsync();
-            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            return;
-        }
-
-        budgetTypes = responseHttp.Response;
-
-    }
-    private async Task<IEnumerable<BudgetTypeDTO>> SearchBudgetType(string searchText, CancellationToken cancellationToken)
-    {
-        await Task.Delay(5);
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return budgetTypes!;
-        }
-
-        return budgetTypes!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
-            .ToList();
-    }
-    private void BudgetTypeChanged(BudgetTypeDTO entity)
-    {
-        selectedBudgetType = entity;
-        BudgetDTO.BudgetTypeId = entity.Id;
-        BudgetDTO.BudgetType = entity;
-    }
-
 }

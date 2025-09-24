@@ -29,8 +29,8 @@ public class BudgetDTO
 
 
 
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public BudgetTypeDTO? BudgetType { get; set; }
+    //[Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    //public BudgetTypeDTO? BudgetType { get; set; }
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public ValidityDTO? Validity { get; set; }
 }

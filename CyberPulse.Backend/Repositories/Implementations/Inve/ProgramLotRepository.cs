@@ -45,10 +45,10 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
     public override async Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProgramLots
-            .AsNoTracking()
-            .Include(x=>x.Program)
-            .Include(x=>x.Lot)
-            .AsQueryable();
+                                .AsNoTracking()
+                                .Include(x=>x.Program)
+                                .Include(x=>x.Lot)
+                                .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {

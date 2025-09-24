@@ -27,12 +27,14 @@ else
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
+            <MudTh>@Localizer["Unspsc"]</MudTh>
             <MudTh>@Localizer["Classe"]</MudTh>
             <MudTh>@Localizer["Segment"]</MudTh>
             <MudTh>@Localizer["Family"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
+            <MudTd>@context.Code</MudTd>
             <MudTd>@context.Name</MudTd>
             <MudTd>@context.Family!.Segment!.Name</MudTd>
             <MudTd>@context.Family!.Name</MudTd>

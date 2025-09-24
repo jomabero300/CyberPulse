@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,4 @@ public class SegmentDTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
-
 }

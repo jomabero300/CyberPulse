@@ -1,12 +1,10 @@
-﻿using CyberPulse.Shared.Entities.Gene;
-using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CyberPulse.Shared.Entities.Inve;
+namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
-[Table("ProductCurrentValues", Schema = "Inve")]
-public class ProductCurrentValue
+public class ProductCurrentValueDTO
 {
     public int Id { get; set; }
     public int ValidityId { get; set; }
@@ -22,8 +20,4 @@ public class ProductCurrentValue
     [Display(Name = "Percentage", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Percentage { get; set; }
-
-    public Validity? Validity { get; set; }
-    public Product? Product { get; set; }
-    public Iva? Iva { get; set; }
 }

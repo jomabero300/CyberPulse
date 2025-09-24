@@ -15,6 +15,7 @@
 				  class="mb-3" />
 
 	<MudAutocomplete T="ValidityDTO"
+		Disabled="true"
 					 Label=@Localizer["Validity"]
 					 Placeholder=@Localizer["SelectAValidity"]
 					 SearchFunc="SearchValidity"
@@ -24,19 +25,6 @@
 					 For="@(() => BudgetDTO.Validity)">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Value
-		</ItemTemplate>
-	</MudAutocomplete>
-
-	<MudAutocomplete T="BudgetTypeDTO"
-					 Label=@Localizer["BudgetType"]
-					 Placeholder=@Localizer["SelectABudgetType"]
-					 SearchFunc="SearchBudgetType"
-					 Value="selectedBudgetType"
-					 ValueChanged="BudgetTypeChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => BudgetDTO.BudgetType)">
-		<ItemTemplate Context="itemContext">
-			@itemContext.Name
 		</ItemTemplate>
 	</MudAutocomplete>
 

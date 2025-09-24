@@ -1,5 +1,4 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
-using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -7,8 +6,6 @@ using CyberPulse.Shared.EntitiesDTO.Inve;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
-using Microsoft.OpenApi.Writers;
 
 namespace CyberPulse.Backend.Controllers.Inve;
 
@@ -17,7 +14,7 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [Route("api/[controller]")]
 public class InvProgramsController : GenericController<InvProgram>
 {
-                     
+
     private readonly IInvProgramUnitOfWork _invProgramUnitofWork;
     public InvProgramsController(IGenericUnitOfWork<InvProgram> unitOfWork, IInvProgramUnitOfWork invProgramUnitofWork) : base(unitOfWork)
     {

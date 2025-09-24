@@ -54,6 +54,6 @@ INSERT INTO Inve.Segments(Id, Code, Name, StatuId) VALUES (52,91,'Servicios Pers
 INSERT INTO Inve.Segments(Id, Code, Name, StatuId) VALUES (53,92,'Servicios de Defensa Nacional, Orden Publico, Seguridad y Vigilancia',1)
 INSERT INTO Inve.Segments(Id, Code, Name, StatuId) VALUES (54,93,'Servicios Políticos y de Asuntos Cívicos',1)
 INSERT INTO Inve.Segments(Id, Code, Name, StatuId) VALUES (55,94,'Organizaciones y Clubes',1)
-
+INSERT INTO Inve.Segments(Id, Code, Name, StatuId) VALUES (56,95,'Terrenos, Edificios, Estructuras y Vías',1)
 
 SET IDENTITY_INSERT Inve.Segments OFF

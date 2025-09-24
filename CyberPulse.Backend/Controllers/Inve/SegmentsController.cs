@@ -23,9 +23,9 @@ public class SegmentsController : GenericController<Segment>
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response=await _segmentUnitOfWork.GetAsync(id);
+        var response = await _segmentUnitOfWork.GetAsync(id);
 
-        if(response.WasSuccess)
+        if (response.WasSuccess)
         {
             return Ok(response.Result);
         }

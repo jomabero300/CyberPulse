@@ -412,9 +412,6 @@
   <data name="Neighborhoods" xml:space="preserve">
     <value>Neighborhoods</value>
   </data>
-  <data name="Code" xml:space="preserve">
-    <value>Code Unspsc</value>
-  </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
@@ -631,7 +628,7 @@
   <data name="Worth" xml:space="preserve">
     <value>Worth</value>
   </data>
-  <data name="Porcentaje" xml:space="preserve">
+  <data name="Percentage" xml:space="preserve">
     <value>%</value>
   </data>
   <data name="Lot" xml:space="preserve">
@@ -779,6 +776,6 @@
     <value>-- Select a classe --</value>
   </data>
   <data name="Unspsc" xml:space="preserve">
-    <value>Unspsc</value>
+    <value>Code Unspsc</value>
   </data>
 </root>

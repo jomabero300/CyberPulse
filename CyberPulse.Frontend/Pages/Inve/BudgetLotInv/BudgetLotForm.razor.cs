@@ -52,7 +52,8 @@ public partial class BudgetLotForm
         {
             selectedBudgetProgram = budgetPrograms!.FirstOrDefault(x => x.Id == BudgetLotDTO.BudgetProgramId)!;
             BudgetLotDTO.BudgetProgram = selectedBudgetProgram;
-            await LoadLotsAsync(BudgetLotDTO.BudgetProgramId);
+            await LoadLotsAsync(selectedBudgetProgram.ProgramId);
+
             selectedLot = lots!.FirstOrDefault(x => x.Id == BudgetLotDTO.ProgramLotId)!;
             BudgetLotDTO.ProgramLot = selectedLot;
             _disable = true;

@@ -74,20 +74,22 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
         builder.Entity<BudgetCourse>().HasIndex(x => new { x.ValidityId,x.CourseProgramLotId,x.StartDate }).IsUnique();
         builder.Entity<BudgetType>().HasIndex(x => x.Name).IsUnique();
-        builder.Entity<Classe>().HasIndex(x =>new {x.Id ,x.FamilyId, x.Name }).IsUnique();
+        builder.Entity<Classe>().HasIndex(x =>x.Code).IsUnique();
+        builder.Entity<Classe>().HasIndex(x =>new {x.FamilyId, x.Code, x.Name }).IsUnique();
         builder.Entity<Course>().HasIndex(x =>x.Name).IsUnique();
         builder.Entity<CourseLot>().HasIndex(x =>new { x.CourseId,x.ProgramLotId }).IsUnique();
+        builder.Entity<Family>().HasIndex(x => x.Code).IsUnique();
         builder.Entity<Family>().HasIndex(x => new {x.SegmentId, x.Code, x.Name }).IsUnique();
         builder.Entity<InvProgram>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Lot>().HasIndex(x => x.Name).IsUnique();
-        builder.Entity<Product>().HasIndex(x => new { x.ClasseId, x.Name }).IsUnique();
+        builder.Entity<Product>().HasIndex(x => x.Code).IsUnique();
+        builder.Entity<Product>().HasIndex(x => new {x.ClasseId, x.Name }).IsUnique();
+        builder.Entity<ProductCurrentValue>().HasIndex(x => new {x.ValidityId, x.ProductId }).IsUnique();
         builder.Entity<ProgramLot>().HasIndex(x => new {x.ProgramId,x.LotId }).IsUnique();
+        builder.Entity<Segment>().HasIndex(x => x.Code).IsUnique();
         builder.Entity<Segment>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<UnitMeasurement>().HasIndex(x => x.Name).IsUnique();
-        builder.Entity<Validity>().HasIndex(x => x.Value).IsUnique();
-        
-
-
+        builder.Entity<Validity>().HasIndex(x => x.Value).IsUnique();      
 
         DisableCascadingDelete(builder);
 

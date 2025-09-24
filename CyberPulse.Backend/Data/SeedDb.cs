@@ -29,8 +29,8 @@ public class SeedDb
         await CheckChipAsync();
 
         await CheckSegmenetsAsync();
-        //await CheckFamiliesAsync();
-        //await CheckClassesAsync();
+        await CheckFamiliesAsync();
+        await CheckClassesAsync();
 
         await CheckRolesAsync();
         

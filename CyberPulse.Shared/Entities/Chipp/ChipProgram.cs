@@ -10,7 +10,7 @@ public class ChipProgram
     public int Id { get; set; }
 
     [Column(TypeName = "varchar(10)")]
-    [Display(Name = "Code", ResourceType = typeof(Literals))]
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
     [MaxLength(10, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Code { get; set; } = null!;
@@ -20,7 +20,7 @@ public class ChipProgram
     public int Version { get; set; }
 
     [Column(TypeName = "varchar(300)")]
-    [Display(Name = "Code", ResourceType = typeof(Literals))]
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
     [MaxLength(300, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Designation { get; set; }= null!;

@@ -48,7 +48,7 @@ public partial class ProgramLotForm
         {
             selectedProgram = programs!.FirstOrDefault(x => x.Id == ProgramLotDTO!.ProgramId)!;
             ProgramLotDTO.Program=selectedProgram;
-            await LoadLotsAsync(ProgramLotDTO.Id);
+            await LoadLotsAsync(ProgramLotDTO!.ProgramId);
 
             selectedLot = lots!.FirstOrDefault(x => x.Id == ProgramLotDTO.LotId)!;
             ProgramLotDTO.Lot=selectedLot;

@@ -10,6 +10,10 @@ public class Product
 {
     public int Id { get; set; }
 
+    [Display(Name = "Unspsc", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int Code { get; set; }
+
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [Display(Name = "UnitMeasurement", ResourceType = typeof(Literals))]
     public int UnitMeasurementId { get; set; }

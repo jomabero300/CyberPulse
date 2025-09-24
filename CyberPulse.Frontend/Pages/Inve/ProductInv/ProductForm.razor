@@ -4,14 +4,21 @@
 
 	<DataAnnotationsValidator />
 	<MudGrid>
-		<MudItem xs="12" sm="6">
+		<MudItem xs="12" sm="2">
+			<MudTextField Label="@Localizer["Unspsc"]"
+							@bind-Value="@ProductDTO.Code"
+							For="@(() => ProductDTO.Code)"
+							class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="5">
 			<MudTextField Label="@Localizer["Name"]"
 							@bind-Value="@ProductDTO.Name"
 							For="@(() => ProductDTO.Name)"
 							class="mb-3" />
 
 		</MudItem>
-		<MudItem xs="12" sm="6">
+		<MudItem xs="12" sm="5">
 			<MudTextField Label="@Localizer["Description"]"
 							@bind-Value="@ProductDTO.Description"
 							For="@(() => ProductDTO.Description)"
@@ -42,7 +49,7 @@
 							 ValueChanged="SegmentChanged"
 							 ToStringFunc="@(e=> e==null?null : e.Name)">
 				<ItemTemplate Context="itemContext">
-					@itemContext.Id - @itemContext.Name
+					@itemContext.Code - @itemContext.Name
 				</ItemTemplate>
 			</MudAutocomplete>
 
@@ -56,7 +63,7 @@
 							 ValueChanged="FamilyChanged"
 							 ToStringFunc="@(e=> e==null?null : e.Name)">
 				<ItemTemplate Context="itemContext">
-					@itemContext.Id  -  @itemContext.Name
+					@itemContext.Code  -  @itemContext.Name
 				</ItemTemplate>
 			</MudAutocomplete>
 		</MudItem>
@@ -71,7 +78,7 @@
 							 ToStringFunc="@(e=> e==null?null : e.Name)"
 							 For="@(() => ProductDTO.Classe)">
 				<ItemTemplate Context="itemContext">
-					@itemContext.Id - @itemContext.Name
+					@itemContext.Code - @itemContext.Name
 				</ItemTemplate>
 			</MudAutocomplete>
 		</MudItem>

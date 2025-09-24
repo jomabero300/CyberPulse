@@ -1,5 +1,4 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
-using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -99,8 +98,8 @@ public class CoursesController : GenericController<Course>
     }
 
     [HttpGet("Combo/{id}/{indEsta}")]
-    public async Task<IActionResult> GetComboAsync(int id,bool indEsta)
+    public async Task<IActionResult> GetComboAsync(int id, bool indEsta)
     {
-        return Ok(await _courseUnitOfWork.GetComboAsync(id,indEsta));
+        return Ok(await _courseUnitOfWork.GetComboAsync(id, indEsta));
     }
 }

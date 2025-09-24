@@ -761,11 +761,12 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FamilyId");
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("StatuId");
 
-                    b.HasIndex("Id", "FamilyId", "Name")
+                    b.HasIndex("FamilyId", "Code", "Name")
                         .IsUnique();
 
                     b.ToTable("Classes", "Inve");
@@ -845,6 +846,9 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.HasIndex("StatuId");
 
                     b.HasIndex("SegmentId", "Code", "Name")
@@ -916,6 +920,9 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ClasseId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -936,6 +943,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("LotId");
 
@@ -960,7 +970,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("IvaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Porcentaje")
+                    b.Property<decimal>("Percentage")
                         .HasColumnType("decimal(3,1)");
 
                     b.Property<int>("ProductId")
@@ -978,7 +988,8 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("ValidityId");
+                    b.HasIndex("ValidityId", "ProductId")
+                        .IsUnique();
 
                     b.ToTable("ProductCurrentValues", "Inve");
                 });
@@ -1059,6 +1070,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("Name")
                         .IsUnique();

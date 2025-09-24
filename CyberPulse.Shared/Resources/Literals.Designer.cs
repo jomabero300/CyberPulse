@@ -421,15 +421,6 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Code Unspsc.
-        /// </summary>
-        public static string Code {
-            get {
-                return ResourceManager.GetString("Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Company.
         /// </summary>
         public static string Company {
@@ -1258,6 +1249,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a %.
+        /// </summary>
+        public static string Percentage {
+            get {
+                return ResourceManager.GetString("Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Phone.
         /// </summary>
         public static string Phone {
@@ -1281,15 +1281,6 @@ namespace CyberPulse.Shared.Resources {
         public static string PleaseWait {
             get {
                 return ResourceManager.GetString("PleaseWait", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a %.
-        /// </summary>
-        public static string Porcentaje {
-            get {
-                return ResourceManager.GetString("Porcentaje", resourceCulture);
             }
         }
         
@@ -1969,7 +1960,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Unspsc.
+        ///   Busca una cadena traducida similar a Code Unspsc.
         /// </summary>
         public static string Unspsc {
             get {

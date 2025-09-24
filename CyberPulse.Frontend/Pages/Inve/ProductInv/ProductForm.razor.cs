@@ -62,7 +62,24 @@ public partial class ProductForm
 
         if (ProductDTO.Id > 0)
         {
+            selectedLot = lots!.FirstOrDefault(x => x.Id == ProductDTO.LotId)!;
+            ProductDTO.Lot = selectedLot;
+
+            selectedSegment = segments!.FirstOrDefault(x => x.Id ==ProductDTO!.Classe!.Family!.SegmentId)!;
+            await LoadFamilyAsync(selectedSegment.Id);
+
+            selectedFamily=families!.FirstOrDefault(x=>x.Id==ProductDTO!.Classe!.FamilyId)!;
+            await LoadClasseAsync(selectedFamily.Id);
+
+            selectedClasse=classes!.FirstOrDefault(x=> x.Id == ProductDTO!.ClasseId)!;
+            ProductDTO.Classe = selectedClasse;
+
             selectedStatu = status!.FirstOrDefault(x => x.Id == ProductDTO.StatuId)!;
+            ProductDTO.Statu = selectedStatu;
+
+            selectedUnitMeasurement=unitMeasurements!.FirstOrDefault(x=>x.Id==ProductDTO.UnitMeasurementId)!;
+            ProductDTO.UnitMeasurement = selectedUnitMeasurement;
+
             _disable = false;
         }
         else
@@ -158,7 +175,7 @@ public partial class ProductForm
 
         return segments!
             .Where(x => x.Name.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase)||
-                        x.Id.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private async Task SegmentChanged(SegmentDTO entity)
@@ -192,17 +209,17 @@ public partial class ProductForm
 
         return families!
             .Where(x => x.Name.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-                        x.Id.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private async Task FamilyChanged(FamilyDTO entity)
     {
         selectedFamily = entity;
         selectedClasse = new();
-        await LoaClasseAsync(entity.Id);
+        await LoadClasseAsync(entity.Id);
     }
 
-    private async Task LoaClasseAsync(int id)
+    private async Task LoadClasseAsync(int id)
     {
         var responseHttp = await Repository.GetAsync<List<ClasseDTO>>($"/api/classes/combo/{id}");
 
@@ -225,7 +242,7 @@ public partial class ProductForm
 
         return classes!
             .Where(x => x.Name.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-                        x.Id.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                        x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private void ClasseChanged(ClasseDTO entity)

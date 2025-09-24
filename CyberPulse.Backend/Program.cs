@@ -131,6 +131,9 @@ builder.Services.AddScoped<IInvProgramUnitOfWork, InvProgramUnitOfWork>();
 builder.Services.AddScoped<ILotRepository, LotRepository>();
 builder.Services.AddScoped<ILotUnitOfWork, LotUnitOfWork>();
 
+builder.Services.AddScoped<IProductCurrentValueRepository, ProductCurrentValueRepository>();
+builder.Services.AddScoped<IProductCurrentValueUnitOfWork, ProductCurrentValueUnitOfWork>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
 

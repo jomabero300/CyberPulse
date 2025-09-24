@@ -17,7 +17,8 @@ public partial class SegmentForm
     private Statu selectedStatu = new();
     private List<Statu>? status;
     private bool loading;
-    [EditorRequired, Parameter] public SegmentDTO SegmentDTO { get; set; } = null!;
+    private bool _disable;
+    [EditorRequired, Parameter] public Segment1DTO SegmentDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
@@ -34,7 +35,21 @@ public partial class SegmentForm
     {
         loading = true;
         await LoadStatusAsync();
-        if (SegmentDTO.Id > 0) selectedStatu = status!.FirstOrDefault(x => x.Id == SegmentDTO.StatuId)!;
+
+        if (SegmentDTO.Id > 0)
+        { 
+            selectedStatu = status!.FirstOrDefault(x => x.Id == SegmentDTO.StatuId)!;
+            SegmentDTO.Statu = selectedStatu;
+        }
+        else
+        {
+            selectedStatu = status!.FirstOrDefault(x => x.Id == 1)!;
+            SegmentDTO.Statu = selectedStatu;
+            SegmentDTO.StatuId = selectedStatu.Id;
+
+            _disable = true;
+        }
+
         loading = false;
     }
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)

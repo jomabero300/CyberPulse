@@ -22,7 +22,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         var entity = await _context.Products
             .AsNoTracking()
             .Include(x => x.Statu)
-            .Include(x=>x.Classe)
+            .Include(x=>x.Classe).ThenInclude(x=>x.Family).AsNoTracking()
             .Include(x=>x.Lot)
             .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -108,6 +108,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         var model = new Product
         {
             Id = entity.Id,
+            Code=entity.Code,
             UnitMeasurementId=entity.UnitMeasurementId,
             ClasseId=entity.ClasseId,
             LotId=entity.LotId,
@@ -197,6 +198,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         }
 
         model.Name =HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower());
+        model.Code= entity.Code;
         model.Description = entity.Description.Trim();
         model.LotId = entity.LotId;
         model.ClasseId = entity.ClasseId;

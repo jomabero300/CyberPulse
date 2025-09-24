@@ -432,9 +432,6 @@
   <data name="Neighborhoods" xml:space="preserve">
     <value>Corregimientos</value>
   </data>
-  <data name="Code" xml:space="preserve">
-    <value>Código Unspsc</value>
-  </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
@@ -651,7 +648,7 @@
   <data name="Worth" xml:space="preserve">
     <value>Valor</value>
   </data>
-  <data name="Porcentaje" xml:space="preserve">
+  <data name="Percentage" xml:space="preserve">
     <value>%</value>
   </data>
   <data name="Lot" xml:space="preserve">

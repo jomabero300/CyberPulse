@@ -11,7 +11,7 @@ public partial class SegmentEdit
 {
     private SegmentForm? segmentForm;
 
-    private SegmentDTO? segmentDTO;
+    private Segment1DTO? segmentDTO;
 
 
     [Inject] private IRepository Repository { get; set; } = null!;
@@ -23,7 +23,7 @@ public partial class SegmentEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<SegmentDTO>($"/api/segments/{Id}");
+        var responseHttp = await Repository.GetAsync<Segment1DTO>($"/api/segments/{Id}");
 
         if (responseHttp.Error)
         {

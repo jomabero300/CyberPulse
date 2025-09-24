@@ -47,7 +47,7 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower())|| 
-                                             x.Id.ToString().ToLower().Contains(pagination.Filter.ToLower()));
+                                             x.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Segment>>

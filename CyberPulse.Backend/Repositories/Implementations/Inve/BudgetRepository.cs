@@ -114,6 +114,13 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
 
     public async Task<ActionResponse<Budget>> AddAsync(BudgetDTO entity)
     {
+        var budgetType = await _context.Budgets.AsNoTracking().Where(x => x.Rubro == entity.Rubro && x.ValidityId == entity.ValidityId).FirstOrDefaultAsync();
+
+        if(budgetType != null)
+        {
+            entity.BudgetTypeId = 2;
+        }
+
         var model = new Budget
         {
             Id = entity.Id,

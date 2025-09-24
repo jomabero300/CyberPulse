@@ -12,18 +12,18 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class ProgramLotsController : GenericController<ProgramLot>
+public class ProductCurrentValuesController : GenericController<ProductCurrentValue>
 {
-    private readonly IProgramLotUnitOfWork _programLotUnitOf;
-    public ProgramLotsController(IGenericUnitOfWork<ProgramLot> unitOfWork, IProgramLotUnitOfWork programLotUnitOf) : base(unitOfWork)
+    private readonly IProductCurrentValueUnitOfWork _ProductCurrentValueUnitOfWork;
+    public ProductCurrentValuesController(IGenericUnitOfWork<ProductCurrentValue> unitOfWork, IProductCurrentValueUnitOfWork productCurrentValueUnitOfWork) : base(unitOfWork)
     {
-        _programLotUnitOf = programLotUnitOf;
+        _ProductCurrentValueUnitOfWork = productCurrentValueUnitOfWork;
     }
 
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response = await _programLotUnitOf.GetAsync(id);
+        var response = await _ProductCurrentValueUnitOfWork.GetAsync(id);
 
         if (response.WasSuccess)
         {
@@ -35,7 +35,7 @@ public class ProgramLotsController : GenericController<ProgramLot>
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _programLotUnitOf.GetAsync(pagination);
+        var response = await _ProductCurrentValueUnitOfWork.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -47,7 +47,7 @@ public class ProgramLotsController : GenericController<ProgramLot>
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
-        var response = await _programLotUnitOf.DeleteAsync(id);
+        var response = await _ProductCurrentValueUnitOfWork.DeleteAsync(id);
 
         if (response.WasSuccess)
         {
@@ -59,9 +59,9 @@ public class ProgramLotsController : GenericController<ProgramLot>
 
 
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] ProgramLotDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] ProductCurrentValueDTO entity)
     {
-        var response = await _programLotUnitOf.AddAsync(entity);
+        var response = await _ProductCurrentValueUnitOfWork.AddAsync(entity);
 
         if (response.WasSuccess)
         {
@@ -72,9 +72,9 @@ public class ProgramLotsController : GenericController<ProgramLot>
     }
 
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync([FromBody] ProgramLotDTO model)
+    public async Task<IActionResult> PustAsync([FromBody] ProductCurrentValueDTO model)
     {
-        var action = await _programLotUnitOf.UpdateAsync(model);
+        var action = await _ProductCurrentValueUnitOfWork.UpdateAsync(model);
 
         if (action.WasSuccess)
         {
@@ -87,7 +87,7 @@ public class ProgramLotsController : GenericController<ProgramLot>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _programLotUnitOf.GetTotalRecordsAsync(pagination);
+        var response = await _ProductCurrentValueUnitOfWork.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -95,11 +95,4 @@ public class ProgramLotsController : GenericController<ProgramLot>
         }
         return BadRequest();
     }
-
-    [HttpGet("Combo/{id}")]
-    public async Task<IActionResult> GetComboAsync(int id)
-    {
-        return Ok(await _programLotUnitOf.GetComboAsync(id));
-    }
-
 }
