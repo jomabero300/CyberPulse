@@ -34,11 +34,11 @@
                 <MudDivider />
                 <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
                 <MudDivider />
+                <MudNavLink Href="/ivas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">@Localizer["Ivas"]</MudNavLink>
+                <MudDivider />
                 <MudNavLink Href="/programs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["TrainingPrograms"]</MudNavLink>
                 <MudDivider />
                 <MudNavLink Href="/validities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["Validity"]</MudNavLink>
-                <MudDivider />
-                <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
             </MudNavGroup>
             <MudNavGroup Title="Inventarios" Expanded="false">
                 <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="Unspsc " Expanded="false">
@@ -52,18 +52,18 @@
 
                 <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["InvPrograms"]" Expanded="false">
                     <MudDivider />
-                    <MudNavLink Href="/invprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["InvPrograms"]</MudNavLink>
+                    <MudNavLink Href="/invprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Apps">@Localizer["InvPrograms"]</MudNavLink>
                     <MudDivider />
-                    <MudNavLink Href="/lots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Article">@Localizer["Lots"]</MudNavLink>
+                    <MudNavLink Href="/lots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BatchPrediction">@Localizer["Lots"]</MudNavLink>
                     <MudDivider />
                     <MudNavLink Href="/programlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Assignment">@Localizer["ProgramLots"]</MudNavLink>
                 </MudNavGroup>
 
                 <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["Courses"]" Expanded="false">
                     <MudDivider />
-                    <MudNavLink Href="/courses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Courses"]</MudNavLink>
+                    <MudNavLink Href="/courses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FactCheck">@Localizer["Courses"]</MudNavLink>
                     <MudDivider />
-                    <MudNavLink Href="/courselots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BatchPrediction">@Localizer["CourseLot"]</MudNavLink>
+                    <MudNavLink Href="/courselots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PlaylistAddCheck">@Localizer["CourseLot"]</MudNavLink>
                     <MudDivider />
                     <MudNavLink Href="/unitmeasurements" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["UnitMeasurements"]</MudNavLink>
                 </MudNavGroup>
@@ -96,12 +96,13 @@
             <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
         </Authorized>
     </AuthorizeView>
-
     <AuthorizeView Roles="Inst">
         <Authorized>
             <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
             <MudDivider />
         </Authorized>
     </AuthorizeView>
+    <MudDivider />
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
 
 </MudNavMenu>

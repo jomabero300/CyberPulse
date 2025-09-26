@@ -49,7 +49,7 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             .Include(x => x.TypeOfTraining)
             .Include(x => x.Statu)
             .Include(x => x.Instructor)
-            .Include(x => x.ChipPoblations).ThenInclude(y=>y.TypePoblation)
+            .Include(x => x.ChipPoblations)!.ThenInclude(y=>y.TypePoblation)
             .Include(x=>x.Neighborhood).ThenInclude(z=>z.City)
             .Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -409,11 +409,11 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     public async Task<ActionResponse<Chip>> GetAsync(ChipReportDTO entity)
     {
         var chip = await _context.Chips.AsNoTracking()
-            .Include(x => x.ChipPoblations)
-            .Include(x => x.ChipProgram)
-            .Include(x => x.Statu)
-            .Include(x => x.User)
-            .Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
+                                        .Include(x => x.ChipPoblations)
+                                        .Include(x => x.ChipProgram)
+                                        .Include(x => x.Statu)
+                                        .Include(x => x.User)
+                                        .Where(x => x.Id == entity.Id).FirstOrDefaultAsync();
 
         if (chip == null)
         {
@@ -452,9 +452,9 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
     {
 
         var entity = await _context.Chips.AsNoTracking()
-            .Include(x => x.Instructor)
-            .Include(x => x.ChipProgram)
-            .Where(x => x.AlertDate.Date == date.Date).ToListAsync();
+                                        .Include(x => x.Instructor)
+                                        .Include(x => x.ChipProgram)
+                                        .Where(x => x.AlertDate.Date == date.Date).ToListAsync();
 
         if (entity == null || entity!.Count()==0)
         {
@@ -465,13 +465,17 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
             };
         }
 
-        var entityUpdate =await _context.Chips.Where(x=>x.AlertDate.Date == date.Date && !x.SentStatus).Select(x=>x.Id).ToListAsync();
+        var entityUpdate =await _context.Chips
+                                            .Where(x=>x.AlertDate.Date == date.Date && !x.SentStatus)
+                                            .Select(x=>x.Id)
+                                            .ToListAsync();
 
         if (entityUpdate != null && entityUpdate.Count()>0)
         {
             await _context.Chips
                                 .Where(x=>entityUpdate.Contains(x.Id))
                                 .ExecuteUpdateAsync(y=>y.SetProperty(c=>c.SentStatus,true));
+            
         }
 
 

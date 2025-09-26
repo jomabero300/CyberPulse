@@ -9,14 +9,14 @@ public class Iva
 {
     public int Id { get; set; }
 
-    [Column(TypeName = "varchar(3)")]
+    [Column(TypeName = "varchar(6)")]
     [Display(Name = "Name", ResourceType = typeof(Literals))]
-    [MaxLength(3, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [MaxLength(6, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
 
-    [Column(TypeName = "decimal(3,1)")]
-    [Display(Name = "Name", ResourceType = typeof(Literals))]
+    [Column(TypeName = "decimal(3,2)")]
+    [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Worth { get; set; }
     public int StatuId { get; set; }

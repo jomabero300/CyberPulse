@@ -73,6 +73,9 @@ builder.Services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
 builder.Services.AddScoped<IExcelExportRepository, ExcelExportRepository>();
 builder.Services.AddScoped<IExcelExportUnitOfWork, ExcelExportUnitOfWork>();
 
+builder.Services.AddScoped<IIvaRepository, IvaRepository>();
+builder.Services.AddScoped<IIvaUnitOfWork, IvaUnitOfWork>();
+
 builder.Services.AddScoped<INeighborhoodRepository, NeighborhoodRepository>();
 builder.Services.AddScoped<INeighborhoodUnitOfWork, NeighborhoodUnitOfWork>();
 

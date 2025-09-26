@@ -69,7 +69,7 @@ public class CourseLotsController : GenericController<CourseLot>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

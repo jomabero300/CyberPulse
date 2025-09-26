@@ -68,7 +68,7 @@ public class FamiliesController : GenericController<Family>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

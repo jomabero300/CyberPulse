@@ -69,7 +69,7 @@ public class ProductsController : GenericController<Product>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]
@@ -97,9 +97,9 @@ public class ProductsController : GenericController<Product>
         return BadRequest();
     }
 
-    //[HttpGet("Combo")]
-    //public async Task<IActionResult> GetComboAsync()
-    //{
-    //    return Ok(await _productUnitOfWork.GetComboAsync());
-    //}
+    [HttpGet("Combo")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        return Ok(await _productUnitOfWork.GetComboAsync());
+    }
 }

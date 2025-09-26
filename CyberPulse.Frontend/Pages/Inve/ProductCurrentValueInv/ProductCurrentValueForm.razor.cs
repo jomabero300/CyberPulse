@@ -24,7 +24,7 @@ public partial class ProductCurrentValueForm
     private List<IvaDTO>? ivas;
     
     private bool loading;
-    private bool _disable;
+    //private bool _disable;
     
     [EditorRequired, Parameter] public ProductCurrentValueFormDTO ProductCurrentValueDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
@@ -47,18 +47,18 @@ public partial class ProductCurrentValueForm
         await LoadIvaAsync();
         await LoadProductAsync();
 
-        //if (ProductCurrentValueDTO.Id > 0)
-        //{
-        //    selectedStatu = status!.FirstOrDefault(x => x.Id == LotDTO.StatuId)!;
-        //    LotDTO.Statu = selectedStatu;
-        //}
-        //else
-        //{
-        //    _disable = true;
-        //    selectedStatu = status!.FirstOrDefault(x => x.Name == "Activo")!;
-        //    LotDTO.Statu = selectedStatu;
-        //    LotDTO.StatuId = selectedStatu.Id;
-        //}
+        if (ProductCurrentValueDTO.Id > 0)
+        {
+            selectedValidity = validities!.FirstOrDefault(x => x.Id == ProductCurrentValueDTO.ValidityId)!;
+            ProductCurrentValueDTO.Validity=selectedValidity;
+
+            selectedIva = ivas!.FirstOrDefault(x => x.Id == ProductCurrentValueDTO.IvaId)!;
+            ProductCurrentValueDTO.Iva = selectedIva;
+
+            selectedProduct=products!.FirstOrDefault(x=>x.Id==ProductCurrentValueDTO.ProductId)!;
+            ProductCurrentValueDTO.Product = selectedProduct;
+
+        }
 
         loading = false;
     }

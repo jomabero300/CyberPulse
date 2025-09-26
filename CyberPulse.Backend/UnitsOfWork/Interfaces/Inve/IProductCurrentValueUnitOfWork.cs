@@ -8,18 +8,12 @@ namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 public interface IProductCurrentValueUnitOfWork
 {
     Task<ActionResponse<ProductCurrentValue>> GetAsync(int id);
-
+    Task<ActionResponse<ProductCurrentValue>> GetAsync(double id);
     Task<ActionResponse<IEnumerable<ProductCurrentValue>>> GetAsync();
-
     Task<ActionResponse<ProductCurrentValue>> AddAsync(ProductCurrentValueDTO entity);
-
     Task<ActionResponse<ProductCurrentValue>> UpdateAsync(ProductCurrentValueDTO entity);
-
     Task<ActionResponse<ProductCurrentValue>> DeleteAsync(int id);
-
     Task<IEnumerable<ProductCurrentValue>> GetComboAsync();
-
     Task<ActionResponse<IEnumerable<ProductCurrentValue>>> GetAsync(PaginationDTO pagination);
-
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
 }

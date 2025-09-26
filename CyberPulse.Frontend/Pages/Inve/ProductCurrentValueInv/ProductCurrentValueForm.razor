@@ -7,7 +7,6 @@
 	<MudAutocomplete T="ValidityDTO"
 					 Label=@Localizer["Validity"]
 					 Placeholder=@Localizer["SelectAValidity"]
-					 Disabled="_disable"
 					 SearchFunc="SearchValidity"
 					 Value="selectedValidity"
 					 ValueChanged="ValidityChanged"
@@ -20,7 +19,6 @@
 	<MudAutocomplete T="IvaDTO"
 					 Label=@Localizer["Iva"]
 					 Placeholder=@Localizer["SelectAIva"]
-					 Disabled="_disable"
 					 SearchFunc="SearchIva"
 					 Value="selectedIva"
 					 ValueChanged="IvaChanged"
@@ -33,13 +31,12 @@
 	<MudAutocomplete T="ProductDTO"
 					 Label=@Localizer["Product"]
 					 Placeholder=@Localizer["SelectAProduct"]
-					 Disabled="_disable"
 					 SearchFunc="SearchProduct"
 					 Value="selectedProduct"
 					 ValueChanged="ProductChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+					 ToStringFunc="@(e=> e==null ?null : $"{e.Name} {e.Description}")">
 		<ItemTemplate Context="itemContext">
-			@itemContext.Name
+			@itemContext.Code - @itemContext.Name @itemContext.Description
 		</ItemTemplate>
 	</MudAutocomplete>
 
@@ -47,7 +44,7 @@
 				  @bind-Value="@ProductCurrentValueDTO.Worth"
 				  For="@(() => ProductCurrentValueDTO.Worth)"
 				  class="mb-3" />
-	<MudTextField Label="@Localizer["Worth"]"
+	<MudTextField Label="@Localizer["Percentage"]"
 				  @bind-Value="@ProductCurrentValueDTO.Percentage"
 				  For="@(() => ProductCurrentValueDTO.Percentage)"
 				  class="mb-3" />

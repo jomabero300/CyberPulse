@@ -1,0 +1,12 @@
+﻿@if (IvaDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<IvaForm @ref="IvaForm" IvaDTO="IvaDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

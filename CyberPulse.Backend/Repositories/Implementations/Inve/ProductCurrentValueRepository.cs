@@ -5,7 +5,9 @@ using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -24,7 +26,7 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
         var entity = await _context.ProductCurrentValues
             .AsNoTracking()
             .Include(x => x.Validity)
-            .Include(x => x.IvaId)
+            .Include(x => x.Iva)
             .Include(x => x.Product)
              .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -144,12 +146,10 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
             };
         }
     }
-
     public async Task<IEnumerable<ProductCurrentValue>> GetComboAsync()
     {
         throw new NotImplementedException();
     }
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProductCurrentValues
@@ -173,7 +173,73 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
             Result = (int)count
         };
     }
+    public async Task<ActionResponse<ProductCurrentValue>> GetAsync(double id)
+    {
+        var percentageParam = new SqlParameter
+        {
+            ParameterName = "@Percentage",
+            SqlDbType = SqlDbType.Decimal,
+            Direction = ParameterDirection.Input,
+            Precision = 6, // Coincide con la definición (6,3)
+            Scale = 3,
+            Value = id
+        };
+        var errorCodeParam = new SqlParameter
+        {
+            ParameterName = "@ErrorCode",
+            SqlDbType = SqlDbType.VarChar,
+            Size = 6, // **Obligatorio para tipos de cadena de salida**
+            Direction = ParameterDirection.Output
+        };
 
+        string sqlCommand = "EXEC Inve.ProductsWithNewValidity @Percentage, @ErrorCode OUTPUT";
+
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(sqlCommand, percentageParam, errorCodeParam);
+
+            var errorCode = errorCodeParam.Value?.ToString() ?? string.Empty;
+
+            if (errorCode == "Ok")
+            {
+                return new ActionResponse<ProductCurrentValue>
+                {
+                    WasSuccess = true,
+                };
+            }
+            else
+            {
+                return new ActionResponse<ProductCurrentValue>
+                {
+                    WasSuccess = false,
+                    Message = errorCode // Puedes mapear esto a un mensaje más amigable si es necesario
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<ProductCurrentValue>
+            {
+                WasSuccess = false,
+                Message = ex.Message
+            };
+        }
+
+        //var response = await _context.ProductCurrentValues.FromSqlRaw("EXECUTE Inve.ProductsWithNewValidity @Percentage, @ErrorCode OUTPUT", percentageParam, errorCodeParam).ToListAsync();
+
+        //if (response == null)
+        //{
+        //    return new ActionResponse<ProductCurrentValue>
+        //    {
+        //        WasSuccess = true,
+        //    };
+        //}
+
+        //return new ActionResponse<ProductCurrentValue>
+        //{
+        //    WasSuccess = false,
+        //};
+    }
     public async Task<ActionResponse<ProductCurrentValue>> UpdateAsync(ProductCurrentValueDTO entity)
     {
         var model = await _context.ProductCurrentValues.FindAsync(entity.Id);

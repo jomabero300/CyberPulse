@@ -71,7 +71,7 @@ public class InvProgramsController : GenericController<InvProgram>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

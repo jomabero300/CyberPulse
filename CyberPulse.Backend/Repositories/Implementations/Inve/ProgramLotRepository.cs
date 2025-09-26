@@ -61,7 +61,7 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
         {
             WasSuccess = true,
             Result = await queryable
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.Program!.Name).ThenBy(x=>x.Lot!.Name)
                 .Paginate(pagination)
                 .ToListAsync()
         };

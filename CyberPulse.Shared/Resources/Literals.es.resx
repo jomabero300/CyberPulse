@@ -760,7 +760,7 @@
     <value>Vigencia cerrada con éxito.</value>
   </data>
   <data name="ERR013" xml:space="preserve">
-    <value>La vigencia actual no tiene movimientos, Debes crearle movimiento o borrarla</value>
+    <value>La vigencia actual no tiene movimientos, Debes crearle movimiento o borrarla.</value>
   </data>
   <data name="RequiredWorth" xml:space="preserve">
     <value>El valor debe superior a cero</value>
@@ -797,5 +797,32 @@
   </data>
   <data name="Unspsc" xml:space="preserve">
     <value>Código Unspsc</value>
+  </data>
+  <data name="Ivas" xml:space="preserve">
+    <value>Impuestos de valor agregado (I.V.A)</value>
+  </data>
+  <data name="SelectAValidity" xml:space="preserve">
+    <value>-- Seleccione una vigencia --</value>
+  </data>
+  <data name="SelectAIva" xml:space="preserve">
+    <value>-- Seleccione un iva --</value>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>-- Seleccione un producto --</value>
+  </data>
+  <data name="ProductAllPercentage" xml:space="preserve">
+    <value>Productos %</value>
+  </data>
+  <data name="ERR014" xml:space="preserve">
+    <value>No se encontró una vigencia activa</value>
+  </data>
+  <data name="ERR015" xml:space="preserve">
+    <value>Ya existen productos en esta vigencia</value>
+  </data>
+  <data name="ERR016" xml:space="preserve">
+    <value>No se encontraron productos para la vigencia anterior</value>
+  </data>
+  <data name="ERR017" xml:space="preserve">
+    <value>Error interno de SQL</value>
   </data>
 </root>

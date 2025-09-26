@@ -69,7 +69,7 @@ public class LotsController : GenericController<Lot>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

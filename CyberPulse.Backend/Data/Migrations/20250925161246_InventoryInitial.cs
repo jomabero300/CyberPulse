@@ -11,8 +11,13 @@ namespace CyberPulse.Backend.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var sp = "";
+
+            migrationBuilder.Sql(sp);
+
             migrationBuilder.EnsureSchema(
                 name: "Inve");
+
 
             migrationBuilder.CreateTable(
                 name: "BudgetTypes",
@@ -57,8 +62,8 @@ namespace CyberPulse.Backend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(3)", maxLength: 3, nullable: false),
-                    Worth = table.Column<decimal>(type: "decimal(3,1)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(6)", maxLength: 6, nullable: false),
+                    Worth = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

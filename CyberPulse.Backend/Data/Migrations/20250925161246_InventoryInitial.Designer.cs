@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250924225816_InventoryInitial")]
+    [Migration("20250925161246_InventoryInitial")]
     partial class InventoryInitial
     {
         /// <inheritdoc />
@@ -396,14 +396,14 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6)");
 
                     b.Property<int>("StatuId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Worth")
-                        .HasColumnType("decimal(3,1)");
+                        .HasColumnType("decimal(3,2)");
 
                     b.HasKey("Id");
 

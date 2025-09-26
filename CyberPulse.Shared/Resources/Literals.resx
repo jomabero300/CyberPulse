@@ -778,4 +778,31 @@
   <data name="Unspsc" xml:space="preserve">
     <value>Code Unspsc</value>
   </data>
+  <data name="Ivas" xml:space="preserve">
+    <value>Value added taxes (I.V.A)</value>
+  </data>
+  <data name="SelectAValidity" xml:space="preserve">
+    <value>-- Select a validity --</value>
+  </data>
+  <data name="SelectAIva" xml:space="preserve">
+    <value>-- Select a iva --</value>
+  </data>
+  <data name="SelectAProduct" xml:space="preserve">
+    <value>-- Select a product --</value>
+  </data>
+  <data name="ProductAllPercentage" xml:space="preserve">
+    <value>Products %</value>
+  </data>
+  <data name="ERR014" xml:space="preserve">
+    <value>No active validity was found</value>
+  </data>
+  <data name="ERR015" xml:space="preserve">
+    <value>There are already products in this validity period</value>
+  </data>
+  <data name="ERR016" xml:space="preserve">
+    <value>No products were found for the previous period</value>
+  </data>
+  <data name="ERR017" xml:space="preserve">
+    <value>SQL internal error</value>
+  </data>
 </root>

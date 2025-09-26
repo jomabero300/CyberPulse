@@ -74,14 +74,14 @@ public class ValiditiesController : GenericController<Validity>
     [HttpPut("full")]
     public async Task<IActionResult> PustAsync([FromBody] ValidityDTO model)
     {
-        var action = await _validityUnitOfWork.UpdateAsync(model);
+        var response = await _validityUnitOfWork.UpdateAsync(model);
 
-        if (action.WasSuccess)
+        if (response.WasSuccess)
         {
-            return Ok(action.Result);
+            return Ok(response.Result);
         }
 
-        return BadRequest(action.Message);
+        return BadRequest(response.Message);
     }
 
     [HttpGet("TotalRecordsPaginated")]

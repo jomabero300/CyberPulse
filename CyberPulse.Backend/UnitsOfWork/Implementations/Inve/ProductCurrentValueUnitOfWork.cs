@@ -24,4 +24,5 @@ public class ProductCurrentValueUnitOfWork : GenericUnitOfWork<ProductCurrentVal
     public async Task<IEnumerable<ProductCurrentValue>> GetComboAsync()=>await _productCurrentValueRepository.GetComboAsync();
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _productCurrentValueRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<ProductCurrentValue>> UpdateAsync(ProductCurrentValueDTO entity)=>await _productCurrentValueRepository.UpdateAsync(entity);
+    public async Task<ActionResponse<ProductCurrentValue>> GetAsync(double id) => await _productCurrentValueRepository.GetAsync(id);
 }

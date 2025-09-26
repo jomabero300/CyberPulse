@@ -799,6 +799,42 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No active validity was found.
+        /// </summary>
+        public static string ERR014 {
+            get {
+                return ResourceManager.GetString("ERR014", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a There are already products in this validity period.
+        /// </summary>
+        public static string ERR015 {
+            get {
+                return ResourceManager.GetString("ERR015", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No products were found for the previous period.
+        /// </summary>
+        public static string ERR016 {
+            get {
+                return ResourceManager.GetString("ERR016", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a SQL internal error.
+        /// </summary>
+        public static string ERR017 {
+            get {
+                return ResourceManager.GetString("ERR017", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string Error {
@@ -948,6 +984,15 @@ namespace CyberPulse.Shared.Resources {
         public static string InvPrograms {
             get {
                 return ResourceManager.GetString("InvPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Value added taxes (I.V.A).
+        /// </summary>
+        public static string Ivas {
+            get {
+                return ResourceManager.GetString("Ivas", resourceCulture);
             }
         }
         
@@ -1299,6 +1344,15 @@ namespace CyberPulse.Shared.Resources {
         public static string Product {
             get {
                 return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Products %.
+        /// </summary>
+        public static string ProductAllPercentage {
+            get {
+                return ResourceManager.GetString("ProductAllPercentage", resourceCulture);
             }
         }
         
@@ -1663,6 +1717,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a -- Select a iva --.
+        /// </summary>
+        public static string SelectAIva {
+            get {
+                return ResourceManager.GetString("SelectAIva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a -- Select a lot --.
         /// </summary>
         public static string SelectALot {
@@ -1677,6 +1740,15 @@ namespace CyberPulse.Shared.Resources {
         public static string SelectANeighborhood {
             get {
                 return ResourceManager.GetString("SelectANeighborhood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a -- Select a product --.
+        /// </summary>
+        public static string SelectAProduct {
+            get {
+                return ResourceManager.GetString("SelectAProduct", resourceCulture);
             }
         }
         
@@ -1740,6 +1812,15 @@ namespace CyberPulse.Shared.Resources {
         public static string SelectAUnitMeasurement {
             get {
                 return ResourceManager.GetString("SelectAUnitMeasurement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a -- Select a validity --.
+        /// </summary>
+        public static string SelectAValidity {
+            get {
+                return ResourceManager.GetString("SelectAValidity", resourceCulture);
             }
         }
         

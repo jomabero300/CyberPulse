@@ -1,16 +1,18 @@
+using CyberPulse.Frontend.Pages.Genes.Status;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
-namespace CyberPulse.Frontend.Pages.Inve.Program;
+namespace CyberPulse.Frontend.Pages.Genes.IvasGen;
 
-public partial class InvProgramCreate
+public partial class IvaCreate
 {
-    private InvProgramForm? InvProgramForm;
-    private InvProgramDTO InvProgramDTO = new();
+    private IvaForm? IvaForm;
+    private IvaFormDTO IvaDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
@@ -20,14 +22,13 @@ public partial class InvProgramCreate
 
     private async Task CreateAsync()
     {
-        if (_sqlValidator.HasSqlInjection(InvProgramDTO!.Name))
+        if (_sqlValidator.HasSqlInjection(IvaDTO!.Name) ||
+            _sqlValidator.HasSqlInjection(IvaDTO!.Worth.ToString()))
         {
-            //Datos del formulario no válidos
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }
-
-        var responseHttp = await Repository.PostAsync("/api/invprograms/full", InvProgramDTO);
+        var responseHttp = await Repository.PostAsync("/api/ivas/full", IvaDTO);
 
         if (responseHttp.Error)
         {
@@ -43,7 +44,7 @@ public partial class InvProgramCreate
     }
     private void Return()
     {
-        InvProgramForm!.FormPostedSuccessfully = true;
-        NavigationManager.NavigateTo("/invprograms");
+        IvaForm!.FormPostedSuccessfully = true;
+        NavigationManager.NavigateTo("/ivas");
     }
 }

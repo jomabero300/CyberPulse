@@ -1,41 +1,42 @@
 ﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
-using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
-using CyberPulse.Shared.Entities.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
+using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
-using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.EntitiesDTO.Gene;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CyberPulse.Backend.Controllers.Inve;
+namespace CyberPulse.Backend.Controllers.Gene;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class UnitMeasurementsController : GenericController<UnitMeasurement>
+public class IvasController : GenericController<Iva>
 {
-    private readonly IUnitMeasurementUnitOfWork _unitMeasurementUnitOfWork;
-    public UnitMeasurementsController(IGenericUnitOfWork<UnitMeasurement> unitOfWork, IUnitMeasurementUnitOfWork unitMeasurementUnitOfWork) : base(unitOfWork)
+    private readonly IIvaUnitOfWork _ivaUnitOfWork;
+    public IvasController(IGenericUnitOfWork<Iva> unitOfWork, IIvaUnitOfWork ivaUnitOfWork) : base(unitOfWork)
     {
-        _unitMeasurementUnitOfWork = unitMeasurementUnitOfWork;
+        _ivaUnitOfWork = ivaUnitOfWork;
     }
+
 
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response = await _unitMeasurementUnitOfWork.GetAsync(id);
+        var response = await _ivaUnitOfWork.GetAsync(id);
 
         if (response.WasSuccess)
         {
             return Ok(response.Result);
         }
 
-        return BadRequest(response.Message);
+        return BadRequest();
     }
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _unitMeasurementUnitOfWork.GetAsync(pagination);
+        var response = await _ivaUnitOfWork.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -47,7 +48,7 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
-        var response = await _unitMeasurementUnitOfWork.DeleteAsync(id);
+        var response = await _ivaUnitOfWork.DeleteAsync(id);
 
         if (response.WasSuccess)
         {
@@ -59,9 +60,9 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
 
 
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] UnitMeasurementDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] IvaDTO entity)
     {
-        var response = await _unitMeasurementUnitOfWork.AddAsync(entity);
+        var response = await _ivaUnitOfWork.AddAsync(entity);
 
         if (response.WasSuccess)
         {
@@ -70,10 +71,11 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
 
         return BadRequest(response.Message);
     }
+
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync([FromBody] UnitMeasurementDTO model)
+    public async Task<IActionResult> PustAsync([FromBody] IvaDTO model)
     {
-        var action = await _unitMeasurementUnitOfWork.UpdateAsync(model);
+        var action = await _ivaUnitOfWork.UpdateAsync(model);
 
         if (action.WasSuccess)
         {
@@ -86,7 +88,7 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _unitMeasurementUnitOfWork.GetTotalRecordsAsync(pagination);
+        var response = await _ivaUnitOfWork.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -98,6 +100,6 @@ public class UnitMeasurementsController : GenericController<UnitMeasurement>
     [HttpGet("Combo")]
     public async Task<IActionResult> GetComboAsync()
     {
-        return Ok(await _unitMeasurementUnitOfWork.GetComboAsync());
+        return Ok(await _ivaUnitOfWork.GetComboAsync());
     }
 }

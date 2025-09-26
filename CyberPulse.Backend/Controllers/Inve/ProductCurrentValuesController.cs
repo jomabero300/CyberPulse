@@ -58,6 +58,23 @@ public class ProductCurrentValuesController : GenericController<ProductCurrentVa
     }
 
 
+
+    [HttpGet("All/{id}")]
+    public async Task<IActionResult> GetAsync(double id)
+    {
+        var response = await _ProductCurrentValueUnitOfWork.GetAsync(id);
+
+        if (response.WasSuccess)
+        {
+            return Ok(response.Result);
+        }
+
+        return BadRequest(response.Message);
+    }
+
+
+
+
     [HttpPost("full")]
     public async Task<IActionResult> PostAsync([FromBody] ProductCurrentValueDTO entity)
     {
@@ -68,7 +85,7 @@ public class ProductCurrentValuesController : GenericController<ProductCurrentVa
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

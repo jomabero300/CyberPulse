@@ -108,7 +108,6 @@ public partial class ProgramLotIndex
 
         if (isEdit)
         {
-
             var parameters = new DialogParameters
             {
                 { "Id", id }

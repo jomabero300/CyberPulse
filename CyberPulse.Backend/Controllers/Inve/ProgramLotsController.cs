@@ -68,7 +68,7 @@ public class ProgramLotsController : GenericController<ProgramLot>
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
 
     [HttpPut("full")]

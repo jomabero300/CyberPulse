@@ -1,7 +1,7 @@
-using CyberPulse.Frontend.Pages.Inve.ClasseInv;
+using CyberPulse.Frontend.Pages.Genes.Status;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
-using CyberPulse.Shared.Entities.Inve;
+using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -9,17 +9,17 @@ using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Net;
 
-namespace CyberPulse.Frontend.Pages.Inve.ProductCurrentValueInv;
+namespace CyberPulse.Frontend.Pages.Genes.IvasGen;
 
 [Authorize(Roles = "Admi")]
-public partial class ProductCurrentValueIndex
+public partial class IvaIndex
 {
-    private List<ProductCurrentValue>? productCurrentValues { get; set; }
-    private MudTable<ProductCurrentValue> table = new();
+    private List<Iva>? ivas { get; set; }
+    private MudTable<Iva> table = new();
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
-    private const string baseUrl = "api/productcurrentValues";
+    private const string baseUrl = "api/ivas";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
     [Inject] private IRepository repository { get; set; } = null!;
@@ -58,7 +58,7 @@ public partial class ProductCurrentValueIndex
 
         loading = false;
     }
-    private async Task<TableData<ProductCurrentValue>> LoadListAsync(TableState state, CancellationToken cancellationToken)
+    private async Task<TableData<Iva>> LoadListAsync(TableState state, CancellationToken cancellationToken)
     {
         int page = state.Page + 1;
 
@@ -71,7 +71,7 @@ public partial class ProductCurrentValueIndex
             url += $"&filter={Filter}";
         }
 
-        var responseHttp = await repository.GetAsync<List<ProductCurrentValue>>(url);
+        var responseHttp = await repository.GetAsync<List<Iva>>(url);
 
         if (responseHttp.Error)
         {
@@ -79,15 +79,15 @@ public partial class ProductCurrentValueIndex
 
             Snackbar.Add(Localizer[message!], Severity.Error);
 
-            return new TableData<ProductCurrentValue> { Items = [], TotalItems = 0 };
+            return new TableData<Iva> { Items = [], TotalItems = 0 };
         }
 
         if (responseHttp.Response == null)
         {
-            return new TableData<ProductCurrentValue> { Items = [], TotalItems = 0 };
+            return new TableData<Iva> { Items = [], TotalItems = 0 };
         }
 
-        return new TableData<ProductCurrentValue>
+        return new TableData<Iva>
         {
             Items = responseHttp.Response,
 
@@ -103,6 +103,7 @@ public partial class ProductCurrentValueIndex
 
         await table.ReloadServerData();
     }
+
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
         var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
@@ -116,14 +117,14 @@ public partial class ProductCurrentValueIndex
             {
                 { "Id", id }
             };
-            dialog = await DialogService.ShowAsync<ProductCurrentValueEdit>(
-                $"{Localizer["Edit"]} {Localizer["ProductCurrentValue"]}",
+            dialog = await DialogService.ShowAsync<IvaEdit>(
+                $"{Localizer["Edit"]} {Localizer["Iva"]}",
                 parameters,
                 options);
         }
         else
         {
-            dialog = await DialogService.ShowAsync<ProductCurrentValueCreate>($"{Localizer["New"]} {Localizer["ProductCurrentValue"]}", options);
+            dialog = await DialogService.ShowAsync<IvaCreate>($"{Localizer["New"]} {Localizer["Iva"]}", options);
         }
 
         var result = await dialog.Result;
@@ -135,26 +136,11 @@ public partial class ProductCurrentValueIndex
             await table.ReloadServerData();
         }
     }
-    private async Task ShowProductAllAsync()
-    {
-        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
-
-        IDialogReference? dialog = await DialogService.ShowAsync<ProductCurrentValueAllPercentage>($"{Localizer["New"]} {Localizer["ProductCurrentValue"]}", options);
-
-        var result = await dialog.Result;
-
-        if (result!.Canceled)
-        {
-            await LoadTotalRecordsAsync();
-
-            await table.ReloadServerData();
-        }
-    }
-    private async Task DeleteAsync(ProductCurrentValue entity)
+    private async Task DeleteAsync(Iva entity)
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["ProductCurrentValue"], entity.Product!.Name) }
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Statu"], entity.Name) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -169,13 +155,13 @@ public partial class ProductCurrentValueIndex
         }
 
 
-        var responseHttp = await repository.DeleteAsync($"{baseUrl}/full/{entity.Id}");
+        var responseHttp = await repository.DeleteAsync($"{baseUrl}/{entity.Id}");
 
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/productcurrentvalues");
+                NavigationManager.NavigateTo("/ivas");
             }
             else
             {
@@ -191,4 +177,5 @@ public partial class ProductCurrentValueIndex
 
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
     }
+
 }

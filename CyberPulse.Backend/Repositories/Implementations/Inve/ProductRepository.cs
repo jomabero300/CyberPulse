@@ -234,4 +234,9 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             };
         }
     }
+
+    public async Task<IEnumerable<Product>> GetComboAsync()
+    {
+        return await _context.Products.AsNoTracking().OrderBy(x=>x.Name).ToListAsync();
+    }
 }

@@ -17,6 +17,8 @@ public interface IProductUnitOfWork
 
     Task<ActionResponse<Product>> DeleteAsync(int id);
 
+    Task<IEnumerable<Product>> GetComboAsync();
+
     Task<IEnumerable<Product>> GetComboAsync(int claseId, int lotId);
 
     Task<ActionResponse<IEnumerable<Product>>> GetAsync(PaginationDTO pagination);

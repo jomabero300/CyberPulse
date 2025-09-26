@@ -1,4 +1,4 @@
-﻿@page "/productcurrentvalues"
+﻿@page "/ivas"
 
 @if (loading)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <MudTable Items="@productCurrentValues"
+    <MudTable Items="@ivas"
               @ref="table"
               ServerData="LoadListAsync"
               Dense="true"
@@ -14,41 +14,28 @@ else
               Striped="true"
               FixedHeader="true"
               FixedFooter="true">
-
         <ToolBarContent>
             <div class="d-flex justify-content-between">
-                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["ProductCurrentValue"]</MudText>
+                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["Iva"]</MudText>
                 <MudButton Variant="Variant.Outlined"
                            EndIcon="@Icons.Material.Filled.Add"
                            Color="Color.Info" OnClick="@(() => ShowModalAsync())">
                     @Localizer["New"]
                 </MudButton>
-                <MudButton Variant="Variant.Outlined"
-                           EndIcon="@Icons.Material.Filled.Update"
-                           Color="Color.Info" OnClick="@(() => ShowProductAllAsync())">
-                    @Localizer["ProductAllPercentage"]
-                </MudButton>
             </div>
             <MudSpacer />
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
-
         <HeaderContent>
-            <MudTh>@Localizer["Validity"]</MudTh>
-            <MudTh>@Localizer["Product"]</MudTh>
-            <MudTh>@Localizer["Description"]</MudTh>
-            <MudTh>@Localizer["Iva"]</MudTh>
+            <MudTh>@Localizer["Name"]</MudTh>
             <MudTh>@Localizer["Worth"]</MudTh>
-            <MudTh>@Localizer["Percentage"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd>@context.Validity!.Value</MudTd>
-            <MudTd>@context.Product!.Name</MudTd>
-            <MudTd>@context.Product!.Description</MudTd>
-            <MudTd>@context.Iva!.Name</MudTd>
-            <MudTd>@context.Worth.ToString("N2")</MudTd>
-            <MudTd>@context.Percentage</MudTd>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.Worth</MudTd>
+            <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Edit"]">
                     <MudButton Variant="Variant.Filled"
