@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -12,18 +13,18 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class CourseLotsController : GenericController<CourseLot>
+public class BudgetCoursesController : GenericController<BudgetCourse>
 {
-    private readonly ICourseLotUnitOfWork _courseLotUnitOfWork;
-    public CourseLotsController(IGenericUnitOfWork<CourseLot> unitOfWork, ICourseLotUnitOfWork courseLotUnitOfWork) : base(unitOfWork)
+    private readonly IBudgetCourseUnitOfWork _budgetCourseUnitOfWork;
+    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork) : base(unitOfWork)
     {
-        _courseLotUnitOfWork = courseLotUnitOfWork;
+        _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
     }
 
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response = await _courseLotUnitOfWork.GetAsync(id);
+        var response = await _budgetCourseUnitOfWork.GetAsync(id);
 
         if (response.WasSuccess)
         {
@@ -35,7 +36,7 @@ public class CourseLotsController : GenericController<CourseLot>
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _courseLotUnitOfWork.GetAsync(pagination);
+        var response = await _budgetCourseUnitOfWork.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -47,7 +48,7 @@ public class CourseLotsController : GenericController<CourseLot>
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
-        var response = await _courseLotUnitOfWork.DeleteAsync(id);
+        var response = await _budgetCourseUnitOfWork.DeleteAsync(id);
 
         if (response.WasSuccess)
         {
@@ -60,9 +61,9 @@ public class CourseLotsController : GenericController<CourseLot>
 
 
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] CourseLotDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] BudgetCourseDTO entity)
     {
-        var response = await _courseLotUnitOfWork.AddAsync(entity);
+        var response = await _budgetCourseUnitOfWork.AddAsync(entity);
 
         if (response.WasSuccess)
         {
@@ -73,9 +74,9 @@ public class CourseLotsController : GenericController<CourseLot>
     }
 
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync([FromBody] CourseLotDTO entity)
+    public async Task<IActionResult> PustAsync([FromBody] BudgetCourseDTO model)
     {
-        var action = await _courseLotUnitOfWork.UpdateAsync(entity);
+        var action = await _budgetCourseUnitOfWork.UpdateAsync(model);
 
         if (action.WasSuccess)
         {
@@ -88,7 +89,7 @@ public class CourseLotsController : GenericController<CourseLot>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        var response = await _courseLotUnitOfWork.GetTotalRecordsAsync(pagination);
+        var response = await _budgetCourseUnitOfWork.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -96,12 +97,5 @@ public class CourseLotsController : GenericController<CourseLot>
         }
         return BadRequest();
     }
-
-    [HttpGet("Combo/{id}")]
-    public async Task<IActionResult> GetComboAsync(int id)
-    {
-        return Ok(await _courseLotUnitOfWork.GetComboAsync(id));
-    }
-
 
 }

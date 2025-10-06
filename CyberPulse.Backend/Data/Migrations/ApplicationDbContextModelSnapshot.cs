@@ -591,6 +591,9 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ValidityId")
                         .HasColumnType("int");
 
@@ -600,6 +603,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BudgetTypeId");
+
+                    b.HasIndex("StatuId");
 
                     b.HasIndex("ValidityId");
 
@@ -641,7 +646,10 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("ValidityId", "CourseProgramLotId", "StartDate")
                         .IsUnique();
 
-                    b.ToTable("BudgetCourses", "Inve");
+                    b.ToTable("BudgetCourses", "Inve", t =>
+                        {
+                            t.HasCheckConstraint("CK_EndDateGreaterthanInitial", "[EndDate] > [StartDate]");
+                        });
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetLot", b =>
@@ -661,6 +669,9 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("StatuId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ValidityId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Worth")
                         .HasColumnType("decimal(14,2)");
 
@@ -671,6 +682,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("ProgramLotId");
 
                     b.HasIndex("StatuId");
+
+                    b.HasIndex("ValidityId");
 
                     b.ToTable("BudgetLots", "Inve");
                 });
@@ -780,10 +793,13 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("StatuId")
                         .HasColumnType("int");
@@ -798,7 +814,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.ToTable("Courses", "Inve");
                 });
 
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.CourseLot", b =>
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.CourseProgramLot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -819,7 +835,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("CourseId", "ProgramLotId")
                         .IsUnique();
 
-                    b.ToTable("CourseLots", "Inve");
+                    b.ToTable("CourseProgramLots", "Inve");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Family", b =>
@@ -1433,6 +1449,12 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
                         .WithMany()
                         .HasForeignKey("ValidityId")
@@ -1441,12 +1463,14 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.Navigation("BudgetType");
 
+                    b.Navigation("Statu");
+
                     b.Navigation("Validity");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetCourse", b =>
                 {
-                    b.HasOne("CyberPulse.Shared.Entities.Inve.CourseLot", "CourseProgramLot")
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.CourseProgramLot", "CourseProgramLot")
                         .WithMany()
                         .HasForeignKey("CourseProgramLotId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1491,11 +1515,19 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Validity", "Validity")
+                        .WithMany()
+                        .HasForeignKey("ValidityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("BudgetProgram");
 
                     b.Navigation("ProgramLot");
 
                     b.Navigation("Statu");
+
+                    b.Navigation("Validity");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.BudgetProgram", b =>
@@ -1571,7 +1603,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("Statu");
                 });
 
-            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.CourseLot", b =>
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.CourseProgramLot", b =>
                 {
                     b.HasOne("CyberPulse.Shared.Entities.Inve.Course", "Course")
                         .WithMany()

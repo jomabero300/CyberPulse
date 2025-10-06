@@ -25,13 +25,11 @@
 					 Value="selectedLot"
 					 ValueChanged="LotChanged"
 					 ToStringFunc="@(e=> e==null?null : e.Lot!.Name)"
-					 For="@(() => CourseLotDTO.ProgramLot)">
+					 For="@(() => CourseProgramLotDTO.ProgramLot)">
 		<ItemTemplate Context="itemContext">
-			@itemContext.Lot!.Name
+			@itemContext.Lot!.Name 
 		</ItemTemplate>
 	</MudAutocomplete>
-
-
 
 	<MudAutocomplete T="CourseDTO"
 					 Label=@Localizer["Course"]
@@ -40,9 +38,9 @@
 					 Value="selectedCourse"
 					 ValueChanged="CourseChanged"
 					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => CourseLotDTO.Course)">
+					 For="@(() => CourseProgramLotDTO.Course)">
 		<ItemTemplate Context="itemContext">
-			@itemContext.Name
+			@itemContext.Code - @itemContext.Name
 		</ItemTemplate>
 	</MudAutocomplete>
 

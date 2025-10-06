@@ -4,6 +4,11 @@
 
 	<DataAnnotationsValidator />
 
+	<MudTextField Label="@Localizer["CourseCode"]"
+				  @bind-Value="@CourseDTO.Code"
+				  For="@(() => CourseDTO.Code)"
+				  class="mb-3" />
+
 	<MudTextField Label="@Localizer["Course"]"
 				  @bind-Value="@CourseDTO.Name"
 				  For="@(() => CourseDTO.Name)"

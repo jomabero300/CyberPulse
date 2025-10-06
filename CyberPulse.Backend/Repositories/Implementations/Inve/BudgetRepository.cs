@@ -57,6 +57,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         var queryable = _context.Budgets.AsNoTracking()
             .Include(x=>x.BudgetType)
             .Include(x=>x.Validity)
+            .Include(x=>x.Statu)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -111,7 +112,6 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
     }
 
 
-
     public async Task<ActionResponse<Budget>> AddAsync(BudgetDTO entity)
     {
         var budgetType = await _context.Budgets.AsNoTracking().Where(x => x.Rubro == entity.Rubro && x.ValidityId == entity.ValidityId).FirstOrDefaultAsync();
@@ -127,7 +127,8 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             BudgetTypeId = entity.BudgetTypeId,
             Rubro=entity.Rubro,
             ValidityId = entity.ValidityId,
-            Worth = entity.Worth
+            Worth = entity.Worth,
+            StatuId=entity.StatuId,
         };
 
         _context.Add(model);
@@ -159,7 +160,6 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             };
         }
     }
-
     public async Task<IEnumerable<Budget>> GetComboAsync()
     {
         return await _context.Budgets
@@ -182,7 +182,6 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             .OrderBy(x => x.Rubro)
             .ToListAsync();
     }
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.Budgets.AsNoTracking()
@@ -206,7 +205,6 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
             Result = (int)count
         };
     }
-
     public async Task<ActionResponse<Budget>> UpdateAsync(BudgetDTO entity)
     {
         var budgets = await _context.Budgets.FindAsync(entity.Id);
@@ -224,6 +222,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         budgets.ValidityId = entity.ValidityId;
         budgets.BudgetTypeId = entity.BudgetTypeId;
         budgets.Worth =entity.Worth;
+        budgets.StatuId=entity.StatuId;
 
         _context.Update(budgets);
 

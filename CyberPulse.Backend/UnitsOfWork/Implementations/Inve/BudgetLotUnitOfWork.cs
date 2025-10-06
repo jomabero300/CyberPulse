@@ -22,7 +22,7 @@ public class BudgetLotUnitOfWork : GenericUnitOfWork<BudgetLot>, IBudgetLotUnitO
 
 
     public async Task<ActionResponse<BudgetLot>> AddAsync(BudgetLotDTO entity) => await _budgetLotRepository.AddAsync(entity);
-    public async Task<IEnumerable<BudgetLot>> GetComboAsync()=>await _budgetLotRepository.GetComboAsync();
+    //public async Task<IEnumerable<BudgetLot>> GetComboAsync()=>await _budgetLotRepository.GetComboAsync();
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _budgetLotRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<BudgetLot>> UpdateAsync(BudgetLotDTO entity)=>await _budgetLotRepository.UpdateAsync(entity);
 }

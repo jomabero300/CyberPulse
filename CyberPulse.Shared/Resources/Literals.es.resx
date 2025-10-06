@@ -769,7 +769,7 @@
     <value>El valor ingresado superar el valor del rubro.</value>
   </data>
   <data name="RequiredRubro" xml:space="preserve">
-    <value>Debe seleccional un rubro</value>
+    <value>Debe selecciona un rubro</value>
   </data>
   <data name="SelectABudget" xml:space="preserve">
     <value>-- Seleccione presupueto --</value>
@@ -786,7 +786,7 @@
   <data name="SelectACourse" xml:space="preserve">
     <value>--Seleccione un curso --</value>
   </data>
-  <data name="CourseLot" xml:space="preserve">
+  <data name="CourseProgramLot" xml:space="preserve">
     <value>Cursos y lotes</value>
   </data>
   <data name="SelectAUnitMeasurement" xml:space="preserve">
@@ -824,5 +824,23 @@
   </data>
   <data name="ERR017" xml:space="preserve">
     <value>Error interno de SQL</value>
+  </data>
+  <data name="CourseCode" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="WorthExceedsLotBudget" xml:space="preserve">
+    <value>El valor, supera al presupuesto del lote</value>
+  </data>
+  <data name="WorthMustBeGreaterThanZero" xml:space="preserve">
+    <value>El valor debe ser mayor que cero</value>
+  </data>
+  <data name="RequiredLot" xml:space="preserve">
+    <value>Debe seleccionar un lote</value>
+  </data>
+  <data name="StartsDate" xml:space="preserve">
+    <value>Fecha inicio</value>
+  </data>
+  <data name="DateNoEndStart" xml:space="preserve">
+    <value>La fecha final debe ser posterior a la fecha de inicio.</value>
   </data>
 </root>

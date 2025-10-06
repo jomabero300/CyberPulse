@@ -33,6 +33,7 @@ else
             <MudTh>@Localizer["BudgetType"]</MudTh>
             <MudTh>@Localizer["Rubro"]</MudTh>
             <MudTh>@Localizer["Worth"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -42,6 +43,7 @@ else
             <MudTd>@context.BudgetType!.Name</MudTd>
             <MudTd>@context.Budget!.Rubro</MudTd>
             <MudTd>@context.Worth.ToString("N2")</MudTd>
+            <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
                 @if (context.StatuId == 1)
                 {

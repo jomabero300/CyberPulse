@@ -77,8 +77,9 @@ public partial class BudgetProgramForm
         BudgetProgramDTO.StatuId = 1;
 
     }
-    //TODO: VOY AQUI
 
+
+    //TODO: VOY AQUI
     //BUSCAR LA VIGENCI ACTIVA
     //BUSCAR LOS PRESUPUESTOS DE ESA VIGENCIA
     //BUSCAR LOS PROGRAMAS

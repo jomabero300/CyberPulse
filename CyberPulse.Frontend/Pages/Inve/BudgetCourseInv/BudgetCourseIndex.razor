@@ -1,4 +1,4 @@
-﻿@page "/courselots"
+﻿@page "/budgetcourses"
 
 @if (loading)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <MudTable Items="@CourseLots"
+    <MudTable Items="@BudgetCourses"
               @ref="table"
               ServerData="LoadListAsync"
               Dense="true"
@@ -16,7 +16,7 @@ else
               FixedFooter="true">
         <ToolBarContent>
             <div class="d-flex justify-content-between">
-                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["CourseLot"]</MudText>
+                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["BudgetCourse"]</MudText>
                 <MudButton Variant="Variant.Outlined"
                            EndIcon="@Icons.Material.Filled.Add"
                            Color="Color.Info" OnClick="@(() => ShowModalAsync())">
@@ -27,25 +27,20 @@ else
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
-            <MudTh>@Localizer["Id"]</MudTh>
-            <MudTh>@Localizer["Program"]</MudTh>
-            <MudTh>@Localizer["Lot"]</MudTh>
+            <MudTh>@Localizer["Code"]</MudTh>
             <MudTh>@Localizer["Course"]</MudTh>
+            <MudTh>@Localizer["StartDate"]</MudTh>
+            <MudTh>@Localizer["EndDate"]</MudTh>
+            <MudTh>@Localizer["Worth"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd>@context.Id</MudTd>
-            <MudTd>@context.ProgramLot!.Program!.Name</MudTd>
-            <MudTd>@context.ProgramLot!.Lot!.Name</MudTd>
-            <MudTd>@context.Course!.Name</MudTd>
+            <MudTd>@context.CourseProgramLot!.Course!.Code</MudTd>
+            <MudTd>@context.CourseProgramLot!.Course!.Name</MudTd>
+            <MudTd>@context.StartDate</MudTd>
+            <MudTd>@context.EndDate</MudTd>
+            <MudTd>@context.Worth.ToString("N2")</MudTd>
             <MudTd Class="text-center">
-                <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Warning"
-                               OnClick="@(() => ShowModalAsync(context.Id, true))">
-                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
-                    </MudButton>
-                </MudTooltip>
                 <MudTooltip Text="@Localizer["Delete"]">
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Error"

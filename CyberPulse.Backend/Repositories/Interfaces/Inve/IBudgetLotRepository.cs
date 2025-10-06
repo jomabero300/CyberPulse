@@ -17,7 +17,8 @@ public interface IBudgetLotRepository
 
     Task<ActionResponse<BudgetLot>> DeleteAsync(int id);
 
-    Task<IEnumerable<BudgetLot>> GetComboAsync();
+    //Task<IEnumerable<BudgetLot>> GetComboAsync();
+    Task<IEnumerable<BudgetLot>> GetComboAsync(int id);
 
     Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync(PaginationDTO pagination);
 

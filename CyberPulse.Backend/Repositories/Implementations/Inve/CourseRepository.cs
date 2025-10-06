@@ -101,6 +101,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         var model = new Course
         {
             Id = entity.Id,
+            Code = entity.Code,
             Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower()),
             StatuId=entity.StatuId
         };
@@ -138,7 +139,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
     {
         if (indEsta)
         {
-            var courseLot = await _context.CourseLots
+            var courseLot = await _context.CourseProgramLots
                 .AsNoTracking()
                 .Where(c => c.Id == id)
                 .Select(c => new { c.CourseId, c.ProgramLotId })
@@ -153,7 +154,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
             // Combina todas las consultas en una sola
             var result = await _context.Courses
                 .AsNoTracking()
-                .Where(c => c.Id == courseLot!.CourseId || !_context.CourseLots
+                .Where(c => c.Id == courseLot!.CourseId || !_context.CourseProgramLots
                     .Where(cl => cl.ProgramLotId == courseLot.ProgramLotId)
                     .Select(cl => cl.CourseId)
                     .Contains(c.Id))
@@ -165,7 +166,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         else
         {
 
-          var coursesInLot = _context.CourseLots.AsNoTracking()
+          var coursesInLot = _context.CourseProgramLots.AsNoTracking()
                 .Where(cl => cl.ProgramLotId == id)
                 .Select(cl => cl.CourseId);
 
@@ -210,6 +211,7 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
 
         model.Name =HtmlUtilities.ToTitleCase( entity.Name.Trim().ToLower());
         model.StatuId=entity.StatuId;
+        model.Code = entity.Code;
 
         _context.Update(model);
 

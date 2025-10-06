@@ -11,13 +11,8 @@ namespace CyberPulse.Backend.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = "";
-
-            migrationBuilder.Sql(sp);
-
             migrationBuilder.EnsureSchema(
                 name: "Inve");
-
 
             migrationBuilder.CreateTable(
                 name: "BudgetTypes",
@@ -40,7 +35,8 @@ namespace CyberPulse.Backend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -261,7 +257,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     ValidityId = table.Column<int>(type: "int", nullable: false),
                     BudgetTypeId = table.Column<int>(type: "int", nullable: false),
                     Rubro = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
-                    Worth = table.Column<decimal>(type: "decimal(14,2)", nullable: false)
+                    Worth = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,6 +271,13 @@ namespace CyberPulse.Backend.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Budgets_Status_StatuId",
+                        column: x => x.StatuId,
+                        principalSchema: "Gene",
+                        principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Budgets_Validities_ValidityId",
                         column: x => x.ValidityId,
                         principalSchema: "Inve",
@@ -283,7 +287,7 @@ namespace CyberPulse.Backend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseLots",
+                name: "CourseProgramLots",
                 schema: "Inve",
                 columns: table => new
                 {
@@ -294,16 +298,16 @@ namespace CyberPulse.Backend.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseLots", x => x.Id);
+                    table.PrimaryKey("PK_CourseProgramLots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseLots_Courses_CourseId",
+                        name: "FK_CourseProgramLots_Courses_CourseId",
                         column: x => x.CourseId,
                         principalSchema: "Inve",
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CourseLots_ProgramLots_ProgramLotId",
+                        name: "FK_CourseProgramLots_ProgramLots_ProgramLotId",
                         column: x => x.ProgramLotId,
                         principalSchema: "Inve",
                         principalTable: "ProgramLots",
@@ -413,11 +417,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BudgetCourses", x => x.Id);
+                    table.CheckConstraint("CK_EndDateGreaterthanInitial", "[EndDate] > [StartDate]");
                     table.ForeignKey(
-                        name: "FK_BudgetCourses_CourseLots_CourseProgramLotId",
+                        name: "FK_BudgetCourses_CourseProgramLots_CourseProgramLotId",
                         column: x => x.CourseProgramLotId,
                         principalSchema: "Inve",
-                        principalTable: "CourseLots",
+                        principalTable: "CourseProgramLots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -493,6 +498,7 @@ namespace CyberPulse.Backend.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BudgetProgramId = table.Column<int>(type: "int", nullable: false),
                     ProgramLotId = table.Column<int>(type: "int", nullable: false),
+                    ValidityId = table.Column<int>(type: "int", nullable: false),
                     Worth = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -518,6 +524,13 @@ namespace CyberPulse.Backend.Data.Migrations
                         column: x => x.StatuId,
                         principalSchema: "Gene",
                         principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BudgetLots_Validities_ValidityId",
+                        column: x => x.ValidityId,
+                        principalSchema: "Inve",
+                        principalTable: "Validities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -631,6 +644,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 column: "StatuId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BudgetLots_ValidityId",
+                schema: "Inve",
+                table: "BudgetLots",
+                column: "ValidityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BudgetPrograms_BudgetId",
                 schema: "Inve",
                 table: "BudgetPrograms",
@@ -667,6 +686,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 column: "BudgetTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Budgets_StatuId",
+                schema: "Inve",
+                table: "Budgets",
+                column: "StatuId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Budgets_ValidityId",
                 schema: "Inve",
                 table: "Budgets",
@@ -700,16 +725,16 @@ namespace CyberPulse.Backend.Data.Migrations
                 column: "StatuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseLots_CourseId_ProgramLotId",
+                name: "IX_CourseProgramLots_CourseId_ProgramLotId",
                 schema: "Inve",
-                table: "CourseLots",
+                table: "CourseProgramLots",
                 columns: new[] { "CourseId", "ProgramLotId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseLots_ProgramLotId",
+                name: "IX_CourseProgramLots_ProgramLotId",
                 schema: "Inve",
-                table: "CourseLots",
+                table: "CourseProgramLots",
                 column: "ProgramLotId");
 
             migrationBuilder.CreateIndex(
@@ -935,7 +960,7 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve");
 
             migrationBuilder.DropTable(
-                name: "CourseLots",
+                name: "CourseProgramLots",
                 schema: "Inve");
 
             migrationBuilder.DropTable(

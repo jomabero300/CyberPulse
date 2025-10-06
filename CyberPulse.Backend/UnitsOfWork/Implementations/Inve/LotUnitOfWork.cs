@@ -21,11 +21,10 @@ public class LotUnitOfWork : GenericUnitOfWork<Lot>, ILotUnitOfWork
     public override async Task<ActionResponse<Lot>> DeleteAsync(int id)=>await _lotRepository.DeleteAsync(id);
 
 
-
     public async Task<ActionResponse<Lot>> AddAsync(LotDTO entity)=>await _lotRepository.AddAsync(entity);
     public async Task<IEnumerable<Lot>> GetComboAsync()=> await _lotRepository.GetComboAsync();
+    public async Task<IEnumerable<Lot2DTO>> GetComboCourseAsync(int id)=>await _lotRepository.GetComboCourseAsync(id);
     public async Task<IEnumerable<Lot>> GetComboAsync(int id,bool indEsta)=> await _lotRepository.GetComboAsync(id,indEsta);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _lotRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<Lot>> UpdateAsync(LotDTO entity)=>await _lotRepository.UpdateAsync(entity);
-
 }

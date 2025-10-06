@@ -81,6 +81,16 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
             };
         }
 
+        var budgetProgram=await _context.BudgetPrograms.Where(x=>x.BudgetId==entity.BudgetId).ToListAsync();
+
+        if(budgetProgram != null && budgetProgram.Count == 1)
+        {
+            var budget=await _context.Budgets.FindAsync(entity.BudgetId);
+            budget!.StatuId=1;
+            _context.Update(budget);
+        }
+
+
         _context.Remove(entity);
 
         try
@@ -118,6 +128,14 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
 
         _context.Add(model);
 
+        var budget=await _context.Budgets.FindAsync(entity.BudgetId);
+
+        if (budget != null && budget.StatuId == 1)
+        {
+            budget.StatuId = 11;
+            _context.Update(budget);
+        }
+
         try
         {
             await _context.SaveChangesAsync();
@@ -147,15 +165,6 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
     }
     public async Task<IEnumerable<BudgetProgram>> GetComboAsync()
     {
-        //return await _context.BudgetPrograms
-        //                    .AsNoTracking()
-        //                    .Include(X => X.Program)
-        //                    .Include(X => X.Validity)
-        //                    .Include(X => X.BudgetType)
-        //                    .Where(x => x.Validity!.StatuId == 1)
-        //                    .OrderBy(x => x.ValidityId)
-        //                    .ToListAsync();
-
         return await _context.BudgetPrograms
                             .AsNoTracking()
                             .Include(x => x.Budget)
@@ -183,26 +192,6 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
                             })
                             .ToListAsync();
     }
-    //public async Task<IEnumerable<BudgetProgram>> GetComboAsync(int id)
-    //{
-    //    return await _context.BudgetPrograms
-    //        .AsNoTracking()
-    //        .Include(x => x.Validity)
-    //        .Include(x => x.BudgetType)
-    //        .Where(x => x.Validity!.StatuId == 1)
-    //        .Select(bp => new BudgetProgram
-    //        {
-    //            Id=bp.Id,
-    //            Budget=bp.Budget,
-    //            BudgetId=bp.BudgetId,
-    //            Program=bp.Program,
-    //            ProgramId=bp.ProgramId,
-    //            BudgetType=bp.BudgetType,
-    //            BudgetTypeId=bp.BudgetTypeId,
-                
-    //        })
-    //        .ToListAsync();
-    //}
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.BudgetPrograms

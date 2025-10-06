@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
+using MudBlazor;
+using System.Xml.Linq;
 
 namespace CyberPulse.Frontend.Pages.Inve.BudgetInv;
 
@@ -27,6 +29,7 @@ public partial class BudgetForm
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
+    [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
 
     public bool FormPostedSuccessfully { get; set; } = false;
@@ -48,12 +51,19 @@ public partial class BudgetForm
         }
         else
         {
+            if(validities == null || !validities.Any())
+            {
+                Snackbar.Add(Localizer["ERR014"], Severity.Error);
+                return;
+            }
+
             selectedValidity = validities!.FirstOrDefault(x => x.IsInvalid=true)!;
             BudgetDTO.ValidityId = selectedValidity.Id;
             BudgetDTO.Validity = selectedValidity;            
 
             BudgetDTO.Validity = selectedValidity;
             BudgetDTO.BudgetTypeId = 1;
+            BudgetDTO.StatuId = 1;
         }
 
         loading = false;

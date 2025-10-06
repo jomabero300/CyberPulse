@@ -6,8 +6,14 @@ namespace CyberPulse.Shared.EntitiesDTO.Inve;
 public class BudgetLotDTO
 {
     public int Id { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int BudgetProgramId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ProgramLotId { get; set; }
+
+    public int ValidityId { get; set; }
 
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]

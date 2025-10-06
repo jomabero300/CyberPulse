@@ -17,5 +17,5 @@ public class Lot2DTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
-
+    public double Worth { get; set; }
 }

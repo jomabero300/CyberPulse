@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
-public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepository
+public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, ICourseProgramLotRepository
 {
     private readonly ApplicationDbContext _context;
-    public CourseLotRepository(ApplicationDbContext context) : base(context)
+    public CourseProgramLotRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
 
-    public override async Task<ActionResponse<CourseLot>> GetAsync(int id)
+    public override async Task<ActionResponse<CourseProgramLot>> GetAsync(int id)
     {
-        var entity = await _context.CourseLots
+        var entity = await _context.CourseProgramLots
             .AsNoTracking()
             .Include(x => x.ProgramLot).ThenInclude(p=>p.Program)
             .Include(x => x.Course)
@@ -27,22 +27,22 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
 
         if (entity == null)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR001"
             };
         }
 
-        return new ActionResponse<CourseLot>
+        return new ActionResponse<CourseProgramLot>
         {
             WasSuccess = true,
             Result = entity
         };
     }
-    public override async Task<ActionResponse<IEnumerable<CourseLot>>> GetAsync(PaginationDTO pagination)
+    public override async Task<ActionResponse<IEnumerable<CourseProgramLot>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.CourseLots
+        var queryable = _context.CourseProgramLots
             .AsNoTracking()
             .Include(x => x.ProgramLot).ThenInclude(p=>p.Program)
             .Include(x => x.ProgramLot).ThenInclude(l=>l.Lot)
@@ -57,7 +57,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
                                             x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
-        return new ActionResponse<IEnumerable<CourseLot>>
+        return new ActionResponse<IEnumerable<CourseProgramLot>>
         {
             WasSuccess = true,
             Result = await queryable
@@ -66,13 +66,13 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
                 .ToListAsync()
         };
     }
-    public override async Task<ActionResponse<CourseLot>> DeleteAsync(int id)
+    public override async Task<ActionResponse<CourseProgramLot>> DeleteAsync(int id)
     {
-        var entity = await _context.CourseLots.FindAsync(id);
+        var entity = await _context.CourseProgramLots.FindAsync(id);
 
         if (entity == null)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR001",
@@ -85,14 +85,14 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = true,
             };
         }
         catch (Exception)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR002"
@@ -102,9 +102,9 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
 
 
 
-    public async Task<ActionResponse<CourseLot>> AddAsync(CourseLotDTO entity)
+    public async Task<ActionResponse<CourseProgramLot>> AddAsync(CourseProgramLotDTO entity)
     {
-        var model = new CourseLot
+        var model = new CourseProgramLot
         {
             Id = entity.Id,
             CourseId = entity.CourseId,
@@ -117,7 +117,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = true,
                 Result = model
@@ -125,7 +125,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         }
         catch (DbUpdateException)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR003"
@@ -133,23 +133,24 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         }
         catch (Exception ex)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = ex.Message,
             };
         }
     }
-
-    public Task<IEnumerable<CourseLot>> GetComboAsync(int id)
+    public async Task<IEnumerable<CourseProgramLot>> GetComboAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _context.CourseProgramLots
+                                 .Include(x => x.Course)
+                                 .Where(x=>x.ProgramLotId==id)
+                                 .OrderBy(x=>x.Course!.Name)
+                                 .ToListAsync();
     }
-
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.CourseLots
+        var queryable = _context.CourseProgramLots
             .AsNoTracking()
             .Include(x=>x.ProgramLot).ThenInclude(p=>p.Program)
             .Include(x=>x.Course)
@@ -169,14 +170,13 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
             Result = (int)count
         };
     }
-
-    public async Task<ActionResponse<CourseLot>> UpdateAsync(CourseLotDTO entity)
+    public async Task<ActionResponse<CourseProgramLot>> UpdateAsync(CourseProgramLotDTO entity)
     {
-        var model = await _context.CourseLots.FindAsync(entity.Id);
+        var model = await _context.CourseProgramLots.FindAsync(entity.Id);
 
         if (model == null)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR005",
@@ -192,7 +192,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         {
             await _context.SaveChangesAsync();
 
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = true,
                 Result = model,
@@ -200,7 +200,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         }
         catch (DbUpdateException)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = "ERR003"
@@ -208,7 +208,7 @@ public class CourseLotRepository : GenericRepository<CourseLot>, ICourseLotRepos
         }
         catch (Exception ex)
         {
-            return new ActionResponse<CourseLot>
+            return new ActionResponse<CourseProgramLot>
             {
                 WasSuccess = false,
                 Message = ex.Message

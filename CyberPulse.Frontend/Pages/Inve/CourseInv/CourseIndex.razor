@@ -27,11 +27,13 @@ else
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
+            <MudTh>@Localizer["CourseCode"]</MudTh>
             <MudTh>@Localizer["Course"]</MudTh>
             <MudTh>@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
+            <MudTd>@context.Code</MudTd>
             <MudTd>@context.Name</MudTd>
             <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">

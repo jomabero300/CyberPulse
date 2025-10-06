@@ -160,7 +160,7 @@ public partial class BudgetLotForm
         BudgetLotDTO.ProgramLot = entity;
     }
 
-    private async Task ValidateWorth()
+    private void ValidateWorth()
     {
         BudgetLotDTO.Indesta = false;
         _worthHasError = false;

@@ -766,7 +766,7 @@
   <data name="SelectACourse" xml:space="preserve">
     <value>-- Select a course --</value>
   </data>
-  <data name="CourseLot" xml:space="preserve">
+  <data name="CourseProgramLot" xml:space="preserve">
     <value>Course and lots</value>
   </data>
   <data name="SelectAUnitMeasurement" xml:space="preserve">
@@ -804,5 +804,23 @@
   </data>
   <data name="ERR017" xml:space="preserve">
     <value>SQL internal error</value>
+  </data>
+  <data name="CourseCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="WorthExceedsLotBudget" xml:space="preserve">
+    <value>The value exceeds the budget of the lot</value>
+  </data>
+  <data name="WorthMustBeGreaterThanZero" xml:space="preserve">
+    <value>Worth Must Be Greater Than Zero</value>
+  </data>
+  <data name="RequiredLot" xml:space="preserve">
+    <value>You must select a lot</value>
+  </data>
+  <data name="StartsDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="DateNoEndStart" xml:space="preserve">
+    <value>The end date must be after the start date.</value>
   </data>
 </root>

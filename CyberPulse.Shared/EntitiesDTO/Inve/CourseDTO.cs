@@ -12,9 +12,14 @@ public class CourseDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int LotId { get; set; }
 
-    [Column(TypeName = "varchar(60)")]
+    [Display(Name = "CourseCode", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Range(1, double.MaxValue, ErrorMessageResourceName = "RequiredWorth", ErrorMessageResourceType = typeof(Literals))]
+    public int Code { get; set; }
+
+    [Column(TypeName = "varchar(100)")]
     [Display(Name = "Name", ResourceType = typeof(Literals))]
-    [MaxLength(60, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [MaxLength(100, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
 

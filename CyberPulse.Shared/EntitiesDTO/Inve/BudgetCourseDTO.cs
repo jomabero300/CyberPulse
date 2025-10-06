@@ -1,6 +1,6 @@
 ﻿using CyberPulse.Shared.Resources;
+using CyberPulse.Shared.Validations;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
@@ -11,19 +11,27 @@ public class BudgetCourseDTO
     [Display(Name = "Validity", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ValidityId { get; set; }
+
     [Display(Name = "Course", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public int CourseId { get; set; }
+    public int CourseProgramLotId { get; set; }
 
-    [Column(TypeName = "datetime")]
     [Display(Name = "StartDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
-    [Column(TypeName = "datetime")]
+
+
+
+
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public DateTime EndDate { get; set; }
+    [DateRangeValidation("StartDate", ErrorMessageResourceName = "DateNoEndStart", ErrorMessageResourceType =typeof(Literals))]
+    public DateTime? EndDate { get; set; }
+
+
+
+
 
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
@@ -32,4 +40,14 @@ public class BudgetCourseDTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
+
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public BudgetProgram2DTO? BudgetProgram { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public Lot2DTO? BudgetLot { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public CourseProgramLot1DTO? CourseProgramLot { get; set; }
 }

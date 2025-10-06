@@ -1,7 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Inve;
-using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -9,9 +7,9 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
 
-namespace CyberPulse.Frontend.Pages.Inve.CourseLotInv;
+namespace CyberPulse.Frontend.Pages.Inve.CourseProgramLotInv;
 
-public partial class CourseLotForm
+public partial class CourseProgramLotForm
 {
     private EditContext editContext = null!;
 
@@ -27,7 +25,7 @@ public partial class CourseLotForm
     private bool _disable;
     private bool loading;
 
-    [EditorRequired, Parameter] public CourseLotDTO CourseLotDTO { get; set; } = null!;
+    [EditorRequired, Parameter] public CourseProgramLotDTO CourseProgramLotDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
@@ -39,7 +37,7 @@ public partial class CourseLotForm
     public bool FormPostedSuccessfully { get; set; } = false;
     protected override void OnInitialized()
     {
-        editContext = new(CourseLotDTO);
+        editContext = new(CourseProgramLotDTO);
     }
     protected override async Task OnInitializedAsync()
     {
@@ -47,18 +45,18 @@ public partial class CourseLotForm
 
         await LoadProgramAsync();
 
-        if (CourseLotDTO.Id > 0)
+        if (CourseProgramLotDTO.Id > 0)
         {
-            selectedProgram = programs!.FirstOrDefault(x => x.Id == CourseLotDTO!.ProgramLot!.ProgramId)!;
-            CourseLotDTO.ProgramLot = selectedLot;
+            selectedProgram = programs!.FirstOrDefault(x => x.Id == CourseProgramLotDTO!.ProgramLot!.ProgramId)!;
+            CourseProgramLotDTO.ProgramLot = selectedLot;
 
             await LoadLotsAsync(selectedProgram.Id);
-            selectedLot = lots!.FirstOrDefault(x => x.Id == CourseLotDTO!.ProgramLotId)!;
-            CourseLotDTO.ProgramLot = selectedLot;
+            selectedLot = lots!.FirstOrDefault(x => x.Id == CourseProgramLotDTO!.ProgramLotId)!;
+            CourseProgramLotDTO.ProgramLot = selectedLot;
 
-            await LoadCoursesAsync(CourseLotDTO.Id);
-            selectedCourse = courses!.FirstOrDefault(x => x.Id == CourseLotDTO!.CourseId)!;
-            CourseLotDTO.Course = selectedCourse;
+            await LoadCoursesAsync(CourseProgramLotDTO.Id);
+            selectedCourse = courses!.FirstOrDefault(x => x.Id == CourseProgramLotDTO!.CourseId)!;
+            CourseProgramLotDTO.Course = selectedCourse;
         }
 
         loading = false;
@@ -115,7 +113,7 @@ public partial class CourseLotForm
             .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private async  Task ProgramChanged(InvProgramDTO entity)
+    private async Task ProgramChanged(InvProgramDTO entity)
     {
         selectedProgram = entity;
         selectedLot = new();
@@ -152,8 +150,8 @@ public partial class CourseLotForm
     private async Task LotChanged(ProgramLot2DTO entity)
     {
         selectedLot = entity;
-        CourseLotDTO.ProgramLotId = entity.Id;
-        CourseLotDTO.ProgramLot = entity;
+        CourseProgramLotDTO.ProgramLotId = entity.Id;
+        CourseProgramLotDTO.ProgramLot = entity;
         selectedCourse = new();
         await LoadCoursesAsync(entity.Id);
     }
@@ -161,7 +159,7 @@ public partial class CourseLotForm
 
     private async Task LoadCoursesAsync(int id)
     {
-        var responseHttp = await Repository.GetAsync<List<CourseDTO>>($"/api/courses/combo/{id}/{(CourseLotDTO.Id > 0)}");
+        var responseHttp = await Repository.GetAsync<List<CourseDTO>>($"/api/courses/combo/{id}/{(CourseProgramLotDTO.Id > 0)}");
 
         if (responseHttp.Error)
         {
@@ -188,8 +186,8 @@ public partial class CourseLotForm
     private void CourseChanged(CourseDTO entity)
     {
         selectedCourse = entity;
-        CourseLotDTO.CourseId = entity.Id;
-        CourseLotDTO.Course = entity;
+        CourseProgramLotDTO.CourseId = entity.Id;
+        CourseProgramLotDTO.Course = entity;
     }
 
 }

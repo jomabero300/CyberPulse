@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
-namespace CyberPulse.Frontend.Pages.Inve.CourseLotInv;
+namespace CyberPulse.Frontend.Pages.Inve.CourseProgramLotInv;
 
-public partial class CourseLotCreate
+public partial class CourseProgramLotCreate
 {
-    private CourseLotForm? courseLotForm;
-    private CourseLotDTO courseLotDTO = new();
+    private CourseProgramLotForm? courseProgramLotForm;
+    private CourseProgramLotDTO courseProgramLotDTO = new();
 
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -19,7 +19,7 @@ public partial class CourseLotCreate
 
     private async Task CreateAsync()
     {
-        var responseHttp = await Repository.PostAsync("/api/courselots/full", courseLotDTO);
+        var responseHttp = await Repository.PostAsync("/api/courseprogramlots/full", courseProgramLotDTO);
 
         if (responseHttp.Error)
         {
@@ -35,7 +35,7 @@ public partial class CourseLotCreate
     }
     private void Return()
     {
-        courseLotForm!.FormPostedSuccessfully = true;
-        NavigationManager.NavigateTo("/courselots");
+        courseProgramLotForm!.FormPostedSuccessfully = true;
+        NavigationManager.NavigateTo("/courseprogramlots");
     }
 }

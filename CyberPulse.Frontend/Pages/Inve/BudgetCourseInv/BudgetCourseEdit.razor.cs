@@ -1,4 +1,3 @@
-using CyberPulse.Frontend.Pages.Inve.ProgramLotInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
@@ -6,15 +5,16 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
 
-namespace CyberPulse.Frontend.Pages.Inve.CourseLotInv;
+namespace CyberPulse.Frontend.Pages.Inve.BudgetCourseInv;
 
-public partial class CourseLotEdit
+public partial class BudgetCourseEdit
 {
-    private CourseLotForm? courseLotForm;
+    private BudgetCourseForm? BudgetCourseForm;
 
-    private CourseLotDTO? courseLotDTO;
+    private BudgetCourseDTO? BudgetCourseDTO;
 
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
@@ -22,13 +22,13 @@ public partial class CourseLotEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<CourseLotDTO>($"/api/courselots/{Id}");
+        var responseHttp = await Repository.GetAsync<BudgetCourseDTO>($"/api/budgetcourses/{Id}");
 
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/courselots");
+                NavigationManager.NavigateTo("/budgetcourses");
             }
             else
             {
@@ -39,13 +39,23 @@ public partial class CourseLotEdit
         }
         else
         {
-            courseLotDTO = responseHttp.Response;
+            BudgetCourseDTO = responseHttp.Response;
         }
     }
 
     private async Task EditAsync()
     {
-        var responseHttp = await Repository.PutAsync("api/courselots/full", courseLotDTO);
+
+        if (_sqlValidator.HasSqlInjection(BudgetCourseDTO!.StartDate.ToString()!) ||
+            _sqlValidator.HasSqlInjection(BudgetCourseDTO!.EndDate.ToString()!) ||
+            _sqlValidator.HasSqlInjection(BudgetCourseDTO!.Worth.ToString()))
+        {
+            //Datos del formulario no válidos
+            Snackbar.Add(Localizer["ERR010"], Severity.Error);
+            return;
+        }
+
+        var responseHttp = await Repository.PutAsync("api/budgetcourses/full", BudgetCourseDTO);
 
         if (responseHttp.Error)
         {
@@ -63,8 +73,8 @@ public partial class CourseLotEdit
 
     private void Return()
     {
-        courseLotForm!.FormPostedSuccessfully = true;
+        BudgetCourseForm!.FormPostedSuccessfully = true;
 
-        NavigationManager.NavigateTo("/courselots");
+        NavigationManager.NavigateTo("/budgetcourses");
     }
 }

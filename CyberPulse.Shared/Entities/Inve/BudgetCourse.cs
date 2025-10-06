@@ -1,5 +1,6 @@
 ﻿using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Resources;
+using CyberPulse.Shared.Validations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,12 +22,12 @@ public class BudgetCourse
     [Column(TypeName = "datetime")]
     [Display(Name = "StartDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
     [Column(TypeName = "datetime")]
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
     [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
@@ -38,7 +39,7 @@ public class BudgetCourse
     public int StatuId { get; set; }
 
     public Validity? Validity { get; set; }
-    public CourseLot? CourseProgramLot { get; set; }
+    public CourseProgramLot? CourseProgramLot { get; set; }
     public Statu? Statu { get; set; }
 
 }

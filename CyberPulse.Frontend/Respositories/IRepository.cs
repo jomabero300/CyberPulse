@@ -4,7 +4,6 @@ namespace CyberPulse.Frontend.Respositories;
 
 public interface IRepository
 {
-    //TODO:PARA BORRA
     Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url);
     Task<HttpResponseWrapper<byte[]>> GetBytesAsync(string url, ChipReport model);
 

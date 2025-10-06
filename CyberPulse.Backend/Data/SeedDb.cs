@@ -32,6 +32,11 @@ public class SeedDb
         await CheckFamiliesAsync();
         await CheckClassesAsync();
 
+        await CheckProgramsAsync();
+        await CheckLotsAsync();
+        await CheckProgramLotsAsync();
+        await CheckCoursesAsync();
+
         await CheckRolesAsync();
         
         await CheckUserAsync("Manuel", "Bello", "jbellor@sena.edu.co", "3133670740", UserType.Admi, "17588236");
@@ -40,6 +45,42 @@ public class SeedDb
         //await CheckUserAsync("Freddie", "Mercury", "freddie@yopmail.com", "3134568271", UserType.Inst, "17588238");
         //await CheckUserAsync("Felipe", "Pelaes", "felipe@yopmail.com", "3137776666", UserType.Inst, "17588239");
         //await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
+    }
+
+    private async Task CheckCoursesAsync()
+    {
+        if (!_context.Courses.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\Courses.sql");
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckProgramsAsync()
+    {
+        if (!_context.InvPrograms.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\InvProgram.sql");
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckLotsAsync()
+    {
+        if (!_context.Lots.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\Lots.sql");
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
+    }
+
+    private async Task CheckProgramLotsAsync()
+    {
+        if (!_context.ProgramLots.Any())
+        {
+            var statesSqlScript = File.ReadAllText("Data\\Scripts\\ProgramLots.sql");
+            await _context.Database.ExecuteSqlRawAsync(statesSqlScript);
+        }
     }
 
     private async Task CheckBudgetTypesAsync()

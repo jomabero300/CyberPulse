@@ -6,7 +6,9 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq;
+using static CyberPulse.Backend.Repositories.Implementations.Inve.ProgramLotRepository;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -245,4 +247,64 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
         }
     }
 
+    public async Task<IEnumerable<Lot2DTO>> GetComboCourseAsync(int id)
+    {
+        var query = await _context.BudgetLots
+                .Where(bl => bl.Validity != null && bl.Validity.StatuId == 1)
+                .Where(bl => bl.ProgramLot!.ProgramId == id)
+                .Select(bl => new BudgetLotSaldoDto
+                {
+                    ProgramLotId = bl.ProgramLotId,
+                    LotName = bl.ProgramLot!.Lot!.Name,
+                    BudgetLotWorth = bl.Worth,
+                    TotalBudgetCourseWorth = (from cpl in _context.CourseProgramLots
+                                              where cpl.ProgramLotId == bl.ProgramLotId
+                                              join bc in _context.BudgetCourses on cpl.Id equals bc.CourseProgramLotId
+                                              select bc.Worth).Sum()
+                })
+                .ToListAsync();
+        //TODO: VOY AQUI
+        //var query = await (from bl in _context.BudgetLots.Include(bl => bl.Validity)
+        //                   where bl.Validity!.StatuId == 1
+        //                   join pl in _context.ProgramLots on bl.ProgramLotId equals pl.Id
+        //                   where pl.ProgramId == id
+        //                   join l in _context.Lots on pl.LotId equals l.Id
+        //                   group new { bl, l } by new { pl.Id, l.Name, bl.Worth } into g
+        //                   select new BudgetLotSaldoDto
+        //                   {
+        //                       ProgramLotId = g.Key.Id,
+        //                       LotName = g.Key.Name,
+        //                       BudgetLotWorth = g.Key.Worth,
+        //                       TotalBudgetCourseWorth = (from cpl in _context.CourseProgramLots
+        //                                                 where cpl.ProgramLotId == g.Key.Id
+        //                                                 join bc in _context.BudgetCourses on cpl.Id equals bc.CourseProgramLotId
+        //                                                 select bc.Worth).Sum() 
+        //                   })
+        //                   .ToListAsync();
+
+        foreach (var item in query)
+        {
+            item.Saldo = item.BudgetLotWorth - item.TotalBudgetCourseWorth;
+        }
+
+        var entity = query.Select(q => new Lot2DTO
+        {
+            Id = q.ProgramLotId,
+            Name = $"{q.LotName} - {q.Saldo.ToString("N2")}",
+            Worth= q.Saldo
+        }).ToList();
+
+        return entity;
+    }
+
+    private class BudgetLotSaldoDto
+    {
+        public int ProgramLotId { get; set; }
+        public string LotName { get; set; }
+        public double BudgetLotWorth { get; set; }
+        public double TotalBudgetCourseWorth { get; set; }
+        public double Saldo { get; set; } // BudgetLotWorth - TotalBudgetCourseWorth
+
+        public int BudgetLotId { get; set; }
+    }
 }

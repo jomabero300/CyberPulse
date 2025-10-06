@@ -1,3 +1,4 @@
+using CyberPulse.Frontend.Pages.Inve.BudgetInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
@@ -8,17 +9,17 @@ using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Net;
 
-namespace CyberPulse.Frontend.Pages.Inve.CourseLotInv;
+namespace CyberPulse.Frontend.Pages.Inve.BudgetCourseInv;
 
 [Authorize(Roles = "Admi")]
-public partial class CourseLotIndex
+public partial class BudgetCourseIndex
 {
-    private List<CourseLot>? CourseLots { get; set; }
-    private MudTable<CourseLot> table = new();
+    private List<BudgetCourse>? BudgetCourses { get; set; }
+    private MudTable<BudgetCourse> table = new();
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
-    private const string baseUrl = "api/courselots";
+    private const string baseUrl = "api/budgetcourses";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
     [Inject] private IRepository repository { get; set; } = null!;
@@ -57,7 +58,7 @@ public partial class CourseLotIndex
 
         loading = false;
     }
-    private async Task<TableData<CourseLot>> LoadListAsync(TableState state, CancellationToken cancellationToken)
+    private async Task<TableData<BudgetCourse>> LoadListAsync(TableState state, CancellationToken cancellationToken)
     {
         int page = state.Page + 1;
 
@@ -70,7 +71,7 @@ public partial class CourseLotIndex
             url += $"&filter={Filter}";
         }
 
-        var responseHttp = await repository.GetAsync<List<CourseLot>>(url);
+        var responseHttp = await repository.GetAsync<List<BudgetCourse>>(url);
 
         if (responseHttp.Error)
         {
@@ -78,15 +79,15 @@ public partial class CourseLotIndex
 
             Snackbar.Add(Localizer[message!], Severity.Error);
 
-            return new TableData<CourseLot> { Items = [], TotalItems = 0 };
+            return new TableData<BudgetCourse> { Items = [], TotalItems = 0 };
         }
 
         if (responseHttp.Response == null)
         {
-            return new TableData<CourseLot> { Items = [], TotalItems = 0 };
+            return new TableData<BudgetCourse> { Items = [], TotalItems = 0 };
         }
 
-        return new TableData<CourseLot>
+        return new TableData<BudgetCourse>
         {
             Items = responseHttp.Response,
 
@@ -102,28 +103,31 @@ public partial class CourseLotIndex
 
         await table.ReloadServerData();
     }
+
     private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
         var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
 
-        IDialogReference? dialog;
+        //IDialogReference? dialog;
 
-        if (isEdit)
-        {
+        //if (isEdit)
+        //{
 
-            var parameters = new DialogParameters
-            {
-                { "Id", id }
-            };
-            dialog = await DialogService.ShowAsync<CourseLotEdit>(
-                $"{Localizer["Edit"]} {Localizer["CourseLot"]}",
-                parameters,
-                options);
-        }
-        else
-        {
-            dialog = await DialogService.ShowAsync<CourseLotCreate>($"{Localizer["New"]} {Localizer["CourseLot"]}", options);
-        }
+        //    var parameters = new DialogParameters
+        //    {
+        //        { "Id", id }
+        //    };
+        //    dialog = await DialogService.ShowAsync<BudgetCourseEdit>(
+        //        $"{Localizer["Edit"]} {Localizer["BudgetCourse"]}",
+        //        parameters,
+        //        options);
+        //}
+        //else
+        //{
+        //    dialog = await DialogService.ShowAsync<BudgetCourseCreate>($"{Localizer["New"]} {Localizer["BudgetCourse"]}", options);
+        //}
+
+        IDialogReference? dialog = await DialogService.ShowAsync<BudgetCourseCreate>($"{Localizer["New"]} {Localizer["BudgetCourse"]}", options);
 
         var result = await dialog.Result;
 
@@ -134,11 +138,12 @@ public partial class CourseLotIndex
             await table.ReloadServerData();
         }
     }
-    private async Task DeleteAsync(CourseLot entity)
+
+    private async Task DeleteAsync(BudgetCourse entity)
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["CourseLot"],$"{entity.ProgramLot!.Program!.Name} {entity.Course!.Name}" ) }
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["BudgetCourse"], entity.Id) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -159,7 +164,7 @@ public partial class CourseLotIndex
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/courselots");
+                NavigationManager.NavigateTo("/budgetcourses");
             }
             else
             {

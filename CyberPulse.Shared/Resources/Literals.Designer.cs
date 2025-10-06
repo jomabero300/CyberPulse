@@ -502,11 +502,20 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Code.
+        /// </summary>
+        public static string CourseCode {
+            get {
+                return ResourceManager.GetString("CourseCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Course and lots.
         /// </summary>
-        public static string CourseLot {
+        public static string CourseProgramLot {
             get {
-                return ResourceManager.GetString("CourseLot", resourceCulture);
+                return ResourceManager.GetString("CourseProgramLot", resourceCulture);
             }
         }
         
@@ -543,6 +552,15 @@ namespace CyberPulse.Shared.Resources {
         public static string DateEnd {
             get {
                 return ResourceManager.GetString("DateEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The end date must be after the start date..
+        /// </summary>
+        public static string DateNoEndStart {
+            get {
+                return ResourceManager.GetString("DateNoEndStart", resourceCulture);
             }
         }
         
@@ -1537,6 +1555,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You must select a lot.
+        /// </summary>
+        public static string RequiredLot {
+            get {
+                return ResourceManager.GetString("RequiredLot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a You must select a rubro.
         /// </summary>
         public static string RequiredRubro {
@@ -1879,6 +1906,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Start date.
+        /// </summary>
+        public static string StartsDate {
+            get {
+                return ResourceManager.GetString("StartsDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a State.
         /// </summary>
         public static string State {
@@ -2163,6 +2199,24 @@ namespace CyberPulse.Shared.Resources {
         public static string Worth {
             get {
                 return ResourceManager.GetString("Worth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The value exceeds the budget of the lot.
+        /// </summary>
+        public static string WorthExceedsLotBudget {
+            get {
+                return ResourceManager.GetString("WorthExceedsLotBudget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Worth Must Be Greater Than Zero.
+        /// </summary>
+        public static string WorthMustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("WorthMustBeGreaterThanZero", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Shared.Resources;
+﻿using CyberPulse.Shared.Entities.Gene;
+using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,6 +29,10 @@ public class Budget
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double Worth { get; set; }
 
+    [Display(Name = "Statu", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int StatuId { get; set; }
+    public Statu? Statu { get; set; }
     public Validity? Validity { get; set; }
     public BudgetType? BudgetType { get; set; }
 }

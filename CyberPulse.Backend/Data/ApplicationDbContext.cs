@@ -37,7 +37,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<BudgetType> BudgetTypes { get; set; }
     public DbSet<Classe> Classes { get; set; }
     public DbSet<Course> Courses { get; set; }
-    public DbSet<CourseLot> CourseLots { get; set; }
+    public DbSet<CourseProgramLot> CourseProgramLots { get; set; }
     public DbSet<Family> Families { get; set; }
     public DbSet<InvProgram> InvPrograms { get; set; }
     public DbSet<Lot> Lots { get; set; }
@@ -73,11 +73,12 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
 
         builder.Entity<BudgetCourse>().HasIndex(x => new { x.ValidityId,x.CourseProgramLotId,x.StartDate }).IsUnique();
+        builder.Entity<BudgetCourse>().ToTable(b=>b.HasCheckConstraint("CK_EndDateGreaterthanInitial", "[EndDate] > [StartDate]"));
         builder.Entity<BudgetType>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Classe>().HasIndex(x =>x.Code).IsUnique();
         builder.Entity<Classe>().HasIndex(x =>new {x.FamilyId, x.Code, x.Name }).IsUnique();
         builder.Entity<Course>().HasIndex(x =>x.Name).IsUnique();
-        builder.Entity<CourseLot>().HasIndex(x =>new { x.CourseId,x.ProgramLotId }).IsUnique();
+        builder.Entity<CourseProgramLot>().HasIndex(x =>new { x.CourseId,x.ProgramLotId }).IsUnique();
         builder.Entity<Family>().HasIndex(x => x.Code).IsUnique();
         builder.Entity<Family>().HasIndex(x => new {x.SegmentId, x.Code, x.Name }).IsUnique();
         builder.Entity<InvProgram>().HasIndex(x => x.Name).IsUnique();

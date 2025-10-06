@@ -78,6 +78,19 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
             };
         }
 
+        var budgetlot= await _context.BudgetLots.AsNoTracking().Where(x=>x.BudgetProgramId==entity.BudgetProgramId).ToListAsync();
+
+        if(budgetlot !=null && budgetlot.Count==1)
+        {
+            var budgetProgram=await _context.BudgetPrograms.FindAsync(entity.BudgetProgramId);
+
+            if(budgetProgram != null && budgetProgram.StatuId==11)
+            {
+                budgetProgram.StatuId=1;
+                _context.Update(budgetProgram);
+            }
+        }
+        
         _context.Remove(entity);
 
         try
@@ -103,14 +116,26 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
 
     public async Task<ActionResponse<BudgetLot>> AddAsync(BudgetLotDTO entity)
     {
+
+        var validity=await _context.Validities.Where(x=>x.StatuId==1).FirstOrDefaultAsync();
+
         var model = new BudgetLot
         {
             Id = entity.Id,
+            ValidityId = validity!.Id,
             BudgetProgramId = entity.BudgetProgramId,
             ProgramLotId=entity.ProgramLotId,
             Worth = entity.Worth,
             StatuId=entity.StatuId            
         };
+
+        var budgetProgram = await _context.BudgetPrograms.FindAsync(entity.BudgetProgramId);
+
+        if(budgetProgram != null && budgetProgram.StatuId == 1)
+        {
+            budgetProgram.StatuId = 11;
+            _context.Update(budgetProgram);
+        }
 
         _context.Add(model);
 
@@ -142,11 +167,17 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
         }
     }
 
-    public async Task<IEnumerable<BudgetLot>> GetComboAsync()
+    //public async Task<IEnumerable<BudgetLot>> GetComboAsync()
+    //{
+    //    return await _context.BudgetLots
+    //                         .AsNoTracking()
+    //                         .ToListAsync();
+    //}
+    public async Task<IEnumerable<BudgetLot>> GetComboAsync(int id)
     {
         return await _context.BudgetLots
-            .AsNoTracking()
-            .ToListAsync();
+                             .AsNoTracking()
+                             .ToListAsync();
     }
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)

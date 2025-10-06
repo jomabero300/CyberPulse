@@ -1,5 +1,5 @@
 -- Suponiendo que su tabla de productos se llama 'Products'
-
+--drop PROCEDURE Inve.ProductsWithNewValidity
 CREATE PROCEDURE Inve.ProductsWithNewValidity
     @Percentage decimal(6,3),
     @ErrorCode varchar(6) OUTPUT  -- Parámetro de salida para manejar errores
