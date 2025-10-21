@@ -1,0 +1,101 @@
+﻿@page "/ChipReport"
+<h3>Reporte fichas para instructores</h3>
+
+<MudGrid>
+	<MudItem xs="12" sm="3">
+		<MudTextField Label="@Localizer["ChipNo"]"
+					  @bind-Value="@chipReport!.ChipNo"
+					  AdornmentIcon="@Icons.Material.Filled.HourglassFull"/>
+
+	</MudItem>	
+
+	<MudItem xs="12" sm="3">
+		<MudDatePicker Label="@Localizer["StartDate"]"
+						Editable="true"
+					   @bind-Date="chipReport.StartDate"
+					   PickerVariant="PickerVariant.Dialog"
+					   ShowToolbar="false" />
+	</MudItem>
+	<MudItem xs="12" sm="3">
+		<MudDatePicker Label="@Localizer["EndDate"]"
+					   Editable="true"
+					   @bind-Date="chipReport.EndDate"
+					   PickerVariant="PickerVariant.Dialog"
+					   ShowToolbar="false" />
+	</MudItem>
+	<MudItem xs="12" sm="3">
+		<MudDatePicker Label="@Localizer["AlertDate"]"
+					   Editable="true"
+					   @bind-Date="chipReport.AlertDate"
+					   PickerVariant="PickerVariant.Dialog"
+					   ShowToolbar="false" />
+	</MudItem>
+
+</MudGrid>
+<MudGrid>
+	<MudItem xs="12" sm="2">
+		<MudTextField Label="@Localizer["Instructor"]"
+					  @bind-Value="@chipReport!.Identificacion"
+					  Adornment="Adornment.End"
+					  AdornmentIcon="@Icons.Material.Filled.Search"
+					  onblur="@(() => SearchInstructor())"
+					  OnAdornmentClick="UserDialogo" />
+
+	</MudItem>
+
+	<MudItem xs="12" sm="8">
+		<MudTextField @bind-Value="chipReport!.InstructorName" Label="@Localizer["Instructor"]" Disabled="true" />
+	</MudItem>
+
+	<MudItem xs="12" sm="2">
+		<MudAutocomplete T="StatuDTO"
+						 Label=@Localizer["Statu"]
+						 Placeholder=@Localizer["SelectAStatu"]
+						 SearchFunc="SearchStatusAsync"
+						 Value="selectedStatu"
+						 ValueChanged="StatuChanged"
+						 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+						 For="@(()=>chipReport.Statu)">
+			<ItemTemplate Context="itemContext">
+				@itemContext.Name
+			</ItemTemplate>
+		</MudAutocomplete>
+
+	</MudItem>
+
+</MudGrid>
+<MudGrid>
+	<MudItem xs="12" sm="2">
+		<MudTextField Label="@Localizer["ChipProgram"]"
+					  @bind-Value="@chipReport.Code"
+					  Adornment="Adornment.End"
+					  AdornmentIcon="@Icons.Material.Filled.Search"
+					  onblur="@(() => SearchProgram())"
+					  OnAdornmentClick="ProgramDialogo" />
+
+	</MudItem>
+	<MudItem xs="12" sm="10">
+		<MudTextField @bind-Value="chipReport.ChipProgramName" Label="@Localizer["ChipProgram"]" Disabled="true" />
+	</MudItem>
+</MudGrid>
+<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+<MudButton Variant="Variant.Outlined"
+		   StartIcon="@Icons.Material.Filled.ArrowBack"
+		   Color="Color.Info"
+		   OnClick="Return">
+	@Localizer["Return"]
+</MudButton>
+
+<MudButton Variant="Variant.Outlined"
+		   StartIcon="@Icons.Material.Filled.PictureAsPdf"
+		   Color="Color.Primary"
+		   OnClick="ReportPdf">
+	@Localizer["ReportPdf"]
+</MudButton>
+
+<MudButton Variant="Variant.Outlined"
+		   StartIcon="@Icons.Custom.FileFormats.FileExcel"
+		   Color="Color.Warning"
+		   OnClick="ReportExcel">
+	@Localizer["ReportExcel"]
+</MudButton>

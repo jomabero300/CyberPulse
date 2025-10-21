@@ -1,0 +1,47 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+	<DataAnnotationsValidator />
+
+	<MudTextField Label="@Localizer["Rubro"]"
+				  @bind-Value="@BudgetDTO.Rubro"
+				  For="@(() => BudgetDTO.Rubro)"
+				  class="mb-3" />
+
+	<MudTextField Label="@Localizer["Worth"]"
+				  @bind-Value="@BudgetDTO.Worth"
+				  For="@(() => BudgetDTO.Worth)"
+				  class="mb-3" />
+
+	<MudAutocomplete T="ValidityDTO"
+		Disabled="true"
+					 Label=@Localizer["Validity"]
+					 Placeholder=@Localizer["SelectAValidity"]
+					 SearchFunc="SearchValidity"
+					 Value="selectedValidity"
+					 ValueChanged="ValidityChanged"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Value}")"
+					 For="@(() => BudgetDTO.Validity)">
+		<ItemTemplate Context="itemContext">
+			@itemContext.Value
+		</ItemTemplate>
+	</MudAutocomplete>
+
+
+	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.ArrowBack"
+			   Color="Color.Info"
+			   OnClick="ReturnAction">
+		@Localizer["Return"]
+	</MudButton>
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.Check"
+			   Color="Color.Primary"
+			   ButtonType="ButtonType.Submit">
+		@Localizer["SaveChanges"]
+	</MudButton>
+</EditForm>

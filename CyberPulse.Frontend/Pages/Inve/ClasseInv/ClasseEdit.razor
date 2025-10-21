@@ -1,0 +1,12 @@
+﻿@if (ClasseDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ClasseForm @ref="ClasseForm" ClasseDTO="ClasseDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

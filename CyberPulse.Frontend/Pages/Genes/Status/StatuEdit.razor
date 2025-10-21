@@ -1,0 +1,12 @@
+﻿@if (statu is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<StatuForm @ref="statuForm" Statu="statu" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

@@ -1,0 +1,68 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+	<DataAnnotationsValidator />
+
+	<MudAutocomplete T="ValidityDTO"
+					 Label=@Localizer["Validity"]
+					 Placeholder=@Localizer["SelectAValidity"]
+					 SearchFunc="SearchValidity"
+					 Value="selectedValidity"
+					 ValueChanged="ValidityChanged"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Value}")">
+		<ItemTemplate Context="itemContext">
+			@itemContext.Value
+		</ItemTemplate>
+	</MudAutocomplete>
+
+	<MudAutocomplete T="IvaDTO"
+					 Label=@Localizer["Iva"]
+					 Placeholder=@Localizer["SelectAIva"]
+					 SearchFunc="SearchIva"
+					 Value="selectedIva"
+					 ValueChanged="IvaChanged"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
+		<ItemTemplate Context="itemContext">
+			@itemContext.Name
+		</ItemTemplate>
+	</MudAutocomplete>
+
+	<MudAutocomplete T="ProductDTO"
+					 Label=@Localizer["Product"]
+					 Placeholder=@Localizer["SelectAProduct"]
+					 SearchFunc="SearchProduct"
+					 Value="selectedProduct"
+					 ValueChanged="ProductChanged"
+					 ToStringFunc="@(e=> e==null ?null : $"{e.Name} {e.Description}")">
+		<ItemTemplate Context="itemContext">
+			@itemContext.Code - @itemContext.Name @itemContext.Description
+		</ItemTemplate>
+	</MudAutocomplete>
+
+	<MudTextField Label="@Localizer["Worth"]"
+				  @bind-Value="@ProductCurrentValueDTO.Worth"
+				  For="@(() => ProductCurrentValueDTO.Worth)"
+				  class="mb-3" />
+	<MudTextField Label="@Localizer["Percentage"]"
+				  @bind-Value="@ProductCurrentValueDTO.Percentage"
+				  For="@(() => ProductCurrentValueDTO.Percentage)"
+				  class="mb-3" />
+
+
+	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.ArrowBack"
+			   Color="Color.Info"
+			   OnClick="ReturnAction">
+		@Localizer["Return"]
+	</MudButton>
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.Check"
+			   Color="Color.Primary"
+			   ButtonType="ButtonType.Submit">
+		@Localizer["SaveChanges"]
+	</MudButton>
+</EditForm>

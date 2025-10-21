@@ -1,0 +1,12 @@
+﻿@if (chipCoordinator is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ChipCoordinatorForm @ref="chipCoordinatorForm" chipCoordinator="chipCoordinator" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

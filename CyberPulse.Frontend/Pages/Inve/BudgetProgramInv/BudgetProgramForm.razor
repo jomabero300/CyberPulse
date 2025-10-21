@@ -1,0 +1,65 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator />
+
+    <MudAutocomplete T="BudgetDTO"
+                     Label=@Localizer["Budget"]
+                     Disabled="_enabled"
+                     Placeholder=@Localizer["SelectABudget"]
+                     SearchFunc="SearchBudget"
+                     Value="selectedBudget"
+                     ValueChanged="BudgetChanged"
+                     ToStringFunc="@(e=> e==null?null :$"{e.Rubro} - {e.Worth:N2}" )"
+                     For="@(() => BudgetProgramDTO.Budget)">
+        <ItemTemplate Context="itemContext">
+            Rubro: @itemContext.Rubro Monto: @itemContext.Worth.ToString("N2")
+        </ItemTemplate>
+    </MudAutocomplete>
+
+    <MudAutocomplete T="InvProgramDTO"
+                     Disabled="_enabled"
+                     Label=@Localizer["Program"]
+                     Placeholder=@Localizer["SelectAProgram"]
+                     SearchFunc="SearchProgram"
+                     Value="selectedProgram"
+                     ValueChanged="ProgramChanged"
+                     ToStringFunc="@(e=> e==null?null : e.Name)"
+                     For="@(() => BudgetProgramDTO.Program)">
+        <ItemTemplate Context="itemContext">
+            @itemContext.Name @itemContext.StatuId
+        </ItemTemplate>
+    </MudAutocomplete>
+
+    <MudForm Model="BudgetProgramDTO">
+        <MudTextField Label="@Localizer["Worth"]"
+                      @bind-Value="@BudgetProgramDTO.Worth"
+                      For="@(() => BudgetProgramDTO.Worth)"
+                      onblur="@(() => ValidateWorth())"
+                      InputType="InputType.Number"
+                      Error="@_worthHasError"
+                      ErrorText="@_worthErrorMessage"
+                      class="mb-3" />
+
+    </MudForm>
+
+    <MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+
+    <MudButton Variant="Variant.Outlined"
+               Size="Size.Small"
+               StartIcon="@Icons.Material.Filled.ArrowBack"
+               Color="Color.Success"
+               OnClick="ReturnAction">
+        @Localizer["Return"]
+    </MudButton>
+    <MudButton Variant="Variant.Outlined"
+               Size="Size.Small"
+               StartIcon="@Icons.Material.Filled.Check"
+               Color="Color.Primary"
+               ButtonType="ButtonType.Submit">
+        @Localizer["SaveChanges"]
+    </MudButton>
+
+</EditForm>

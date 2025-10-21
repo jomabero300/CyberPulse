@@ -1,0 +1,33 @@
+﻿@using System.Globalization
+@using MudBlazor
+@inject IDialogService DialogService
+
+<MudDialog>
+    <DialogContent>
+        <MudTable Items="@chips" Dense="true" Hover="true">
+            <HeaderContent>
+                <MudTh>Ficha No</MudTh>
+                <MudTh>Instructor</MudTh>
+                <MudTh>Programa</MudTh>
+                <MudTh>F.Inicio</MudTh>
+                <MudTh>F.Final</MudTh>
+                <MudTh>F.Alerta</MudTh>
+                <MudTh>Estado</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.ChipNo</MudTd>
+                <MudTd>@context.Instructor.FirstName</MudTd>
+                <MudTd>@context.ChipProgram.Designation.Substring(0, Math.Min(15, context.ChipProgram.Designation.Length))</MudTd>
+                <MudTd>@context.StartDate.ToString("dd/MM/yyyy")</MudTd>
+                <MudTd>@(context.EndDate.ToString("dd/MM/yyyy"))</MudTd>
+                <MudTd>@(context.AlertDate.ToString("dd/MM/yyyy"))</MudTd>
+                <MudTd>Enviado</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="@(() => MudDialog.Close())">Cerrar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+

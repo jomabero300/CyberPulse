@@ -1,0 +1,176 @@
+using CyberPulse.Frontend.Respositories;
+using CyberPulse.Frontend.Shared;
+using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
+using MudBlazor;
+using System.Net;
+
+namespace CyberPulse.Frontend.Pages.Inve.BudgetLotInv;
+
+public partial class BudgetLotIndex
+{
+    private List<BudgetLotIndexDTO>? budgetLots { get; set; }
+    private MudTable<BudgetLotIndexDTO> table = new();
+    private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
+    private int totalRecords = 0;
+    private bool loading;
+    private const string baseUrl = "api/budgetlots";
+    private string infoFormat = "{first_item}-{last_item} => {all_items}";
+
+    [Inject] private IRepository repository { get; set; } = null!;
+    [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
+    [Inject] private IDialogService DialogService { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+    [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
+    [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTotalRecordsAsync();
+    }
+    private async Task LoadTotalRecordsAsync()
+    {
+        loading = true;
+
+        var url = $"{baseUrl}/TotalRecordsPaginated";
+
+        if (!string.IsNullOrWhiteSpace(Filter))
+        {
+            url += $"?filter={Filter}";
+        }
+
+        var responseHttp = await repository.GetAsync<int>(url);
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+
+            Snackbar.Add(Localizer[message!], Severity.Error);
+            return;
+        }
+
+        totalRecords = responseHttp.Response;
+
+        loading = false;
+    }
+    private async Task<TableData<BudgetLotIndexDTO>> LoadListAsync(TableState state, CancellationToken cancellationToken)
+    {
+        int page = state.Page + 1;
+
+        int pageSize = state.PageSize;
+
+        var url = $"{baseUrl}/paginated/?page={page}&recordsnumber={pageSize}";
+
+        if (!string.IsNullOrWhiteSpace(Filter))
+        {
+            url += $"&filter={Filter}";
+        }
+
+        var responseHttp = await repository.GetAsync<List<BudgetLotIndexDTO>>(url);
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+
+            Snackbar.Add(Localizer[message!], Severity.Error);
+
+            return new TableData<BudgetLotIndexDTO> { Items = [], TotalItems = 0 };
+        }
+
+        if (responseHttp.Response == null)
+        {
+            return new TableData<BudgetLotIndexDTO> { Items = [], TotalItems = 0 };
+        }
+
+        return new TableData<BudgetLotIndexDTO>
+        {
+            Items = responseHttp.Response,
+
+            TotalItems = totalRecords
+        };
+    }
+
+    private async Task SetFilterValue(string value)
+    {
+        Filter = value;
+
+        await LoadTotalRecordsAsync();
+
+        await table.ReloadServerData();
+    }
+    private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+    {
+        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
+
+        IDialogReference? dialog;
+
+        if (isEdit)
+        {
+
+            var parameters = new DialogParameters
+            {
+                { "Id", id }
+            };
+            dialog = await DialogService.ShowAsync<BudgetLotEdit>(
+                $"{Localizer["Edit"]} {Localizer["Budget"]}",
+                parameters,
+                options);
+        }
+        else
+        {
+            dialog = await DialogService.ShowAsync<BudgetLotCreate>($"{Localizer["New"]} {Localizer["Budget"]}", options);
+        }
+
+        var result = await dialog.Result;
+
+        if (result!.Canceled)
+        {
+            await LoadTotalRecordsAsync();
+
+            await table.ReloadServerData();
+        }
+    }
+    private async Task DeleteAsync(BudgetLotIndexDTO entity)
+    {
+        var parameters = new DialogParameters
+        {
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Budget"], entity.Id) }
+        };
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["Confirmation"], parameters, options);
+
+        var result = await dialog.Result;
+
+        if (result!.Canceled)
+        {
+            return;
+        }
+
+
+        var responseHttp = await repository.DeleteAsync($"{baseUrl}/full/{entity.Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                NavigationManager.NavigateTo("/budgetlots");
+            }
+            else
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                Snackbar.Add(Localizer[message!], Severity.Error);
+            }
+            return;
+        }
+
+        await LoadTotalRecordsAsync();
+
+        await table.ReloadServerData();
+
+        Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
+    }
+}

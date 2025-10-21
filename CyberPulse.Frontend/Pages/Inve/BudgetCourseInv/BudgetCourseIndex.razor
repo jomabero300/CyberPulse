@@ -1,0 +1,65 @@
+﻿@page "/budgetcourses"
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudTable Items="@BudgetCourses"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true">
+        <ToolBarContent>
+            <div class="d-flex justify-content-between">
+                <MudText Typo="Typo.h6" Class="me-4"> @Localizer["BudgetCourse"]</MudText>
+                <MudButton Variant="Variant.Outlined"
+                           EndIcon="@Icons.Material.Filled.Add"
+                           Color="Color.Info" OnClick="@(() => ShowModalAsync())">
+                    @Localizer["New"]
+                </MudButton>
+            </div>
+            <MudSpacer />
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>@Localizer["Code"]</MudTh>
+            <MudTh>@Localizer["Course"]</MudTh>
+            <MudTh>@Localizer["StartDate"]</MudTh>
+            <MudTh>@Localizer["EndDate"]</MudTh>
+            <MudTh>@Localizer["Worth"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
+            <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.CourseProgramLot!.Course!.Code</MudTd>
+            <MudTd>@context.CourseProgramLot!.Course!.Name</MudTd>
+            <MudTd>@context.StartDate!.Value.ToShortDateString()</MudTd>
+            <MudTd>@context.EndDate!.Value.ToShortDateString()</MudTd>
+            <MudTd>@context.Worth.ToString("N2")</MudTd>
+            <MudTd>@context.Statu.Name</MudTd>
+            <MudTd Class="text-center">
+                <MudTooltip Text="@Localizer["Delete"]">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Error"
+                               OnClick="@(() => DeleteAsync(@context))">
+                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                    </MudButton>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+    </MudTable>
+}

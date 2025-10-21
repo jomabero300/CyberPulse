@@ -1,0 +1,80 @@
+﻿@if (loading)
+{
+    <Loading />
+}
+else
+{
+	<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+	<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+		<MudGrid>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["Instructor"]"
+							  Disabled="@DisabledEjecutarChipNo"
+							  @bind-Value="@chipCoordinator.Identificacion"
+							  Adornment="Adornment.End"
+							  AdornmentIcon="@Icons.Material.Filled.Search"
+							  For="@(() => chipCoordinator.Identificacion)"
+							  onblur="@(() => SearchInstructor())"
+							  OnAdornmentClick="UserDialogo" />
+
+			</MudItem>
+
+			<MudItem xs="12" sm="10">
+				<MudTextField @bind-Value="chipCoordinator.InstructorName" Label="@Localizer["Instructor"]" Disabled="true" />
+			</MudItem>
+		</MudGrid>
+		<MudGrid>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["ChipProgram"]"
+							  Disabled="@DisabledEjecutarChipNo"
+							  @bind-Value="@chipCoordinator.Code"
+							  Adornment="Adornment.End"
+							  AdornmentIcon="@Icons.Material.Filled.Search"
+							  For="@(() => chipCoordinator.Code)"
+							  onblur="@(() => SearchProgram())"
+							  OnAdornmentClick="ProgramDialogo"/>
+
+			</MudItem>
+			<MudItem xs="12" sm="10">
+				<MudTextField @bind-Value="chipCoordinator.ChipProgramName" Label="@Localizer["ChipProgram"]" Disabled="true" />
+			</MudItem>
+		</MudGrid>
+
+		<MudGrid>
+			<MudItem xs="12" sm="3">
+				<MudDatePicker Label="@Localizer["StarDate"]"
+							   Disabled="@DisabledEjecutarChipNo"
+								@bind-Date="chipCoordinator.StartDate"
+								PickerVariant="PickerVariant.Dialog"
+								MinDate="@minDate"
+							   For="@(()=>chipCoordinator.StartDate)"
+							   ShowToolbar="false" />
+			</MudItem>
+
+			<MudItem xs="12" sm="3">
+				<MudTextField Label="@Localizer["ChipNo"]"
+							  @bind-Value="@chipCoordinator.ChipNo"
+							  AdornmentIcon="@Icons.Material.Filled.HourglassFull"
+							  For="@(() => chipCoordinator.ChipNo)"/>
+
+			</MudItem>
+		</MudGrid>
+
+		<MudDivider DividerType="DividerType.Inset" />
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.ArrowBack"
+				   Color="Color.Info"
+				   OnClick="ReturnAction">
+			@Localizer["Return"]
+		</MudButton>
+
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.Check"
+				   Color="Color.Primary"
+				   ButtonType="ButtonType.Submit">
+			@Localizer["SaveChanges"]
+		</MudButton>
+
+	</EditForm>
+}

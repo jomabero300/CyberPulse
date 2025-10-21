@@ -1,0 +1,38 @@
+﻿@page "/uploadFile"
+
+<h3>Cargar Archivo Excel</h3>
+
+<EditForm Model="@uploadModel" OnValidSubmit="@HandleValidSubmit" enctype="multipart/form-data">
+    <div class="mb-3">
+        <InputFile OnChange="@OnInputFileChange" class="form-control" />
+        <ValidationMessage For="@(() => uploadModel.File)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@isLoading">
+        @if (isLoading)
+        {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span>Procesando...</span>
+        }
+        else
+        {
+            <span>Subir Archivo</span>
+        }
+    </button>
+
+
+</EditForm>
+
+@if (!string.IsNullOrEmpty(resultMessage))
+{
+    <div class="alert alert-info mt-3">
+        @resultMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mt-3">
+        @errorMessage
+    </div>
+}

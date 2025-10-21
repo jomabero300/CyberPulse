@@ -1,0 +1,12 @@
+﻿@if (ProductCurrentValueDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ProductCurrentValueForm @ref="ProductCurrentValueForm" ProductCurrentValueDTO="ProductCurrentValueDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

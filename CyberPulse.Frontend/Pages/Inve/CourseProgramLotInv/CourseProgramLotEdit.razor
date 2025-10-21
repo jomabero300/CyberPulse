@@ -1,0 +1,12 @@
+﻿@if (courseProgramLotDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<CourseProgramLotForm @ref="courseProgramLotForm" CourseLotDTO="courseProgramLotDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

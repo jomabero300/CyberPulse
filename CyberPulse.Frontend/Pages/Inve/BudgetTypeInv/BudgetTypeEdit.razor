@@ -1,0 +1,12 @@
+﻿@if (BudgetType is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<BudgetTypeForm @ref="budgetTypeForm" BudgetType="BudgetType" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

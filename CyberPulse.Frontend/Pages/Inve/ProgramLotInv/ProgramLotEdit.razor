@@ -1,0 +1,12 @@
+﻿@if (programLotDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ProgramLotForm @ref="programLotForm" ProgramLotDTO="programLotDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

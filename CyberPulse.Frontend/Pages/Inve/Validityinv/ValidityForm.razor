@@ -1,0 +1,28 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+	<DataAnnotationsValidator />
+
+	<MudTextField Label="@Localizer["Validity"]"
+				 Disabled="@ValidityDTO.IsInvalid"
+				  @bind-Value="@ValidityDTO.Value"
+				  For="@(() => ValidityDTO.Value)"
+				  class="mb-3" />
+
+	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.ArrowBack"
+			   Color="Color.Info"
+			   OnClick="ReturnAction">
+		@Localizer["Return"]
+	</MudButton>
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.Check"
+			   Color="Color.Primary"
+			   ButtonType="ButtonType.Submit">
+		@Localizer["SaveChanges"]
+	</MudButton>
+</EditForm>

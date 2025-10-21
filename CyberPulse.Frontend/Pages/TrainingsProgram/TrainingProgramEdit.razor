@@ -1,0 +1,12 @@
+﻿@if (trainingProgram is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<TrainingProgramForm @ref="trainingProgramForm" trainingProgram="trainingProgram" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

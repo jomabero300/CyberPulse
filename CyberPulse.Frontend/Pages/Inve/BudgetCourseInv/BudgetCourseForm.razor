@@ -1,0 +1,106 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+	<DataAnnotationsValidator />
+	<MudGrid>
+		<MudItem xs="12">
+			<MudAutocomplete T="BudgetProgram2DTO"
+							 Label=@Localizer["Program"]
+							 Disabled="_disable"
+							 Placeholder=@Localizer["SelectAProgram"]
+							 SearchFunc="SearchBudgetProgram"
+							 Value="selectedBudgetProgram"
+							 ValueChanged="BudgetProgramChanged"
+							 ToStringFunc="@(e=> e==null?null : $"{e.Program!.Name} {e.Worth:N2} {e.BudgetType!.Name}")"
+							 For="@(() => BudgetCourseDTO.BudgetProgram)">
+				<ItemTemplate Context="itemContext">
+					@itemContext.Program!.Name @itemContext.Worth.ToString("N2") @itemContext.BudgetType!.Name
+				</ItemTemplate>
+			</MudAutocomplete>
+		</MudItem>
+		<MudItem xs="12">
+				<MudAutocomplete T="BudgetLot1DTO"
+								 Label=@Localizer["Lot"]
+								 Disabled="_disable"
+								 Placeholder=@Localizer["SelectALot"]
+								 SearchFunc="SearchLot"
+								 Value="selectedBudgetLot"
+								 ValueChanged="LotChanged"
+								 ToStringFunc="@(e=> e==null?null :$"{e.ProgramLot!.Lot!.Name} {e.Worth:N2}")"
+								 For="@(() => BudgetCourseDTO.BudgetLot)">
+					<ItemTemplate Context="itemContext">
+                    @itemContext.ProgramLot!.Lot!.Name @itemContext.Worth.ToString("N2")
+                </ItemTemplate>
+				</MudAutocomplete>
+
+		</MudItem>
+		<MudItem xs="12">
+			<MudAutocomplete T="CourseProgramLot1DTO"
+							 Label=@Localizer["Course"]
+							 Disabled="_disable"
+							 Placeholder=@Localizer["SelectACourse"]
+							 SearchFunc="SearchCourses"
+							 Value="selectedCourse"
+							 ValueChanged="CoursesChanged"
+							 ToStringFunc="@(e=> e==null?null : e.Course!.Name)"
+							 For="@(() => BudgetCourseDTO.CourseProgramLot)">
+				<ItemTemplate Context="itemContext">
+					@itemContext.Course!.Code - @itemContext.Course!.Name 
+				</ItemTemplate>
+			</MudAutocomplete>
+		</MudItem>
+		<MudItem xs="12" sm="4">
+			<MudDatePicker Label="@Localizer["StartsDate"]"
+						   Editable="true"
+						   @bind-Date="@BudgetCourseDTO.StartDate"
+						   Adornment="Adornment.End"
+						   AdornmentIcon="@Icons.Material.Filled.CalendarToday"
+						   PickerVariant="PickerVariant.Dialog"
+						   ShowToolbar="false" 
+						   MinDate="@minDate"
+						   For="(()=>BudgetCourseDTO.StartDate)"
+						   class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="4">
+			<MudDatePicker Label="@Localizer["EndDate"]"
+						   Editable="true"
+						   @bind-Date="@BudgetCourseDTO.EndDate"
+						   Adornment="Adornment.End"
+						   AdornmentIcon="@Icons.Material.Filled.CalendarToday"
+						   PickerVariant="PickerVariant.Dialog"
+						   ShowToolbar="false" 
+						   For="@(()=>BudgetCourseDTO.EndDate)"
+						   class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="4">
+			<MudTextField Label="@Localizer["Worth"]"
+						  @bind-Value="@BudgetCourseDTO.Worth"
+						  For="@(() => BudgetCourseDTO.Worth)"
+						  onblur="@(() => ValidateWorth())"
+						  InputType="InputType.Number"
+						  Error="@_worthHasError"
+						  ErrorText="@_worthErrorMessage"
+						  class="mb-3" />
+
+		</MudItem>
+	</MudGrid>
+
+	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.ArrowBack"
+			   Color="Color.Info"
+			   OnClick="ReturnAction">
+		@Localizer["Return"]
+	</MudButton>
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.Check"
+			   Color="Color.Primary"
+			   ButtonType="ButtonType.Submit">
+		@Localizer["SaveChanges"]
+	</MudButton>
+</EditForm>

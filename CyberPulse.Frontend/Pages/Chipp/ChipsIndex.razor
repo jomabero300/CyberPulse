@@ -1,0 +1,178 @@
+﻿@page "/chips"
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudTable Items="@chips"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true">
+        <ToolBarContent>
+            @if (indEsta != 2)
+            {
+                <div class="d-flex justify-content-between">
+                    <MudText Typo="Typo.h6" Class="me-4"> @Localizer["Chip"]</MudText>
+                    <MudButton Variant="Variant.Outlined"
+                               EndIcon="@Icons.Material.Filled.Add"
+                               Color="Color.Info" 
+                               OnClick="@(() => ShowModalAsync())">
+                        @Localizer["New"]
+                    </MudButton>
+                </div>
+            }
+            <MudSpacer />
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>@Localizer["ChipNo"]</MudTh>
+            @if(indEsta<2)
+            {
+                <MudTh>@Localizer["Usua"]</MudTh>
+                
+            }
+            <MudTh>@Localizer["ChipProgram"]</MudTh>
+            <MudTh>@Localizer["Apprentices"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
+            <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd Style="width:100px">@context.ChipNo</MudTd>
+            @if(indEsta<2)
+            {
+                <MudTd Class="text-center"  Style="width:125px">@context.Instructor.FullName</MudTd>
+            }
+            <MudTd>@context.ChipProgram.Designation</MudTd>
+            <MudTd Class="text-center"  Style="width:125px">@context.Apprentices</MudTd>
+            <MudTd Class="text-center"  Style="width:125px">@context.Statu.Name</MudTd>
+            <MudTd Class="text-center me-2" Style="width:300px">
+
+                @if(indEsta==1 && context.StatuId<8) @* Coordinador *@
+                {
+                    @if(context.Statu.Name=="Creada")
+                    {
+                        <MudTooltip Text="@Localizer["Send"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       OnClick="@(() => ShowModalOpAsync(context.Id))">
+                                <MudIcon Icon="@Icons.Material.Filled.Send" />
+                            </MudButton>
+                        </MudTooltip>
+
+                        <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Warning"
+                                       OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                    
+                        <MudTooltip Text="@Localizer["Delete"]">
+                            <MudButton Size="Size.Small"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Error"
+                                       OnClick="@(() => DeleteAsync(@context))">
+                                <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                            </MudButton>
+                        </MudTooltip>
+                    }
+                    
+                }
+                else @if(indEsta==2 && (@context.StatuId==7 || @context.StatuId==8)) @* instructor *@
+                {
+                    <MudTooltip Text="@Localizer["Send"]">
+                        <MudButton Size="Size.Small"
+                                   Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@(() => ShowModalOpAsync(context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Send" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                        Disabled="@lbEsta"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Warning"
+                                       OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                }
+                else @if(indEsta==1 && context.StatuId ==9)
+                {
+                    @if(string.IsNullOrWhiteSpace(context.ChipNo) )
+                    {
+                        <MudTooltip Text="@Localizer["Edit"]">
+                            <MudButton Size="Size.Small"
+                                        Variant="Variant.Filled"
+                                        Color="Color.Warning"
+                                        OnClick="@(() => ShowModalAsync(context.Id, true))">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                            </MudButton>
+                        </MudTooltip>
+                    }
+
+                    //ejecutar, rechazar ver informe
+                    <MudTooltip Text="@Localizer["ChipView"]">
+                        <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Info"
+                                   OnClick="@(() => ActionAsync("V", context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Preview" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["ChipExecute"]">
+                        <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Success"
+                                   OnClick="@(() => ActionAsync("E",context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.DirectionsRun" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["ChipDecline"]">
+                        <MudButton Size="Size.Small"
+                                    Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(() => ActionAsync("D",context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.DoNotTouch" />
+                        </MudButton>
+                    </MudTooltip>
+                }
+                else @if(context.StatuId==11)
+                {
+                    <MudTooltip Text="@Localizer["ChipView"]">
+                        <MudButton Size="Size.Small"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Info"
+                                   OnClick="@(() => ActionAsync("V", context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Preview" />
+                        </MudButton>
+                    </MudTooltip>
+                }
+
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+    </MudTable>
+}

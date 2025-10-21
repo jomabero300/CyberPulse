@@ -1,39 +1,110 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">CyberPulse.Frontend</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.Home">@Localizer["Home"]</MudNavLink>
+    <MudDivider />
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+@*     <MudNavGroup Title="Inventrios" Icon="@Icons.Material.Filled.FactCheck" @bind-Expanded=_expandedInv>
+        <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+        <MudDivider />
 
-@code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+    </MudNavGroup>
+    <MudNavGroup Title="Fichas" Icon="@Icons.Material.Filled.Settings" @bind-Expanded=_expandedChi>
+        <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+        <MudDivider />
+
+
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Success">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
+
+    </MudNavGroup> *@
+
+    <AuthorizeView Roles="Admi">
+        <Authorized>
+            <MudNavGroup Title="General" Expanded="false">
+                <MudNavLink Href="/status" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pix">@Localizer["Status"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/uploadFile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FileUpload">@Localizer["uploadFile"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SupervisedUserCircle">@Localizer["Users"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/ivas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">@Localizer["Ivas"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/programs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["TrainingPrograms"]</MudNavLink>
+                <MudDivider />
+                <MudNavLink Href="/validities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ModelTraining">@Localizer["Validity"]</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Inventarios" Expanded="false">
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="Unspsc " Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/segments" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Segment">@Localizer["Segments"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/families" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Subject">@Localizer["Families"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/classes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Class">@Localizer["Classes"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["InvPrograms"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/invprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Apps">@Localizer["InvPrograms"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/lots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BatchPrediction">@Localizer["Lots"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/programlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Assignment">@Localizer["ProgramLots"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["Courses"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/courses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.FactCheck">@Localizer["Courses"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/courseprogramlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PlaylistAddCheck">@Localizer["CourseProgramLot"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Dataset" Title="@Localizer["Products"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/unitmeasurements" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["UnitMeasurements"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/products" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Products"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/productcurrentvalues" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["ProductCurrentValue"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.AttachMoney" Title="@Localizer["Budgets"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/budgettypes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">@Localizer["BudgetTypes"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/budgets" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["Budgets"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/budgetprograms" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetPrograms"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/budgetlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetLots"]</MudNavLink>
+                    <MudDivider />
+                    <MudNavLink Href="/budgetcourses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetCourse"]</MudNavLink>
+                </MudNavGroup>
+
+            </MudNavGroup>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Coor">
+        <Authorized>
+            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+            <MudDivider />
+            <MudNavLink Href="/ChipReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Analytics">Reporte</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Inst">
+        <Authorized>
+            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+            <MudDivider />
+        </Authorized>
+    </AuthorizeView>
+    <MudDivider />
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">@Localizer["About"]</MudNavLink>
+
+</MudNavMenu>

@@ -1,0 +1,12 @@
+﻿@if (familyDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<FamilyForm @ref="familyForm" FamilyDTO="familyDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}
