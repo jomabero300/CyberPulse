@@ -32,6 +32,7 @@ else
             <MudTh>@Localizer["lot"]</MudTh>
             <MudTh>@Localizer["Worth"]</MudTh>
             <MudTh>@Localizer["Balance"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -40,21 +41,25 @@ else
             <MudTd>@context.ProgramLot!.Lot!.Name</MudTd>
             <MudTd>@context.Worth.ToString("N2")</MudTd>
             <MudTd>@context.Balance.ToString("N2")</MudTd>
+            <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
-                <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Warning"
-                               OnClick="@(() => ShowModalAsync(context.Id, true))">
-                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
-                    </MudButton>
-                </MudTooltip>
-                <MudTooltip Text="@Localizer["Delete"]">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Error"
-                               OnClick="@(() => DeleteAsync(@context))">
-                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
-                    </MudButton>
-                </MudTooltip>
+                @if(context.StatuId==1)
+                {
+                    <MudTooltip Text="@Localizer["Edit"]">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Warning"
+                                   OnClick="@(() => ShowModalAsync(context.Id, true))">
+                            <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["Delete"]">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(() => DeleteAsync(@context))">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                        </MudButton>
+                    </MudTooltip>
+                }
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

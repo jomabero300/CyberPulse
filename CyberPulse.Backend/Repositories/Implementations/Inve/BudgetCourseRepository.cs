@@ -43,6 +43,7 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
     public override async Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = _context.BudgetCourses.AsNoTracking()
+            .Include(x=>x.Statu)
             .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
             .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
             .Where(w => w.Validity!.StatuId == 1)
@@ -124,6 +125,14 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             Worth = entity.Worth,
             StatuId = 1,
         };
+
+        var budgetStatu = await _context.BudgetLots.FindAsync(entity.BudgetLotId);
+        if (budgetStatu != null && budgetStatu.StatuId == 1)
+        {
+            budgetStatu.StatuId = 11;
+            _context.Update(budgetStatu);
+        }
+
 
         _context.Add(model);
 

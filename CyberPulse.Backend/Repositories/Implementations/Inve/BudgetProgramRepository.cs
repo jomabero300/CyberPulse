@@ -279,16 +279,15 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
 
     public async Task<ActionResponse<double>> GetBalanceAsync(int id)
     {
-        var balance = await _context.BudgetPrograms
+        var balance =await _context.BudgetPrograms
                                    .AsNoTracking()
                                    .Include(x => x.Statu)
                                    .Where(x => x.BudgetId == id)
                                    .SumAsync(x => (double)x.Worth);
-
-        return new ActionResponse<double>
-        {
-            WasSuccess = true,
-            Result = (double)balance
+        return new ActionResponse<double> 
+        { 
+            WasSuccess = true, 
+            Result = (double)balance 
         };
     }
 }

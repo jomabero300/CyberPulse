@@ -46,6 +46,7 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
             .Include(pl=>pl.ProgramLot).ThenInclude(x=>x!.Program)
             .Include(x => x.ProgramLot).ThenInclude(x=>x!.Lot)
             .Include(v=>v.BudgetProgram).ThenInclude(x=>x!.Validity)
+            .Include(x=>x.Statu)
             .Where(w=>w.BudgetProgram!.Validity!.StatuId==1)
             .AsQueryable();
 
@@ -200,6 +201,7 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
                                 .Include(pl => pl.ProgramLot).ThenInclude(x => x!.Program)
                                 .Include(x => x.ProgramLot).ThenInclude(x => x!.Lot)
                                 .Include(v => v.BudgetProgram).ThenInclude(x => x!.Validity)
+                                .Include(x => x.Statu)
                                 .Where(w => w.BudgetProgram!.Validity!.StatuId == 1)
                                 .AsQueryable();
 

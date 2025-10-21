@@ -44,14 +44,13 @@ public class BudgetLotsController : GenericController<BudgetLot>
 
         if (response.WasSuccess)
         {
-            //BudgetLotIndexDTO
-            var budgetTasks = response.Result!.Select(async x =>
+            var budget=new List<BudgetLotIndexDTO>();
+
+            foreach (var x in response.Result!)
             {
                 var balanceResponse = await _budgetCourseUnitOfWork.GetBalanceAsync(x.Id);
-
                 double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
-
-                return new BudgetLotIndexDTO
+                budget.Add(new BudgetLotIndexDTO
                 {
                     Id = x.Id,
                     BudgetProgramId= x.BudgetProgramId,
@@ -63,10 +62,31 @@ public class BudgetLotsController : GenericController<BudgetLot>
                     Statu = x.Statu,
                     BudgetProgram = x.BudgetProgram,
                     ProgramLot = x.ProgramLot,
-                };
-            });
+                });
+            }
 
-            var budget = await Task.WhenAll(budgetTasks);
+            //var budgetTasks = response.Result!.Select(async x =>
+            //{
+            //    var balanceResponse = await _budgetCourseUnitOfWork.GetBalanceAsync(x.Id);
+
+            //    double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+
+            //    return new BudgetLotIndexDTO
+            //    {
+            //        Id = x.Id,
+            //        BudgetProgramId= x.BudgetProgramId,
+            //        ProgramLotId= x.ProgramLotId,
+            //        Validity = x.Validity,
+            //        Worth = x.Worth,
+            //        StatuId = x.StatuId,
+            //        Balance = x.Worth - useBalance,
+            //        Statu = x.Statu,
+            //        BudgetProgram = x.BudgetProgram,
+            //        ProgramLot = x.ProgramLot,
+            //    };
+            //});
+
+            //var budget = await Task.WhenAll(budgetTasks);
 
             return Ok(budget);
         }

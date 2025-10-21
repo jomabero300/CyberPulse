@@ -43,28 +43,54 @@ public class BudgetsController : GenericController<Budget>
 
         if (response.WasSuccess)
         {
-            var budgetTasks = response.Result!.Select(async x =>
+
+            var budget=new List<Budget1DTO>();
+
+            foreach (var item in response.Result!)
             {
-                var balanceResponse = await _budgetProgramUnitOf.GetBalanceAsync(x.Id);
+                var balanceResponse = await _budgetProgramUnitOf.GetBalanceAsync(item.Id);
 
                 double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
 
-                return new Budget1DTO
+                budget.Add(new Budget1DTO
                 {
-                    Id = x.Id,
-                    BudgetType = x.BudgetType,
-                    BudgetTypeId = x.BudgetTypeId,
-                    Validity = x.Validity,
-                    ValidityId = x.ValidityId,
-                    Rubro = x.Rubro,
-                    Worth = x.Worth,
-                    Balance = x.Worth - useBalance,
-                    Statu = x.Statu,
-                    StatuId = x.StatuId
-                };
-            });
+                    Id = item.Id,
+                    BudgetType = item.BudgetType,
+                    BudgetTypeId = item.BudgetTypeId,
+                    Validity = item.Validity,
+                    ValidityId = item.ValidityId,
+                    Rubro = item.Rubro,
+                    Worth = item.Worth,
+                    Balance = item.Worth - useBalance,
+                    Statu = item.Statu,
+                    StatuId = item.StatuId
 
-            var budget = await Task.WhenAll(budgetTasks);
+                });
+            }
+
+
+            //var budgetTasks = response.Result!.Select(async x =>
+            //{
+            //    var balanceResponse = await _budgetProgramUnitOf.GetBalanceAsync(x.Id);
+
+            //    double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+
+            //    return new Budget1DTO
+            //    {
+            //        Id = x.Id,
+            //        BudgetType = x.BudgetType,
+            //        BudgetTypeId = x.BudgetTypeId,
+            //        Validity = x.Validity,
+            //        ValidityId = x.ValidityId,
+            //        Rubro = x.Rubro,
+            //        Worth = x.Worth,
+            //        Balance = x.Worth - useBalance,
+            //        Statu = x.Statu,
+            //        StatuId = x.StatuId
+            //    };
+            //});
+
+            //var budget = await Task.WhenAll(budgetTasks);
 
             return Ok(budget);
         }
