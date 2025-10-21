@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251020163547_InventoryInitial")]
+    [Migration("20251021160604_InventoryInitial")]
     partial class InventoryInitial
     {
         /// <inheritdoc />
@@ -631,6 +631,11 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime");
 
@@ -648,6 +653,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("BudgetLotId");
 
                     b.HasIndex("CourseProgramLotId");
+
+                    b.HasIndex("InstructorId");
 
                     b.HasIndex("StatuId");
 
@@ -1490,6 +1497,12 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.User", "Instructor")
+                        .WithMany()
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
                         .WithMany()
                         .HasForeignKey("StatuId")
@@ -1505,6 +1518,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("BudgetLot");
 
                     b.Navigation("CourseProgramLot");
+
+                    b.Navigation("Instructor");
 
                     b.Navigation("Statu");
 

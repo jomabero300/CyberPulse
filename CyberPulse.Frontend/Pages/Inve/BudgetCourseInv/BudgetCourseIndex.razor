@@ -29,6 +29,7 @@ else
         <HeaderContent>
             <MudTh>@Localizer["Code"]</MudTh>
             <MudTh>@Localizer["Course"]</MudTh>
+            <MudTh>@Localizer["Instructor"]</MudTh>
             <MudTh>@Localizer["StartDate"]</MudTh>
             <MudTh>@Localizer["EndDate"]</MudTh>
             <MudTh>@Localizer["Worth"]</MudTh>
@@ -38,10 +39,11 @@ else
         <RowTemplate>
             <MudTd>@context.CourseProgramLot!.Course!.Code</MudTd>
             <MudTd>@context.CourseProgramLot!.Course!.Name</MudTd>
+            <MudTd>@context.Instructor.FullName</MudTd>
             <MudTd>@context.StartDate!.Value.ToShortDateString()</MudTd>
             <MudTd>@context.EndDate!.Value.ToShortDateString()</MudTd>
             <MudTd>@context.Worth.ToString("N2")</MudTd>
-            <MudTd>@context.Statu.Name</MudTd>
+            <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Delete"]">
                     <MudButton Variant="Variant.Filled"

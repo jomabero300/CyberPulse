@@ -4,6 +4,26 @@
 
 	<DataAnnotationsValidator />
 	<MudGrid>
+
+		<MudItem xs="12">
+			<MudAutocomplete T="ChipUserDTO"
+							 Label=@Localizer["Instructor"]
+							 Placeholder=@Localizer["SelectAInstructor"]
+							 SearchFunc="SearchInstructor"
+							 Value="selectedInstructor"
+							 ValueChanged="InstructorChanged"
+							 ToStringFunc="@(e=> e==null?null : $"{e.FirstName} {e.LastName}")"
+							 AdornmentIcon="@Icons.Material.Filled.People"
+							 Adornment="Adornment.End"
+							 For="@(()=>BudgetCourseDTO.Instructor)">
+				<ItemTemplate Context="itemContext">
+					@itemContext.DocumentId @itemContext.FirstName @itemContext.LastName
+				</ItemTemplate>
+			</MudAutocomplete>
+
+		</MudItem>
+
+
 		<MudItem xs="12">
 			<MudAutocomplete T="BudgetProgram2DTO"
 							 Label=@Localizer["Program"]

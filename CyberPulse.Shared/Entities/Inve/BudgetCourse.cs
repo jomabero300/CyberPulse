@@ -11,6 +11,13 @@ public class BudgetCourse
 {
     public int Id { get; set; }
 
+
+    [Column(TypeName = "nvarchar(450)")]
+    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    [MaxLength(450, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public string InstructorId { get; set; } = null!;
+
     [Display(Name = "BudgetLot", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int BudgetLotId { get; set; }
@@ -47,5 +54,6 @@ public class BudgetCourse
     public Validity? Validity { get; set; }
     public CourseProgramLot? CourseProgramLot { get; set; }
     public Statu? Statu { get; set; }
+    public User Instructor { get; set; } = null!;
 
 }

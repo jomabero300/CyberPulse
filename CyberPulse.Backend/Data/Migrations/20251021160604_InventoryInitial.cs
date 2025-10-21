@@ -540,6 +540,7 @@ namespace CyberPulse.Backend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    InstructorId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     BudgetLotId = table.Column<int>(type: "int", nullable: false),
                     ValidityId = table.Column<int>(type: "int", nullable: false),
                     CourseProgramLotId = table.Column<int>(type: "int", nullable: false),
@@ -552,6 +553,13 @@ namespace CyberPulse.Backend.Data.Migrations
                 {
                     table.PrimaryKey("PK_BudgetCourses", x => x.Id);
                     table.CheckConstraint("CK_EndDateGreaterthanInitial", "[EndDate] > [StartDate]");
+                    table.ForeignKey(
+                        name: "FK_BudgetCourses_AspNetUsers_InstructorId",
+                        column: x => x.InstructorId,
+                        principalSchema: "Admi",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BudgetCourses_BudgetLots_BudgetLotId",
                         column: x => x.BudgetLotId,
@@ -625,6 +633,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "BudgetCourses",
                 column: "CourseProgramLotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BudgetCourses_InstructorId",
+                schema: "Inve",
+                table: "BudgetCourses",
+                column: "InstructorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BudgetCourses_StatuId",

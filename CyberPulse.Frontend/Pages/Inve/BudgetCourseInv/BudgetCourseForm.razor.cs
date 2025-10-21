@@ -1,6 +1,8 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.Enums;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -23,6 +25,9 @@ public partial class BudgetCourseForm
                                  
     private CourseProgramLot1DTO selectedCourse = new();
     private List<CourseProgramLot1DTO>? courseProgramLot;
+
+    private ChipUserDTO selectedInstructor = new();
+    private List<ChipUserDTO>? instructors;
 
     private bool _worthHasError = false;
     private string _worthErrorMessage = string.Empty;
@@ -83,6 +88,47 @@ public partial class BudgetCourseForm
 
         context.PreventNavigation();
     }
+
+
+    private async Task LoadInstructorsync(string id = "")
+    {
+        var userType = UserType.Inst;
+
+        var responseHttp = string.IsNullOrWhiteSpace(id) ?
+            await Repository.GetAsync<List<ChipUserDTO>>($"/api/accounts/LoadUsers/{userType}") :
+            await Repository.GetAsync<List<ChipUserDTO>>($"/api/accounts/LoadUser/{id}");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        instructors = responseHttp.Response;
+    }
+    private async Task<IEnumerable<ChipUserDTO>> SearchInstructor(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return instructors!;
+        }
+
+        return instructors!
+            .Where(x => x.FirstName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.LastName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.DocumentId.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void InstructorChanged(ChipUserDTO entity)
+    {
+        selectedInstructor = entity;
+        BudgetCourseDTO.InstructorId = entity.Id;
+        BudgetCourseDTO.Instructor = entity;
+    }
+
+
 
     private async Task LoadBudgetProgramAsync()
     {

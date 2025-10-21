@@ -21,9 +21,10 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
     public override async Task<ActionResponse<BudgetCourse>> GetAsync(int id)
     {
         var entity = await _context.BudgetCourses
+                                   .AsNoTracking()
                                    .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
                                    .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
-                                   .AsNoTracking()
+                                   .Include(bc => bc.Instructor)
                                    .FirstOrDefaultAsync(x => x.Id == id);
         if (entity == null)
         {
@@ -46,6 +47,7 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             .Include(x=>x.Statu)
             .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
             .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+            .Include(bc => bc.Instructor)
             .Where(w => w.Validity!.StatuId == 1)
             .AsQueryable();
 
@@ -117,6 +119,7 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
         var model = new BudgetCourse
         {
             Id = entity.Id,
+            InstructorId=entity.InstructorId,
             BudgetLotId = entity.BudgetLotId,
             ValidityId = Validity.Id,
             CourseProgramLotId = entity.CourseProgramLotId, 
@@ -202,7 +205,7 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
                 Message = "ERR005",
             };
         }
-
+        model.InstructorId = entity.InstructorId;
         model.ValidityId = entity.ValidityId;
         model.CourseProgramLotId = entity.CourseProgramLotId;
         model.StartDate = entity.StartDate;
