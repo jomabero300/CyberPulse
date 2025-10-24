@@ -1,5 +1,4 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
-using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -13,18 +12,19 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
-public class BudgetCoursesController : GenericController<BudgetCourse>
+public class ProductQuotationsController : GenericController<ProductQuotation>
 {
-    private readonly IBudgetCourseUnitOfWork _budgetCourseUnitOfWork;
-    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork) : base(unitOfWork)
+    private readonly IProductQuotationUnitOfWork _productQuotationUnitOf;
+
+    public ProductQuotationsController(IGenericUnitOfWork<ProductQuotation> unitOfWork, IProductQuotationUnitOfWork productQuotationUnitOf) : base(unitOfWork)
     {
-        _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
+        _productQuotationUnitOf = productQuotationUnitOf;
     }
 
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
     {
-        var response = await _budgetCourseUnitOfWork.GetAsync(id);
+        var response = await _productQuotationUnitOf.GetAsync(id);
 
         if (response.WasSuccess)
         {
@@ -33,27 +33,24 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
 
         return BadRequest();
     }
+
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        if(!string.IsNullOrWhiteSpace(pagination.Email))
-        {
-            pagination.Email = User.Identity!.Name;
-        }
-
-        var response = await _budgetCourseUnitOfWork.GetAsync(pagination);
+        var response = await _productQuotationUnitOf.GetAsync(pagination);
 
         if (response.WasSuccess)
         {
             return Ok(response.Result);
         }
 
-        return BadRequest();
+        return BadRequest(response.Message);
     }
+
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
-        var response = await _budgetCourseUnitOfWork.DeleteAsync(id);
+        var response = await _productQuotationUnitOf.DeleteAsync(id);
 
         if (response.WasSuccess)
         {
@@ -64,11 +61,10 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     }
 
 
-
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] BudgetCourseDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] ProductQuotationDTO entity)
     {
-        var response = await _budgetCourseUnitOfWork.AddAsync(entity);
+        var response = await _productQuotationUnitOf.AddAsync(entity);
 
         if (response.WasSuccess)
         {
@@ -79,9 +75,9 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     }
 
     [HttpPut("full")]
-    public async Task<IActionResult> PustAsync([FromBody] BudgetCourseDTO model)
+    public async Task<IActionResult> PustAsync([FromBody] ProductQuotationDTO model)
     {
-        var action = await _budgetCourseUnitOfWork.UpdateAsync(model);
+        var action = await _productQuotationUnitOf.UpdateAsync(model);
 
         if (action.WasSuccess)
         {
@@ -94,12 +90,7 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     [HttpGet("TotalRecordsPaginated")]
     public async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
     {
-        if (!string.IsNullOrWhiteSpace(pagination.Email))
-        {
-            pagination.Email = User.Identity!.Name;
-        }
-
-        var response = await _budgetCourseUnitOfWork.GetTotalRecordsAsync(pagination);
+        var response = await _productQuotationUnitOf.GetTotalRecordsAsync(pagination);
 
         if (response.WasSuccess)
         {
@@ -107,5 +98,4 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
         }
         return BadRequest();
     }
-
 }

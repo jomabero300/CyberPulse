@@ -48,7 +48,7 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()) || x.Code.ToString().Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Family>>
@@ -149,7 +149,7 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()) || x.Code.ToString().Contains(pagination.Filter.ToLower()));
         }
 
         double count = await queryable.CountAsync();

@@ -7,7 +7,7 @@ namespace CyberPulse.Shared.EntitiesDTO.Inve;
 public class ProductFormDTO : ProductDTO
 {
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public ClasseDTO? Classe { get; set; }
+    public Classe2DTO? Classe { get; set; }
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public UnitMeasurementDTO? UnitMeasurement { get; set; }

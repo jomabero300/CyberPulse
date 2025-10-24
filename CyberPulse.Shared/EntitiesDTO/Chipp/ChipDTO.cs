@@ -247,5 +247,5 @@ public class ChipDTO
     public TypeOfTrainingDTO? TypeOfTraining { get; set; }
     public bool Holiday { get; set; }
 
-    public string language { get; set; }
+    public string? Language { get; set; }
 }

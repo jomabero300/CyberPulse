@@ -43,20 +43,29 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
     }
     public override async Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(PaginationDTO pagination)
     {
-        var queryable = _context.BudgetCourses.AsNoTracking()
-            .Include(x=>x.Statu)
-            .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
-            .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
-            .Include(bc => bc.Instructor)
-            .Where(w => w.Validity!.StatuId == 1)
-            .AsQueryable();
+        var queryable =string.IsNullOrWhiteSpace(pagination.Email) ?
+                                _context.BudgetCourses.AsNoTracking()
+                                              .Include(x=>x.Statu)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+                                              .Include(bc => bc.Instructor)
+                                              .Where(w => w.Validity!.StatuId == 1)
+                                              .AsQueryable():
+                                _context.BudgetCourses.AsNoTracking()
+                                              .Include(x=>x.Statu)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+                                              .Include(bc => bc.Instructor)
+                                              .Where(w => w.Validity!.StatuId == 1 && w.Instructor.Email==pagination.Email)
+                                              .AsQueryable();
 
-        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        //{
-        //    queryable = queryable.Where(x => x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                     x.ProgramLot!.Lot!.Name.Contains(pagination.Filter.ToLower()) ||
-        //                                     x.Worth.ToString().Contains(pagination.Filter.ToLower()));
-        //}
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => x.CourseProgramLot!.Course!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.CourseProgramLot!.ProgramLot!.Lot!.Name.Contains(pagination.Filter.ToLower()) ||
+                                             x.Instructor!.FirstName.Contains(pagination.Filter.ToLower()) ||
+                                             x.Worth.ToString().Contains(pagination.Filter.ToLower()));
+        }
 
         return new ActionResponse<IEnumerable<BudgetCourse>>
         {
@@ -177,13 +186,13 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
                                             .Where(w => w.Validity!.StatuId == 1)
                                             .AsQueryable();
 
-
-        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        //{
-        //    queryable = queryable.Where(x => x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                     x.ProgramLot!.Lot!.Name.Contains(pagination.Filter.ToLower()) ||
-        //                                     x.Worth.ToString().Contains(pagination.Filter.ToLower()));
-        //}
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x => x.CourseProgramLot!.Course!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.CourseProgramLot!.ProgramLot!.Lot!.Name.Contains(pagination.Filter.ToLower()) ||
+                                             x.Instructor!.FirstName.Contains(pagination.Filter.ToLower()) ||
+                                             x.Worth.ToString().Contains(pagination.Filter.ToLower()));
+        }
 
         double count = await queryable.CountAsync();
 
@@ -256,5 +265,4 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             Result = (double)balance
         };
     }
-
 }

@@ -1960,6 +1960,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Stocktaking.
+        /// </summary>
+        public static string Stocktaking {
+            get {
+                return ResourceManager.GetString("Stocktaking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Sub Category.
         /// </summary>
         public static string SubCategory {

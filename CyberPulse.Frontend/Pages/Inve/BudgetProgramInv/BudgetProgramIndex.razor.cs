@@ -3,6 +3,7 @@ using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -10,6 +11,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Inve.BudgetProgramInv;
 
+[Authorize(Roles = "Admi")]
 public partial class BudgetProgramIndex
 {
     private List<BudgetProgramIndexDTO>? budgetPrograms { get; set; }

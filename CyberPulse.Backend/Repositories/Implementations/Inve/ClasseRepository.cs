@@ -45,12 +45,13 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
         var queryable = _context.Classes
             .AsNoTracking()
             .Include(x=>x.Family)
-            .ThenInclude(s=>s.Segment)
+            .ThenInclude(s=>s!.Segment)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Code.ToString().Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Classe>>
@@ -141,6 +142,8 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
     {
         return await _context.Classes
             .AsNoTracking()
+            .Include(x=>x.Statu)
+            .Include(x=>x.Family)
             .Where(x => x.FamilyId == id)
             .OrderBy(x => x.Name)
             .ToListAsync();
@@ -151,7 +154,8 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Code.ToString().Contains(pagination.Filter.ToLower()));
         }
 
         double count = await queryable.CountAsync();

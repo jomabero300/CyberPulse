@@ -1,6 +1,7 @@
+using CyberPulse.Frontend.Pages.Inve.BudgetCourseInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
-using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -8,17 +9,17 @@ using Microsoft.Extensions.Localization;
 using MudBlazor;
 using System.Net;
 
-namespace CyberPulse.Frontend.Pages.Inve.BudgetLotInv;
+namespace CyberPulse.Frontend.Pages.Inve.ProductQuotationInv;
 
-[Authorize(Roles = "Admi")]
-public partial class BudgetLotIndex
+[Authorize(Roles = "Admi,Coor,Inst")]
+public partial class ProductQuotationIndex
 {
-    private List<BudgetLotIndexDTO>? budgetLots { get; set; }
-    private MudTable<BudgetLotIndexDTO> table = new();
+    private List<BudgetCourse>? BudgetCourses { get; set; }
+    private MudTable<BudgetCourse> table = new();
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
-    private const string baseUrl = "api/budgetlots";
+    private const string baseUrl = "api/budgetcourses";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
     [Inject] private IRepository repository { get; set; } = null!;
@@ -36,11 +37,11 @@ public partial class BudgetLotIndex
     {
         loading = true;
 
-        var url = $"{baseUrl}/TotalRecordsPaginated";
-
+        var url = $"{baseUrl}/TotalRecordsPaginated?Email=Ok";
+        
         if (!string.IsNullOrWhiteSpace(Filter))
         {
-            url += $"?filter={Filter}";
+            url += $"&filter={Filter}";
         }
 
         var responseHttp = await repository.GetAsync<int>(url);
@@ -57,20 +58,20 @@ public partial class BudgetLotIndex
 
         loading = false;
     }
-    private async Task<TableData<BudgetLotIndexDTO>> LoadListAsync(TableState state, CancellationToken cancellationToken)
+    private async Task<TableData<BudgetCourse>> LoadListAsync(TableState state, CancellationToken cancellationToken)
     {
         int page = state.Page + 1;
 
         int pageSize = state.PageSize;
 
-        var url = $"{baseUrl}/paginated/?page={page}&recordsnumber={pageSize}";
+        var url = $"{baseUrl}/paginated/?page={page}&recordsnumber={pageSize}&Email=Ok";
 
         if (!string.IsNullOrWhiteSpace(Filter))
         {
             url += $"&filter={Filter}";
         }
 
-        var responseHttp = await repository.GetAsync<List<BudgetLotIndexDTO>>(url);
+        var responseHttp = await repository.GetAsync<List<BudgetCourse>>(url);
 
         if (responseHttp.Error)
         {
@@ -78,15 +79,15 @@ public partial class BudgetLotIndex
 
             Snackbar.Add(Localizer[message!], Severity.Error);
 
-            return new TableData<BudgetLotIndexDTO> { Items = [], TotalItems = 0 };
+            return new TableData<BudgetCourse> { Items = [], TotalItems = 0 };
         }
 
         if (responseHttp.Response == null)
         {
-            return new TableData<BudgetLotIndexDTO> { Items = [], TotalItems = 0 };
+            return new TableData<BudgetCourse> { Items = [], TotalItems = 0 };
         }
 
-        return new TableData<BudgetLotIndexDTO>
+        return new TableData<BudgetCourse>
         {
             Items = responseHttp.Response,
 
@@ -102,27 +103,35 @@ public partial class BudgetLotIndex
 
         await table.ReloadServerData();
     }
-    private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+
+    private async Task ShowModalAsync(BudgetCourse selectedCourse, bool isEdit = false)
     {
         var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
 
         IDialogReference? dialog;
 
+        var parameters = new DialogParameters
+        {
+            { "Id", selectedCourse.Id },
+            { "Code",selectedCourse.CourseProgramLot!.Course!.Code },
+            { "CourseName",selectedCourse.CourseProgramLot!.Course!.Name },
+            { "StartDate",selectedCourse.StartDate!.Value.ToShortDateString() },
+            { "EndDate",selectedCourse.EndDate!.Value.ToShortDateString()},
+            { "Worth",selectedCourse.Worth.ToString("N2") },
+            { "StatuName",selectedCourse.Statu!.Name },
+        };
+
         if (isEdit)
         {
 
-            var parameters = new DialogParameters
-            {
-                { "Id", id }
-            };
-            dialog = await DialogService.ShowAsync<BudgetLotEdit>(
-                $"{Localizer["Edit"]} {Localizer["Budget"]}",
+            dialog = await DialogService.ShowAsync<ProductQuotationEdit>(
+                $"{Localizer["Edit"]} {Localizer["ProductQuotation"]}",
                 parameters,
                 options);
         }
         else
         {
-            dialog = await DialogService.ShowAsync<BudgetLotCreate>($"{Localizer["New"]} {Localizer["Budget"]}", options);
+            dialog = await DialogService.ShowAsync<ProductQuotationCreate>($"{Localizer["New"]} {Localizer["ProductQuotation"]}", parameters, options);
         }
 
         var result = await dialog.Result;
@@ -134,11 +143,12 @@ public partial class BudgetLotIndex
             await table.ReloadServerData();
         }
     }
-    private async Task DeleteAsync(BudgetLotIndexDTO entity)
+
+    private async Task DeleteAsync(BudgetCourse entity)
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["Budget"], entity.Id) }
+            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["BudgetCourse"], entity.Id) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -159,7 +169,7 @@ public partial class BudgetLotIndex
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/budgetlots");
+                NavigationManager.NavigateTo("/budgetcourses");
             }
             else
             {

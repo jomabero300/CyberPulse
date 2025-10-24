@@ -100,8 +100,14 @@
     </AuthorizeView>
     <AuthorizeView Roles="Inst">
         <Authorized>
-            <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
-            <MudDivider />
+            <MudNavGroup Title="@Localizer["Chips"]" Expanded="false">
+                <MudDivider />
+                <MudNavLink Href="/chips" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CreditCard">@Localizer["Chips"]</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Inventarios" Expanded="false">
+                <MudDivider />
+                <MudNavLink Href="/Stocktaking" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Segment">@Localizer["Stocktaking"]</MudNavLink>
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
     <MudDivider />

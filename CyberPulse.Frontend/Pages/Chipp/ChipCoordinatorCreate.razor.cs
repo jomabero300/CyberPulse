@@ -121,7 +121,7 @@ public partial class ChipCoordinatorCreate
         };
 
         chipDTO.TypeOfPoblationDTO = new();
-        chipDTO.language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
+        chipDTO.Language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
 
         var responseHttp = await Repository.PostAsync("/api/chips/full", chipDTO);
 

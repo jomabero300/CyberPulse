@@ -140,7 +140,7 @@ public partial class ChipForm
             chipDTO.UserId = "XXYY";
             chipDTO.StatuId = await SearchIndEstaAsync("Creada", 1);
         }
-        chipDTO.language= System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2); 
+        chipDTO.Language= System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2); 
         loading = false;
     }
 

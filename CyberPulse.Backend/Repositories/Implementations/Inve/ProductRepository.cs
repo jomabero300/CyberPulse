@@ -111,7 +111,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             Code=entity.Code,
             UnitMeasurementId=entity.UnitMeasurementId,
             ClasseId=entity.ClasseId,
-            LotId=entity.LotId,
+            LotId =entity.LotId,
             Name = HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             Description = entity.Description.Trim(),
             StatuId = entity.StatuId,
@@ -237,6 +237,9 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public async Task<IEnumerable<Product>> GetComboAsync()
     {
-        return await _context.Products.AsNoTracking().OrderBy(x=>x.Name).ToListAsync();
+        return await _context.Products
+                                .AsNoTracking()
+                                .OrderBy(x=>x.Name)
+                                .ToListAsync();
     }
 }

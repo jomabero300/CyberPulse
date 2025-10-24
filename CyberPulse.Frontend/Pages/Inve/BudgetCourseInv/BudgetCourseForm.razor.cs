@@ -58,6 +58,7 @@ public partial class BudgetCourseForm
         loading = true;
 
         await LoadBudgetProgramAsync();
+        await LoadInstructorsync();
 
         loading = false;
     }

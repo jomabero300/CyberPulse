@@ -43,8 +43,8 @@ public class Product
     public int StatuId { get; set; }
 
 
-    public Statu Statu { get; set; } = null!;
-    public UnitMeasurement UnitMeasurement { get; set; } = null!;
-    public Classe Classe { get; set; }=null!;
-    public Lot Lot { get; set; } = null!;
+    public Statu? Statu { get; set; }
+    public UnitMeasurement? UnitMeasurement { get; set; }
+    public Classe? Classe { get; set; }
+    public Lot? Lot { get; set; }
 }

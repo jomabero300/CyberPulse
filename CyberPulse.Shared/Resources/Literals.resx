@@ -823,4 +823,7 @@
   <data name="DateNoEndStart" xml:space="preserve">
     <value>The end date must be after the start date.</value>
   </data>
+  <data name="Stocktaking" xml:space="preserve">
+    <value>Stocktaking</value>
+  </data>
 </root>

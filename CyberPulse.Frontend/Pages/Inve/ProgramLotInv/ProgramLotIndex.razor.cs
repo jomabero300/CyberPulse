@@ -2,6 +2,7 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -9,6 +10,7 @@ using System.Net;
 
 namespace CyberPulse.Frontend.Pages.Inve.ProgramLotInv;
 
+[Authorize(Roles = "Admi")]
 public partial class ProgramLotIndex
 {
     private List<ProgramLot>? ProramLots { get; set; }

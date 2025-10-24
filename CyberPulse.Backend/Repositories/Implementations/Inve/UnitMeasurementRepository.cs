@@ -140,6 +140,7 @@ public class UnitMeasurementRepository : GenericRepository<UnitMeasurement>, IUn
     {
         return await _context.UnitMeasurements
             .AsNoTracking()
+            .Include(x=>x.Statu)
             .OrderBy(x => x.Name)
             .ToListAsync();
     }

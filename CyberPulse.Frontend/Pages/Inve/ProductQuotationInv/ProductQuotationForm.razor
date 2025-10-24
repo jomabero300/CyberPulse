@@ -1,0 +1,93 @@
+﻿@if (loading)
+{
+	<Loading />
+}
+else
+{
+	<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+	<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+
+		<MudGrid>
+			<MudItem xs="12" sm="3">
+				<MudTextField Label="@Localizer["Code"]"
+								@bind-Value="@ProductQuotationDTO.Code"
+								ReadOnly="true"
+								For="@(() => ProductQuotationDTO.Code)" />
+			</MudItem>
+			<MudItem xs="12" sm="2">
+			<MudTextField Label="@Localizer["DateStart"]"
+							  @bind-Value="@ProductQuotationDTO.DateStart"
+							  ReadOnly="true"
+							  For="@(() => ProductQuotationDTO.DateStart)" />
+			</MudItem>
+			<MudItem xs="12" sm="2">
+
+				<MudTextField Label="@Localizer["DateEnd"]"
+							  @bind-Value="@ProductQuotationDTO.DateEnd"
+							  ReadOnly="true"
+							  For="@(() => ProductQuotationDTO.DateEnd)" />
+
+			</MudItem>
+			<MudItem xs="12" sm="3">
+				<MudTextField Label="@Localizer["Worth"]"
+                              @bind-Value="@ProductQuotationDTO.Worth"
+							  ReadOnly="true"
+							  For="@(() => ProductQuotationDTO.Worth)" />
+
+			</MudItem>
+			<MudItem xs="12" sm="2">
+				<MudTextField Label="@Localizer["Statu"]"
+                              @bind-Value="@ProductQuotationDTO.StatuName"
+							  ReadOnly="true"
+							  For="@(() => ProductQuotationDTO.StatuName)" />
+
+			</MudItem>
+		</MudGrid>
+		<MudGrid Style="margin-top: 1px;">
+			<MudItem xs="12">
+				<MudTextField Label="@Localizer["Course"]"
+							  @bind-Value="@ProductQuotationDTO.CourseName"
+							  ReadOnly="true"
+							  For="@(() => ProductQuotationDTO.CourseName)" />
+
+			</MudItem>
+		</MudGrid>
+		<MudGrid Style="margin-top: 1px;">
+			<MudItem xs="12" Style="height:170px;overflow-y:scroll;font-size:80%">
+				<MudTable Items="@ProductQuotationDTO.ProductQuotationBody" Hover="true">
+					<HeaderContent>
+						<MudTh>@Localizer["Id"]</MudTh>
+						<MudTh>@Localizer["Product"]</MudTh>
+						<MudTh>@Localizer["Description"]</MudTh>
+						<MudTh>@Localizer["UnitMeasurement"]</MudTh>
+						<MudTh>@Localizer["Quantity"]</MudTh>
+					</HeaderContent>
+					<RowTemplate Context="item">
+						<MudTd DataLabel="@Localizer["Id"]">@item.ProductId</MudTd>
+						<MudTd DataLabel="@Localizer["Product"]">@item.ProductName</MudTd>
+						<MudTd DataLabel="@Localizer["Description"]">@item.ProductDescription</MudTd>
+						<MudTd DataLabel="@Localizer["UnitMeasurement"]">@item.UnitMeasurementName</MudTd>
+						<MudTd DataLabel="@Localizer["Quantity"]">@item.RequestedQuantity</MudTd>
+
+                    </RowTemplate>
+				</MudTable>
+			</MudItem>
+        </MudGrid>
+
+		<MudDivider Class="mb-lg-3 mt-lh-3" DividerType="DividerType.Inset" />
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.ArrowBack"
+				   Color="Color.Info"
+				   OnClick="ReturnAction">
+			@Localizer["Return"]
+		</MudButton>
+
+		<MudButton Variant="Variant.Outlined"
+				   StartIcon="@Icons.Material.Filled.Check"
+				   Color="Color.Primary"
+				   ButtonType="ButtonType.Submit">
+			@Localizer["SaveChanges"]
+		</MudButton>
+	</EditForm>
+}

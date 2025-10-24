@@ -136,13 +136,13 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
         }
     }
 
-    //public async Task<IEnumerable<Lot>> GetComboAsync()
-    //{
-    //    return await _context.Lots
-    //        .AsNoTracking()
-    //        .OrderBy(x => x.Name)
-    //        .ToListAsync();
-    //}
+    public async Task<IEnumerable<Lot>> GetComboAsync()
+    {
+        return await _context.Lots
+            .AsNoTracking()
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+    }
     public async Task<IEnumerable<Lot>> GetComboAsync(int id,bool indEsta)
     {
         if (indEsta)
@@ -263,7 +263,6 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
     //                                          select bc.Worth).Sum()
     //            })
     //            .ToListAsync();
-    //    //TODO: VOY AQUI
     //    //var query = await (from bl in _context.BudgetLots.Include(bl => bl.Validity)
     //    //                   where bl.Validity!.StatuId == 1
     //    //                   join pl in _context.ProgramLots on bl.ProgramLotId equals pl.Id

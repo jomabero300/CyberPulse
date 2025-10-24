@@ -21,8 +21,8 @@ public partial class ProductForm
     private FamilyDTO selectedFamily = new();
     private List<FamilyDTO>? families;
 
-    private ClasseDTO selectedClasse = new();
-    private List<ClasseDTO>? classes;
+    private Classe2DTO selectedClasse = new();
+    private List<Classe2DTO>? classes;
 
     private Lot2DTO selectedLot = new();
     private List<Lot2DTO>? lots;
@@ -221,7 +221,7 @@ public partial class ProductForm
 
     private async Task LoadClasseAsync(int id)
     {
-        var responseHttp = await Repository.GetAsync<List<ClasseDTO>>($"/api/classes/combo/{id}");
+        var responseHttp = await Repository.GetAsync<List<Classe2DTO>>($"/api/classes/combo/{id}");
 
         if (responseHttp.Error)
         {
@@ -232,7 +232,7 @@ public partial class ProductForm
 
         classes = responseHttp.Response;
     }
-    private async Task<IEnumerable<ClasseDTO>> SearchClasse(string searchText, CancellationToken cancellationToken)
+    private async Task<IEnumerable<Classe2DTO>> SearchClasse(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
         if (string.IsNullOrWhiteSpace(searchText))
@@ -245,7 +245,7 @@ public partial class ProductForm
                         x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
-    private void ClasseChanged(ClasseDTO entity)
+    private void ClasseChanged(Classe2DTO entity)
     {
         selectedClasse = entity;
         ProductDTO.ClasseId = selectedClasse.Id;

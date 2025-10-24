@@ -843,4 +843,7 @@
   <data name="DateNoEndStart" xml:space="preserve">
     <value>La fecha final debe ser posterior a la fecha de inicio.</value>
   </data>
+  <data name="Stocktaking" xml:space="preserve">
+    <value>Inventarios</value>
+  </data>
 </root>
