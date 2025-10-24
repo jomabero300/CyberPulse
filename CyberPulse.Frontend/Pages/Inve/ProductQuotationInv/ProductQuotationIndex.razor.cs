@@ -106,7 +106,13 @@ public partial class ProductQuotationIndex
 
     private async Task ShowModalAsync(BudgetCourse selectedCourse, bool isEdit = false)
     {
-        var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = false, BackdropClick = false };
+        var options = new DialogOptions() { 
+            CloseOnEscapeKey = true, 
+            CloseButton = false, 
+            BackdropClick = false,
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium
+        };
 
         IDialogReference? dialog;
 

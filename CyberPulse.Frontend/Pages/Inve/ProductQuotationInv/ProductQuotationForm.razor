@@ -55,7 +55,13 @@ else
 		</MudGrid>
 		<MudGrid Style="margin-top: 1px;">
 			<MudItem xs="12" Style="height:170px;overflow-y:scroll;font-size:80%">
-				<MudTable Items="@ProductQuotationDTO.ProductQuotationBody" Hover="true">
+
+				<MudTable Items="@ProductQuotationDTO.ProductQuotationBody"
+						  Dense="true"
+						  Hover="true"
+						  Striped="true"
+						  FixedHeader="true"
+						  FixedFooter="true">
 					<HeaderContent>
 						<MudTh>@Localizer["Id"]</MudTh>
 						<MudTh>@Localizer["Product"]</MudTh>
@@ -64,12 +70,16 @@ else
 						<MudTh>@Localizer["Quantity"]</MudTh>
 					</HeaderContent>
 					<RowTemplate Context="item">
-						<MudTd DataLabel="@Localizer["Id"]">@item.ProductId</MudTd>
-						<MudTd DataLabel="@Localizer["Product"]">@item.ProductName</MudTd>
-						<MudTd DataLabel="@Localizer["Description"]">@item.ProductDescription</MudTd>
-						<MudTd DataLabel="@Localizer["UnitMeasurement"]">@item.UnitMeasurementName</MudTd>
-						<MudTd DataLabel="@Localizer["Quantity"]">@item.RequestedQuantity</MudTd>
-
+						<MudTd>@item.ProductId</MudTd>
+						<MudTd>@item.ProductName</MudTd>
+						<MudTd>@item.ProductDescription</MudTd>
+						<MudTd>@item.UnitMeasurementName</MudTd>
+						<MudTd>
+							<MudTextField Class="text-center"
+										  MaxLength="2"
+										  @bind-Value="@item.RequestedQuantity"
+										  Variant="@Variant.Text" />
+						</MudTd>
                     </RowTemplate>
 				</MudTable>
 			</MudItem>

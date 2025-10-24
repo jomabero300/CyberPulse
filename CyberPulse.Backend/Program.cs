@@ -140,6 +140,9 @@ builder.Services.AddScoped<ILotUnitOfWork, LotUnitOfWork>();
 builder.Services.AddScoped<IProductCurrentValueRepository, ProductCurrentValueRepository>();
 builder.Services.AddScoped<IProductCurrentValueUnitOfWork, ProductCurrentValueUnitOfWork>();
 
+builder.Services.AddScoped<IProductQuotationBodyRepository, ProductQuotationBodyRepository>();
+builder.Services.AddScoped<IProductQuotationBodyUnitOfWork, ProductQuotationBodyUnitOfWork>();
+
 builder.Services.AddScoped<IProductQuotationRepository, ProductQuotationRepository>();
 builder.Services.AddScoped<IProductQuotationUnitOfWork, ProductQuotationUnitOfWork>();
 

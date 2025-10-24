@@ -1,11 +1,13 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
+using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
+using MudBlazor;
 
 namespace CyberPulse.Frontend.Pages.Inve.ProductQuotationInv;
 
@@ -27,23 +29,16 @@ public partial class ProductQuotationForm
     {
         editContext = new(ProductQuotationDTO);
     }
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    loading = true;
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
 
-    //    if (ProductQuotationDTO.Id > 0)
-    //    {
-
-    //        await LoadBody();
-    //    }
-    //    loading = false;
-    //}
-
-    //private async Task LoadBody()
-    //{
-    //    throw new NotImplementedException();
-    //}
-
+        if (ProductQuotationDTO.Id > 0)
+        {
+            await LoadBody();
+        }
+        loading = false;
+    }
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
         var formwasEditad = editContext.IsModified();
@@ -69,5 +64,19 @@ public partial class ProductQuotationForm
         }
 
         context.PreventNavigation();
+    }
+
+    private async Task LoadBody()
+    {
+        var responseHttp = await repository.GetAsync<List<ProductQuotationBodyDTO>>($"/api/ProductQuotationBodies/combo/{ProductQuotationDTO.Id}");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        ProductQuotationDTO.ProductQuotationBody = responseHttp.Response;
     }
 }

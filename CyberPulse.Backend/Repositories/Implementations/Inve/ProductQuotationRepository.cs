@@ -143,11 +143,6 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
     }
 
 
-    //public async Task<IEnumerable<ProductQuotation>> GetComboAsync()
-    //{
-    //    throw new NotImplementedException();
-    //}
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProductQuotations

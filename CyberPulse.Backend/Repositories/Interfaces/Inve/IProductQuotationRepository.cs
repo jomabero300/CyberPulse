@@ -17,7 +17,6 @@ public interface IProductQuotationRepository
 
     Task<ActionResponse<ProductQuotation>> DeleteAsync(int id);
 
-    //Task<IEnumerable<ProductQuotation>> GetComboAsync();
     Task<ActionResponse<IEnumerable<ProductQuotation>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
