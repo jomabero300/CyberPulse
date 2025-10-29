@@ -62,7 +62,7 @@ public class ProductQuotationsController : GenericController<ProductQuotation>
 
 
     [HttpPost("full")]
-    public async Task<IActionResult> PostAsync([FromBody] ProductQuotationDTO entity)
+    public async Task<IActionResult> PostAsync([FromBody] ProductQuotationHeadDTO entity)
     {
         var response = await _productQuotationUnitOf.AddAsync(entity);
 

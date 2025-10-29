@@ -39,13 +39,6 @@ else
             <MudTd>@context.ProgramLot!.Lot!.Name</MudTd>
             <MudTd>@context.Course!.Name</MudTd>
             <MudTd Class="text-center">
-                <MudTooltip Text="@Localizer["Edit"]">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Warning"
-                               OnClick="@(() => ShowModalAsync(context.Id, true))">
-                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
-                    </MudButton>
-                </MudTooltip>
                 <MudTooltip Text="@Localizer["Delete"]">
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Error"

@@ -130,13 +130,13 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
             StatuId=entity.StatuId            
         };
 
-        var budgetProgram = await _context.BudgetPrograms.FindAsync(entity.BudgetProgramId);
+        //var budgetProgram = await _context.BudgetPrograms.FindAsync(entity.BudgetProgramId);
 
-        if(budgetProgram != null && budgetProgram.StatuId == 1)
-        {
-            budgetProgram.StatuId = 11;
-            _context.Update(budgetProgram);
-        }
+        //if(budgetProgram != null && budgetProgram.StatuId == 1)
+        //{
+        //    budgetProgram.StatuId = 11;
+        //    _context.Update(budgetProgram);
+        //}
 
         _context.Add(model);
 
@@ -268,18 +268,18 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
             };
         }
     }
-    public async Task<ActionResponse<double>> GetBalanceAsync(int id)
-    {
-        var balance = await _context.BudgetLots
-                                    .AsNoTracking()
-                                    .Include(x => x.Statu)
-                                    .Where(x => x.BudgetProgramId == id)
-                                    .SumAsync(x => (double)x.Worth);
+    //public async Task<ActionResponse<double>> GetBalanceAsync(int id)
+    //{
+    //    var balance = await _context.BudgetLots
+    //                                .AsNoTracking()
+    //                                .Include(x => x.Statu)
+    //                                .Where(x => x.BudgetProgramId == id)
+    //                                .SumAsync(x => (double)x.Worth);
 
-        return new ActionResponse<double>
-        {
-            WasSuccess = true,
-            Result = (double)balance
-        };
-    }
+    //    return new ActionResponse<double>
+    //    {
+    //        WasSuccess = true,
+    //        Result = (double)balance
+    //    };
+    //}
 }

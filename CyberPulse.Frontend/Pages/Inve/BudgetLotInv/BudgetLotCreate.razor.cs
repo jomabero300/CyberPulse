@@ -21,13 +21,13 @@ public partial class BudgetLotCreate
 
     private async Task CreateAsync()
     {
-        if (budgetLotDTO.Indesta == true) return;
+        //if (budgetLotDTO.Indesta == true) return;
 
-        if (_sqlValidator.HasSqlInjection(budgetLotDTO.Worth.ToString()))
-        {
-            Snackbar.Add(Localizer["ERR010"], Severity.Error);
-            return;
-        }
+        //if (_sqlValidator.HasSqlInjection(budgetLotDTO.Worth.ToString()))
+        //{
+        //    Snackbar.Add(Localizer["ERR010"], Severity.Error);
+        //    return;
+        //}
 
 
         var responseHttp = await Repository.PostAsync("/api/budgetlots/full", budgetLotDTO);

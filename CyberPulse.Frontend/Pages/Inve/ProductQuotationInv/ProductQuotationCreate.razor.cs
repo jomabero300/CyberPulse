@@ -46,6 +46,13 @@ public partial class ProductQuotationCreate
         //    return;
         //}
 
+        if(double.Parse(productQuotationHeadDTO.Worth!)< productQuotationHeadDTO.ProductQuotationBody!.Sum(x=>x.Total))
+        {
+            Snackbar.Add(Localizer["ERR018"], Severity.Error);
+            return;
+
+        }
+
         var responseHttp = await Repository.PostAsync("/api/productquotations/full", productQuotationHeadDTO);
 
         if (responseHttp.Error)

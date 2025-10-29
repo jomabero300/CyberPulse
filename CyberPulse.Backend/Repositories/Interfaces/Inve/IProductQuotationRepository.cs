@@ -12,6 +12,7 @@ public interface IProductQuotationRepository
     Task<ActionResponse<IEnumerable<ProductQuotation>>> GetAsync();
 
     Task<ActionResponse<ProductQuotation>> AddAsync(ProductQuotationDTO entity);
+    Task<ActionResponse<List<ProductQuotation>>> AddAsync(ProductQuotationHeadDTO entity);
 
     Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationDTO entity);
 

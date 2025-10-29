@@ -141,8 +141,71 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             };
         }
     }
+    public async Task<ActionResponse<List<ProductQuotation>>> AddAsync(ProductQuotationHeadDTO entity)
+    {
+        var modelNew = entity.ProductQuotationBody!
+            .Select(x => new ProductQuotation
+            {
+                Id = x.Id,
+                BudgetCourseId = x.BudgetCourseId,
+                ProductCurrentValueId = x.ProductCurrentValueId,
+                RequestedQuantity = x.RequestedQuantity,
+                AcceptedQuantity = x.AcceptedQuantity,
+                QuotedValue = x.QuotedValue
+            })
+            .Where(x=>x.Id==0)
+            .ToList();
+        if(modelNew.Count>0)
+        {
+            _context.AddRange(modelNew);
+        }
+
+        var modelUpdate = entity.ProductQuotationBody!
+            .Select(x => new ProductQuotation
+            {
+                Id = x.Id,
+                BudgetCourseId = x.BudgetCourseId,
+                ProductCurrentValueId = x.ProductCurrentValueId,
+                RequestedQuantity = x.RequestedQuantity,
+                AcceptedQuantity = x.AcceptedQuantity,
+                QuotedValue = x.QuotedValue
+            })
+            .Where(x => x.Id != 0)
+            .ToList();
+        if(modelUpdate.Count>0)
+        {
+            _context.Update(modelUpdate);
+        }
 
 
+        try
+        {
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<List<ProductQuotation>>
+            {
+                WasSuccess = true,
+                Result = modelNew
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<List<ProductQuotation>>
+            {
+                WasSuccess = false,
+                Message = "ERR003"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ActionResponse<List<ProductQuotation>>
+            {
+                WasSuccess = false,
+                Message = ex.Message,
+            };
+        }
+
+    }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProductQuotations
@@ -167,7 +230,6 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             Result = (int)count
         };
     }
-
     public async Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationDTO entity)
     {
         var model = await _context.ProductQuotations.FindAsync(entity.Id);

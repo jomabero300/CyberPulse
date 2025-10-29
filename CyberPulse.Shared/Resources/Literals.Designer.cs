@@ -853,6 +853,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The total amount exceeds the budget..
+        /// </summary>
+        public static string ERR018 {
+            get {
+                return ResourceManager.GetString("ERR018", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string Error {

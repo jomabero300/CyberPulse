@@ -846,4 +846,7 @@
   <data name="Stocktaking" xml:space="preserve">
     <value>Inventarios</value>
   </data>
+  <data name="ERR018" xml:space="preserve">
+    <value>La sumatoria total supera al presupuesto.</value>
+  </data>
 </root>

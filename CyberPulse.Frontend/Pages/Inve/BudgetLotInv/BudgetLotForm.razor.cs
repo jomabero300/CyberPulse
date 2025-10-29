@@ -123,7 +123,6 @@ public partial class BudgetLotForm
         await LoadLotsAsync(entity.ProgramId);
     }
 
-
     private async Task LoadLotsAsync(int id)
     {
         var responseHttp = await Repository.GetAsync<List<ProgramLot2DTO>>($"/api/programlots/combo/{id}");
@@ -158,24 +157,24 @@ public partial class BudgetLotForm
         BudgetLotDTO.ProgramLot = entity;
     }
 
-    private void ValidateWorth()
-    {
-        BudgetLotDTO.Indesta = false;
-        _worthHasError = false;
-        _worthErrorMessage = string.Empty;
-        //TODO: Arreglar los ,mensajes que diga supera al presupuesto del programa
-        if (selectedBudgetProgram == null)
-        {
-            Snackbar.Add(Localizer["RequiredRubro"], Severity.Error);
-            BudgetLotDTO.Indesta = true;
+    //private void ValidateWorth()
+    //{
+    //    BudgetLotDTO.Indesta = false;
+    //    _worthHasError = false;
+    //    _worthErrorMessage = string.Empty;
+    //    //TODO: Arreglar los ,mensajes que diga supera al presupuesto del programa
+    //    if (selectedBudgetProgram == null)
+    //    {
+    //        Snackbar.Add(Localizer["RequiredRubro"], Severity.Error);
+    //        BudgetLotDTO.Indesta = true;
 
-        }
-        else if (BudgetLotDTO.Worth > selectedBudgetProgram!.Worth)
-        {
-            BudgetLotDTO.Indesta = true;
+    //    }
+    //    else if (BudgetLotDTO.Worth > selectedBudgetProgram!.Worth)
+    //    {
+    //        BudgetLotDTO.Indesta = true;
 
-            _worthHasError = true;
-            _worthErrorMessage = $"{Localizer["BudgetProgramWorth"]} {selectedBudgetProgram!.Worth:N2}.";
-        }
-    }
+    //        _worthHasError = true;
+    //        _worthErrorMessage = $"{Localizer["BudgetProgramWorth"]} {selectedBudgetProgram!.Worth:N2}.";
+    //    }
+    //}
 }

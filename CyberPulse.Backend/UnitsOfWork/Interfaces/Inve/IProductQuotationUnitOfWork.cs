@@ -12,7 +12,7 @@ public interface IProductQuotationUnitOfWork
     Task<ActionResponse<IEnumerable<ProductQuotation>>> GetAsync();
 
     Task<ActionResponse<ProductQuotation>> AddAsync(ProductQuotationDTO entity);
-
+    Task<ActionResponse<List<ProductQuotation>>> AddAsync(ProductQuotationHeadDTO entity);
     Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationDTO entity);
 
     Task<ActionResponse<ProductQuotation>> DeleteAsync(int id);

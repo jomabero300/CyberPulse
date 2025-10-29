@@ -140,25 +140,25 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         if (indEsta)
         {
             var courseLot = await _context.CourseProgramLots
-                .AsNoTracking()
-                .Where(c => c.Id == id)
-                .Select(c => new { c.CourseId, c.ProgramLotId })
-                .FirstOrDefaultAsync();
+                                            .AsNoTracking()
+                                            .Where(c => c.Id == id)
+                                            .Select(c => new { c.CourseId, c.ProgramLotId })
+                                            .FirstOrDefaultAsync();
 
-            //// Si no se encuentra el CourseLot, retorna una lista vacía o maneja el error.
-            //if (courseLot == null)
-            //{
-            //    return new List<Course>();
-            //}
+            // Si no se encuentra el CourseLot, retorna una lista vacía o maneja el error.
+            if (courseLot == null)
+            {
+                return new List<Course>();
+            }
 
             // Combina todas las consultas en una sola
             var result = await _context.Courses
-                .AsNoTracking()
-                .Where(c => c.Id == courseLot!.CourseId || !_context.CourseProgramLots
-                    .Where(cl => cl.ProgramLotId == courseLot.ProgramLotId)
-                    .Select(cl => cl.CourseId)
-                    .Contains(c.Id))
-                .ToListAsync();
+                                       .AsNoTracking()
+                                       .Where(c => c.Id == courseLot!.CourseId || !_context.CourseProgramLots
+                                                            .Where(cl => cl.ProgramLotId == courseLot.ProgramLotId)
+                                                            .Select(cl => cl.CourseId)
+                                                            .Contains(c.Id))
+                                       .ToListAsync();
 
             return result;
 

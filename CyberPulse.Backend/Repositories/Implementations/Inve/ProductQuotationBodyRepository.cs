@@ -33,7 +33,7 @@ public class ProductQuotationBodyRepository : GenericRepository<ProductQuotation
                             ProductCurrentValueId = x.Id,
                             RequestedQuantity = 0,
                             AcceptedQuantity = 0,
-                            QuotedValue = x.Worth,
+                            Work = x.Worth,
                             ProductId = x.ProductId,
                             ProductName = x.Product!.Name,
                             ProductDescription = x.Product!.Description,

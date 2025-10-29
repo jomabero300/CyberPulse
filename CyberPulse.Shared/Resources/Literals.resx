@@ -826,4 +826,7 @@
   <data name="Stocktaking" xml:space="preserve">
     <value>Stocktaking</value>
   </data>
+  <data name="ERR018" xml:space="preserve">
+    <value>The total amount exceeds the budget.</value>
+  </data>
 </root>

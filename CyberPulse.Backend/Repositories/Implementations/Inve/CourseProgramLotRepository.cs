@@ -21,7 +21,7 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
     {
         var entity = await _context.CourseProgramLots
             .AsNoTracking()
-            .Include(x => x.ProgramLot).ThenInclude(p=>p.Program)
+            .Include(x => x.ProgramLot).ThenInclude(p=>p!.Program)
             .Include(x => x.Course)
              .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -44,8 +44,8 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
     {
         var queryable = _context.CourseProgramLots
             .AsNoTracking()
-            .Include(x => x.ProgramLot).ThenInclude(p=>p.Program)
-            .Include(x => x.ProgramLot).ThenInclude(l=>l.Lot)
+            .Include(x => x.ProgramLot).ThenInclude(p=>p!.Program)
+            .Include(x => x.ProgramLot).ThenInclude(l=>l!.Lot)
             .Include(x => x.Course)
             .AsQueryable();
 
@@ -153,7 +153,7 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
     {
         var queryable = _context.CourseProgramLots
             .AsNoTracking()
-            .Include(x=>x.ProgramLot).ThenInclude(p=>p.Program)
+            .Include(x=>x.ProgramLot).ThenInclude(p=>p!.Program)
             .Include(x=>x.Course)
             .AsQueryable();
 

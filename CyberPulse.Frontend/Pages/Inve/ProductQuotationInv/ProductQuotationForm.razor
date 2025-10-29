@@ -67,19 +67,23 @@ else
 						<MudTh>@Localizer["Product"]</MudTh>
 						<MudTh>@Localizer["Description"]</MudTh>
 						<MudTh>@Localizer["UnitMeasurement"]</MudTh>
+						<MudTh>@Localizer["Work"]</MudTh>
 						<MudTh>@Localizer["Quantity"]</MudTh>
+						<MudTh>@Localizer["Total"]</MudTh>
 					</HeaderContent>
 					<RowTemplate Context="item">
 						<MudTd>@item.ProductId</MudTd>
 						<MudTd>@item.ProductName</MudTd>
 						<MudTd>@item.ProductDescription</MudTd>
 						<MudTd>@item.UnitMeasurementName</MudTd>
+						<MudTd>@item.Work.ToString("N2")</MudTd>
 						<MudTd>
 							<MudTextField Class="text-center"
 										  MaxLength="2"
 										  @bind-Value="@item.RequestedQuantity"
 										  Variant="@Variant.Text" />
 						</MudTd>
+						<MudTd>@item.Total.ToString("N2")</MudTd>
                     </RowTemplate>
 				</MudTable>
 			</MudItem>

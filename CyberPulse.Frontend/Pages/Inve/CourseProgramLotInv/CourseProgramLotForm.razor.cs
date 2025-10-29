@@ -11,6 +11,11 @@ namespace CyberPulse.Frontend.Pages.Inve.CourseProgramLotInv;
 
 public partial class CourseProgramLotForm
 {
+    private CourseProgramLotForm? courseProgramLotForm;
+    private CourseProgramLotDTO courseProgramLotDTO = new();
+
+
+
     private EditContext editContext = null!;
 
     private InvProgramDTO selectedProgram = new();

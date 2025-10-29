@@ -15,5 +15,5 @@ public interface IBudgetLotUnitOfWork
     Task<IEnumerable<BudgetLot>> GetComboAsync(int id);
     Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync(PaginationDTO pagination);
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
-    Task<ActionResponse<double>> GetBalanceAsync(int id);
+    //Task<ActionResponse<double>> GetBalanceAsync(int id);
 }

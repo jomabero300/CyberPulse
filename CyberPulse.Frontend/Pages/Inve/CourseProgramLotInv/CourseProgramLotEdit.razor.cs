@@ -21,7 +21,7 @@ public partial class CourseProgramLotEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<CourseProgramLotDTO>($"/api/courselots/{Id}");
+        var responseHttp = await Repository.GetAsync<CourseProgramLotDTO>($"/api/courseprogramlots/{Id}");
 
         if (responseHttp.Error)
         {
