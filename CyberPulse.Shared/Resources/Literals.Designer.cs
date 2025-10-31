@@ -1357,6 +1357,24 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Prince High.
+        /// </summary>
+        public static string PriceHigh {
+            get {
+                return ResourceManager.GetString("PriceHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Prince Low.
+        /// </summary>
+        public static string PriceLow {
+            get {
+                return ResourceManager.GetString("PriceLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Priority bet.
         /// </summary>
         public static string PriorityBet {

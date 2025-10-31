@@ -9,9 +9,26 @@ namespace CyberPulse.Shared.Entities.Inve;
 public class ProductCurrentValue
 {
     public int Id { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ValidityId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int ProductId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int IvaId { get; set; }
+
+    [Column(TypeName = "decimal(14,2)")]
+    [Display(Name = "PriceLow", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public double PriceLow { get; set; }
+
+    [Column(TypeName = "decimal(14,2)")]
+    [Display(Name = "PriceHigh", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public double PriceHigh { get; set; }
+
 
     [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "Worth", ResourceType = typeof(Literals))]

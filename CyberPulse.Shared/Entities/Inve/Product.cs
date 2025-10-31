@@ -42,7 +42,6 @@ public class Product
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
 
-
     public Statu? Statu { get; set; }
     public UnitMeasurement? UnitMeasurement { get; set; }
     public Classe? Classe { get; set; }

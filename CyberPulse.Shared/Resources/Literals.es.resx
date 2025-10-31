@@ -849,4 +849,10 @@
   <data name="ERR018" xml:space="preserve">
     <value>La sumatoria total supera al presupuesto.</value>
   </data>
+  <data name="PriceLow" xml:space="preserve">
+    <value>Precio Minimo</value>
+  </data>
+  <data name="PriceHigh" xml:space="preserve">
+    <value>Precio Máximo</value>
+  </data>
 </root>

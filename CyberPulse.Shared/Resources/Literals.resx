@@ -829,4 +829,10 @@
   <data name="ERR018" xml:space="preserve">
     <value>The total amount exceeds the budget.</value>
   </data>
+  <data name="PriceLow" xml:space="preserve">
+    <value>Prince Low</value>
+  </data>
+  <data name="PriceHigh" xml:space="preserve">
+    <value>Prince High</value>
+  </data>
 </root>
