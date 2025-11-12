@@ -250,8 +250,8 @@
   <data name="PleaseWait" xml:space="preserve">
     <value>Please wait..</value>
   </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Admin</value>
+  <data name="Admi" xml:space="preserve">
+    <value>Administrator</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
@@ -850,7 +850,10 @@
   <data name="Quoted03" xml:space="preserve">
     <value>Quoted 03</value>
   </data>
-  <data name="PurchasingBoard" xml:space="preserve">
-    <value>Purchasing Board</value>
+  <data name="Coor" xml:space="preserve">
+    <value>Coordinator</value>
+  </data>
+  <data name="Purc" xml:space="preserve">
+    <value>Purchasing board</value>
   </data>
 </root>

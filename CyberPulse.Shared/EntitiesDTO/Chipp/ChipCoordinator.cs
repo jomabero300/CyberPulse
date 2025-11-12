@@ -33,5 +33,5 @@ public class ChipCoordinator
     public int StatuId { get; set; }
     public bool idEsta { get; set; }
 
-    public string language { get; set; }
+    public string? language { get; set; }
 }

@@ -5,15 +5,16 @@
 	<DataAnnotationsValidator />
 
 	<MudTextField Label="@Localizer["Name"]"
-				Disabled=true
-				  @bind-Value="@user.FirstName"
+				  Disabled="true"
+				  Value="@user.FullName"
 				  For="@(() => user.FullName)"
 				  class="mb-3" />
 	@* Value="@($"{user.FirstName} {user.LastName}")" *@
+
 	<MudSelect T="UserType" @bind-Value="@user.UserType" Label="Tipo">
 		@foreach (UserType tipo in Enum.GetValues(typeof(UserType)))
 		{
-			<MudSelectItem Value="@tipo">@GetDisplayName(tipo)</MudSelectItem>
+			<MudSelectItem Value="@tipo">@tipo.GetDisplayName()</MudSelectItem>
 		}
 	</MudSelect>
 

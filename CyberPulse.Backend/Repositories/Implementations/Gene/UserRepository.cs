@@ -222,39 +222,40 @@ public class UserRepository : IUserRepository
             queryable = queryable.Where(x => x.FirstName.ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.LastName.ToLower().Contains(pagination.Filter.ToLower()));
         }
+        var newList = await queryable
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .Select(x => new User
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Photo = !string.IsNullOrWhiteSpace(x.Photo) ? $"{_configuration["UrlBackend"]}/{x.Photo}" : $"{_configuration["UrlBackend"]}/Images/NoImage.png",
+                    UserType = x.UserType,
+                    NormalizedUserName = x.NormalizedUserName,
+                    Email = x.Email,
+                    NormalizedEmail = x.NormalizedEmail,
+                    EmailConfirmed = x.EmailConfirmed,
+                    PasswordHash = x.PasswordHash,
+                    SecurityStamp = x.SecurityStamp,
+                    ConcurrencyStamp = x.ConcurrencyStamp,
+                    PhoneNumber = x.PhoneNumber,
+                    PhoneNumberConfirmed = x.PhoneNumberConfirmed,
+                    TwoFactorEnabled = x.TwoFactorEnabled,
+                    LockoutEnd = x.LockoutEnd,
+                    LockoutEnabled = x.LockoutEnabled,
+                    AccessFailedCount = x.AccessFailedCount,
+                    Country = x.Country,
+                    CountryId = x.CountryId,
+                    DocumentId = x.DocumentId,
+                })
+                .Paginate(pagination)
+                .ToListAsync();
 
         return new ActionResponse<IEnumerable<User>>
         {
             WasSuccess = true,
-            Result = await queryable
-                .OrderBy(x => x.FirstName)
-                .ThenBy(x => x.LastName)
-                .Select(x=>new User
-                    {
-                        Id = x.Id,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName,
-                        Photo = !string.IsNullOrWhiteSpace(x.Photo) ? $"{_configuration["UrlBackend"]}/{x.Photo}": $"{_configuration["UrlBackend"]}/Images/NoImage.png",
-                        UserType=x.UserType,
-                        NormalizedUserName=x.NormalizedUserName,
-                        Email = x.Email,
-                        NormalizedEmail=x.NormalizedEmail,
-                        EmailConfirmed=x.EmailConfirmed,
-                        PasswordHash=x.PasswordHash,
-                        SecurityStamp=x.SecurityStamp,
-                        ConcurrencyStamp=x.ConcurrencyStamp,
-                        PhoneNumber=x.PhoneNumber,
-                        PhoneNumberConfirmed=x.PhoneNumberConfirmed,
-                        TwoFactorEnabled=x.TwoFactorEnabled,
-                        LockoutEnd=x.LockoutEnd,
-                        LockoutEnabled=x.LockoutEnabled,
-                        AccessFailedCount=x.AccessFailedCount,
-                        Country = x.Country,
-                        CountryId = x.CountryId,
-                        DocumentId = x.DocumentId,                    
-                    })
-                .Paginate(pagination)
-                .ToListAsync()
+            Result = newList
         };
     }
 

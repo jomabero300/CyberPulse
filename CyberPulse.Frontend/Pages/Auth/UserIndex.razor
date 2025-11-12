@@ -38,25 +38,7 @@ else
             <MudTd>@context.PhoneNumber</MudTd>
             <MudTd>@context.Email</MudTd>
             <MudTd>@context.EmailConfirmed</MudTd>
-            @if (@context.UserType == CyberPulse.Shared.Enums.UserType.Admi)
-            {
-                <MudTd>Administrador</MudTd>
-            }
-            else if (@context.UserType == CyberPulse.Shared.Enums.UserType.Coor)
-            {
-                <MudTd>Coordinador</MudTd>
-                
-            }
-            else if (@context.UserType == CyberPulse.Shared.Enums.UserType.Inst)
-            {
-                <MudTd>Instructor</MudTd>
-                
-            }
-            else if (@context.UserType == CyberPulse.Shared.Enums.UserType.User)
-            {
-                <MudTd>Usuario</MudTd>
-                
-            }
+            <MudTd>@context.UserType.GetDisplayName()</MudTd>
             <MudTd Class="text-center">
                 <MudTooltip Text="@Localizer["Edit"]">
                     <MudButton Variant="Variant.Filled"

@@ -43,7 +43,7 @@ public partial class UserTypeEdit
 
     private async Task EditAsync()
     {
-        var responseHttp = await Repository.GetAsync($"api/accounts/UserTypeUp?id={user.Id}&userType={user.UserType}");
+        var responseHttp = await Repository.GetAsync($"api/accounts/UserTypeUp?id={user!.Id}&userType={user.UserType}");
 
         if (responseHttp.Error)
         {

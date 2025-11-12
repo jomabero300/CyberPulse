@@ -54,12 +54,12 @@ public partial class UserTypeForm
 
         context.PreventNavigation();
     }
-    private string GetDisplayName(Enum value)
-    {
-        var field = value.GetType().GetField(value.ToString());
-        var attribute = field?.GetCustomAttributes(typeof(DisplayAttribute), false)
-                       .FirstOrDefault() as DisplayAttribute;
+    //private string GetDisplayName(Enum value)
+    //{
+    //    var field = value.GetType().GetField(value.ToString());
+    //    var attribute = field?.GetCustomAttributes(typeof(DisplayAttribute), false)
+    //                   .FirstOrDefault() as DisplayAttribute;
 
-        return attribute?.Name ?? value.ToString();
-    }
+    //    return attribute?.Name ?? value.ToString();
+    //}
 }

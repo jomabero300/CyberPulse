@@ -5,14 +5,14 @@ namespace CyberPulse.Shared.Enums;
 
 public enum UserType
 {
-    [Display(Name = "Administrador", ResourceType = typeof(Literals))]
+    [Display(Name = "Admi", ResourceType = typeof(Literals))]
     Admi,
-    [Display(Name = "Coordinador", ResourceType = typeof(Literals))]
+    [Display(Name = "Coor", ResourceType = typeof(Literals))]
     Coor,
-    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    [Display(Name = "Purc", ResourceType = typeof(Literals))]
     Purc,
-    [Display(Name = "PurchasingBoard", ResourceType = typeof(Literals))]
+    [Display(Name = "Instructor", ResourceType = typeof(Literals))]
     Inst,
-    [Display(Name = "Usuario", ResourceType = typeof(Literals))]
+    [Display(Name = "User", ResourceType = typeof(Literals))]
     User
 }

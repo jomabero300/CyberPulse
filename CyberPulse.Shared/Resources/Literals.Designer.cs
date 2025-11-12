@@ -106,11 +106,11 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Admin.
+        ///   Busca una cadena traducida similar a Administrator.
         /// </summary>
-        public static string Admin {
+        public static string Admi {
             get {
-                return ResourceManager.GetString("Admin", resourceCulture);
+                return ResourceManager.GetString("Admi", resourceCulture);
             }
         }
         
@@ -462,6 +462,15 @@ namespace CyberPulse.Shared.Resources {
         public static string ConfirmEmailMessage {
             get {
                 return ResourceManager.GetString("ConfirmEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Coordinator.
+        /// </summary>
+        public static string Coor {
+            get {
+                return ResourceManager.GetString("Coor", resourceCulture);
             }
         }
         
@@ -1465,11 +1474,11 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Purchasing Board.
+        ///   Busca una cadena traducida similar a Purchasing board.
         /// </summary>
-        public static string PurchasingBoard {
+        public static string Purc {
             get {
-                return ResourceManager.GetString("PurchasingBoard", resourceCulture);
+                return ResourceManager.GetString("Purc", resourceCulture);
             }
         }
         

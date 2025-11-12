@@ -270,7 +270,7 @@
   <data name="PleaseWait" xml:space="preserve">
     <value>Por favor espere..</value>
   </data>
-  <data name="Admin" xml:space="preserve">
+  <data name="Admi" xml:space="preserve">
     <value>Adminstrador</value>
   </data>
   <data name="User" xml:space="preserve">
@@ -870,7 +870,10 @@
   <data name="Quoted03" xml:space="preserve">
     <value>Cotización 03</value>
   </data>
-  <data name="PurchasingBoard" xml:space="preserve">
+  <data name="Coor" xml:space="preserve">
+    <value>Coordinador</value>
+  </data>
+  <data name="Purc" xml:space="preserve">
     <value>Junta de compras</value>
   </data>
 </root>
