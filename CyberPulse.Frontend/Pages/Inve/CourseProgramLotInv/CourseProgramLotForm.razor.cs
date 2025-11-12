@@ -185,7 +185,8 @@ public partial class CourseProgramLotForm
         }
 
         return courses!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private void CourseChanged(CourseDTO entity)

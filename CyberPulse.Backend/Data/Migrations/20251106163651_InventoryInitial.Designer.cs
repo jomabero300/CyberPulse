@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CyberPulse.Backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251021160604_InventoryInitial")]
+    [Migration("20251106163651_InventoryInitial")]
     partial class InventoryInitial
     {
         /// <inheritdoc />
@@ -956,8 +956,8 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<int>("LotId")
                         .HasColumnType("int");
@@ -1004,6 +1004,12 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<decimal>("Percentage")
                         .HasColumnType("decimal(3,1)");
 
+                    b.Property<decimal>("PriceHigh")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<decimal>("PriceLow")
+                        .HasColumnType("decimal(14,2)");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -1042,10 +1048,22 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Property<int>("ProductCurrentValueId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Quoted01")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<decimal>("Quoted02")
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<decimal>("Quoted03")
+                        .HasColumnType("decimal(14,2)");
+
                     b.Property<decimal>("QuotedValue")
                         .HasColumnType("decimal(14,2)");
 
                     b.Property<int>("RequestedQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatuId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1053,6 +1071,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.HasIndex("BudgetCourseId");
 
                     b.HasIndex("ProductCurrentValueId");
+
+                    b.HasIndex("StatuId");
 
                     b.ToTable("ProductQuotations", "Inve");
                 });
@@ -1770,9 +1790,17 @@ namespace CyberPulse.Backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("BudgetCourse");
 
                     b.Navigation("ProductCurrentValue");
+
+                    b.Navigation("Statu");
                 });
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.ProgramLot", b =>

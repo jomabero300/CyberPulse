@@ -34,7 +34,7 @@ else
             <MudTd>@context.Worth.ToString("N2")</MudTd>
             <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
-                @if (context.StatuId == 1)
+                @if (context.StatuId == 6)
                 {
                     <MudTooltip Text="@Localizer["New"]">
                         <MudButton Variant="Variant.Filled"
@@ -43,6 +43,23 @@ else
                             <MudIcon Icon="@Icons.Material.Filled.Edit" />
                         </MudButton>
                     </MudTooltip>
+                    <MudTooltip Text="@Localizer["Delete"]">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(() => DeleteAsync(@context))">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["Send"]">
+                        <MudButton Size="Size.Small"
+                                   Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@(() => SendAsync(context))">
+                            <MudIcon Icon="@Icons.Material.Filled.Send" />
+                        </MudButton>
+                    </MudTooltip>
+
                 }
                 else if (context.StatuId == 8)
                 {
@@ -54,14 +71,20 @@ else
                         </MudButton>
                     </MudTooltip>                    
                 }
+                @if(context.StatuId > 6)
+                {
+                    <MudTooltip Text="@Localizer["ChipView"]">
+                        <MudButton Size="Size.Small"
+                                   Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Info"
+                                   OnClick="@(() => PrevioAsync(context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Preview" />
+                        </MudButton>
+                    </MudTooltip>
 
-                <MudTooltip Text="@Localizer["Delete"]">
-                    <MudButton Variant="Variant.Filled"
-                                Color="Color.Error"
-                                OnClick="@(() => DeleteAsync(@context))">
-                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
-                    </MudButton>
-                </MudTooltip>
+                }
+
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

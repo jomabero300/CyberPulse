@@ -366,7 +366,6 @@ public class ChipsController : GenericController<Chip>
 
                 string subject =model.language== "es" ? "Mail:SubjectCreateChipEs":"Mail:SubjectCreateChipEn";
 
-                //TODO: ACTIVAR ENVIAR EMAIL, ESTA DESACTIVADO PARA HACER PRUEBAS
                 await _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration[subject]!, string.Format(_configuration[Mailbody]!, model.ChipNo, tokenLink), model.language);
             }
 

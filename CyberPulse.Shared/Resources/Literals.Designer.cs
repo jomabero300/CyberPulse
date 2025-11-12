@@ -979,6 +979,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The course has been submitted; the instructor will receive an email notification..
+        /// </summary>
+        public static string InstructorCourseEmail {
+            get {
+                return ResourceManager.GetString("InstructorCourseEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The instructor will be notified of the decision via email..
         /// </summary>
         public static string InstructorEjecutar {
@@ -1456,11 +1465,56 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Purchasing Board.
+        /// </summary>
+        public static string PurchasingBoard {
+            get {
+                return ResourceManager.GetString("PurchasingBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The course materials have been sent, and the board will receive an email notification..
+        /// </summary>
+        public static string PurchasingBoardEmail {
+            get {
+                return ResourceManager.GetString("PurchasingBoardEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Quantity.
         /// </summary>
         public static string Quantity {
             get {
                 return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Quoted 01.
+        /// </summary>
+        public static string Quoted01 {
+            get {
+                return ResourceManager.GetString("Quoted01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Quoted 02.
+        /// </summary>
+        public static string Quoted02 {
+            get {
+                return ResourceManager.GetString("Quoted02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Quoted 03.
+        /// </summary>
+        public static string Quoted03 {
+            get {
+                return ResourceManager.GetString("Quoted03", resourceCulture);
             }
         }
         
@@ -2239,11 +2293,11 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a The value exceeds the budget of the lot.
+        ///   Busca una cadena traducida similar a The value exceeds the budget of the program.
         /// </summary>
-        public static string WorthExceedsLotBudget {
+        public static string WorthExceedsProgramBudget {
             get {
-                return ResourceManager.GetString("WorthExceedsLotBudget", resourceCulture);
+                return ResourceManager.GetString("WorthExceedsProgramBudget", resourceCulture);
             }
         }
         

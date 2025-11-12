@@ -37,7 +37,11 @@ public class ProductQuotationBodyRepository : GenericRepository<ProductQuotation
                             ProductId = x.ProductId,
                             ProductName = x.Product!.Name,
                             ProductDescription = x.Product!.Description,
-                            UnitMeasurementName = x.Product!.UnitMeasurement!.Name
+                            UnitMeasurementName = x.Product!.UnitMeasurement!.Name,
+                            Quoted01=0,
+                            Quoted02=0,
+                            Quoted03=0,
+                            StatuId=1
                         })
                         .ToListAsync();
 
@@ -57,6 +61,10 @@ public class ProductQuotationBodyRepository : GenericRepository<ProductQuotation
                     product.RequestedQuantity = quotation.RequestedQuantity;
                     product.AcceptedQuantity = quotation.AcceptedQuantity;
                     product.QuotedValue = quotation.QuotedValue;
+                    product.Quoted01 = quotation.Quoted01;
+                    product.Quoted02 = quotation.Quoted02;
+                    product.Quoted03 = quotation.Quoted03;
+                    product.StatuId= quotation.StatuId;
                 }
             }
         }

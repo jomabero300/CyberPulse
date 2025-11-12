@@ -28,24 +28,24 @@ else
         </ToolBarContent>
         <HeaderContent>
             <MudTh>@Localizer["Id"]</MudTh>
-            <MudTh>@Localizer["Validity"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Validity"]</MudTh>
             <MudTh>@Localizer["Program"]</MudTh>
-            <MudTh>@Localizer["BudgetType"]</MudTh>
-            <MudTh>@Localizer["Rubro"]</MudTh>
-            <MudTh>@Localizer["Worth"]</MudTh>
-            <MudTh>@Localizer["Balance"]</MudTh>
-            <MudTh>@Localizer["Statu"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["BudgetType"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Rubro"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Worth"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Balance"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.Id</MudTd>
-            <MudTd>@context.Validity!.Value</MudTd>
+            <MudTd Style="text-align:center;">@context.Validity!.Value</MudTd>
             <MudTd>@context.Program!.Name</MudTd>
-            <MudTd>@context.BudgetType!.Name</MudTd>
-            <MudTd>@context.Budget!.Rubro</MudTd>
-            <MudTd>@context.Worth.ToString("N2")</MudTd>
-            <MudTd>@context.Balance.ToString("N2")</MudTd>
-            <MudTd>@context.Statu!.Name</MudTd>
+            <MudTd Style="text-align:center;">@context.BudgetType!.Name</MudTd>
+            <MudTd Style="text-align:center;">@context.Budget!.Rubro</MudTd>
+            <MudTd Style="text-align:right;">@context.Worth.ToString("N2")</MudTd>
+            <MudTd Style="text-align:right;">@context.Balance.ToString("N2")</MudTd>
+            <MudTd Style="text-align:center;">@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
                 @if (context.StatuId == 1)
                 {

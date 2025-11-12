@@ -47,10 +47,10 @@
 								 SearchFunc="SearchLot"
 								 Value="selectedBudgetLot"
 								 ValueChanged="LotChanged"
-								 ToStringFunc="@(e=> e==null?null :$"{e.ProgramLot!.Lot!.Name} {e.Worth:N2}")"
+								 ToStringFunc="@(e=> e==null?null :e.ProgramLot!.Lot!.Name)"
 								 For="@(() => BudgetCourseDTO.BudgetLot)">
 					<ItemTemplate Context="itemContext">
-                    @itemContext.ProgramLot!.Lot!.Name @itemContext.Worth.ToString("N2")
+                    @itemContext.ProgramLot!.Lot!.Name 
                 </ItemTemplate>
 				</MudAutocomplete>
 

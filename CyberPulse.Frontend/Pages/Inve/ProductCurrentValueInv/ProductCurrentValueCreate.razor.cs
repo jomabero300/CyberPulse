@@ -4,6 +4,7 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Threading.Tasks;
 
 namespace CyberPulse.Frontend.Pages.Inve.ProductCurrentValueInv;
 

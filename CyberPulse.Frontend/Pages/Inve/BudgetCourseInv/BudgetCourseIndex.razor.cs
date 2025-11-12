@@ -2,6 +2,8 @@ using CyberPulse.Frontend.Pages.Inve.BudgetInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
+using CyberPulse.Shared.EntitiesDTO.Chipp;
+using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -19,6 +21,7 @@ public partial class BudgetCourseIndex
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
+    private bool lbEsta = false;
     private const string baseUrl = "api/budgetcourses";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
@@ -179,5 +182,43 @@ public partial class BudgetCourseIndex
         await table.ReloadServerData();
 
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
+    }
+
+    private async Task SendAsync(BudgetCourse model)
+    {
+        lbEsta = true;
+
+        var language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
+
+        var modelSend = new BudgetCourseSendDTO
+        {
+            Id = model.Id,
+            InstructorId = model.InstructorId,
+            BudgetLotId = model.BudgetLotId,
+            ValidityId = model.ValidityId,
+            CourseProgramLotId = model.CourseProgramLotId,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            Worth = model.Worth,
+            StatuId = 6,
+            language = language
+        };
+
+        var responseHttp = await repository.PutAsync($"{baseUrl}/fulls/",modelSend);
+
+        if (responseHttp.Error)
+        {
+            var messageError = await responseHttp.GetErrorMessageAsync();
+            Snackbar.Add(Localizer[messageError!], Severity.Error);
+            lbEsta = false;
+            return;
+        }
+
+        //1. coordinaor, 2. Instructor
+        //string messageSend = indEsta.Equals(1) ? "InstructorEmail" : "CoordinatorInfo";
+        Snackbar.Add(Localizer["InstructorCourseEmail"], Severity.Success);
+        await table.ReloadServerData();
+
+        lbEsta = false;
     }
 }

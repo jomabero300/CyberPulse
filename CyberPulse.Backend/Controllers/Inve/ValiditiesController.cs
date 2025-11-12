@@ -114,5 +114,4 @@ public class ValiditiesController : GenericController<Validity>
 
         return BadRequest(response.Message);
     }
-
 }

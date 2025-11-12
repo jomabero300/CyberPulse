@@ -32,9 +32,9 @@ public class Product
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Name { get; set; } = null!;
 
-    [Column(TypeName = "varchar(100)")]
+    [Column(TypeName = "nvarchar(4000)")]
     [Display(Name = "Description", ResourceType = typeof(Literals))]
-    [MaxLength(100, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
+    [MaxLength(4000, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Description { get; set; } = null!;
 

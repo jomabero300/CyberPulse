@@ -13,6 +13,15 @@ namespace CyberPulse.Frontend.Pages.Inve.BudgetLotInv;
 public partial class BudgetLotForm
 {
     private EditContext editContext = null!;
+    [EditorRequired, Parameter] public BudgetLotDTO BudgetLotDTO { get; set; } = null!;
+    [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
+    [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
+
+    [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+    [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
+    [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
 
     private BudgetProgram2DTO selectedBudgetProgram = new();
     private List<BudgetProgram2DTO>? budgetPrograms;
@@ -26,14 +35,6 @@ public partial class BudgetLotForm
     private string _worthErrorMessage = string.Empty;
     private bool _disable;
 
-    [EditorRequired, Parameter] public BudgetLotDTO BudgetLotDTO { get; set; } = null!;
-    [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
-    [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
-
-    [Inject] private IRepository Repository { get; set; } = null!;
-    [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-    [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
-    [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
 
     public bool FormPostedSuccessfully { get; set; } = false;
@@ -46,6 +47,7 @@ public partial class BudgetLotForm
         loading = true;
         BudgetLotDTO.StatuId = 1;
         await LoadBudgetProgramAsync();
+
         if (BudgetLotDTO.Id > 0)
         {
             selectedBudgetProgram = budgetPrograms!.FirstOrDefault(x => x.Id == BudgetLotDTO.BudgetProgramId)!;

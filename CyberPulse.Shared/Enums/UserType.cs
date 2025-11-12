@@ -10,6 +10,8 @@ public enum UserType
     [Display(Name = "Coordinador", ResourceType = typeof(Literals))]
     Coor,
     [Display(Name = "Instructor", ResourceType = typeof(Literals))]
+    Purc,
+    [Display(Name = "PurchasingBoard", ResourceType = typeof(Literals))]
     Inst,
     [Display(Name = "Usuario", ResourceType = typeof(Literals))]
     User

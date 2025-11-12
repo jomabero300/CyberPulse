@@ -2,6 +2,7 @@ using CyberPulse.Frontend.Pages.Inve.BudgetCourseInv;
 using CyberPulse.Frontend.Respositories;
 using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.Entities.Inve;
+using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -19,6 +20,7 @@ public partial class ProductQuotationIndex
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
     private bool loading;
+    private bool lbEsta = false;
     private const string baseUrl = "api/budgetcourses";
     private string infoFormat = "{first_item}-{last_item} => {all_items}";
 
@@ -103,7 +105,6 @@ public partial class ProductQuotationIndex
 
         await table.ReloadServerData();
     }
-
     private async Task ShowModalAsync(BudgetCourse selectedCourse, bool isEdit = false)
     {
         var options = new DialogOptions() { 
@@ -149,7 +150,6 @@ public partial class ProductQuotationIndex
             await table.ReloadServerData();
         }
     }
-
     private async Task DeleteAsync(BudgetCourse entity)
     {
         var parameters = new DialogParameters
@@ -168,14 +168,13 @@ public partial class ProductQuotationIndex
             return;
         }
 
-
-        var responseHttp = await repository.DeleteAsync($"{baseUrl}/full/{entity.Id}");
+        var responseHttp = await repository.DeleteAsync($"api/productquotations/full/{entity.Id}");
 
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/budgetcourses");
+                NavigationManager.NavigateTo("/Stocktaking");
             }
             else
             {
@@ -190,5 +189,45 @@ public partial class ProductQuotationIndex
         await table.ReloadServerData();
 
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
+    }
+    private async Task SendAsync(BudgetCourse model)
+    {
+        lbEsta = true;
+
+        var language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
+
+        var modelSend = new BudgetCourseSendDTO
+        {
+            Id = model.Id,
+            InstructorId = model.InstructorId,
+            BudgetLotId = model.BudgetLotId,
+            ValidityId = model.ValidityId,
+            CourseProgramLotId = model.CourseProgramLotId,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            Worth = model.Worth,
+            StatuId = 7,
+            language = language
+        };
+
+        var responseHttp = await repository.PutAsync($"{baseUrl}/fulls/", modelSend);
+
+        if (responseHttp.Error)
+        {
+            var messageError = await responseHttp.GetErrorMessageAsync();
+            Snackbar.Add(Localizer[messageError!], Severity.Error);
+            lbEsta = false;
+            return;
+        }
+
+        Snackbar.Add(Localizer["PurchasingBoardEmail"], Severity.Success);
+        await table.ReloadServerData();
+
+        lbEsta = false;
+    }
+
+    private async Task PrevioAsync(int id)
+    {
+
     }
 }

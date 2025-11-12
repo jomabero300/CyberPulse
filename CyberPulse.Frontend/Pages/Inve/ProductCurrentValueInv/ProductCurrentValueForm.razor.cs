@@ -50,14 +50,20 @@ public partial class ProductCurrentValueForm
         if (ProductCurrentValueDTO.Id > 0)
         {
             selectedValidity = validities!.FirstOrDefault(x => x.Id == ProductCurrentValueDTO.ValidityId)!;
-            ProductCurrentValueDTO.Validity=selectedValidity;
+            ProductCurrentValueDTO.Validity = selectedValidity;
 
             selectedIva = ivas!.FirstOrDefault(x => x.Id == ProductCurrentValueDTO.IvaId)!;
             ProductCurrentValueDTO.Iva = selectedIva;
 
-            selectedProduct=products!.FirstOrDefault(x=>x.Id==ProductCurrentValueDTO.ProductId)!;
+            selectedProduct = products!.FirstOrDefault(x => x.Id == ProductCurrentValueDTO.ProductId)!;
             ProductCurrentValueDTO.Product = selectedProduct;
 
+        }
+        else
+        {
+            selectedValidity = validities!.FirstOrDefault(x => x.StatuId == 1)!;
+            ProductCurrentValueDTO.Validity = selectedValidity;
+            ProductCurrentValueDTO.ValidityId = selectedValidity.Id;
         }
 
         loading = false;

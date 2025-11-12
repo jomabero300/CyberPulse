@@ -808,8 +808,8 @@
   <data name="CourseCode" xml:space="preserve">
     <value>Code</value>
   </data>
-  <data name="WorthExceedsLotBudget" xml:space="preserve">
-    <value>The value exceeds the budget of the lot</value>
+  <data name="WorthExceedsProgramBudget" xml:space="preserve">
+    <value>The value exceeds the budget of the program</value>
   </data>
   <data name="WorthMustBeGreaterThanZero" xml:space="preserve">
     <value>Worth Must Be Greater Than Zero</value>
@@ -834,5 +834,23 @@
   </data>
   <data name="PriceHigh" xml:space="preserve">
     <value>Prince High</value>
+  </data>
+  <data name="InstructorCourseEmail" xml:space="preserve">
+    <value>The course has been submitted; the instructor will receive an email notification.</value>
+  </data>
+  <data name="PurchasingBoardEmail" xml:space="preserve">
+    <value>The course materials have been sent, and the board will receive an email notification.</value>
+  </data>
+  <data name="Quoted01" xml:space="preserve">
+    <value>Quoted 01</value>
+  </data>
+  <data name="Quoted02" xml:space="preserve">
+    <value>Quoted 02</value>
+  </data>
+  <data name="Quoted03" xml:space="preserve">
+    <value>Quoted 03</value>
+  </data>
+  <data name="PurchasingBoard" xml:space="preserve">
+    <value>Purchasing Board</value>
   </data>
 </root>

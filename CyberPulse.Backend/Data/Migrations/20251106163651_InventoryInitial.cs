@@ -412,7 +412,7 @@ namespace CyberPulse.Backend.Data.Migrations
                     ClasseId = table.Column<int>(type: "int", nullable: false),
                     LotId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -504,6 +504,8 @@ namespace CyberPulse.Backend.Data.Migrations
                     ValidityId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     IvaId = table.Column<int>(type: "int", nullable: false),
+                    PriceLow = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    PriceHigh = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
                     Worth = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
                     Percentage = table.Column<decimal>(type: "decimal(3,1)", nullable: false)
                 },
@@ -601,7 +603,11 @@ namespace CyberPulse.Backend.Data.Migrations
                     ProductCurrentValueId = table.Column<int>(type: "int", nullable: false),
                     RequestedQuantity = table.Column<int>(type: "int", nullable: false),
                     AcceptedQuantity = table.Column<int>(type: "int", nullable: false),
-                    QuotedValue = table.Column<decimal>(type: "decimal(14,2)", nullable: false)
+                    QuotedValue = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    Quoted01 = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    Quoted02 = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    Quoted03 = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
+                    StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -618,6 +624,13 @@ namespace CyberPulse.Backend.Data.Migrations
                         column: x => x.ProductCurrentValueId,
                         principalSchema: "Inve",
                         principalTable: "ProductCurrentValues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProductQuotations_Status_StatuId",
+                        column: x => x.StatuId,
+                        principalSchema: "Gene",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -854,6 +867,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "ProductQuotations",
                 column: "ProductCurrentValueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductQuotations_StatuId",
+                schema: "Inve",
+                table: "ProductQuotations",
+                column: "StatuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ClasseId_Name",

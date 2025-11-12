@@ -67,7 +67,7 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
     }
     public override async Task<ActionResponse<ProductQuotation>> DeleteAsync(int id)
     {
-        var entity = await _context.ProductQuotations.FindAsync(id);
+        var entity = await _context.ProductQuotations.Where(x=>x.BudgetCourseId==id).ToListAsync();
 
         if (entity == null)
         {
@@ -78,7 +78,7 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             };
         }
 
-        _context.Remove(entity);
+        _context.RemoveRange(entity);
 
         try
         {
@@ -109,7 +109,11 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             ProductCurrentValueId = entity.ProductCurrentValueId,
             RequestedQuantity = entity.RequestedQuantity,
             AcceptedQuantity = entity.AcceptedQuantity,
-            QuotedValue = entity.QuotedValue
+            QuotedValue = entity.QuotedValue,
+            Quoted01= entity.Quoted01,
+            Quoted02= entity.Quoted02,
+            Quoted03= entity.Quoted03,
+            StatuId=entity.StatuId
         };
 
         _context.Add(model);
@@ -151,7 +155,11 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
                 ProductCurrentValueId = x.ProductCurrentValueId,
                 RequestedQuantity = x.RequestedQuantity,
                 AcceptedQuantity = x.AcceptedQuantity,
-                QuotedValue = x.QuotedValue
+                QuotedValue = x.QuotedValue,
+                Quoted01=x.Quoted01,
+                Quoted02=x.Quoted02,
+                Quoted03=x.Quoted03,
+                StatuId=x.StatuId
             })
             .Where(x=>x.Id==0)
             .ToList();
@@ -168,7 +176,11 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
                 ProductCurrentValueId = x.ProductCurrentValueId,
                 RequestedQuantity = x.RequestedQuantity,
                 AcceptedQuantity = x.AcceptedQuantity,
-                QuotedValue = x.QuotedValue
+                QuotedValue = x.QuotedValue,
+                Quoted01 = x.Quoted01,
+                Quoted02 = x.Quoted02,
+                Quoted03 = x.Quoted03,
+                StatuId = x.StatuId
             })
             .Where(x => x.Id != 0)
             .ToList();
@@ -248,6 +260,10 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
         model.RequestedQuantity = entity.RequestedQuantity;
         model.AcceptedQuantity = entity.AcceptedQuantity;
         model.QuotedValue = entity.QuotedValue;
+        model.Quoted01= entity.Quoted01;
+        model.Quoted02= entity.Quoted02;
+        model.Quoted03= entity.Quoted03;
+        model.StatuId=entity.StatuId;
 
         _context.Update(model);
 

@@ -202,13 +202,11 @@ public partial class ChipsIndex
 
         var chipCoordinator = response.Result;
 
-
         var responseHttp = await repository.PutAsync("api/chips/fullc/", chipCoordinator);
 
         if (responseHttp.Error)
         {
             var messageError = await responseHttp.GetErrorMessageAsync();
-
             Snackbar.Add(Localizer[messageError!], Severity.Error);
             lbEsta = false;
             return;

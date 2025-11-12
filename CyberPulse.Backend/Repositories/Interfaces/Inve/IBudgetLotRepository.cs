@@ -22,5 +22,5 @@ public interface IBudgetLotRepository
     Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
-    //Task<ActionResponse<double>> GetBalanceAsync(int id);
+    Task<ActionResponse<double>> GetBalanceAsync(int id);
 }

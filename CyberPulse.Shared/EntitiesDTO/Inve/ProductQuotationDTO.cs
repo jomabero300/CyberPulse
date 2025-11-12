@@ -24,8 +24,23 @@ public class ProductQuotationDTO
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int AcceptedQuantity { get; set; }
 
-    [Column(TypeName = "decimal(14,2)")]
     [Display(Name = "QuotedValue", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public double QuotedValue { get; set; }
+
+    [Display(Name = "Quoted01", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public double Quoted01 { get; set; }
+
+    [Display(Name = "Quoted02", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public double Quoted02 { get; set; }
+
+    [Display(Name = "Quoted03", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public double Quoted03 { get; set; }
+
+    [Display(Name = "Statu", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int StatuId { get; set; }
 }

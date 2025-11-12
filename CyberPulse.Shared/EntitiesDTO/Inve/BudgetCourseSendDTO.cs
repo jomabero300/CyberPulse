@@ -1,11 +1,10 @@
-﻿using CyberPulse.Shared.EntitiesDTO.Chipp;
-using CyberPulse.Shared.Resources;
-using CyberPulse.Shared.Validations;
+﻿using CyberPulse.Shared.Resources;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CyberPulse.Shared.EntitiesDTO.Inve;
 
-public class BudgetCourseDTO
+public class BudgetCourseSendDTO
 {
     public int Id { get; set; }
 
@@ -32,7 +31,6 @@ public class BudgetCourseDTO
 
     [Display(Name = "EndDate", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    [DateRangeValidation("StartDate", ErrorMessageResourceName = "DateNoEndStart", ErrorMessageResourceType = typeof(Literals))]
     public DateTime? EndDate { get; set; }
 
     [Display(Name = "Worth", ResourceType = typeof(Literals))]
@@ -42,14 +40,5 @@ public class BudgetCourseDTO
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public BudgetProgram2DTO? BudgetProgram { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public BudgetLot1DTO? BudgetLot { get; set; }
-
-    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
-    public CourseProgramLot1DTO? CourseProgramLot { get; set; }
-    public ChipUserDTO? Instructor { get; set; }
+    public string? language { get; set; }
 }

@@ -26,7 +26,9 @@ public partial class ProductCurrentValueAllPercentage
             Snackbar.Add(Localizer["ERR010"], Severity.Error);
             return;
         }
+
         var ltcade = $"/api/productcurrentvalues/all/{ProductCurrentValueSpDTO.Percentage.ToString().Replace(',', '.')}";
+
         var responseHttp = await Repository.GetAsync(ltcade);
 
         if (responseHttp.Error)

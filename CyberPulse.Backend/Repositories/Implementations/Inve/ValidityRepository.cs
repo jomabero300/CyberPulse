@@ -6,6 +6,7 @@ using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
     {
         _context = context;
     }
+
+
 
     public override async Task<ActionResponse<Validity>> GetAsync(int id)
     {
@@ -257,5 +260,28 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
             WasSuccess = true,
             Result = (int)(vigenciaUltima.Value+1)
         };
+    }
+
+    public async Task<ActionResponse<Validity>> GetActiveAsync()
+    {
+        var entity = await _context.Validities
+            .AsNoTracking()
+             .FirstOrDefaultAsync(x => x.Statu!.Name == "Activo");
+
+        if (entity == null)
+        {
+            return new ActionResponse<Validity>
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<Validity>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+
     }
 }

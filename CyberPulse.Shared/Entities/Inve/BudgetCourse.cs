@@ -1,6 +1,5 @@
 ﻿using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Resources;
-using CyberPulse.Shared.Validations;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +9,6 @@ namespace CyberPulse.Shared.Entities.Inve;
 public class BudgetCourse
 {
     public int Id { get; set; }
-
 
     [Column(TypeName = "nvarchar(450)")]
     [Display(Name = "Instructor", ResourceType = typeof(Literals))]

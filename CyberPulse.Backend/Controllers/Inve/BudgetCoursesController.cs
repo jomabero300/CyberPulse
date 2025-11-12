@@ -1,9 +1,12 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
+using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
+using CyberPulse.Shared.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +19,16 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class BudgetCoursesController : GenericController<BudgetCourse>
 {
     private readonly IBudgetCourseUnitOfWork _budgetCourseUnitOfWork;
-    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork) : base(unitOfWork)
+    private readonly IUsersUnitOfWork _usersUnitOfWork;
+    private readonly IConfiguration _configuration;
+    private readonly IMailHelper _mailHelper;
+
+    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper) : base(unitOfWork)
     {
         _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
+        _usersUnitOfWork = usersUnitOfWork;
+        _configuration = configuration;
+        _mailHelper = mailHelper;
     }
 
     [HttpGet("{id}")]
@@ -85,6 +95,49 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
 
         if (action.WasSuccess)
         {
+            return Ok(action.Result);
+        }
+
+        return BadRequest(action.Message);
+    }
+
+    [HttpPut("fulls")]
+    public async Task<IActionResult> PustAsync([FromBody] BudgetCourseSendDTO model)
+    {
+        var modelDto = new BudgetCourseDTO
+                                        {
+                                            Id = model.Id,
+                                            InstructorId = model.InstructorId,
+                                            BudgetLotId = model.BudgetLotId,
+                                            ValidityId = model.ValidityId,
+                                            CourseProgramLotId = model.CourseProgramLotId,
+                                            StartDate = model.StartDate,
+                                            EndDate = model.EndDate,
+                                            Worth = model.Worth,
+                                            StatuId = model.StatuId
+                                        };
+
+        var action = await _budgetCourseUnitOfWork.UpdateAsync(modelDto);
+
+        if (action.WasSuccess)
+        {
+            if (model.StatuId == 6) //si el estado es 6 a enviado
+            {
+                //buscar el usuario e emails
+                var user = await _usersUnitOfWork.GetUserAsync(model.InstructorId, UserType.Inst);
+
+                var tokenLink = $"{HttpContext.Request.Scheme}://{_configuration["Url Frontend"]}";
+
+                string Mailbody = model.StatuId switch
+                {
+                    6 => model.language == "es" ? "Mail:BodyCreateCourseEs" : "Mail:BodyCreateCourseEn",
+                    _ => model.language == "es" ? "Mail:BodyReviewCourseEs" : "Mail:BodyReviewCourseEn",
+                };
+
+                string subject = model.language == "es" ? "Mail:SubjectCourseEs" : "Mail:SubjectCourseEn";
+
+                await _mailHelper.SendMail(user.Result!.FullName, user.Result.Email!, _configuration[subject]!, string.Format(_configuration[Mailbody]!, model.Id.ToString(), tokenLink), model.language!);
+            }
             return Ok(action.Result);
         }
 

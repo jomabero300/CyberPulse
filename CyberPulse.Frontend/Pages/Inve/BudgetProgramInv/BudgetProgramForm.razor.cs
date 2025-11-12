@@ -1,7 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Inve;
-using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
@@ -27,7 +25,7 @@ public partial class BudgetProgramForm
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
 
-    private BudgetDTO? selectedBudget { get; set; }=null;
+    private BudgetDTO? selectedBudget { get; set; } = null;
     private List<BudgetDTO>? budgets;
 
     private InvProgramDTO selectedProgram = new();
@@ -40,7 +38,7 @@ public partial class BudgetProgramForm
     protected override void OnInitialized()
     {
         editContext = new(BudgetProgramDTO);
-       
+
         BudgetProgramDTO.Budget = null;
     }
 
@@ -72,10 +70,9 @@ public partial class BudgetProgramForm
         }
         //budgets = responseHttp.Response;
 
-        BudgetProgramDTO.ValidityId = responseHttp.Response!.FirstOrDefault(x=>x.StatuId==1)!.Id;
+        BudgetProgramDTO.ValidityId = responseHttp.Response!.FirstOrDefault(x => x.StatuId == 1)!.Id;
 
         BudgetProgramDTO.StatuId = 1;
-
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -165,10 +162,10 @@ public partial class BudgetProgramForm
     private void ProgramChanged(InvProgramDTO entity)
     {
         selectedProgram = entity;
-        BudgetProgramDTO.Program= entity;
+        BudgetProgramDTO.Program = entity;
         BudgetProgramDTO.ProgramId = entity.Id;
         //TODO: VALIDAR SI ES INICIAL O ADICIONAL PARA GUARDAR
-        BudgetProgramDTO.BudgetTypeId=entity.StatuId;
+        BudgetProgramDTO.BudgetTypeId = entity.StatuId;
     }
 
     private async Task ValidateWorth()
@@ -182,7 +179,8 @@ public partial class BudgetProgramForm
             Snackbar.Add(Localizer["RequiredRubro"], Severity.Error);
             BudgetProgramDTO.Indesta = true;
 
-        }else if (BudgetProgramDTO.Worth > selectedBudget!.Worth)
+        }
+        else if (BudgetProgramDTO.Worth > selectedBudget!.Worth)
         {
             BudgetProgramDTO.Indesta = true;
 

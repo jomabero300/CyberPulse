@@ -44,8 +44,8 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
             var budget = new List<BudgetProgramIndexDTO>();
             foreach (var x in response.Result!)
             {
-                //var balanceResponse = await _budgetLotUnitOfWork.GetBalanceAsync(x.Id);
-                //double usedBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+                var balanceResponse = await _budgetLotUnitOfWork.GetBalanceAsync(x.Id);
+                double usedBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
                 //Balance = x.Worth - usedBalance,
 
                 budget.Add(new BudgetProgramIndexDTO
@@ -57,7 +57,7 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
                     ValidityId = x.ValidityId,
                     Worth = x.Worth,
                     StatuId = x.StatuId,
-                    Balance = 0,
+                    Balance = x.Worth-usedBalance,
                     Budget = x.Budget,
                     Program = x.Program,
                     BudgetType = x.BudgetType,

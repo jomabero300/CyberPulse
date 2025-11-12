@@ -246,10 +246,11 @@ public partial class BudgetCourseForm
             BudgetCourseDTO.Worth = 0;
             Snackbar.Add(Localizer["RequiredLot"], Severity.Error);
         }
-        else if (BudgetCourseDTO.Worth > selectedBudgetLot.Worth)
+        else if (BudgetCourseDTO.Worth > selectedBudgetProgram.Worth)
         {
             _worthHasError = true;
-            _worthErrorMessage = Localizer["WorthExceedsLotBudget"];
+            _worthErrorMessage = Localizer["WorthExceedsProgramBudget"];
+            //WorthExceedsLotBudget
         }
         else if (BudgetCourseDTO.Worth <= 0)
         {

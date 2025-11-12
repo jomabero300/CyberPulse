@@ -45,13 +45,26 @@ else
             <MudTd>@context.Worth.ToString("N2")</MudTd>
             <MudTd>@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
-                <MudTooltip Text="@Localizer["Delete"]">
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Error"
-                               OnClick="@(() => DeleteAsync(@context))">
-                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
-                    </MudButton>
-                </MudTooltip>
+                @if(context.StatuId == 1)
+                {
+                    <MudTooltip Text="@Localizer["Send"]">
+                        <MudButton Size="Size.Small"
+                                   Disabled="@lbEsta"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@(() => SendAsync(context))">
+                            <MudIcon Icon="@Icons.Material.Filled.Send" />
+                        </MudButton>
+                    </MudTooltip>
+
+                    <MudTooltip Text="@Localizer["Delete"]">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Error"
+                                   OnClick="@(() => DeleteAsync(@context))">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                        </MudButton>
+                    </MudTooltip>
+                }
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

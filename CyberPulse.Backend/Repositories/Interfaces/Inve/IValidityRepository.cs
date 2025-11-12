@@ -23,4 +23,5 @@ public interface IValidityRepository
 
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
     Task<ActionResponse<int>> GetNewValidityAsync();
+    Task<ActionResponse<Validity>> GetActiveAsync();
 }

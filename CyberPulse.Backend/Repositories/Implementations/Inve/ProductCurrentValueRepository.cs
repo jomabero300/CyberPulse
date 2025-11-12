@@ -113,7 +113,9 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
             ValidityId=entity.ValidityId,
             ProductId=entity.ProductId,
             IvaId=entity.IvaId,
-            Worth=entity.Worth,
+            PriceLow=entity.PriceLow,
+            PriceHigh=entity.PriceHigh,
+            Worth =entity.Worth,
             Percentage=entity.Percentage,
         };
 
@@ -256,6 +258,8 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
         model.ValidityId = entity.ValidityId;
         model.ProductId= entity.ProductId;
         model.IvaId = entity.IvaId;
+        model.PriceLow= entity.PriceLow;
+        model.PriceHigh= entity.PriceHigh;
         model.Worth= entity.Worth;
         model.Percentage= entity.Percentage;
 

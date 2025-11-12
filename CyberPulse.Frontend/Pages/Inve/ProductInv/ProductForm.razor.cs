@@ -3,6 +3,7 @@ using CyberPulse.Frontend.Respositories;
 using CyberPulse.Shared.EntitiesDTO.Gene;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
+using MailKit.Search;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
@@ -34,7 +35,7 @@ public partial class ProductForm
     private List<StatuDTO>? status;
 
     private bool loading;
-    private bool _disable=true;
+    private bool _disable = true;
 
     [EditorRequired, Parameter] public ProductFormDTO ProductDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
@@ -65,19 +66,19 @@ public partial class ProductForm
             selectedLot = lots!.FirstOrDefault(x => x.Id == ProductDTO.LotId)!;
             ProductDTO.Lot = selectedLot;
 
-            selectedSegment = segments!.FirstOrDefault(x => x.Id ==ProductDTO!.Classe!.Family!.SegmentId)!;
+            selectedSegment = segments!.FirstOrDefault(x => x.Id == ProductDTO!.Classe!.Family!.SegmentId)!;
             await LoadFamilyAsync(selectedSegment.Id);
 
-            selectedFamily=families!.FirstOrDefault(x=>x.Id==ProductDTO!.Classe!.FamilyId)!;
+            selectedFamily = families!.FirstOrDefault(x => x.Id == ProductDTO!.Classe!.FamilyId)!;
             await LoadClasseAsync(selectedFamily.Id);
 
-            selectedClasse=classes!.FirstOrDefault(x=> x.Id == ProductDTO!.ClasseId)!;
+            selectedClasse = classes!.FirstOrDefault(x => x.Id == ProductDTO!.ClasseId)!;
             ProductDTO.Classe = selectedClasse;
 
             selectedStatu = status!.FirstOrDefault(x => x.Id == ProductDTO.StatuId)!;
             ProductDTO.Statu = selectedStatu;
 
-            selectedUnitMeasurement=unitMeasurements!.FirstOrDefault(x=>x.Id==ProductDTO.UnitMeasurementId)!;
+            selectedUnitMeasurement = unitMeasurements!.FirstOrDefault(x => x.Id == ProductDTO.UnitMeasurementId)!;
             ProductDTO.UnitMeasurement = selectedUnitMeasurement;
 
             _disable = false;
@@ -89,7 +90,7 @@ public partial class ProductForm
             ProductDTO.Statu = selectedStatu;
         }
 
-            loading = false;
+        loading = false;
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -148,7 +149,7 @@ public partial class ProductForm
     private void UnitMeasurementChanged(UnitMeasurementDTO entity)
     {
         selectedUnitMeasurement = entity;
-        ProductDTO.UnitMeasurementId=entity.Id;
+        ProductDTO.UnitMeasurementId = entity.Id;
         ProductDTO.UnitMeasurement = entity;
     }
 
@@ -174,7 +175,7 @@ public partial class ProductForm
         }
 
         return segments!
-            .Where(x => x.Name.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase)||
+            .Where(x => x.Name.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
                         x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
@@ -182,7 +183,7 @@ public partial class ProductForm
     {
         selectedSegment = entity;
         selectedFamily = new();
-        selectedClasse=new();
+        selectedClasse = new();
         await LoadFamilyAsync(entity.Id);
     }
 
@@ -249,7 +250,7 @@ public partial class ProductForm
     {
         selectedClasse = entity;
         ProductDTO.ClasseId = selectedClasse.Id;
-        ProductDTO.Classe=selectedClasse;
+        ProductDTO.Classe = selectedClasse;
     }
 
     private async Task LoadStatusAsync()
@@ -268,6 +269,7 @@ public partial class ProductForm
     private async Task<IEnumerable<StatuDTO>> SearchStatu(string searchText, CancellationToken cancellationToken)
     {
         await Task.Delay(5);
+
         if (string.IsNullOrWhiteSpace(searchText))
         {
             return status!;
@@ -316,5 +318,47 @@ public partial class ProductForm
         selectedLot = entity;
         ProductDTO.LotId = entity.Id;
         ProductDTO.Lot = entity;
+    }
+
+    private async Task CheckCodeExists(int code)
+    {
+
+        selectedSegment = new();
+        selectedFamily = new();
+        selectedClasse = new();
+
+        if(code== 0) return;
+
+        loading = true;
+
+        string dosPrimeros = string.Concat(code.ToString().Take(2));
+        var entity = segments!.Where(x => x.Code== int.Parse(dosPrimeros)).FirstOrDefault();
+
+        if(entity != null)
+        {
+            selectedSegment = entity!;
+
+            await LoadFamilyAsync(entity.Id);
+            string cuartoPrimero = string.Concat(code.ToString().Take(4));
+            var familyEntity = families!.Where(x => x.Code == int.Parse(cuartoPrimero)).FirstOrDefault();
+            if (familyEntity != null)
+            {
+                selectedFamily=familyEntity!;
+                await LoadClasseAsync(familyEntity!.Id);
+                string seisPrimero = string.Concat(code.ToString().Take(6));
+                var classeEntity = classes!.Where(x => x.Code == int.Parse(seisPrimero)).FirstOrDefault();
+                if (classeEntity != null)
+                {
+                    selectedClasse = classeEntity!;
+                    ProductDTO.ClasseId = selectedClasse.Id;
+                    ProductDTO.Classe = selectedClasse;
+
+                    _disable = false;
+                }
+            }
+
+
+        }
+        loading = false;
     }
 }

@@ -26,4 +26,8 @@ public class ProductQuotationBodyDTO
     public double Total => Work * RequestedQuantity;
     private int _requestedQuantity;
 
+    public double Quoted01 { get; set; }
+    public double Quoted02 { get; set; }
+    public double Quoted03 { get; set; }
+    public int StatuId {  get; set; }
 }

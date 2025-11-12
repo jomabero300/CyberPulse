@@ -828,8 +828,8 @@
   <data name="CourseCode" xml:space="preserve">
     <value>Código</value>
   </data>
-  <data name="WorthExceedsLotBudget" xml:space="preserve">
-    <value>El valor, supera al presupuesto del lote</value>
+  <data name="WorthExceedsProgramBudget" xml:space="preserve">
+    <value>El valor, supera al presupuesto del programa</value>
   </data>
   <data name="WorthMustBeGreaterThanZero" xml:space="preserve">
     <value>El valor debe ser mayor que cero</value>
@@ -850,9 +850,27 @@
     <value>La sumatoria total supera al presupuesto.</value>
   </data>
   <data name="PriceLow" xml:space="preserve">
-    <value>Precio Minimo</value>
+    <value>precio artificialmente bajo</value>
   </data>
   <data name="PriceHigh" xml:space="preserve">
-    <value>Precio Máximo</value>
+    <value>precio artificialmente alto</value>
+  </data>
+  <data name="InstructorCourseEmail" xml:space="preserve">
+    <value>El curso se ha enviado, le llegara un email al instructor para notificarle.</value>
+  </data>
+  <data name="PurchasingBoardEmail" xml:space="preserve">
+    <value>Los productos del curso se ha enviado, le llega un email a la junta para notificarle.</value>
+  </data>
+  <data name="Quoted01" xml:space="preserve">
+    <value>Cotización 01</value>
+  </data>
+  <data name="Quoted02" xml:space="preserve">
+    <value>Cotización 02</value>
+  </data>
+  <data name="Quoted03" xml:space="preserve">
+    <value>Cotización 03</value>
+  </data>
+  <data name="PurchasingBoard" xml:space="preserve">
+    <value>Junta de compras</value>
   </data>
 </root>

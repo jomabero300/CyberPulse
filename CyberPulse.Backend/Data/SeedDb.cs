@@ -152,6 +152,9 @@ public class SeedDb
             _context.Status.Add(new Statu { Name = "Ejecución", Nivel = 1 });
             _context.Status.Add(new Statu { Name = "Terminada", Nivel = 1 });
 
+            _context.Status.Add(new Statu { Name = "Bajo", Nivel = 2 });
+            _context.Status.Add(new Statu { Name = "Alto", Nivel = 2 });
+
             await _context.SaveChangesAsync();
         }
     }
@@ -161,6 +164,7 @@ public class SeedDb
         await _usersUnitOf.CheckRoleAsync(UserType.Admi.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.Coor.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.Inst.ToString());
+        await _usersUnitOf.CheckRoleAsync(UserType.Purc.ToString());
         await _usersUnitOf.CheckRoleAsync(UserType.User.ToString());
     }
 

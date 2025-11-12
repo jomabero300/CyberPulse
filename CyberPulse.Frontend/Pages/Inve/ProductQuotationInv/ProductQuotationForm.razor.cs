@@ -65,7 +65,6 @@ public partial class ProductQuotationForm
 
         context.PreventNavigation();
     }
-
     private async Task LoadBody()
     {
         var responseHttp = await repository.GetAsync<List<ProductQuotationBodyDTO>>($"/api/ProductQuotationBodies/combo/{ProductQuotationDTO.Id}");

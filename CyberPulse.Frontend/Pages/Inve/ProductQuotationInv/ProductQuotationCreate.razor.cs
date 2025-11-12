@@ -50,7 +50,6 @@ public partial class ProductQuotationCreate
         {
             Snackbar.Add(Localizer["ERR018"], Severity.Error);
             return;
-
         }
 
         var responseHttp = await Repository.PostAsync("/api/productquotations/full", productQuotationHeadDTO);

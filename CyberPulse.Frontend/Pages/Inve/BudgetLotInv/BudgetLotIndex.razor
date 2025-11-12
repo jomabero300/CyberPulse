@@ -27,21 +27,19 @@ else
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
-            <MudTh>@Localizer["Id"]</MudTh>
-            <MudTh>@Localizer["Program"]</MudTh>
-            <MudTh>@Localizer["lot"]</MudTh>
-            <MudTh>@Localizer["Worth"]</MudTh>
-            <MudTh>@Localizer["Balance"]</MudTh>
-            <MudTh>@Localizer["Statu"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Id"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Program"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["lot"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Worth"]</MudTh>
+            <MudTh Style="text-align:center;">@Localizer["Statu"]</MudTh>
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.Id</MudTd>
             <MudTd>@context.ProgramLot!.Program!.Name</MudTd>
             <MudTd>@context.ProgramLot!.Lot!.Name</MudTd>
-            <MudTd>@context.Worth.ToString("N2")</MudTd>
-            <MudTd>@context.Balance.ToString("N2")</MudTd>
-            <MudTd>@context.Statu!.Name</MudTd>
+            <MudTd Style="text-align: right;">@context.Worth.ToString("N2")</MudTd>
+            <MudTd Style="text-align: center;">@context.Statu!.Name</MudTd>
             <MudTd Class="text-center">
                 @if(context.StatuId==1)
                 {

@@ -89,6 +89,23 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             };
         }
 
+        var budgetLot = await _context.BudgetLots.FindAsync(entity.BudgetLotId);
+
+        if (budgetLot != null)
+        {
+            if ((budgetLot.Worth - entity.Worth) == 0)
+            {
+                budgetLot.StatuId = 1;
+            }
+
+            budgetLot.Worth = budgetLot.Worth - entity.Worth;
+
+            _context.Update(budgetLot);
+        }
+
+
+
+
         _context.Remove(entity);
 
         try
@@ -138,11 +155,25 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             StatuId = 1,
         };
 
-        var budgetStatu = await _context.BudgetLots.FindAsync(entity.BudgetLotId);
-        if (budgetStatu != null && budgetStatu.StatuId == 1)
+        var budgetLotStatu = await _context.BudgetLots.FindAsync(entity.BudgetLotId);
+
+        if (budgetLotStatu != null)
         {
-            budgetStatu.StatuId = 11;
-            _context.Update(budgetStatu);
+            if( budgetLotStatu.StatuId == 1)
+            {
+                budgetLotStatu.StatuId = 11;
+            }
+            budgetLotStatu.Worth = budgetLotStatu.Worth+model.Worth;
+            _context.Update(budgetLotStatu);
+        }
+
+
+        var budgetProgramStatu = await _context.BudgetPrograms.FindAsync(budgetLotStatu!.BudgetProgramId);
+
+        if(budgetProgramStatu != null && budgetProgramStatu.StatuId == 1)
+        {
+            budgetProgramStatu.StatuId = 11;
+            _context.Update(budgetProgramStatu);
         }
 
 
