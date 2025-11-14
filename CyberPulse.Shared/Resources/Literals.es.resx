@@ -876,4 +876,7 @@
   <data name="Purc" xml:space="preserve">
     <value>Junta de compras</value>
   </data>
+  <data name="ERR019" xml:space="preserve">
+    <value>Productos sin cantidad, almenos debe haber uno con cantidad de 1</value>
+  </data>
 </root>

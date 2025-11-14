@@ -856,4 +856,7 @@
   <data name="Purc" xml:space="preserve">
     <value>Purchasing board</value>
   </data>
+  <data name="ERR019" xml:space="preserve">
+    <value>Products with no quantity, there must be at least one with a quantity of 1</value>
+  </data>
 </root>

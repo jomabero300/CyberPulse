@@ -871,6 +871,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Products with no quantity, there must be at least one with a quantity of 1.
+        /// </summary>
+        public static string ERR019 {
+            get {
+                return ResourceManager.GetString("ERR019", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string Error {

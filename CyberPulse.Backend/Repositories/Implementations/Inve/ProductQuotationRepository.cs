@@ -161,7 +161,7 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
                 Quoted03=x.Quoted03,
                 StatuId=x.StatuId
             })
-            .Where(x=>x.Id==0)
+            .Where(x=>x.Id==0 && x.RequestedQuantity>0)
             .ToList();
         if(modelNew.Count>0)
         {
@@ -186,7 +186,7 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             .ToList();
         if(modelUpdate.Count>0)
         {
-            _context.Update(modelUpdate);
+            _context.UpdateRange(modelUpdate);
         }
 
 

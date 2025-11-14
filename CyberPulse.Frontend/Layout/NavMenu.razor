@@ -113,7 +113,10 @@
 
     <AuthorizeView Roles="Purc">
         <Authorized>
-            <MudNavLink Href="/purchasingboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Group">@Localizer["PurchasingBoard"]</MudNavLink>
+            <MudNavGroup Title="@Localizer["Purc"]" Expanded="false">
+                <MudDivider />
+                <MudNavLink Href="/purchasingboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Group">@Localizer["Purc"]</MudNavLink>
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
 

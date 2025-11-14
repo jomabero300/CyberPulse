@@ -184,7 +184,8 @@ public partial class ProductCurrentValueForm
         }
 
         return products!
-            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+                        x.Code.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
     private void ProductChanged(ProductDTO entity)

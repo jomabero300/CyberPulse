@@ -61,7 +61,7 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
         {
             WasSuccess = true,
             Result = await queryable
-                .OrderBy(x => x.ProgramLot!.Program!.Name).ThenBy(x => x.Course!.Name)
+                .OrderBy(x => x.ProgramLot!.Program!.Name).ThenBy(x => x.ProgramLot!.Lot!.Name).ThenBy(x=>x.Course!.Name)
                 .Paginate(pagination)
                 .ToListAsync()
         };
@@ -159,8 +159,10 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Course!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                             x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x =>
+                                            x.Course!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.ProgramLot!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         double count = await queryable.CountAsync();

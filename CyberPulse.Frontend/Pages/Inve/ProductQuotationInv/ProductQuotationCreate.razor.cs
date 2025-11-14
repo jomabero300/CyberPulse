@@ -45,10 +45,15 @@ public partial class ProductQuotationCreate
         //    Snackbar.Add(Localizer["ERR010"], Severity.Error);
         //    return;
         //}
-
+        
         if(double.Parse(productQuotationHeadDTO.Worth!)< productQuotationHeadDTO.ProductQuotationBody!.Sum(x=>x.Total))
         {
             Snackbar.Add(Localizer["ERR018"], Severity.Error);
+            return;
+        }
+        if(productQuotationHeadDTO.ProductQuotationBody!.Sum(x => x.Total)<=0)
+        {
+            Snackbar.Add(Localizer["ERR019"], Severity.Error);
             return;
         }
 
