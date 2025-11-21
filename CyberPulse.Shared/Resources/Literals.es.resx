@@ -631,7 +631,7 @@
     <value>Programa</value>
   </data>
   <data name="QuotedValue" xml:space="preserve">
-    <value>Valor cotizado</value>
+    <value>Valor promedio</value>
   </data>
   <data name="AcceptedQuantity" xml:space="preserve">
     <value>Cantidad aceptada</value>

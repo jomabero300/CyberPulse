@@ -43,25 +43,26 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
     public override async Task<ActionResponse<IEnumerable<ProductQuotation>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProductQuotations
-            .AsNoTracking()
-            .Include(x => x.BudgetCourse)
-            .Include(x => x.ProductCurrentValue)
-            .AsQueryable();
+                                .AsNoTracking()
+                                    .Include(x => x.BudgetCourse)
+                                    .Include(x => x.ProductCurrentValue).ThenInclude(x => x!.Product)
+                                    .Include(x => x.Statu)
+                                .Where(x => x.ProductCurrentValue!.Validity!.Statu!.Name == "Activo" && x.BudgetCourse!.StatuId>6)
+                                .AsQueryable();
 
-        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        //{
-        //    queryable = queryable.Where(x =>
-        //                                    x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                    x.Classe.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                    x.Lot.Name.Contains(pagination.Filter.ToLower()));
-        //}
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x =>
+                                            x.ProductCurrentValue!.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+        }
+
 
         return new ActionResponse<IEnumerable<ProductQuotation>>
         {
             WasSuccess = true,
             Result = await queryable
-                .OrderBy(x => x.Id)
                 .Paginate(pagination)
+                .OrderBy(bc => bc.Id)
                 .ToListAsync()
         };
     }
@@ -98,7 +99,6 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             };
         }
     }
-
 
     public async Task<ActionResponse<ProductQuotation>> AddAsync(ProductQuotationDTO entity)
     {
@@ -221,25 +221,26 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.ProductQuotations
-            .AsNoTracking()
-            .Include(x => x.BudgetCourse)
-            .Include(x => x.ProductCurrentValue)
-            .AsQueryable();
+                                .AsNoTracking()
+                                    .Include(x => x.BudgetCourse)
+                                    .Include(x => x.ProductCurrentValue).ThenInclude(x=>x!.Product)
+                                    .Include(x=>x.Statu)
+                                .Where(bc=>bc.ProductCurrentValue!.Validity!.Statu!.Name=="Activo" && bc.BudgetCourse!.StatuId>6)
+                                .AsQueryable();
 
-        //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-        //{
-        //    queryable = queryable.Where(x =>
-        //                                    x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                    x.Classe.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-        //                                    x.Lot.Name.ToLower().Contains(pagination.Filter.ToLower()));
-        //}
+        if (!string.IsNullOrWhiteSpace(pagination.Filter))
+        {
+            queryable = queryable.Where(x =>
+                                            x.ProductCurrentValue!.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+        }
 
-        double count = await queryable.CountAsync();
+        //int count = await queryable.GroupBy(bc => bc.ProductCurrentValue!.Product!.Code).CountAsync();
+        int count = await queryable.CountAsync();
 
         return new ActionResponse<int>
         {
             WasSuccess = true,
-            Result = (int)count
+            Result = count
         };
     }
     public async Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationDTO entity)

@@ -1,0 +1,60 @@
+﻿@page "/purchasingboard"
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudTable Items="@ProductQuotations"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true">
+        <ToolBarContent>
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>@Localizer["Code"]</MudTh>
+            <MudTh>@Localizer["Product"]</MudTh>
+            <MudTh>@Localizer["RequestedQuantity"]</MudTh>
+            <MudTh>@Localizer["Quoted01"]</MudTh>
+            <MudTh>@Localizer["Quoted02"]</MudTh>
+            <MudTh>@Localizer["Quoted03"]</MudTh>
+            <MudTh>@Localizer["QuotedValue"]</MudTh>
+            <MudTh>@Localizer["Statu"]</MudTh>
+            <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Code</MudTd>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.RequestedQuantity</MudTd>
+            <MudTd>@context.Quoted01</MudTd>
+            <MudTd>@context.Quoted02</MudTd>
+            <MudTd>@context.Quoted03</MudTd>
+            <MudTd>@context.QuotedValue</MudTd>
+            <MudTd>@context.Statu</MudTd>
+            <MudTd Class="text-center">
+                <MudTooltip Text="@Localizer["Edit"]">
+                    <MudButton Variant="Variant.Filled"
+                                Color="Color.Warning"
+                                OnClick="@(() => ShowModalAsync(context.ValidityId))">
+                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                    </MudButton>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+    </MudTable>
+}

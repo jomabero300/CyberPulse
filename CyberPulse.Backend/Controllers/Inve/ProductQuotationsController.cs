@@ -41,7 +41,36 @@ public class ProductQuotationsController : GenericController<ProductQuotation>
 
         if (response.WasSuccess)
         {
-            return Ok(response.Result);
+            var results = response.Result!.Select(pq=>new ProductQuotationPurcDTO 
+            {
+                Code = pq.ProductCurrentValue!.Product!.Code,
+                Name = pq.ProductCurrentValue!.Product!.Name,
+                RequestedQuantity = pq.RequestedQuantity,
+                Quoted01 = pq.Quoted01,
+                Quoted02 = pq.Quoted02,
+                Quoted03 = pq.Quoted03,
+                QuotedValue = pq.QuotedValue,
+                Statu = pq.Statu!.Name,
+                ValidityId = pq.ProductCurrentValue!.ValidityId
+            }).ToList();
+
+            foreach (var item in results)
+            {
+
+                var filtered = response.Result!
+                    .Where(pq => pq.ProductCurrentValue!.Product!.Code == item.Code)
+                    .ToList();
+
+                var ids= filtered
+                                .Select(pq=>pq.Id)
+                                .ToList();
+
+                item.Id= string.Join(",", ids);
+                
+                item.RequestedQuantity= filtered.Sum(pq=>pq.RequestedQuantity);
+            }
+
+            return Ok(results);
         }
 
         return BadRequest(response.Message);

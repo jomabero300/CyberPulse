@@ -49,14 +49,14 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
                                               .Include(bc => bc.Instructor)
-                                              .Where(w => w.Validity!.StatuId == 1)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId>1 )
                                               .AsQueryable():
                                 _context.BudgetCourses.AsNoTracking()
                                               .Include(x=>x.Statu)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
                                               .Include(bc => bc.Instructor)
-                                              .Where(w => w.Validity!.StatuId == 1 && w.Instructor.Email==pagination.Email)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.Instructor.Email==pagination.Email && bc.StatuId > 1)
                                               .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -212,10 +212,29 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
     }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.BudgetCourses.AsNoTracking()
-                                            .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
-                                            .Where(w => w.Validity!.StatuId == 1)
-                                            .AsQueryable();
+        //var queryable = _context.BudgetCourses.AsNoTracking()
+        //                                    .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+        //                                    .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId>1)
+        //                                    .AsQueryable();
+
+        var queryable = string.IsNullOrWhiteSpace(pagination.Email) ?
+                                _context.BudgetCourses.AsNoTracking()
+                                              .Include(x => x.Statu)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+                                              .Include(bc => bc.Instructor)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId > 1)
+                                              .AsQueryable() :
+                                _context.BudgetCourses.AsNoTracking()
+                                              .Include(x => x.Statu)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+                                              .Include(bc => bc.Instructor)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.Instructor.Email == pagination.Email && bc.StatuId > 1)
+                                              .AsQueryable();
+
+
+
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {

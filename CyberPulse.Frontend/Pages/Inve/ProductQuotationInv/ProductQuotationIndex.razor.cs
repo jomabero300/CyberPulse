@@ -31,6 +31,7 @@ public partial class ProductQuotationIndex
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         await LoadTotalRecordsAsync();

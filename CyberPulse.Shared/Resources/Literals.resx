@@ -611,7 +611,7 @@
     <value>Program</value>
   </data>
   <data name="QuotedValue" xml:space="preserve">
-    <value>Quoted value</value>
+    <value>Average value</value>
   </data>
   <data name="AcceptedQuantity" xml:space="preserve">
     <value>Accepted Quantity</value>

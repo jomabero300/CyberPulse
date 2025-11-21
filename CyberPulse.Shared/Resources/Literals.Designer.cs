@@ -1537,7 +1537,7 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Quoted value.
+        ///   Busca una cadena traducida similar a Average value.
         /// </summary>
         public static string QuotedValue {
             get {
