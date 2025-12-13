@@ -18,6 +18,10 @@ public class ProductDTO
     public int UnitMeasurementId { get; set; }
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    [Display(Name = "Category", ResourceType = typeof(Literals))]
+    public int CategoryId { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     [Display(Name = "Classe", ResourceType = typeof(Literals))]
     public int ClasseId { get; set; }
 

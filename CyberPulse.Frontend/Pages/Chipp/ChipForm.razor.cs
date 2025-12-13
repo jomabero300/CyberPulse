@@ -1,6 +1,5 @@
-using CurrieTechnologies.Razor.SweetAlert2;
+﻿using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO.Chipp;
 using CyberPulse.Shared.EntitiesDTO.Gene;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -25,12 +25,13 @@ public partial class ChipForm
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
     public bool FormPostedSuccessfully { get; set; } = false;
-    //private bool DisabledTypeOfTraining = true;
+
     private bool loading;
     [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
     [Inject] private IStringLocalizer<Literals> Localizer { get; set; } = null!;
     [Inject] private IRepository repository { get; set; } = null!;
 
+    
     private bool desabledCompany = false;
 
     public PatternMask mask1 = new PatternMask("##:##")
@@ -79,7 +80,7 @@ public partial class ChipForm
         user = authState.User;
         userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         userRollId = user.FindFirst(ClaimTypes.Role)?.Value;
-        
+
         if (userRollId != null)
         {
             if (userRollId == "Coor") indEsta = 1;
@@ -140,7 +141,7 @@ public partial class ChipForm
             chipDTO.UserId = "XXYY";
             chipDTO.StatuId = await SearchIndEstaAsync("Creada", 1);
         }
-        chipDTO.Language= System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2); 
+        chipDTO.Language = System.Globalization.CultureInfo.CurrentCulture.Name.Substring(0, 2);
         loading = false;
     }
 
@@ -392,7 +393,7 @@ public partial class ChipForm
         }
 
 
-        typeOfTrainings= responseHttp.Response;
+        typeOfTrainings = responseHttp.Response;
 
         //typeOfTrainingsGen = responseHttp.Response;
         //typeOfTrainings = typeOfTrainingsGen!.Where(x => x.Name.Contains("Ninguno")).ToList();

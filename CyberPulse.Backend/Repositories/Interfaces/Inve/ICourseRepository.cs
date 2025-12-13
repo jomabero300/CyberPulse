@@ -10,7 +10,7 @@ public interface ICourseRepository
     Task<ActionResponse<Course>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Course>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<Course>>> GetAsync(string Filter);
     Task<ActionResponse<Course>> AddAsync(CourseDTO entity);
 
     Task<ActionResponse<Course>> UpdateAsync(CourseDTO entity);

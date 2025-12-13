@@ -9,6 +9,7 @@ public interface IBudgetProgramRepository
 {
     Task<ActionResponse<BudgetProgram>> GetAsync(int id);
     Task<ActionResponse<IEnumerable<BudgetProgram>>> GetAsync();
+    Task<ActionResponse<IEnumerable<BudgetProgram>>> GetAsync(string Filter);
     Task<ActionResponse<BudgetProgram>> AddAsync(BudgetProgramDTO entity);
     Task<ActionResponse<BudgetProgram>> UpdateAsync(BudgetProgramDTO entity);
     Task<ActionResponse<BudgetProgram>> DeleteAsync(int id);

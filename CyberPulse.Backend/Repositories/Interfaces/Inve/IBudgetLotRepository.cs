@@ -10,6 +10,7 @@ public interface IBudgetLotRepository
     Task<ActionResponse<BudgetLot>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync();
+    Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync(string Filter);
     Task<ActionResponse<BudgetLot>> AddAsync(BudgetLotDTO entity);
 
     Task<ActionResponse<BudgetLot>> UpdateAsync(BudgetLotDTO entity);

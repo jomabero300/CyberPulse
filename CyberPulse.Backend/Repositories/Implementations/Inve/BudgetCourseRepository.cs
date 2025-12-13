@@ -6,6 +6,7 @@ using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
 
@@ -49,14 +50,14 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
                                               .Include(bc => bc.Instructor)
-                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId>1 )
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId>=1 )
                                               .AsQueryable():
                                 _context.BudgetCourses.AsNoTracking()
                                               .Include(x=>x.Statu)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
                                               .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
                                               .Include(bc => bc.Instructor)
-                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.Instructor.Email==pagination.Email && bc.StatuId > 1)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.Instructor.Email==pagination.Email && bc.StatuId >= 6)
                                               .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -128,6 +129,64 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
     }
 
 
+    public async Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string id)
+    {
+        var entity = id == "0" ? await _context.BudgetCourses
+                                                .AsNoTracking()
+                                                .Include(cpl => cpl.CourseProgramLot).ThenInclude(c => c!.Course)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(pl => pl!.ProgramLot).ThenInclude(l => l!.Lot)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(p => p!.Program)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(s => s!.Statu)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(v => v!.Validity)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(bt => bt!.BudgetType)
+                                                .Include(x => x.Validity)
+                                                .Include(x => x.Statu)
+                                                .ToListAsync() :
+                              await _context.BudgetCourses
+                                                .AsNoTracking()
+                                                .Include(cpl => cpl.CourseProgramLot).ThenInclude(c => c!.Course)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(pl => pl!.ProgramLot).ThenInclude(l => l!.Lot)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(p => p!.Program)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(s => s!.Statu)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(v => v!.Validity)
+                                                .Include(bl => bl.BudgetLot).ThenInclude(bp => bp!.BudgetProgram).ThenInclude(b => b!.Budget).ThenInclude(bt => bt!.BudgetType)
+                                                .Include(x => x.Validity)
+                                                .Include(x => x.Statu)
+                                                .Where(x => x.ValidityId == int.Parse(id))
+                                                .ToListAsync();
+
+        return new ActionResponse<IEnumerable<BudgetCourse>>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
+    public async Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string Filter, bool estado)
+    {
+        var queryable = _context.BudgetCourses.AsNoTracking()
+                                              .Include(x => x.Statu)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.Course)
+                                              .Include(bc => bc.CourseProgramLot).ThenInclude(x => x!.ProgramLot)
+                                              .Include(bc => bc.Instructor)
+                                              .Where(bc => bc.Validity!.StatuId == 1 && bc.StatuId >= 1)
+                                              .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter !="''")
+        {
+            queryable = queryable.Where(x => x.CourseProgramLot!.Course!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.CourseProgramLot!.ProgramLot!.Lot!.Name.Contains(Filter.ToLower()) ||
+                                             x.Instructor!.FirstName.Contains(Filter.ToLower()) ||
+                                             x.Worth.ToString().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<BudgetCourse>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.CourseProgramLot!.Course!.Name).ThenBy(y => y.StartDate)
+                .ToListAsync()
+        };
+    }
 
     public async Task<ActionResponse<BudgetCourse>> AddAsync(BudgetCourseDTO entity)
     {
@@ -252,6 +311,7 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
             Result = (int)count
         };
     }
+
     public async Task<ActionResponse<BudgetCourse>> UpdateAsync(BudgetCourseDTO entity)
     {
         var model = await _context.BudgetCourses.FindAsync(entity.Id);
@@ -263,6 +323,19 @@ public class BudgetCourseRepository : GenericRepository<BudgetCourse>, IBudgetCo
                 WasSuccess = false,
                 Message = "ERR005",
             };
+        }
+
+        if(entity.StatuId==7)
+        {
+            var productoQuatation = await _context.ProductQuotations.Where(x => x.BudgetCourseId == entity.Id).ToListAsync();
+            if(!productoQuatation.Any())
+            {
+                return new ActionResponse<BudgetCourse>
+                {
+                    WasSuccess = false,
+                    Message = "ERR019",
+                };
+            }
         }
         model.InstructorId = entity.InstructorId;
         model.ValidityId = entity.ValidityId;

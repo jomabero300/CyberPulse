@@ -1,0 +1,114 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+
+	<DataAnnotationsValidator />
+	<MudGrid>
+		<MudItem xs="12" sm="2">
+			<MudTextField Label="@Localizer["Code"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.Code"
+						  For="@(() => ProductQuotationPurcDTO.Code)"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="8">
+			<MudTextField Label="@Localizer["Product"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.Name"
+						  For="@(() => ProductQuotationPurcDTO.Name)"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="2">
+			<MudTextField Label="@Localizer["RequestedQuantity"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.RequestedQuantity"
+						  For="@(() => ProductQuotationPurcDTO.RequestedQuantity)"
+						  class="mb-3" />
+
+		</MudItem>
+
+		<MudItem xs="12" sm="3">
+			<MudTextField Label="@Localizer["Quoted01"]"
+						  @bind-Value="@ProductQuotationPurcDTO.Quoted01"
+						  For="@(() => ProductQuotationPurcDTO.Quoted01)"
+						  Immediate="true"
+						  OnBlur="CalculateQuotedValue"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="3">
+			<MudTextField Label="@Localizer["Quoted02"]"
+						  @bind-Value="@ProductQuotationPurcDTO.Quoted02"
+						  For="@(() => ProductQuotationPurcDTO.Quoted02)"
+						  Immediate="true"
+						  OnBlur="CalculateQuotedValue"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="3">
+			<MudTextField Label="@Localizer["Quoted03"]"
+						  @bind-Value="@ProductQuotationPurcDTO.Quoted03"
+						  For="@(() => ProductQuotationPurcDTO.Quoted03)"
+						  Immediate="true"
+						  OnBlur="CalculateQuotedValue"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="3">
+			<MudTextField Label="@Localizer["QuotedValue"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.QuotedValue"
+						  For="@(() => ProductQuotationPurcDTO.QuotedValue)"
+Format="N2"
+						  Error="@HasRangeError"
+						  ErrorText="@RangeErrorMessage"
+						  class="mb-3" />
+
+		</MudItem>
+
+
+		<MudItem xs="12" sm="5">
+			<MudTextField Label="@Localizer["PriceLow"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.PriceLow"
+						  For="@(() => ProductQuotationPurcDTO.PriceLow)"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="5">
+			<MudTextField Label="@Localizer["PriceHigh"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.PriceHigh"
+						  For="@(() => ProductQuotationPurcDTO.PriceHigh)"
+						  class="mb-3" />
+
+		</MudItem>
+		<MudItem xs="12" sm="2">
+			<MudTextField Label="@Localizer["Statu"]"
+						  Disabled="true"
+						  @bind-Value="@ProductQuotationPurcDTO.Statu"
+						  For="@(() => ProductQuotationPurcDTO.Statu)"
+						  class="mb-3" />
+
+		</MudItem>
+
+	</MudGrid>
+
+	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.ArrowBack"
+			   Color="Color.Info"
+			   OnClick="ReturnAction">
+		@Localizer["Return"]
+	</MudButton>
+
+	<MudButton Variant="Variant.Outlined"
+			   StartIcon="@Icons.Material.Filled.Check"
+			   Color="Color.Primary"
+			   ButtonType="ButtonType.Submit">
+		@Localizer["SaveChanges"]
+	</MudButton>
+</EditForm>

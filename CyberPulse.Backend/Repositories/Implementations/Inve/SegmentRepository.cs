@@ -93,7 +93,26 @@ public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
         }
     }
 
+                                               
+    public async Task<ActionResponse<IEnumerable<Segment>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Segments.AsNoTracking().Include(s=>s.Statu)
+            .AsQueryable();
 
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter!="''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Code.ToString().ToLower().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<Segment>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                            .OrderBy(x => x.Name)
+                            .ToListAsync()
+        };
+    }
 
     public async Task<ActionResponse<Segment>> AddAsync(SegmentDTO entity)
     {

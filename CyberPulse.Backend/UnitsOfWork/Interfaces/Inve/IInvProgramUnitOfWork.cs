@@ -8,7 +8,7 @@ namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 public interface IInvProgramUnitOfWork
 {
     Task<ActionResponse<InvProgram>> GetAsync(int id);
-    //Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb);
+    Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(string Filter);
 
     Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync();
 

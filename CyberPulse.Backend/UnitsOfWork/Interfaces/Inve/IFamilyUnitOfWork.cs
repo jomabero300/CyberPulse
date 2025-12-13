@@ -10,7 +10,7 @@ public interface IFamilyUnitOfWork
     Task<ActionResponse<Family>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Family>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<Family>>> GetAsync(string Filter);
     Task<ActionResponse<Family>> AddAsync(FamilyDTO entity);
 
     Task<ActionResponse<Family>> UpdateAsync(FamilyDTO entity);

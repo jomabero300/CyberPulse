@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class ClassesController : GenericController<Classe>
 {
     private readonly IClasseUnitOfWork _classeUnitOfWork;
-    public ClassesController(IGenericUnitOfWork<Classe> unitOfWork, IClasseUnitOfWork classeUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public ClassesController(IGenericUnitOfWork<Classe> unitOfWork, IClasseUnitOfWork classeUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _classeUnitOfWork = classeUnitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -94,6 +97,18 @@ public class ClassesController : GenericController<Classe>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _classeUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Classes.pdf");
     }
 
     [HttpGet("Combo/{id}")]

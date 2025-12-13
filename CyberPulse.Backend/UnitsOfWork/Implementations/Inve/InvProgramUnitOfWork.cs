@@ -23,6 +23,8 @@ public class InvProgramUnitOfWork : GenericUnitOfWork<InvProgram>, IInvProgramUn
     public async Task<ActionResponse<InvProgram>> AddAsync(InvProgramDTO entity)=>await _invProgramRepository.AddAsync(entity);
     public async Task<IEnumerable<InvProgram>> GetComboAsync()=>await _invProgramRepository.GetComboAsync();
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _invProgramRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(string Filter) => await _invProgramRepository.GetAsync(Filter);
     public async Task<ActionResponse<InvProgram>> UpdateAsync(InvProgramDTO entity)=>await _invProgramRepository.UpdateAsync(entity);
+
     //public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(int id, bool lb)=>await _invProgramRepository.GetAsync(id, lb);
 }

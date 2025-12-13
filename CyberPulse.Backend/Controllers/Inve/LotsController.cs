@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class LotsController : GenericController<Lot>
 {
     private readonly ILotUnitOfWork _lotunitOfWork;
-    public LotsController(IGenericUnitOfWork<Lot> unitOfWork, ILotUnitOfWork lotunitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public LotsController(IGenericUnitOfWork<Lot> unitOfWork, ILotUnitOfWork lotunitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _lotunitOfWork = lotunitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -103,6 +106,17 @@ public class LotsController : GenericController<Lot>
         return Ok(await _lotunitOfWork.GetComboAsync());
     }
 
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _lotunitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Lot.pdf");
+    }
     //[HttpGet("Combo/{id}")]
     //public async Task<IActionResult> GetComboAsync(int id)
     //{

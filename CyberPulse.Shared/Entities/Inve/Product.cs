@@ -38,6 +38,10 @@ public class Product
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public string Description { get; set; } = null!;
 
+    [Display(Name = "Category", ResourceType = typeof(Literals))]
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public int CategoryId { get; set; }
+
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
@@ -46,4 +50,5 @@ public class Product
     public UnitMeasurement? UnitMeasurement { get; set; }
     public Classe? Classe { get; set; }
     public Lot? Lot { get; set; }
+    public Category? Category { get; set; }
 }

@@ -1,11 +1,11 @@
-SET IDENTITY_INSERT Inve.Courses ON
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (1, 664209,'EJECUCION DE EVENTOS DEPORTIVOS Y RECREATIVOS',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (2, 634215,'RECREACION COMUNITARIA',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (3, 634207,'GESTION DE SERVICIOS RECREATIVOS',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (4, 634205,'RECREACI�N',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (5, 525307,'JUZGAMIENTO Y REGLAMENTACION DEPORTIVA',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (6, 525214,'ACTIVIDAD FISICA',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (7, 664212,'EJECUCION DE PROGRAMAS DEP�RTIVOS ',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (8, 525209,'T�CNICO EN EJECUCI�N DE CLASES GRUPALES ORIENTADAS AL FITNESS',1)
-INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (9, 525203,'ENTRENAMIENTO DEPORTIVO',1)
+﻿SET IDENTITY_INSERT Inve.Courses ON
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (1, 664209,N'EJECUCIÓN DE EVENTOS DEPORTIVOS Y RECREATIVOS',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (2, 634215,N'RECREACIÓN COMUNITARIA',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (3, 634207,N'GESTIÓN DE SERVICIOS RECREATIVOS',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (4, 634205,N'RECREACIÓN',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (5, 525307,N'JUZGAMIENTO Y REGLAMENTACIÓN DEPORTIVA',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (6, 525214,N'ACTIVIDAD FISICA',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (7, 664212,N'EJECUCIÓN DE PROGRAMAS DEPÒRTIVOS ',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (8, 525209,N'TÉCNICO EN EJECUCIÓN DE CLASES GRUPALES ORIENTADAS AL FITNESS',1)
+INSERT INTO Inve.Courses (Id, Code, Name, StatuId) values (9, 525203,N'ENTRENAMIENTO DEPORTIVO',1)
 SET IDENTITY_INSERT Inve.Courses OFF

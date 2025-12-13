@@ -217,6 +217,32 @@ public class BudgetProgramRepository : GenericRepository<BudgetProgram>, IBudget
             Result = (int)count
         };
     }
+    public async Task<ActionResponse<IEnumerable<BudgetProgram>>> GetAsync(string Filter)
+    {
+        var queryable = _context.BudgetPrograms
+                                .AsNoTracking()
+                                .Include(x => x.Program)
+                                .Include(x => x.Budget)
+                                .Include(x => x.Validity)
+                                .Include(x => x.Statu)
+                                .Include(x => x.BudgetType)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Program!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Budget!.Rubro.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Validity!.Value.ToString().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<BudgetProgram>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Validity!.Value).ThenBy(y => y.Program!.Name)
+                .ToListAsync()
+        };
+    }
     public async Task<ActionResponse<BudgetProgram>> UpdateAsync(BudgetProgramDTO entity)
     {
         var model = await _context.BudgetPrograms.FindAsync(entity.Id);

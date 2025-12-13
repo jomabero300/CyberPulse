@@ -1,7 +1,6 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Gene;
-using CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.EntitiesDTO;
@@ -128,7 +127,7 @@ public class AccountsController : ControllerBase
             currentUser.CountryId = user.CountryId;
             if (!string.IsNullOrEmpty(user.Photo))
             {
-                var photo = await UploadImageAsync(user.Photo,user.Id);
+                var photo = await UploadImageAsync(user.Photo, user.Id);
                 currentUser.Photo = photo;
             }
 
@@ -172,7 +171,7 @@ public class AccountsController : ControllerBase
 
         return Ok(result);
     }
-    
+
     [HttpGet("LoadUser/{id}")]
     public async Task<IActionResult> GetAsync(string id)
     {
@@ -186,9 +185,9 @@ public class AccountsController : ControllerBase
     [HttpGet("Instructor")]
     public async Task<IActionResult> GetAsync(string id, UserType userType)
     {
-        var result = await _usersUnitOfWork.GetUserAsync(id,userType);
+        var result = await _usersUnitOfWork.GetUserAsync(id, userType);
 
-        if(result.WasSuccess)
+        if (result.WasSuccess)
         {
             return Ok(result.Result);
         }
@@ -202,7 +201,7 @@ public class AccountsController : ControllerBase
     {
         var result = await _usersUnitOfWork.GetUserAsync(new Guid(id));
 
-        if(result!=null)
+        if (result != null)
         {
             return Ok(result);
         }
@@ -350,9 +349,9 @@ public class AccountsController : ControllerBase
 
         return BadRequest("ERR006");
     }
-    
+
     [HttpGet("UserTypeUp")]
-    public async Task<IActionResult> UserTypeAsync(string id,UserType userType)
+    public async Task<IActionResult> UserTypeAsync(string id, UserType userType)
     {
         await _usersUnitOfWork.UpdateUserAsync(id, userType);
 
@@ -448,7 +447,7 @@ public class AccountsController : ControllerBase
                                          .Where(x => x.Id == id)
                                          .Select(p => p.Photo)
                                          .FirstOrDefaultAsync();
-            if (!string.IsNullOrWhiteSpace(user) && user != null )
+            if (!string.IsNullOrWhiteSpace(user) && user != null)
             {
                 System.IO.File.Delete($"{webRootPath}{user}");
             }

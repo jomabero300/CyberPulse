@@ -762,6 +762,34 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.ToTable("BudgetTypes", "Inve");
                 });
 
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatuId");
+
+                    b.ToTable("Categories", "Inve");
+                });
+
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Classe", b =>
                 {
                     b.Property<int>("Id")
@@ -945,6 +973,9 @@ namespace CyberPulse.Backend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ClasseId")
                         .HasColumnType("int");
 
@@ -971,6 +1002,8 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Code")
                         .IsUnique();
@@ -1621,6 +1654,17 @@ namespace CyberPulse.Backend.Data.Migrations
                     b.Navigation("Validity");
                 });
 
+            modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Category", b =>
+                {
+                    b.HasOne("CyberPulse.Shared.Entities.Gene.Statu", "Statu")
+                        .WithMany()
+                        .HasForeignKey("StatuId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Statu");
+                });
+
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Classe", b =>
                 {
                     b.HasOne("CyberPulse.Shared.Entities.Inve.Family", "Family")
@@ -1713,6 +1757,12 @@ namespace CyberPulse.Backend.Data.Migrations
 
             modelBuilder.Entity("CyberPulse.Shared.Entities.Inve.Product", b =>
                 {
+                    b.HasOne("CyberPulse.Shared.Entities.Inve.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CyberPulse.Shared.Entities.Inve.Classe", "Classe")
                         .WithMany()
                         .HasForeignKey("ClasseId")
@@ -1736,6 +1786,8 @@ namespace CyberPulse.Backend.Data.Migrations
                         .HasForeignKey("UnitMeasurementId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Classe");
 

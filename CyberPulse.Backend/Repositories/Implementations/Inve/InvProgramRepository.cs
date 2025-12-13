@@ -94,7 +94,6 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
     }
     
 
-
     public async Task<ActionResponse<InvProgram>> AddAsync(InvProgramDTO entity)
     {
         var model = new InvProgram
@@ -208,6 +207,25 @@ public class InvProgramRepository : GenericRepository<InvProgram>, IInvProgramRe
                 Message = ex.Message
             };
         }
+    }
+
+    public async Task<ActionResponse<IEnumerable<InvProgram>>> GetAsync(string Filter)
+    {
+        var queryable = _context.InvPrograms.AsNoTracking().Include(f => f.Statu).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<InvProgram>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+        };
+
     }
 
     //TODO: BORRAR

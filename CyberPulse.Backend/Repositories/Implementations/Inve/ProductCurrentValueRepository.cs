@@ -51,13 +51,15 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
             .AsNoTracking()
             .Include(x => x.Validity)
             .Include(x => x.Iva)
-            .Include(x => x.Product)
+            .Include(x => x.Product).ThenInclude(l=>l!.Lot)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => x.Validity!.Value.ToString().ToLower().Contains(pagination.Filter.ToLower())||
                                              x.Iva!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Product!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Product.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
@@ -157,13 +159,15 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
         var queryable = _context.ProductCurrentValues
                                 .Include(x=>x.Validity)
                                 .Include(x=>x.Iva)
-                                .Include(x=>x.Product)
+                                .Include(x=>x.Product).ThenInclude(x=>x!.Lot)
                                 .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => x.Validity!.Value.ToString().ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.Iva!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Product!.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Product!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
@@ -241,6 +245,33 @@ public class ProductCurrentValueRepository : GenericRepository<ProductCurrentVal
         //{
         //    WasSuccess = false,
         //};
+    }
+    public async Task<ActionResponse<IEnumerable<ProductCurrentValue>>> GetAsync(string Filter)
+    {
+        var queryable = _context.ProductCurrentValues
+                                .AsNoTracking()
+                                .Include(p => p.Validity)
+                                .Include(p => p.Iva)
+                                .Include(p => p.Product).ThenInclude(p=>p!.Lot)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Validity!.Value.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Iva!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Product.Lot!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.PriceLow.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Worth.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.PriceHigh.ToString().ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<ProductCurrentValue>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Validity!.Value).ThenBy(x => x.Product!.Name)
+                .ToListAsync()
+        };
     }
     public async Task<ActionResponse<ProductCurrentValue>> UpdateAsync(ProductCurrentValueDTO entity)
     {

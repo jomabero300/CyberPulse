@@ -54,4 +54,7 @@ public class BudgetCourse
     public Statu? Statu { get; set; }
     public User Instructor { get; set; } = null!;
 
+    public ICollection<ProductQuotation>? ProductQuotations { get; set; }
+    //public ICollection<CourseProgramLot>? CourseProgramLots { get; set; }
+
 }

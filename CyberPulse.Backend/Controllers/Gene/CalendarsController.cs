@@ -3,7 +3,6 @@ using CyberPulse.Shared.Entities.Gene;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -144,17 +143,17 @@ public class CalendarsController : GenericController<Calendar>
                     festivos.Add(festivo.Date);
                 }
             }
-                //var content = await response.Content.ReadAsStringAsync();
+            //var content = await response.Content.ReadAsStringAsync();
 
-                //var festivosApi = JsonSerializer.Deserialize<List<FestivoApiResponse>>(content);
+            //var festivosApi = JsonSerializer.Deserialize<List<FestivoApiResponse>>(content);
 
-                //foreach (var festivo in festivosApi)
-                //{
-                //    if (DateTime.TryParse(festivo.Date, out DateTime fechaFestivo))
-                //    {
-                //        festivos.Add(fechaFestivo);
-                //    }
-                //}
+            //foreach (var festivo in festivosApi)
+            //{
+            //    if (DateTime.TryParse(festivo.Date, out DateTime fechaFestivo))
+            //    {
+            //        festivos.Add(fechaFestivo);
+            //    }
+            //}
         }
         catch (Exception ex)
         {
@@ -173,7 +172,7 @@ public class CalendarsController : GenericController<Calendar>
         public string LocalName { get; set; } = null!;
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }= null!;
+        public string Name { get; set; } = null!;
     }
 
     public class DateTimeConverter : JsonConverter<DateTime>

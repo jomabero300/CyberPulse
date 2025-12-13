@@ -10,6 +10,7 @@ public interface IProductCurrentValueUnitOfWork
     Task<ActionResponse<ProductCurrentValue>> GetAsync(int id);
     Task<ActionResponse<ProductCurrentValue>> GetAsync(double id);
     Task<ActionResponse<IEnumerable<ProductCurrentValue>>> GetAsync();
+    Task<ActionResponse<IEnumerable<ProductCurrentValue>>> GetAsync(string Filter);
     Task<ActionResponse<ProductCurrentValue>> AddAsync(ProductCurrentValueDTO entity);
     Task<ActionResponse<ProductCurrentValue>> UpdateAsync(ProductCurrentValueDTO entity);
     Task<ActionResponse<ProductCurrentValue>> DeleteAsync(int id);

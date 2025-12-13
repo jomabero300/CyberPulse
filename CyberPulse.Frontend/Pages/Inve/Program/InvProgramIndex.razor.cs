@@ -6,6 +6,7 @@ using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using Microsoft.JSInterop;
 using MudBlazor;
 using System.Net;
 
@@ -27,7 +28,7 @@ public partial class InvProgramIndex
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
-
+    [Inject] IJSRuntime JS { get; set; } = null!;
     [Parameter, SupplyParameterFromForm] public string Filter { get; set; } = string.Empty;
     protected override async Task OnInitializedAsync()
     {
@@ -177,4 +178,32 @@ public partial class InvProgramIndex
         Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
     }
 
+    private async Task ShowPdfAsync()
+    {
+        loading = true;
+
+        var url = "api/invprograms/report/";
+
+        if (!string.IsNullOrEmpty(Filter))
+        {
+            url += $"{Filter}";
+        }
+        else
+        {
+            url += "''";
+        }
+
+        var response = await repository.GetBytesAsync(url);
+
+        if (response.Error || response.Response == null)
+        {
+            // Handle error
+            loading = false;
+            return;
+        }
+
+        await JS.InvokeVoidAsync("displayPdf", response.Response);
+
+        loading = false;
+    }
 }

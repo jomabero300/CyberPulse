@@ -24,5 +24,7 @@ public class ClasseUnitOfWork : GenericUnitOfWork<Classe>, IClasseUnitOfWork
     public async Task<ActionResponse<Classe>> AddAsync(ClasseDTO entity)=>await _classeRepository.AddAsync(entity);
     public async Task<IEnumerable<Classe>> GetComboAsync(int id)=>await _classeRepository.GetComboAsync(id);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _classeRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<Classe>>> GetAsync(string Filter) => await _classeRepository.GetAsync(Filter);
     public async Task<ActionResponse<Classe>> UpdateAsync(ClasseDTO entity)=>await _classeRepository.UpdateAsync(entity);
+
 }

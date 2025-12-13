@@ -10,6 +10,7 @@ namespace CyberPulse.Frontend.Pages.Inve.ProductQuotationInv;
 public partial class ProductQuotationCreate
 {
     private ProductQuotationForm? productQuotationForm;
+
     private ProductQuotationHeadDTO productQuotationHeadDTO = new();
     [Inject] private IRepository Repository { get; set; } = null!;
     [Inject] private ISqlInjValRepository _sqlValidator { get; set; } = null!;

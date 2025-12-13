@@ -29,6 +29,29 @@ namespace CyberPulse.Backend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                schema: "Inve",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(40)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    StatuId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Status_StatuId",
+                        column: x => x.StatuId,
+                        principalSchema: "Gene",
+                        principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 schema: "Inve",
                 columns: table => new
@@ -413,11 +436,19 @@ namespace CyberPulse.Backend.Data.Migrations
                     LotId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     StatuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "Inve",
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Classes_ClasseId",
                         column: x => x.ClasseId,
@@ -746,6 +777,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Categories_StatuId",
+                schema: "Inve",
+                table: "Categories",
+                column: "StatuId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Classes_Code",
                 schema: "Inve",
                 table: "Classes",
@@ -873,6 +910,12 @@ namespace CyberPulse.Backend.Data.Migrations
                 schema: "Inve",
                 table: "ProductQuotations",
                 column: "StatuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                schema: "Inve",
+                table: "Products",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ClasseId_Name",
@@ -1020,6 +1063,10 @@ namespace CyberPulse.Backend.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProgramLots",
+                schema: "Inve");
+
+            migrationBuilder.DropTable(
+                name: "Categories",
                 schema: "Inve");
 
             migrationBuilder.DropTable(

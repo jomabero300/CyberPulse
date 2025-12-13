@@ -25,6 +25,7 @@ public class ProductUnitOfWork : GenericUnitOfWork<Product>, IProductUnitOfWork
     public async Task<IEnumerable<Product>> GetComboAsync()=>await _productRepository.GetComboAsync();
     public async Task<IEnumerable<Product>> GetComboAsync(int claseId, int lotId)=>await _productRepository.GetComboAsync(claseId, lotId);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _productRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<Product>>> GetAsync(string Filter) => await _productRepository.GetAsync(Filter);
     public async Task<ActionResponse<Product>> UpdateAsync(ProductDTO entity)=>await _productRepository.UpdateAsync(entity);
 
 }

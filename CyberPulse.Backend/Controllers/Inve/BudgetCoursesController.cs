@@ -22,13 +22,15 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     private readonly IUsersUnitOfWork _usersUnitOfWork;
     private readonly IConfiguration _configuration;
     private readonly IMailHelper _mailHelper;
+    private readonly IWebHostEnvironment _env;
 
-    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper) : base(unitOfWork)
+    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, IWebHostEnvironment env) : base(unitOfWork)
     {
         _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
         _usersUnitOfWork = usersUnitOfWork;
         _configuration = configuration;
         _mailHelper = mailHelper;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -43,10 +45,11 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
 
         return BadRequest();
     }
+
     [HttpGet("paginated")]
     public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
     {
-        if(!string.IsNullOrWhiteSpace(pagination.Email))
+        if (!string.IsNullOrWhiteSpace(pagination.Email))
         {
             pagination.Email = User.Identity!.Name;
         }
@@ -60,6 +63,7 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
 
         return BadRequest();
     }
+
     [HttpDelete("full/{id}")]
     public override async Task<IActionResult> DeleteAsync(int id)
     {
@@ -74,6 +78,17 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     }
 
 
+    [HttpGet("report/{id}")]
+    public async Task<IActionResult> GetAsync(string id)
+    {
+        var entity = await _budgetCourseUnitOfWork.GetAsync(id);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "ProductosPdf.pdf");
+    }
 
     [HttpPost("full")]
     public async Task<IActionResult> PostAsync([FromBody] BudgetCourseDTO entity)
@@ -104,18 +119,19 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
     [HttpPut("fulls")]
     public async Task<IActionResult> PustAsync([FromBody] BudgetCourseSendDTO model)
     {
+
         var modelDto = new BudgetCourseDTO
-                                        {
-                                            Id = model.Id,
-                                            InstructorId = model.InstructorId,
-                                            BudgetLotId = model.BudgetLotId,
-                                            ValidityId = model.ValidityId,
-                                            CourseProgramLotId = model.CourseProgramLotId,
-                                            StartDate = model.StartDate,
-                                            EndDate = model.EndDate,
-                                            Worth = model.Worth,
-                                            StatuId = model.StatuId
-                                        };
+        {
+            Id = model.Id,
+            InstructorId = model.InstructorId,
+            BudgetLotId = model.BudgetLotId,
+            ValidityId = model.ValidityId,
+            CourseProgramLotId = model.CourseProgramLotId,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            Worth = model.Worth,
+            StatuId = model.StatuId
+        };
 
         var action = await _budgetCourseUnitOfWork.UpdateAsync(modelDto);
 
@@ -160,5 +176,18 @@ public class BudgetCoursesController : GenericController<BudgetCourse>
         }
         return BadRequest();
     }
+
+    [HttpGet("report/{Estado}/{Filter}")]
+    public async Task<IActionResult> GetAsync(bool Estado,string Filter = "")
+    {
+        var entity = await _budgetCourseUnitOfWork.GetAsync(Filter,Estado);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf2([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Classes.pdf");
+    }
+
 
 }

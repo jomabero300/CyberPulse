@@ -31,7 +31,11 @@ else
                                OnClick="@(() => ShowProductAllAsync())">
                         @Localizer["ProductAllPercentage"]
                     </MudButton>
-
+                    <MudButton Variant="Variant.Outlined"
+                               StartIcon="@Icons.Material.Filled.PictureAsPdf"
+                               Color="Color.Primary" OnClick="@(() => ShowPdfAsync())">
+                        @Localizer["ReportPdf"]
+                    </MudButton>
                 </div>
             </div>
             <MudSpacer />
@@ -39,9 +43,11 @@ else
         </ToolBarContent>
 
         <HeaderContent>
+            <MudTh>@Localizer["Code"]</MudTh>
             <MudTh>@Localizer["Validity"]</MudTh>
             <MudTh>@Localizer["Product"]</MudTh>
             <MudTh>@Localizer["Description"]</MudTh>
+            <MudTh>@Localizer["Lot"]</MudTh>
             <MudTh>@Localizer["PriceLow"]</MudTh>
             <MudTh>@Localizer["PriceHigh"]</MudTh>
             <MudTh>@Localizer["Worth"]</MudTh>
@@ -50,9 +56,12 @@ else
             <MudTh Class="text-center">@Localizer["Actions"]</MudTh>
         </HeaderContent>
         <RowTemplate>
+            <MudTd>@context.Product!.Code</MudTd>
             <MudTd>@context.Validity!.Value</MudTd>
             <MudTd>@context.Product!.Name</MudTd>
             <MudTd>@context.Product!.Description</MudTd>
+            <MudTd>@context.Product!.Lot!.Name</MudTd>
+
             <MudTd>@context.PriceLow.ToString("N2")</MudTd>
             <MudTd>@context.PriceHigh.ToString("N2")</MudTd>
             <MudTd>@context.Worth.ToString("N2")</MudTd>

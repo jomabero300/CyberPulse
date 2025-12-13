@@ -208,4 +208,24 @@ public class FamilyRepository : GenericRepository<Family>, IFamilyRepository
             };
         }
     }
+
+    public async Task<ActionResponse<IEnumerable<Family>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Families.AsNoTracking().Include(f=>f.Segment).Include(f=>f.Statu).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Code.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Segment!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<Family>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+        };
+    }
 }

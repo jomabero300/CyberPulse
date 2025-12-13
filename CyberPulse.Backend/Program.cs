@@ -26,7 +26,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+    .AddDataAnnotationsLocalization()
+    .AddViewLocalization();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -119,6 +123,9 @@ builder.Services.AddScoped<IBudgetProgramUnitOfWork, BudgetProgramUnitOfWork>();
 builder.Services.AddScoped<IBudgetTypeRepository, BudgetTypeRepository>();
 builder.Services.AddScoped<IBudgetTypeUnitOfWork, BudgetTypeUnitOfWork>();
 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryUnitOfWork, CategoryUnitOfWork>();
+
 builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
 builder.Services.AddScoped<IClasseUnitOfWork, ClasseUnitOfWork>();
 
@@ -194,6 +201,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwMBELtKey"]!)),
         ClockSkew = TimeSpan.Zero
     });
+
+builder.Services.AddLocalization(option => option.ResourcesPath= "Resources");
 
 var app = builder.Build();
 

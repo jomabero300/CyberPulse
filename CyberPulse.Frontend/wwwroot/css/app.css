@@ -117,6 +117,10 @@ code {
     animation: blinker 1s linear infinite;
 }
 
+.text-center-input input{
+    text-align:center;
+}
+
 @keyframes blinker {
     50% {
         opacity: 0;

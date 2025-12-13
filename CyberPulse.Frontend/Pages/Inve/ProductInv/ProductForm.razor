@@ -6,23 +6,23 @@
 	<MudGrid>
 		<MudItem xs="12" sm="2">
 			<MudTextField Label="@Localizer["Unspsc"]"
-							@bind-Value="@ProductDTO.Code"
-							@onblur="() => CheckCodeExists(ProductDTO.Code)"
-							For="@(() => ProductDTO.Code)"
+							@bind-Value="@productDTO.Code"
+							@onblur="() => CheckCodeExists(productDTO.Code)"
+							For="@(() => productDTO.Code)"
 							class="mb-3" />
 
 		</MudItem>
 		<MudItem xs="12" sm="5">
 			<MudTextField Label="@Localizer["Name"]"
-							@bind-Value="@ProductDTO.Name"
-							For="@(() => ProductDTO.Name)"
+							@bind-Value="@productDTO.Name"
+							For="@(() => productDTO.Name)"
 							class="mb-3" />
 
 		</MudItem>
 		<MudItem xs="12" sm="5">
 			<MudTextField Label="@Localizer["Description"]"
-							@bind-Value="@ProductDTO.Description"
-							For="@(() => ProductDTO.Description)"
+							@bind-Value="@productDTO.Description"
+							For="@(() => productDTO.Description)"
 							class="mb-3" />
 
 		</MudItem>
@@ -34,7 +34,7 @@
 							 Value="selectedLot"
 							 ValueChanged="LotChanged"
 							 ToStringFunc="@(e=> e==null?null : e.Name)"
-							 For="@(() => ProductDTO.Lot)">
+							 For="@(() => productDTO.Lot)">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Name
 				</ItemTemplate>
@@ -48,7 +48,7 @@
 							 SearchFunc="SearchSegment"
 							 Value="selectedSegment"
 							 ValueChanged="SegmentChanged"
-							 ToStringFunc="@(e=> e==null?null : e.Name)">
+							 ToStringFunc="@(e=> e==null?null :$"{e.Code.ToString()} - {e.Name}")">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code - @itemContext.Name
 				</ItemTemplate>
@@ -62,7 +62,7 @@
 							 SearchFunc="SearchFamily"
 							 Value="selectedFamily"
 							 ValueChanged="FamilyChanged"
-							 ToStringFunc="@(e=> e==null?null : e.Name)">
+							 ToStringFunc="@(e=> e==null?null :$"{e.Code.ToString()} - {e.Name}")">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code  -  @itemContext.Name
 				</ItemTemplate>
@@ -76,14 +76,14 @@
 							 SearchFunc="SearchClasse"
 							 Value="selectedClasse"
 							 ValueChanged="ClasseChanged"
-							 ToStringFunc="@(e=> e==null?null : e.Name)"
-							 For="@(() => ProductDTO.Classe)">
+							 ToStringFunc="@(e=> e==null?null :$"{e.Code} - {e.Name}")"
+							 For="@(() => productDTO.Classe)">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code - @itemContext.Name
 				</ItemTemplate>
 			</MudAutocomplete>
 		</MudItem>
-		<MudItem xs="12" sm="6">
+		<MudItem xs="12" sm="4">
 			<MudAutocomplete T="UnitMeasurementDTO"
 							 Label=@Localizer["UnitMeasurement"]
 							 Placeholder=@Localizer["SelectAUnitMeasurement"]
@@ -91,13 +91,27 @@
 							 Value="selectedUnitMeasurement"
 							 ValueChanged="UnitMeasurementChanged"
 							 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-							 For="@(() => ProductDTO.UnitMeasurement)">
+							 For="@(() => productDTO.UnitMeasurement)">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Name
 				</ItemTemplate>
 			</MudAutocomplete>
 		</MudItem>
-		<MudItem xs="12" sm="6">
+		<MudItem xs="12" sm="4">
+			<MudAutocomplete T="CategoryDTO"
+							 Label=@Localizer["Category"]
+							 Placeholder=@Localizer["SelectACategory"]
+							 SearchFunc="SearchCategory"
+							 Value="selectedCategory"
+							 ValueChanged="CategoryChanged"
+							 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+							 For="@(() => productDTO.Category)">
+				<ItemTemplate Context="itemContext">
+					@itemContext.Name
+				</ItemTemplate>
+			</MudAutocomplete>
+		</MudItem>
+		<MudItem xs="12" sm="4">
 			<MudAutocomplete T="StatuDTO"
 							 Label=@Localizer["Statu"]
 							 Disabled="_disable"
@@ -106,7 +120,7 @@
 							 Value="selectedStatu"
 							 ValueChanged="StatuChanged"
 							 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-							 For="@(() => ProductDTO.Statu)">
+							 For="@(() => productDTO.Statu)">
 
 				<ItemTemplate Context="itemContext">
 					@itemContext.Name
@@ -116,22 +130,6 @@
 		</MudItem>
 
 	</MudGrid>
-
-
-
-@* 	<MudAutocomplete T="BudgetTypeDTO"
-					 Label=@Localizer["BudgetType"]
-					 Placeholder=@Localizer["SelectABudgetType"]
-					 SearchFunc="SearchBudgetType"
-					 Value="selectedBudgetType"
-					 ValueChanged="BudgetTypeChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-					 For="@(() => BudgetDTO.BudgetType)">
-		<ItemTemplate Context="itemContext">
-			@itemContext.Name
-		</ItemTemplate>
-	</MudAutocomplete>
- *@
 
 	<MudDivider Class="my-2" DividerType="DividerType.Inset" />
 

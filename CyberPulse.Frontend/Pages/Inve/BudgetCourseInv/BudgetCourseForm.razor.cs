@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace CyberPulse.Frontend.Pages.Inve.BudgetCourseInv;

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
@@ -14,13 +15,15 @@ namespace CyberPulse.Backend.Controllers.Inve;
 [ApiController]
 [Route("api/[controller]")]
 public class BudgetLotsController : GenericController<BudgetLot>
-{ 
+{
     private readonly IBudgetLotUnitOfWork _budgetLotUnitOfWork;
     private readonly IBudgetCourseUnitOfWork _budgetCourseUnitOfWork;
-    public BudgetLotsController(IGenericUnitOfWork<BudgetLot> unitOfWork, IBudgetLotUnitOfWork budgetLotUnitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public BudgetLotsController(IGenericUnitOfWork<BudgetLot> unitOfWork, IBudgetLotUnitOfWork budgetLotUnitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _budgetLotUnitOfWork = budgetLotUnitOfWork;
         _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
+        _env = env;
     }
 
 
@@ -44,7 +47,7 @@ public class BudgetLotsController : GenericController<BudgetLot>
 
         if (response.WasSuccess)
         {
-            var budget=new List<BudgetLotIndexDTO>();
+            var budget = new List<BudgetLotIndexDTO>();
 
             foreach (var x in response.Result!)
             {
@@ -53,8 +56,8 @@ public class BudgetLotsController : GenericController<BudgetLot>
                 budget.Add(new BudgetLotIndexDTO
                 {
                     Id = x.Id,
-                    BudgetProgramId= x.BudgetProgramId,
-                    ProgramLotId= x.ProgramLotId,
+                    BudgetProgramId = x.BudgetProgramId,
+                    ProgramLotId = x.ProgramLotId,
                     Validity = x.Validity,
                     Worth = x.Worth,
                     StatuId = x.StatuId,
@@ -144,6 +147,18 @@ public class BudgetLotsController : GenericController<BudgetLot>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _budgetLotUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "BudgetLot.pdf");
     }
 
     [HttpGet("Combo/{id}")]

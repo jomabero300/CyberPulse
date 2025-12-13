@@ -9,6 +9,7 @@ public interface IFamilyRepository
 {
     Task<ActionResponse<Family>> GetAsync(int id);
 
+    Task<ActionResponse<IEnumerable<Family>>> GetAsync(string Filter);
     Task<ActionResponse<IEnumerable<Family>>> GetAsync();
 
     Task<ActionResponse<Family>> AddAsync(FamilyDTO entity);

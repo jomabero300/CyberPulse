@@ -1,7 +1,7 @@
-SET IDENTITY_INSERT [Inve].[Programs] ON 
+﻿SET IDENTITY_INSERT [Inve].[Programs] ON 
 INSERT INTO [Inve].[Programs](Id, Name, StatuId) VALUES
-(1,'ARTICULACION',1),
-(2,'CAMPESENA',1),
-(3,'POBLACION VISTIMA DESPLAZADA',1),
-(4,'TITULADA',1)
+(1,N'Articulación',1),
+(2,N'Campesena',1),
+(3,N'Población victima desplazada',1),
+(4,N'Titulada',1)
 SET IDENTITY_INSERT [Inve].[Programs] OFF

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class ProgramLotsController : GenericController<ProgramLot>
 {
     private readonly IProgramLotUnitOfWork _programLotUnitOf;
-    public ProgramLotsController(IGenericUnitOfWork<ProgramLot> unitOfWork, IProgramLotUnitOfWork programLotUnitOf) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public ProgramLotsController(IGenericUnitOfWork<ProgramLot> unitOfWork, IProgramLotUnitOfWork programLotUnitOf, IWebHostEnvironment env) : base(unitOfWork)
     {
         _programLotUnitOf = programLotUnitOf;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -96,6 +99,17 @@ public class ProgramLotsController : GenericController<ProgramLot>
         return BadRequest();
     }
 
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _programLotUnitOf.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Family.pdf");
+    }
     [HttpGet("Combo/{id}")]
     public async Task<IActionResult> GetComboAsync(int id)
     {

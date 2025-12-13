@@ -23,7 +23,9 @@ public class ProgramLotUnitOfWork : GenericUnitOfWork<ProgramLot>, IProgramLotUn
 
     public async Task<ActionResponse<ProgramLot>> AddAsync(ProgramLotDTO entity)=>await _programLotRepository.AddAsync(entity);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _programLotRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(string Filter) => await _programLotRepository.GetAsync(Filter);
     public async Task<ActionResponse<ProgramLot>> UpdateAsync(ProgramLotDTO entity)=>await _programLotRepository.UpdateAsync(entity);
 
     public async Task<IEnumerable<ProgramLot>> GetComboAsync(int id)=>await _programLotRepository.GetComboAsync(id);
+
 }

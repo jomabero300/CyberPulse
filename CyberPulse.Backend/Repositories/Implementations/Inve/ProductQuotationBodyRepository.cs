@@ -58,13 +58,14 @@ public class ProductQuotationBodyRepository : GenericRepository<ProductQuotation
                 if (product != null)
                 {
                     product.Id = quotation.Id;
-                    product.RequestedQuantity = quotation.RequestedQuantity;
+                    product.RequestedQuantity = quotation.AcceptedQuantity==0? quotation.RequestedQuantity: quotation.AcceptedQuantity;
                     product.AcceptedQuantity = quotation.AcceptedQuantity;
                     product.QuotedValue = quotation.QuotedValue;
                     product.Quoted01 = quotation.Quoted01;
                     product.Quoted02 = quotation.Quoted02;
                     product.Quoted03 = quotation.Quoted03;
                     product.StatuId= quotation.StatuId;
+                    product.Work = quotation.QuotedValue;
                 }
             }
         }

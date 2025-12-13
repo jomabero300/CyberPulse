@@ -43,7 +43,7 @@ public class ChipReporteService
                     column.Item().Scale(tamañoDeLetra).PaddingTop(1).BorderColor(Colors.Grey.Medium).Text($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}");
                 });
 
-                row.ConstantItem(100).Height(2, Unit.Centimetre).Image(imagePath); // Puedes reemplazar esto con el logo de tu empresa
+                row.ConstantItem(100).Height(2, Unit.Centimetre).Image(imagePath); 
 
             });
         }
@@ -56,6 +56,7 @@ public class ChipReporteService
                 columna.Item().Element(ConstruirTabla);
             });
         }
+
         void ConstruirTabla(IContainer contenedor)
         {
             contenedor.Table(tabla =>
@@ -107,6 +108,7 @@ public class ChipReporteService
                 }
             });
         }
+
         void ComposeFooter(IContainer container)
         {
             var tamañoDeLetraTitle = 0.8f;
@@ -125,6 +127,7 @@ public class ChipReporteService
                 });
             });
         }
+
         return document.GeneratePdf();
     }
     public static byte[] ChipPdf(Chip entity, string rutaPath)

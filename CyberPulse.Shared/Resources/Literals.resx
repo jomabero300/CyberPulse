@@ -859,4 +859,31 @@
   <data name="ERR019" xml:space="preserve">
     <value>Products with no quantity, there must be at least one with a quantity of 1</value>
   </data>
+  <data name="SelectACategory" xml:space="preserve">
+    <value>-- Select a category --</value>
+  </data>
+  <data name="Process" xml:space="preserve">
+    <value>Process</value>
+  </data>
+  <data name="ProcessConfirm" xml:space="preserve">
+    <value>Are you sure you want to process all the {0}?</value>
+  </data>
+  <data name="PriceLowMs" xml:space="preserve">
+    <value>Value below minimum</value>
+  </data>
+  <data name="PriceHighMs" xml:space="preserve">
+    <value>Value above maximum</value>
+  </data>
+  <data name="DeleteConfirmCant" xml:space="preserve">
+    <value>All quantities in the {0} of course {1} will be set to zero (0). Continue?</value>
+  </data>
+  <data name="RecordUpdateOk" xml:space="preserve">
+    <value>Registration successfully updated.</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class ProductCurrentValuesController : GenericController<ProductCurrentValue>
 {
     private readonly IProductCurrentValueUnitOfWork _ProductCurrentValueUnitOfWork;
-    public ProductCurrentValuesController(IGenericUnitOfWork<ProductCurrentValue> unitOfWork, IProductCurrentValueUnitOfWork productCurrentValueUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public ProductCurrentValuesController(IGenericUnitOfWork<ProductCurrentValue> unitOfWork, IProductCurrentValueUnitOfWork productCurrentValueUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _ProductCurrentValueUnitOfWork = productCurrentValueUnitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -99,6 +102,18 @@ public class ProductCurrentValuesController : GenericController<ProductCurrentVa
         }
 
         return BadRequest(action.Message);
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _ProductCurrentValueUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "ProductCurrentValue.pdf");
     }
 
     [HttpGet("TotalRecordsPaginated")]

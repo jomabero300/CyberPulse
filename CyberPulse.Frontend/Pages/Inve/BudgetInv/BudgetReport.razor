@@ -1,0 +1,25 @@
+﻿@page "/BugdetReport"
+<h3>Reporte de presupuesto</h3>
+<MudGrid>
+
+	<MudItem xs="12" sm="3">
+		<MudAutocomplete T="Validity"
+						 Label=@Localizer["Validity"]
+						 Placeholder=@Localizer["SelectAValidity"]
+						 SearchFunc="SearchValidityAsync"
+						 Value="selectedValidity"
+						 ValueChanged="ValidityChanged"
+						 ToStringFunc="@(e=> e==null?null : $"{e.Value.ToString()}")">
+			<ItemTemplate Context="itemContext">
+				@itemContext.Value
+			</ItemTemplate>
+		</MudAutocomplete>
+	</MudItem>
+</MudGrid>
+<MudDivider Class="my-2" DividerType="DividerType.Inset" />
+<MudButton Variant="Variant.Outlined"
+		   StartIcon="@Icons.Material.Filled.PictureAsPdf"
+		   Color="Color.Primary"
+		   OnClick="ReportPdf">
+	@Localizer["ReportPdf"]
+</MudButton>

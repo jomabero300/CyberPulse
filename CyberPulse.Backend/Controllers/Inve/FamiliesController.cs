@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,12 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class FamiliesController : GenericController<Family>
 {
     private readonly IFamilyUnitOfWork _familyOfWork;
-    public FamiliesController(IGenericUnitOfWork<Family> unitOfWork, IFamilyUnitOfWork familyOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+
+    public FamiliesController(IGenericUnitOfWork<Family> unitOfWork, IFamilyUnitOfWork familyOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _familyOfWork = familyOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -95,6 +99,19 @@ public class FamiliesController : GenericController<Family>
         }
         return BadRequest();
     }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _familyOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Family.pdf");
+    }
+
 
     [HttpGet("Combo/{id}")]
     public async Task<IActionResult> GetComboAsync(int id)

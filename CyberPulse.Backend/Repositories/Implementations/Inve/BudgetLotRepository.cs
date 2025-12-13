@@ -220,7 +220,31 @@ public class BudgetLotRepository : GenericRepository<BudgetLot>, IBudgetLotRepos
             Result = (int)count
         };
     }
+    public async Task<ActionResponse<IEnumerable<BudgetLot>>> GetAsync(string Filter)
+    {
+        var queryable = _context.BudgetLots.AsNoTracking()
+                                            .Include(pl => pl.ProgramLot).ThenInclude(x => x!.Program)
+                                            .Include(x => x.ProgramLot).ThenInclude(x => x!.Lot)
+                                            .Include(v => v.BudgetProgram).ThenInclude(x => x!.Validity)
+                                            .Include(x => x.Statu)
+                                            .Where(w => w.BudgetProgram!.Validity!.StatuId == 1)
+                                            .AsQueryable();
 
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.ProgramLot!.Program!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.ProgramLot!.Lot!.Name.Contains(Filter.ToLower()) ||
+                                             x.Worth.ToString().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<BudgetLot>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.BudgetProgram!.Program!.Name).ThenBy(Y => Y.ProgramLot!.Lot!.Name)
+                .ToListAsync()
+        };
+    }
     public async Task<ActionResponse<BudgetLot>> UpdateAsync(BudgetLotDTO entity)
     {
         var model = await _context.BudgetLots.FindAsync(entity.Id);

@@ -17,4 +17,7 @@ public class ProductFormDTO : ProductDTO
 
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public Lot2DTO? Lot { get; set; }
+
+    [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
+    public CategoryDTO? Category { get; set; }
 }

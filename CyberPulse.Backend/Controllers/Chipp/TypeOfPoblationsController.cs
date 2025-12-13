@@ -22,7 +22,7 @@ public class TypeOfPoblationsController : GenericController<TypeOfPoblation>
     [HttpGet]
     public override async Task<IActionResult> GetAsync()
     {
-        var response=await _typeOfPoblation.GetAsync();
+        var response = await _typeOfPoblation.GetAsync();
 
         if (response.WasSuccess)
         {

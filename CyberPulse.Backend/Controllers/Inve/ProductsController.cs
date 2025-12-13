@@ -1,4 +1,6 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +17,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class ProductsController : GenericController<Product>
 {
     private readonly IProductUnitOfWork _productUnitOfWork;
-    public ProductsController(IGenericUnitOfWork<Product> unitOfWork, IProductUnitOfWork productUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public ProductsController(IGenericUnitOfWork<Product> unitOfWork, IProductUnitOfWork productUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _productUnitOfWork = productUnitOfWork;
+        _env = env;
     }
 
 
@@ -95,6 +99,18 @@ public class ProductsController : GenericController<Product>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _productUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Classes.pdf");
     }
 
     [HttpGet("Combo")]

@@ -247,6 +247,24 @@ public class LotRepository : GenericRepository<Lot>, ILotRepository
         }
     }
 
+    public async Task<ActionResponse<IEnumerable<Lot>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Lots.AsNoTracking().Include(f => f.Statu).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<Lot>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+        };
+    }
+
     //public async Task<IEnumerable<Lot2DTO>> GetComboCourseAsync(int id)
     //{
     //    var query = await _context.BudgetLots

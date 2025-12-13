@@ -1,6 +1,5 @@
-using CyberPulse.Frontend.Pages.Inve.ProductQuotationInv;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Inve;
+using CyberPulse.Frontend.Shared;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +16,7 @@ public partial class PurchasingBoardIndex
     private MudTable<ProductQuotationPurcDTO> table = new();
     private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
     private int totalRecords = 0;
+    private int ValidityId = 0;
     private bool loading;
     private bool lbEsta = false;
     private const string baseUrl = "api/productquotations";
@@ -88,6 +88,8 @@ public partial class PurchasingBoardIndex
             return new TableData<ProductQuotationPurcDTO> { Items = [], TotalItems = 0 };
         }
 
+        ValidityId = responseHttp.Response.FirstOrDefault()!.ValidityId;
+
         return new TableData<ProductQuotationPurcDTO>
         {
             Items = responseHttp.Response,
@@ -104,7 +106,7 @@ public partial class PurchasingBoardIndex
 
         await table.ReloadServerData();
     }
-    private async Task ShowModalAsync(int id)
+    private async Task ShowModalAsync(ProductQuotationPurcDTO entity)
     {
         var options = new DialogOptions()
         {
@@ -112,14 +114,17 @@ public partial class PurchasingBoardIndex
             CloseButton = false,
             BackdropClick = false,
             FullWidth = true,
-            MaxWidth = MaxWidth.Medium
+            MaxWidth = MaxWidth.Small
         };
+
+        entity.Estado = true;
+
         var parameters = new DialogParameters
             {
-                { "Id", id }
+                { "ProductQuatation", entity }
             };
-        IDialogReference dialog = await DialogService.ShowAsync<ProductQuotationEdit>(
-            $"{Localizer["Edit"]} {Localizer["ProductQuotation"]}", parameters,
+        IDialogReference dialog = await DialogService.ShowAsync<PurchasingBoardEdit>(
+            $"{Localizer["Edit"]} {Localizer["PurchasingBoard"]}", parameters,
             options);
 
         var result = await dialog.Result;
@@ -130,5 +135,60 @@ public partial class PurchasingBoardIndex
 
             await table.ReloadServerData();
         }
+    }
+    private async Task ProcessAllAsync()
+    {
+        var parameters = new DialogParameters
+        {
+            { "Message", string.Format(Localizer["ProcessConfirm"],Localizer["Products"],1) }
+        };
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["Confirmation"], parameters, options);
+
+        var result = await dialog.Result;
+
+        if (result!.Canceled )
+        {
+            return;
+        }
+        
+        var elemento = await repository.GetAsync<bool>($"{baseUrl}/ExistenRows/{ValidityId}/{true}");
+
+        if (elemento.Response)
+        {
+            var parameters2 = new DialogParameters
+            {
+                {"Message","Tiene productos sin cotización. Desea pocesarlos? ¡NO podra modificarlos despúes!" }
+            };
+
+            dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["Confirmation"], parameters2, options);
+
+            result = await dialog.Result;
+
+            if (result!.Canceled)
+            {
+                return;
+            }
+        }
+
+        var model = new ProductQuotationPurcDTO();
+
+        model.ValidityId = ValidityId;
+
+        var responseHttp = await repository.PutAsync("/api/productquotations/fulls",model);
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            Snackbar.Add(Localizer[message!], Severity.Error);
+            return;
+        }
+        await LoadTotalRecordsAsync();
+
+        await table.ReloadServerData();
+
+        Snackbar.Add(Localizer["RecordCreateOk"], Severity.Success);
     }
 }

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -16,9 +17,11 @@ public class InvProgramsController : GenericController<InvProgram>
 {
 
     private readonly IInvProgramUnitOfWork _invProgramUnitofWork;
-    public InvProgramsController(IGenericUnitOfWork<InvProgram> unitOfWork, IInvProgramUnitOfWork invProgramUnitofWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public InvProgramsController(IGenericUnitOfWork<InvProgram> unitOfWork, IInvProgramUnitOfWork invProgramUnitofWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _invProgramUnitofWork = invProgramUnitofWork;
+        _env = env;
     }
 
     [HttpGet("full/{id}")]
@@ -97,6 +100,18 @@ public class InvProgramsController : GenericController<InvProgram>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _invProgramUnitofWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Family.pdf");
     }
 
     [HttpGet("Combo")]

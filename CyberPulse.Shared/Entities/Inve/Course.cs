@@ -23,6 +23,6 @@ public class Course
     [Display(Name = "Statu", ResourceType = typeof(Literals))]
     [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Literals))]
     public int StatuId { get; set; }
-
+    
     public Statu? Statu { get; set; }
 }

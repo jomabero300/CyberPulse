@@ -1,0 +1,12 @@
+﻿@if (productQuotationPurcDTO is null)
+{
+	<Loading />
+}
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<PurchasingBoardForm @ref="purchasingBoardForm" ProductQuotationPurcDTO="productQuotationPurcDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}

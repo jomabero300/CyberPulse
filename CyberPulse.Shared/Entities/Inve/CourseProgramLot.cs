@@ -16,4 +16,6 @@ public class CourseProgramLot
 
     public Course? Course { get; set; }
     public ProgramLot? ProgramLot { get; set; }
+    //public ICollection<Course>? Courses { get; set; }
+    //public ICollection<BudgetCourse>? BudgetCourses { get; set; }
 }

@@ -129,7 +129,7 @@ public partial class ProductQuotationIndex
             { "StatuName",selectedCourse.Statu!.Name },
         };
 
-        if (isEdit)
+        if (isEdit) 
         {
 
             dialog = await DialogService.ShowAsync<ProductQuotationEdit>(
@@ -155,7 +155,7 @@ public partial class ProductQuotationIndex
     {
         var parameters = new DialogParameters
         {
-            { "Message", string.Format(Localizer["DeleteConfirm"], Localizer["BudgetCourse"], entity.Id) }
+            { "Message", string.Format(Localizer["DeleteConfirmCant"], Localizer["Products"], entity.Id) }
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
@@ -189,7 +189,7 @@ public partial class ProductQuotationIndex
 
         await table.ReloadServerData();
 
-        Snackbar.Add(Localizer["RecordDeletedOk"], Severity.Success);
+        Snackbar.Add(Localizer["RecordUpdateOk"], Severity.Success);
     }
     private async Task SendAsync(BudgetCourse model)
     {
@@ -226,9 +226,28 @@ public partial class ProductQuotationIndex
 
         lbEsta = false;
     }
-
     private async Task PrevioAsync(int id)
     {
 
+    }
+    private async Task ExecuteAsync(int id)
+    {
+        loading = true;
+        var productQuotationPurcDTO = new ProductQuotationPurcDTO() { Id = id.ToString(), Estado = true };
+        var responseHttp = await repository.PutAsync("api/productquotations/fulls", productQuotationPurcDTO);
+
+        if (responseHttp.Error)
+        {
+            var messageError = await responseHttp.GetErrorMessageAsync();
+
+            Snackbar.Add(Localizer[messageError!], Severity.Error);
+
+            return;
+        }
+        await LoadTotalRecordsAsync();
+
+        await table.ReloadServerData();
+
+        loading = false;
     }
 }

@@ -52,6 +52,7 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => 
+                                            x.Course!.Code.ToString().ToLower().Contains(pagination.Filter.ToLower())||
                                             x.Course!.Name.ToLower().Contains(pagination.Filter.ToLower())||
                                             x.ProgramLot!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                             x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
@@ -143,11 +144,14 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
     public async Task<IEnumerable<CourseProgramLot>> GetComboAsync(int id)
     {
         return await _context.CourseProgramLots
+                                 .AsNoTracking()
                                  .Include(x => x.Course)
-                                 .Include(x => x.ProgramLot).ThenInclude(x=>x!.Lot)
                                  .Where(x=>x.ProgramLotId==id)
                                  .OrderBy(x=>x.Course!.Name)
                                  .ToListAsync();
+
+                                 //.Include(x => x.ProgramLot).ThenInclude(x => x!.Lot)
+
     }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
@@ -160,6 +164,7 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x =>
+                                            x.Course!.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()) ||
                                             x.Course!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                             x.ProgramLot!.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
                                             x.ProgramLot!.Program!.Name.ToLower().Contains(pagination.Filter.ToLower()));
@@ -171,6 +176,29 @@ public class CourseProgramLotRepository : GenericRepository<CourseProgramLot>, I
         {
             WasSuccess = true,
             Result = (int)count
+        };
+    }
+    public async Task<ActionResponse<IEnumerable<CourseProgramLot>>> GetAsync(string Filter)
+    {
+        var queryable = _context.CourseProgramLots
+                                .AsNoTracking()
+                                .Include(f => f.ProgramLot).ThenInclude(x => x!.Program)
+                                .Include(f => f.ProgramLot).ThenInclude(x => x!.Lot)
+                                .Include(f => f.Course)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.ProgramLot!.Program!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.ProgramLot.Lot!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Course!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<CourseProgramLot>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.ProgramLot!.Program!.Name).ThenBy(x => x.ProgramLot!.Lot!.Name).ThenBy(x => x.Course!.Name)
+                .ToListAsync()
         };
     }
     public async Task<ActionResponse<CourseProgramLot>> UpdateAsync(CourseProgramLotDTO entity)

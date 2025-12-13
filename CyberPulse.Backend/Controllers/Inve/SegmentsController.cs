@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,11 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class SegmentsController : GenericController<Segment>
 {
     private readonly ISegmentUnitOfWork _segmentUnitOfWork;
-    public SegmentsController(IGenericUnitOfWork<Segment> unitOfWork, ISegmentUnitOfWork segmentUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public SegmentsController(IGenericUnitOfWork<Segment> unitOfWork, ISegmentUnitOfWork segmentUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _segmentUnitOfWork = segmentUnitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -93,6 +96,18 @@ public class SegmentsController : GenericController<Segment>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _segmentUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "ProductosPdf.pdf");
     }
 
     [HttpGet("Combo")]

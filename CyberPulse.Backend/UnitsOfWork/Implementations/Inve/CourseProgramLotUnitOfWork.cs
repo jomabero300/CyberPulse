@@ -23,5 +23,7 @@ public class CourseProgramLotUnitOfWork : GenericUnitOfWork<CourseProgramLot>, I
     public async Task<ActionResponse<CourseProgramLot>> AddAsync(CourseProgramLotDTO entity)=>await _courseLotRepository.AddAsync(entity);
     public async Task<IEnumerable<CourseProgramLot>> GetComboAsync(int id)=>await _courseLotRepository.GetComboAsync(id);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _courseLotRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<CourseProgramLot>>> GetAsync(string Filter) => await _courseLotRepository.GetAsync(Filter);
     public async Task<ActionResponse<CourseProgramLot>> UpdateAsync(CourseProgramLotDTO entity)=>await _courseLotRepository.UpdateAsync(entity);
+
 }

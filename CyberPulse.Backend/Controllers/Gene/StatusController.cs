@@ -34,9 +34,9 @@ public class StatusController : GenericController<Statu>
     }
 
     [HttpGet("full")]
-    public async Task<IActionResult> GetAsync(string name,int nivel)
+    public async Task<IActionResult> GetAsync(string name, int nivel)
     {
-        var response = await _statuUnitOfWork.GetAsync(name,nivel);
+        var response = await _statuUnitOfWork.GetAsync(name, nivel);
 
         if (response.WasSuccess)
         {

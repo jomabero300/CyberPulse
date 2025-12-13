@@ -24,6 +24,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .Include(x => x.Statu)
             .Include(x=>x.Classe).ThenInclude(x=>x.Family).AsNoTracking()
             .Include(x=>x.Lot)
+            .Include(x=>x.Category)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (entity == null)
@@ -49,14 +50,17 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .Include(x => x.Classe)  
             .Include(x => x.UnitMeasurement)  
             .Include(x => x.Lot)  
+            .Include(x => x.Category)  
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => 
                                             x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                            x.Classe.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                            x.Lot.Name.Contains(pagination.Filter.ToLower()));
+                                            x.Code.ToString().Contains(pagination.Filter.ToLower()) ||
+                                            x.Classe!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.Category!.Name!.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.Lot!.Name.Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Product>>
@@ -110,7 +114,8 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             Id = entity.Id,
             Code=entity.Code,
             UnitMeasurementId=entity.UnitMeasurementId,
-            ClasseId=entity.ClasseId,
+            CategoryId= entity.CategoryId,
+            ClasseId =entity.ClasseId,
             LotId =entity.LotId,
             Name = HtmlUtilities.ToTitleCase(entity.Name.Trim().ToLower()),
             Description = entity.Description.Trim(),
@@ -166,14 +171,23 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     }
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
-        var queryable = _context.Products.AsQueryable();
+        var queryable = _context.Products
+            .AsNoTracking()
+            .Include(x => x.Statu)
+            .Include(x => x.Classe)
+            .Include(x => x.UnitMeasurement)
+            .Include(x => x.Lot)
+            .Include(x => x.Category)
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
             queryable = queryable.Where(x => 
                                             x.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                            x.Classe.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                            x.Lot.Name.ToLower().Contains(pagination.Filter.ToLower()));
+                                            x.Code.ToString().Contains(pagination.Filter.ToLower()) ||
+                                            x.Classe!.Name.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.Category!.Name!.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                            x.Lot!.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         double count = await queryable.CountAsync();
@@ -201,6 +215,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         model.Code= entity.Code;
         model.Description = entity.Description.Trim();
         model.LotId = entity.LotId;
+        model.CategoryId = entity.CategoryId;
         model.ClasseId = entity.ClasseId;
         model.StatuId = entity.StatuId;
         model.UnitMeasurementId=entity.UnitMeasurementId;
@@ -241,5 +256,35 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                                 .AsNoTracking()
                                 .OrderBy(x=>x.Name)
                                 .ToListAsync();
+    }
+
+    public async Task<ActionResponse<IEnumerable<Product>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Products
+                                .AsNoTracking()
+                                .Include(P => P.UnitMeasurement)
+                                .Include(P => P.Lot)
+                                .Include(P => P.Classe)
+                                .Include(P => P.Category)
+                                .Include(P => P.Statu)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Code.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Lot!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Classe!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Category!.Name!.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<Product>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+        };
+
     }
 }

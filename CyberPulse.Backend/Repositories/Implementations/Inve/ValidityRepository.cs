@@ -22,7 +22,6 @@ public class ValidityRepository : GenericRepository<Validity>, IValidityReposito
     }
 
 
-
     public override async Task<ActionResponse<Validity>> GetAsync(int id)
     {
         var entity = await _context.Validities

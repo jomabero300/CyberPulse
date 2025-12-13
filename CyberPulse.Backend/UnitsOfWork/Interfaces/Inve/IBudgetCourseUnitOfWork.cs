@@ -10,7 +10,8 @@ public interface IBudgetCourseUnitOfWork
     Task<ActionResponse<BudgetCourse>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string id);
+    Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string Filter,bool estado);
     Task<ActionResponse<BudgetCourse>> AddAsync(BudgetCourseDTO entity);
 
     Task<ActionResponse<BudgetCourse>> UpdateAsync(BudgetCourseDTO entity);

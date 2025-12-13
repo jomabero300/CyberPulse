@@ -10,7 +10,7 @@ public interface IClasseUnitOfWork
     Task<ActionResponse<Classe>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Classe>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<Classe>>> GetAsync(string Filter);
     Task<ActionResponse<Classe>> AddAsync(ClasseDTO entity);
 
     Task<ActionResponse<Classe>> UpdateAsync(ClasseDTO entity);

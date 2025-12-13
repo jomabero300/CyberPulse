@@ -34,10 +34,13 @@ public partial class ProductForm
     private StatuDTO selectedStatu = new();
     private List<StatuDTO>? status;
 
+    private CategoryDTO selectedCategory = new();
+    private List<CategoryDTO>? categories;
+
     private bool loading;
     private bool _disable = true;
 
-    [EditorRequired, Parameter] public ProductFormDTO ProductDTO { get; set; } = null!;
+    [EditorRequired, Parameter] public ProductFormDTO productDTO { get; set; } = null!;
     [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
     [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
 
@@ -49,9 +52,8 @@ public partial class ProductForm
     public bool FormPostedSuccessfully { get; set; } = false;
     protected override void OnInitialized()
     {
-        editContext = new(ProductDTO);
+        editContext = new(productDTO);
     }
-
     protected override async Task OnInitializedAsync()
     {
         loading = true;
@@ -60,37 +62,73 @@ public partial class ProductForm
         await LoadUnitMeasurementAsync();
         await LoadStatusAsync();
         await LoadLotsAsync();
+        await LoadCategoryAsync();
 
-        if (ProductDTO.Id > 0)
+        if (productDTO.Id > 0)
         {
-            selectedLot = lots!.FirstOrDefault(x => x.Id == ProductDTO.LotId)!;
-            ProductDTO.Lot = selectedLot;
+            selectedLot = lots!.FirstOrDefault(x => x.Id == productDTO.LotId)!;
+            productDTO.Lot = selectedLot;
 
-            selectedSegment = segments!.FirstOrDefault(x => x.Id == ProductDTO!.Classe!.Family!.SegmentId)!;
+            selectedSegment = segments!.FirstOrDefault(x => x.Id == productDTO!.Classe!.Family!.SegmentId)!;
             await LoadFamilyAsync(selectedSegment.Id);
 
-            selectedFamily = families!.FirstOrDefault(x => x.Id == ProductDTO!.Classe!.FamilyId)!;
+            selectedFamily = families!.FirstOrDefault(x => x.Id == productDTO!.Classe!.FamilyId)!;
             await LoadClasseAsync(selectedFamily.Id);
 
-            selectedClasse = classes!.FirstOrDefault(x => x.Id == ProductDTO!.ClasseId)!;
-            ProductDTO.Classe = selectedClasse;
+            selectedClasse = classes!.FirstOrDefault(x => x.Id == productDTO!.ClasseId)!;
+            productDTO.Classe = selectedClasse;
 
-            selectedStatu = status!.FirstOrDefault(x => x.Id == ProductDTO.StatuId)!;
-            ProductDTO.Statu = selectedStatu;
+            selectedStatu = status!.FirstOrDefault(x => x.Id == productDTO.StatuId)!;
+            productDTO.Statu = selectedStatu;
 
-            selectedUnitMeasurement = unitMeasurements!.FirstOrDefault(x => x.Id == ProductDTO.UnitMeasurementId)!;
-            ProductDTO.UnitMeasurement = selectedUnitMeasurement;
+            selectedUnitMeasurement = unitMeasurements!.FirstOrDefault(x => x.Id == productDTO.UnitMeasurementId)!;
+            productDTO.UnitMeasurement = selectedUnitMeasurement;
+
+            selectedCategory = categories!.FirstOrDefault(x => x.Id == productDTO.CategoryId)!;
+            productDTO.Category = selectedCategory;
 
             _disable = false;
         }
         else
         {
             selectedStatu = status!.FirstOrDefault(s => s.Id == 1)!;
-            ProductDTO.StatuId = selectedStatu.Id;
-            ProductDTO.Statu = selectedStatu;
+            productDTO.StatuId = selectedStatu.Id;
+            productDTO.Statu = selectedStatu;
         }
 
         loading = false;
+    }
+
+    private async Task LoadCategoryAsync()
+    {
+        var responseHttp = await Repository.GetAsync<List<CategoryDTO>>("/api/categories/combo");
+
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        categories = responseHttp.Response;
+    }
+    private async Task<IEnumerable<CategoryDTO>> SearchCategory(string searchText, CancellationToken cancellationToken)
+    {
+        await Task.Delay(5);
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return categories!;
+        }
+
+        return categories!
+            .Where(x => x.Name!.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+    }
+    private void CategoryChanged(CategoryDTO entity)
+    {
+        selectedCategory = entity;
+        productDTO.CategoryId = entity.Id;
+        productDTO.Category = entity;
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -149,8 +187,8 @@ public partial class ProductForm
     private void UnitMeasurementChanged(UnitMeasurementDTO entity)
     {
         selectedUnitMeasurement = entity;
-        ProductDTO.UnitMeasurementId = entity.Id;
-        ProductDTO.UnitMeasurement = entity;
+        productDTO.UnitMeasurementId = entity.Id;
+        productDTO.UnitMeasurement = entity;
     }
 
     private async Task LoadSegmentAsync()
@@ -249,8 +287,8 @@ public partial class ProductForm
     private void ClasseChanged(Classe2DTO entity)
     {
         selectedClasse = entity;
-        ProductDTO.ClasseId = selectedClasse.Id;
-        ProductDTO.Classe = selectedClasse;
+        productDTO.ClasseId = selectedClasse.Id;
+        productDTO.Classe = selectedClasse;
     }
 
     private async Task LoadStatusAsync()
@@ -282,8 +320,8 @@ public partial class ProductForm
     private void StatuChanged(StatuDTO entity)
     {
         selectedStatu = entity;
-        ProductDTO.StatuId = entity.Id;
-        ProductDTO.Statu = entity;
+        productDTO.StatuId = entity.Id;
+        productDTO.Statu = entity;
     }
 
     private async Task LoadLotsAsync()
@@ -316,8 +354,8 @@ public partial class ProductForm
     private void LotChanged(Lot2DTO entity)
     {
         selectedLot = entity;
-        ProductDTO.LotId = entity.Id;
-        ProductDTO.Lot = entity;
+        productDTO.LotId = entity.Id;
+        productDTO.Lot = entity;
     }
 
     private async Task CheckCodeExists(int code)
@@ -350,8 +388,8 @@ public partial class ProductForm
                 if (classeEntity != null)
                 {
                     selectedClasse = classeEntity!;
-                    ProductDTO.ClasseId = selectedClasse.Id;
-                    ProductDTO.Classe = selectedClasse;
+                    productDTO.ClasseId = selectedClasse.Id;
+                    productDTO.Classe = selectedClasse;
 
                     _disable = false;
                 }

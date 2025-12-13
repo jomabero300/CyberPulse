@@ -70,6 +70,8 @@
                     <MudDivider />
                     <MudNavLink Href="/unitmeasurements" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["UnitMeasurements"]</MudNavLink>
                     <MudDivider />
+                    <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Blinds">@Localizer["Categories"]</MudNavLink>
+                    <MudDivider />
                     <MudNavLink Href="/products" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["Products"]</MudNavLink>
                     <MudDivider />
                     <MudNavLink Href="/productcurrentvalues" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Ballot">@Localizer["ProductCurrentValue"]</MudNavLink>
@@ -86,6 +88,11 @@
                     <MudNavLink Href="/budgetlots" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetLots"]</MudNavLink>
                     <MudDivider />
                     <MudNavLink Href="/budgetcourses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">@Localizer["BudgetCourse"]</MudNavLink>
+                </MudNavGroup>
+
+                <MudNavGroup Icon="@Icons.Material.Filled.Feed" Title="@Localizer["Reports"]" Expanded="false">
+                    <MudDivider />
+                    <MudNavLink Href="/BugdetReport" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Article">@Localizer["Budget"]</MudNavLink>
                 </MudNavGroup>
 
             </MudNavGroup>

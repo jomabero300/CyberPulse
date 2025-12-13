@@ -158,25 +158,4 @@ public partial class BudgetLotForm
         BudgetLotDTO.ProgramLotId = entity.Id;
         BudgetLotDTO.ProgramLot = entity;
     }
-
-    //private void ValidateWorth()
-    //{
-    //    BudgetLotDTO.Indesta = false;
-    //    _worthHasError = false;
-    //    _worthErrorMessage = string.Empty;
-    //    //TODO: Arreglar los ,mensajes que diga supera al presupuesto del programa
-    //    if (selectedBudgetProgram == null)
-    //    {
-    //        Snackbar.Add(Localizer["RequiredRubro"], Severity.Error);
-    //        BudgetLotDTO.Indesta = true;
-
-    //    }
-    //    else if (BudgetLotDTO.Worth > selectedBudgetProgram!.Worth)
-    //    {
-    //        BudgetLotDTO.Indesta = true;
-
-    //        _worthHasError = true;
-    //        _worthErrorMessage = $"{Localizer["BudgetProgramWorth"]} {selectedBudgetProgram!.Worth:N2}.";
-    //    }
-    //}
 }

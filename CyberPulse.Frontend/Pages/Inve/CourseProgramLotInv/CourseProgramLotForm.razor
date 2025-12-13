@@ -37,7 +37,7 @@
 					 SearchFunc="SearchCourse"
 					 Value="selectedCourse"
 					 ValueChanged="CourseChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+					 ToStringFunc="@(e=> e==null?null : $"{e.Code.ToString()} - {e.Name}")"
 					 For="@(() => CourseProgramLotDTO.Course)">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Code - @itemContext.Name

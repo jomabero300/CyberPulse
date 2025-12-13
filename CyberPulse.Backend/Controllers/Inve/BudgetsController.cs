@@ -1,4 +1,7 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using Azure;
+using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -16,11 +19,12 @@ public class BudgetsController : GenericController<Budget>
 {
     private readonly IBudgetUnitOfWork _budgetUnitOf;
     private readonly IBudgetProgramUnitOfWork _budgetProgramUnitOf;
-
-    public BudgetsController(IGenericUnitOfWork<Budget> unitOfWork, IBudgetUnitOfWork budgetUnitOf, IBudgetProgramUnitOfWork budgetProgramUnitOf) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public BudgetsController(IGenericUnitOfWork<Budget> unitOfWork, IBudgetUnitOfWork budgetUnitOf, IBudgetProgramUnitOfWork budgetProgramUnitOf, IWebHostEnvironment env) : base(unitOfWork)
     {
         _budgetUnitOf = budgetUnitOf;
         _budgetProgramUnitOf = budgetProgramUnitOf;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -44,7 +48,7 @@ public class BudgetsController : GenericController<Budget>
         if (response.WasSuccess)
         {
 
-            var budget=new List<Budget1DTO>();
+            var budget = new List<Budget1DTO>();
 
             foreach (var item in response.Result!)
             {
@@ -111,6 +115,87 @@ public class BudgetsController : GenericController<Budget>
         return BadRequest(response.Message);
     }
 
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var result = await _budgetUnitOf.GetAsync(Filter);
+
+
+        var budget = new List<Budget1DTO>();
+
+        if (result.WasSuccess)
+        {
+
+            foreach (var item in result.Result!)
+            {
+                var balanceResponse = await _budgetProgramUnitOf.GetBalanceAsync(item.Id);
+
+                double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+
+                budget.Add(new Budget1DTO
+                {
+                    Id = item.Id,
+                    BudgetType = item.BudgetType,
+                    BudgetTypeId = item.BudgetTypeId,
+                    Validity = item.Validity,
+                    ValidityId = item.ValidityId,
+                    Rubro = item.Rubro,
+                    Worth = item.Worth,
+                    Balance = item.Worth - useBalance,
+                    Statu = item.Statu,
+                    StatuId = item.StatuId
+
+                });
+            }
+        }
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. budget], rutaPath);
+
+        return File(pdf, "application/pdf", "ProductosPdf.pdf");
+    }
+
+    //[HttpGet("reportb/{Filter}/{Esta}")]
+    //public async Task<IActionResult> GetAsync(string Filter = "",bool Esta)
+    //{
+    //    var entity = await _budgetUnitOf.GetAsync(Filter);
+
+    //    var budget = new List<Budget1DTO>();
+
+    //    if (entity.WasSuccess)
+    //    {
+
+    //        foreach (var item in entity.Result!)
+    //        {
+    //            var balanceResponse = await _budgetProgramUnitOf.GetBalanceAsync(item.Id);
+
+    //            double useBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+
+    //            budget.Add(new Budget1DTO
+    //            {
+    //                Id = item.Id,
+    //                BudgetType = item.BudgetType,
+    //                BudgetTypeId = item.BudgetTypeId,
+    //                Validity = item.Validity,
+    //                ValidityId = item.ValidityId,
+    //                Rubro = item.Rubro,
+    //                Worth = item.Worth,
+    //                Balance = item.Worth - useBalance,
+    //                Statu = item.Statu,
+    //                StatuId = item.StatuId
+
+    //            });
+    //        }
+    //    }
+
+    //    string rutaPath = _env.WebRootPath;
+
+    //    var pdf = InveReportService.GenerarPdf([.. budget], rutaPath);
+
+    //    return File(pdf, "application/pdf", "Budget.pdf");
+    //}
 
     [HttpPost("full")]
     public async Task<IActionResult> PostAsync([FromBody] BudgetDTO entity)

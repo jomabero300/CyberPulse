@@ -36,7 +36,9 @@ public class SeedDb
         await CheckLotsAsync();
         await CheckProgramLotsAsync();
         await CheckCoursesAsync();
-
+        await CheckCourseProgramLotsAsync();
+        await CheckCategoryAsync();
+        await CheckProductAsync();
         await CheckRolesAsync();
         
         await CheckUserAsync("Manuel", "Bello", "jbellor@sena.edu.co", "3133670740", UserType.Admi, "17588236");
@@ -45,6 +47,36 @@ public class SeedDb
         //await CheckUserAsync("Freddie", "Mercury", "freddie@yopmail.com", "3134568271", UserType.Inst, "17588238");
         //await CheckUserAsync("Felipe", "Pelaes", "felipe@yopmail.com", "3137776666", UserType.Inst, "17588239");
         //await CheckUserAsync("Brad", "Pitt", "brad@yopmail.com", "3129167854", UserType.User, "1029400672");
+    }
+
+    private async Task CheckProductAsync()
+    {
+        if (!_context.Products.Any())
+        {
+            var sqlScript = File.ReadAllText("Data\\Scripts\\Products.sql");
+            await _context.Database.ExecuteSqlRawAsync(sqlScript);
+        }
+    }
+
+    private async Task CheckCategoryAsync()
+    {
+        if(!_context.Categories.Any())
+        {
+            _context.Categories.Add(new Shared.Entities.Inve.Category { Name = "Consumo",Description= "Elementos de uso único, como papelería, productos de limpieza y alimentos esenciales y mas", StatuId=1 });
+            _context.Categories.Add(new Shared.Entities.Inve.Category { Name = "Devolutivo", Description= "Activos fijos como escritorios y equipos que no se consumen y se asignan para cumplir funciones.", StatuId=1 });
+            _context.Categories.Add(new Shared.Entities.Inve.Category { Name = "Software", Description= "Programas intangibles que constituyen activos de la entidad, distintos de bienes físicos.", StatuId=1 });
+
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckCourseProgramLotsAsync()
+    {
+        if(!_context.CourseProgramLots.Any())
+        {
+            var sqlScript = File.ReadAllText("Data\\Scripts\\CourseProgramLots.sql");
+            await _context.Database.ExecuteSqlRawAsync(sqlScript);
+        }
     }
 
     private async Task CheckCoursesAsync()

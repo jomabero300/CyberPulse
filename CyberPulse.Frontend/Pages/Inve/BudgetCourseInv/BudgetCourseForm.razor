@@ -63,7 +63,7 @@
 							 SearchFunc="SearchCourses"
 							 Value="selectedCourse"
 							 ValueChanged="CoursesChanged"
-							 ToStringFunc="@(e=> e==null?null : e.Course!.Name)"
+							 ToStringFunc="@(e=> e==null?null : $"{e.Course!.Code.ToString()} - {e.Course!.Name}")"
 							 For="@(() => BudgetCourseDTO.CourseProgramLot)">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Course!.Code - @itemContext.Course!.Name 
@@ -103,7 +103,7 @@
 						  InputType="InputType.Number"
 						  Error="@_worthHasError"
 						  ErrorText="@_worthErrorMessage"
-						  class="mb-3" />
+						  class="mb-3 text-center-input" />
 
 		</MudItem>
 	</MudGrid>

@@ -102,7 +102,6 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
     }
 
 
-
     public async Task<ActionResponse<ProgramLot>> AddAsync(ProgramLotDTO entity)
     {
         var model = new ProgramLot
@@ -165,6 +164,28 @@ public class ProgramLotRepository : GenericRepository<ProgramLot>, IProgramLotRe
         {
             WasSuccess = true,
             Result = (int)count
+        };
+    }
+    public async Task<ActionResponse<IEnumerable<ProgramLot>>> GetAsync(string Filter)
+    {
+        var queryable = _context.ProgramLots
+                                    .AsNoTracking()
+                                    .Include(f => f.Program)
+                                    .Include(f => f.Lot)
+                                    .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Program!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Lot!.Name.ToString().ToLower().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<ProgramLot>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Program!.Name).ThenBy(x => x.Lot!.Name)
+                .ToListAsync()
         };
     }
     public async Task<ActionResponse<ProgramLot>> UpdateAsync(ProgramLotDTO entity)

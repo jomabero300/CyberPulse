@@ -1,4 +1,6 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
+﻿using Azure;
+using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Implementations.Inve;
 using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
@@ -17,10 +19,12 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
 {
     private readonly IBudgetProgramUnitOfWork _budgetProgramUnitOfWork;
     private readonly IBudgetLotUnitOfWork _budgetLotUnitOfWork;
-    public BudgetProgramsController(IGenericUnitOfWork<BudgetProgram> unitOfWork, IBudgetProgramUnitOfWork budgetProgramUnitOfWork, IBudgetLotUnitOfWork budgetLotUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+    public BudgetProgramsController(IGenericUnitOfWork<BudgetProgram> unitOfWork, IBudgetProgramUnitOfWork budgetProgramUnitOfWork, IBudgetLotUnitOfWork budgetLotUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _budgetProgramUnitOfWork = budgetProgramUnitOfWork;
         _budgetLotUnitOfWork = budgetLotUnitOfWork;
+        _env = env;
     }
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetAsync(int id)
@@ -57,7 +61,7 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
                     ValidityId = x.ValidityId,
                     Worth = x.Worth,
                     StatuId = x.StatuId,
-                    Balance = x.Worth-usedBalance,
+                    Balance = x.Worth - usedBalance,
                     Budget = x.Budget,
                     Program = x.Program,
                     BudgetType = x.BudgetType,
@@ -121,6 +125,47 @@ public class BudgetProgramsController : GenericController<BudgetProgram>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _budgetProgramUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var budget = new List<BudgetProgramIndexDTO>();
+
+        if (entity.WasSuccess)
+        {
+
+            foreach (var x in entity.Result!)
+            {
+                var balanceResponse = await _budgetLotUnitOfWork.GetBalanceAsync(x.Id);
+                double usedBalance = balanceResponse.WasSuccess ? balanceResponse.Result : 0.0;
+
+                budget.Add(new BudgetProgramIndexDTO
+                {
+                    Id = x.Id,
+                    BudgetId = x.BudgetId,
+                    ProgramId = x.ProgramId,
+                    BudgetTypeId = x.BudgetTypeId,
+                    ValidityId = x.ValidityId,
+                    Worth = x.Worth,
+                    StatuId = x.StatuId,
+                    Balance = x.Worth - usedBalance,
+                    Budget = x.Budget,
+                    Program = x.Program,
+                    BudgetType = x.BudgetType,
+                    Validity = x.Validity,
+                    Statu = x.Statu
+                });
+            }
+        }
+
+        var pdf = InveReportService.GenerarPdf([.. budget], rutaPath);
+
+        return File(pdf, "application/pdf", "BudgetProgram.pdf");
     }
 
     [HttpGet("Combo")]

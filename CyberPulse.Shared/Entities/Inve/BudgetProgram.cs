@@ -40,5 +40,5 @@ public class BudgetProgram
     public Validity? Validity { get; set; }
     public Statu? Statu { get; set; }
     public Budget? Budget { get; set; }
-
+    //public ICollection<BudgetLot>? BudgetLots { get; set; }
 }

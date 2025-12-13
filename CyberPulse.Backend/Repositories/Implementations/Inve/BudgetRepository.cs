@@ -1,12 +1,10 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Inve;
-using CyberPulse.Shared.Entities.Gene;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
-using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
@@ -55,14 +53,14 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
     public override async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(PaginationDTO pagination)
     {
         var queryable = _context.Budgets.AsNoTracking()
-                                        .Include(x=>x.BudgetType)
-                                        .Include(x=>x.Validity)
-                                        .Include(x=>x.Statu)
+                                        .Include(x => x.BudgetType)
+                                        .Include(x => x.Validity)
+                                        .Include(x => x.Statu)
                                         .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Rubro.ToLower().Contains(pagination.Filter.ToLower())||
+            queryable = queryable.Where(x => x.Rubro.ToLower().Contains(pagination.Filter.ToLower()) ||
                                              x.BudgetType!.Name.Contains(pagination.Filter.ToLower()) ||
                                              x.Worth.ToString().Contains(pagination.Filter.ToLower()) ||
                                              x.Validity!.Value.ToString().Contains(pagination.Filter.ToLower()));
@@ -72,7 +70,7 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         {
             WasSuccess = true,
             Result = await queryable
-                .OrderBy(x => x.ValidityId).ThenBy(y=>y.Rubro).ThenBy(z=>z.BudgetTypeId)
+                .OrderBy(x => x.ValidityId).ThenBy(y => y.Rubro).ThenBy(z => z.BudgetTypeId)
                 .Paginate(pagination)
                 .ToListAsync()
         };
@@ -111,12 +109,27 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         }
     }
 
+    public async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string id)
+    {
+        var entity = await _context.Budgets.AsNoTracking()
+
+                                        .Include(b => b.BudgetType)
+                                        .Include(b => b.Statu)
+                                        .Include(b => b.Validity)
+                                        .ToListAsync();
+
+        return new ActionResponse<IEnumerable<Budget>>
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
 
     public async Task<ActionResponse<Budget>> AddAsync(BudgetDTO entity)
     {
         var budgetType = await _context.Budgets.AsNoTracking().Where(x => x.Rubro == entity.Rubro && x.ValidityId == entity.ValidityId).FirstOrDefaultAsync();
 
-        if(budgetType != null)
+        if (budgetType != null)
         {
             entity.BudgetTypeId = 2;
         }
@@ -125,10 +138,10 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         {
             Id = entity.Id,
             BudgetTypeId = entity.BudgetTypeId,
-            Rubro=entity.Rubro,
+            Rubro = entity.Rubro,
             ValidityId = entity.ValidityId,
             Worth = entity.Worth,
-            StatuId=entity.StatuId,
+            StatuId = entity.StatuId,
         };
 
         _context.Add(model);
@@ -164,18 +177,18 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
     {
         return await _context.Budgets
             .AsNoTracking()
-            .Include(x=>x.Validity)
-            .Include(x=>x.BudgetType)
-            .Where(x=>x.Validity!.StatuId==1)
+            .Include(x => x.Validity)
+            .Include(x => x.BudgetType)
+            .Where(x => x.Validity!.StatuId == 1)
             .Select(b => new Budget
             {
                 Id = b.Id,
                 BudgetType = b.BudgetType,
                 BudgetTypeId = b.BudgetTypeId,
-                ValidityId=b.ValidityId,
-                Validity=b.Validity,
+                ValidityId = b.ValidityId,
+                Validity = b.Validity,
                 Rubro = b.Rubro,
-                Worth = b.Worth -(double) (_context.BudgetPrograms
+                Worth = b.Worth - (double)(_context.BudgetPrograms
                     .Where(bp => bp.BudgetId == b.Id)
                     .Sum(bp => (decimal?)bp.Worth) ?? 0)
             })
@@ -221,8 +234,8 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
         budgets.Rubro = entity.Rubro;
         budgets.ValidityId = entity.ValidityId;
         budgets.BudgetTypeId = entity.BudgetTypeId;
-        budgets.Worth =entity.Worth;
-        budgets.StatuId=entity.StatuId;
+        budgets.Worth = entity.Worth;
+        budgets.StatuId = entity.StatuId;
 
         _context.Update(budgets);
 
@@ -252,5 +265,33 @@ public class BudgetRepository : GenericRepository<Budget>, IBudgetRepository
                 Message = ex.Message
             };
         }
+    }
+
+    public async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string Filter, bool Statu)
+    {
+        var queryable = _context.Budgets
+                                .AsNoTracking()
+                                .Include(b=>b.Validity)
+                                .Include(b=>b.BudgetType)
+                                .Include(f => f.Statu)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Rubro.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Validity!.Value.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.BudgetType!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Worth.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<Budget>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.ValidityId).ThenBy(y => y.Rubro).ThenBy(z => z.BudgetTypeId)
+                .ToListAsync()
+        };
+
     }
 }

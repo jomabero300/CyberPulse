@@ -1,6 +1,4 @@
 ﻿using CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

@@ -213,4 +213,30 @@ public class ClasseRepository : GenericRepository<Classe>, IClasseRepository
             };
         }
     }
+
+    public async Task<ActionResponse<IEnumerable<Classe>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Classes
+                                .AsNoTracking()
+                                .Include(f => f.Family).ThenInclude(x=>x!.Segment)
+                                .Include(f => f.Statu)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Code.ToString().ToLower().Contains(Filter.ToLower()) ||
+                                             x.Family!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Family!.Segment!.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+
+        return new ActionResponse<IEnumerable<Classe>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
+        };
+    }
 }

@@ -1,4 +1,5 @@
-﻿using CyberPulse.Backend.UnitsOfWork.Interfaces;
+﻿using CyberPulse.Backend.Helpers;
+using CyberPulse.Backend.UnitsOfWork.Interfaces;
 using CyberPulse.Backend.UnitsOfWork.Interfaces.Inve;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
@@ -15,9 +16,12 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class CourseProgramLotsController : GenericController<CourseProgramLot>
 {
     private readonly ICourseProgramLotUnitOfWork _courseLotUnitOfWork;
-    public CourseProgramLotsController(IGenericUnitOfWork<CourseProgramLot> unitOfWork, ICourseProgramLotUnitOfWork courseLotUnitOfWork) : base(unitOfWork)
+    private readonly IWebHostEnvironment _env;
+
+    public CourseProgramLotsController(IGenericUnitOfWork<CourseProgramLot> unitOfWork, ICourseProgramLotUnitOfWork courseLotUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _courseLotUnitOfWork = courseLotUnitOfWork;
+        _env = env;
     }
 
     [HttpGet("{id}")]
@@ -95,6 +99,18 @@ public class CourseProgramLotsController : GenericController<CourseProgramLot>
             return Ok(response.Result);
         }
         return BadRequest();
+    }
+
+    [HttpGet("report/{Filter}")]
+    public async Task<IActionResult> GetAsync(string Filter = "")
+    {
+        var entity = await _courseLotUnitOfWork.GetAsync(Filter);
+
+        string rutaPath = _env.WebRootPath;
+
+        var pdf = InveReportService.GenerarPdf([.. entity.Result!], rutaPath);
+
+        return File(pdf, "application/pdf", "Classes.pdf");
     }
 
     [HttpGet("Combo/{id}")]

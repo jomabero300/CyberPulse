@@ -10,7 +10,7 @@ public interface ICourseProgramLotUnitOfWork
     Task<ActionResponse<CourseProgramLot>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<CourseProgramLot>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<CourseProgramLot>>> GetAsync(string Filter);
     Task<ActionResponse<CourseProgramLot>> AddAsync(CourseProgramLotDTO entity);
 
     Task<ActionResponse<CourseProgramLot>> UpdateAsync(CourseProgramLotDTO entity);

@@ -21,6 +21,7 @@ public class FamilyUnitOfWork : GenericUnitOfWork<Family>, IFamilyUnitOfWork
     public override async Task<ActionResponse<Family>> DeleteAsync(int id)=>await _familyRepository.DeleteAsync(id);
 
 
+    public async Task<ActionResponse<IEnumerable<Family>>> GetAsync(string Filter) => await _familyRepository.GetAsync(Filter);
     public async Task<ActionResponse<Family>> AddAsync(FamilyDTO entity)=> await _familyRepository.AddAsync(entity);
     public async Task<IEnumerable<Family>> GetComboAsync(int id)=> await _familyRepository.GetComboAsync(id);
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _familyRepository.GetTotalRecordsAsync(pagination);

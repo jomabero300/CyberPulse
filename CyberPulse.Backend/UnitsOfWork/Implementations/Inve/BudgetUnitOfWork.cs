@@ -23,11 +23,14 @@ public class BudgetUnitOfWork : GenericUnitOfWork<Budget>, IBudgetUnitOfWork
 
 
 
+    public async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string id) => await _budgetRepository.GetAsync(id);
     public async Task<ActionResponse<Budget>> AddAsync(BudgetDTO country)=>await _budgetRepository.AddAsync(country);
 
     public async Task<IEnumerable<Budget>> GetComboAsync()=>await _budgetRepository.GetComboAsync();
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _budgetRepository.GetTotalRecordsAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string Filter, bool Statu) => await _budgetRepository.GetAsync(Filter, Statu);
 
     public async Task<ActionResponse<Budget>> UpdateAsync(BudgetDTO country)=>await _budgetRepository.UpdateAsync(country);
+
 }

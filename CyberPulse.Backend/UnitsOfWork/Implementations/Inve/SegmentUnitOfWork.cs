@@ -25,4 +25,6 @@ public class SegmentUnitOfWork : GenericUnitOfWork<Segment>, ISegmentUnitOfWork
     public async Task<IEnumerable<Segment>> GetComboAsync()=>await _segmentRepository.GetComboAsync();
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _segmentRepository.GetTotalRecordsAsync(pagination);
     public async Task<ActionResponse<Segment>> UpdateAsync(SegmentDTO entity)=>await _segmentRepository.UpdateAsync(entity);
+
+    public async Task<ActionResponse<IEnumerable<Segment>>> GetAsync(string Filter) => await _segmentRepository.GetAsync(Filter);
 }

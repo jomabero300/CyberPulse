@@ -10,7 +10,7 @@
 					 SearchFunc="SearchProduct"
 					 Value="selectedProduct"
 					 ValueChanged="ProductChanged"
-					 ToStringFunc="@(e=> e==null ?null : $"{e.Name} {e.Description}")">
+					 ToStringFunc="@(e=> e==null ?null : $"{e.Code.ToString()} - {e.Name} {e.Description}")">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Code - @itemContext.Name @itemContext.Description
 		</ItemTemplate>

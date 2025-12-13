@@ -610,6 +610,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a All quantities in the {0} of course {1} will be set to zero (0). Continue?.
+        /// </summary>
+        public static string DeleteConfirmCant {
+            get {
+                return ResourceManager.GetString("DeleteConfirmCant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Description.
         /// </summary>
         public static string Description {
@@ -1393,6 +1402,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Value above maximum.
+        /// </summary>
+        public static string PriceHighMs {
+            get {
+                return ResourceManager.GetString("PriceHighMs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Prince Low.
         /// </summary>
         public static string PriceLow {
@@ -1402,11 +1420,38 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Value below minimum.
+        /// </summary>
+        public static string PriceLowMs {
+            get {
+                return ResourceManager.GetString("PriceLowMs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Priority bet.
         /// </summary>
         public static string PriorityBet {
             get {
                 return ResourceManager.GetString("PriorityBet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Process.
+        /// </summary>
+        public static string Process {
+            get {
+                return ResourceManager.GetString("Process", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure you want to process all the {0}?.
+        /// </summary>
+        public static string ProcessConfirm {
+            get {
+                return ResourceManager.GetString("ProcessConfirm", resourceCulture);
             }
         }
         
@@ -1591,6 +1636,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Registration successfully updated..
+        /// </summary>
+        public static string RecordUpdateOk {
+            get {
+                return ResourceManager.GetString("RecordUpdateOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a An email has been sent to you with instructions on how to recover your password..
         /// </summary>
         public static string RecoverPasswordMessage {
@@ -1618,6 +1672,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Report.
+        /// </summary>
+        public static string Report {
+            get {
+                return ResourceManager.GetString("Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Excel.
         /// </summary>
         public static string ReportExcel {
@@ -1632,6 +1695,15 @@ namespace CyberPulse.Shared.Resources {
         public static string ReportPdf {
             get {
                 return ResourceManager.GetString("ReportPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reports.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
             }
         }
         
@@ -1776,6 +1848,15 @@ namespace CyberPulse.Shared.Resources {
         public static string SelectABudgetType {
             get {
                 return ResourceManager.GetString("SelectABudgetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a -- Select a category --.
+        /// </summary>
+        public static string SelectACategory {
+            get {
+                return ResourceManager.GetString("SelectACategory", resourceCulture);
             }
         }
         

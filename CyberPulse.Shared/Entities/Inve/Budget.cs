@@ -35,4 +35,5 @@ public class Budget
     public Statu? Statu { get; set; }
     public Validity? Validity { get; set; }
     public BudgetType? BudgetType { get; set; }
+    //public ICollection<BudgetProgram>? BudgetPrograms { get; set; }
 }

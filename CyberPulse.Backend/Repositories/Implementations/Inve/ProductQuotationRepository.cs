@@ -1,10 +1,12 @@
 ﻿using CyberPulse.Backend.Data;
 using CyberPulse.Backend.Helpers;
 using CyberPulse.Backend.Repositories.Interfaces.Inve;
+using CyberPulse.Shared.Entities.Chipp;
 using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Responses;
+using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberPulse.Backend.Repositories.Implementations.Inve;
@@ -295,4 +297,93 @@ public class ProductQuotationRepository : GenericRepository<ProductQuotation>, I
             };
         }
     }
+    public async Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationPurcDTO entity)
+    {
+        var ids =entity.Id!.Split(',')
+           .Select(s => int.Parse(s.Trim()))
+           .ToArray();
+
+        await _context.ProductQuotations
+                                        .Where(x => ids.Contains(x.Id))
+                                        .ExecuteUpdateAsync(y => y
+                                                .SetProperty(q => q.Quoted01, entity.Quoted01)
+                                                .SetProperty(q => q.Quoted02, entity.Quoted02)
+                                                .SetProperty(q => q.Quoted03, entity.Quoted03)
+                                                .SetProperty(q => q.QuotedValue, entity.QuotedValue));
+        return new ActionResponse<ProductQuotation>
+        {
+            WasSuccess = true
+        };
+    }
+    public async Task<ActionResponse<ProductQuotation>> UpdateAsync(ProductQuotationHeadDTO entity)
+    {
+        var result = await _context.ProductQuotations
+                                        .Where(x => x.BudgetCourseId == entity.Id).ToListAsync();
+
+        foreach (var item in result)
+        {
+            var row = entity.ProductQuotationBody!.FirstOrDefault(x => x.Id == item.Id);
+
+            if (row != null)
+            {
+                item.AcceptedQuantity = row!.RequestedQuantity;
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        return new ActionResponse<ProductQuotation>
+        {
+            WasSuccess = true
+        };
+
+    }
+    public async Task<ActionResponse<ProductQuotation>> UpdateAsync(int id, int esta)
+    {
+        await _context.ProductQuotations
+                                    .Where(x => x.BudgetCourse!.Id == id)
+                                    .ExecuteUpdateAsync(y => y.SetProperty(q => q.StatuId, 11));
+
+        var results = await _context.BudgetCourses
+                                         .Where(bc => bc.ProductQuotations!.Any())
+                                         .Where(bc => bc.Id == id && bc.ProductQuotations!
+                                                .All(pq => pq.QuotedValue != 0))
+                                         .ExecuteUpdateAsync(y => y.SetProperty(bc => bc.StatuId, 11));
+
+        return new ActionResponse<ProductQuotation>
+        {
+            WasSuccess = true
+        };
+    }
+    public async Task<ActionResponse<ProductQuotation>> UpdateAsync(int id)
+    {
+        await _context.ProductQuotations
+                                    .Where(x => x.BudgetCourse!.ValidityId == id && x.QuotedValue != 0)
+                                    .ExecuteUpdateAsync(y => y.SetProperty(q => q.StatuId, 8));
+
+        var results = await _context.BudgetCourses
+                                             .Where(bc => bc.ProductQuotations!.Any())
+                                             .Where(bc => bc.ValidityId==id && bc.ProductQuotations!
+                                                    .All(pq => pq.QuotedValue != 0))
+                                             .ExecuteUpdateAsync(y => y
+                                                    .SetProperty(bc => bc.StatuId, 8));
+
+        return new ActionResponse<ProductQuotation>
+        {
+            WasSuccess = true
+        };
+    }
+
+    public async Task<ActionResponse<bool>> GetAsync(int id, bool lb)
+    {
+        bool queryable =await _context.ProductQuotations
+                                        .AsNoTracking()
+                                        .AnyAsync(x => x.BudgetCourse!.ValidityId == id && x.QuotedValue == 0);
+          return new ActionResponse<bool>
+        {
+            WasSuccess = true,
+            Result = queryable
+        };
+    }
+
 }

@@ -11,6 +11,8 @@ public interface IBudgetUnitOfWork
 
     Task<ActionResponse<IEnumerable<Budget>>> GetAsync();
 
+    Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string id);
+    Task<ActionResponse<IEnumerable<Budget>>> GetAsync(string Filter, bool Statu);
     Task<ActionResponse<Budget>> AddAsync(BudgetDTO country);
 
     Task<ActionResponse<Budget>> UpdateAsync(BudgetDTO country);

@@ -179,7 +179,6 @@ public class ChipsController : GenericController<Chip>
 
 
 
-
     [HttpGet("excel")]
     public async Task<IActionResult> ExportToExcel([FromQuery] ChipReport chipReport)
     {

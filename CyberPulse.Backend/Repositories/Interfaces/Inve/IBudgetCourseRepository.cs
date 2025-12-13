@@ -8,9 +8,9 @@ namespace CyberPulse.Backend.Repositories.Interfaces.Inve;
 public interface IBudgetCourseRepository
 {
     Task<ActionResponse<BudgetCourse>> GetAsync(int id);
-
+    Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string id);
     Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<BudgetCourse>>> GetAsync(string Filter,bool Estado);
     Task<ActionResponse<BudgetCourse>> AddAsync(BudgetCourseDTO entity);
 
     Task<ActionResponse<BudgetCourse>> UpdateAsync(BudgetCourseDTO entity);

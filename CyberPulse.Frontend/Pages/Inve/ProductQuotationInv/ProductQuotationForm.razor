@@ -78,10 +78,10 @@ else
 						<MudTd>@item.UnitMeasurementName</MudTd>
 						<MudTd>@item.Work.ToString("N2")</MudTd>
 						<MudTd>
-							<MudTextField Class="text-center"
-										  MaxLength="2"
+							<MudTextField MaxLength="2"
 										  @bind-Value="@item.RequestedQuantity"
-										  Variant="@Variant.Text" />
+										  Variant="@Variant.Text"
+										  class="mb-3 text-center-input" />
 						</MudTd>
 						<MudTd>@item.Total.ToString("N2")</MudTd>
                     </RowTemplate>
@@ -89,6 +89,9 @@ else
 			</MudItem>
         </MudGrid>
 
+		<div class="mt-3 text-end">
+			<h4>Total: @ProductQuotationDTO.Total.ToString("N2")</h4>
+		</div>
 		<MudDivider Class="mb-lg-3 mt-lh-3" DividerType="DividerType.Inset" />
 		<MudButton Variant="Variant.Outlined"
 				   StartIcon="@Icons.Material.Filled.ArrowBack"

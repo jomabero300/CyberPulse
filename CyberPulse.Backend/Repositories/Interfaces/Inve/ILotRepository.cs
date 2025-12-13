@@ -10,6 +10,7 @@ public interface ILotRepository
     Task<ActionResponse<Lot>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Lot>>> GetAsync();
+    Task<ActionResponse<IEnumerable<Lot>>> GetAsync(string Filter);
 
     Task<ActionResponse<Lot>> AddAsync(LotDTO entity);
 

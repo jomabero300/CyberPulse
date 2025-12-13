@@ -48,7 +48,8 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Name.ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         return new ActionResponse<IEnumerable<Course>>
@@ -93,7 +94,6 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
             };
         }
     }
-
 
 
     public async Task<ActionResponse<Course>> AddAsync(CourseDTO entity)
@@ -177,14 +177,14 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
 
         }
     }
-
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)
     {
         var queryable = _context.Courses.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(pagination.Filter))
         {
-            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()) &&
+                                             x.Code.ToString().ToLower().Contains(pagination.Filter.ToLower()));
         }
 
         double count = await queryable.CountAsync();
@@ -193,6 +193,26 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
         {
             WasSuccess = true,
             Result = (int)count
+        };
+    }
+    public async Task<ActionResponse<IEnumerable<Course>>> GetAsync(string Filter)
+    {
+        var queryable = _context.Courses
+                                .AsNoTracking()
+                                .Include(f => f.Statu)
+                                .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Filter) && Filter != "''")
+        {
+            queryable = queryable.Where(x => x.Name.ToLower().Contains(Filter.ToLower()) ||
+                                             x.Statu!.Name.ToLower().Contains(Filter.ToLower()));
+        }
+        return new ActionResponse<IEnumerable<Course>>
+        {
+            WasSuccess = true,
+            Result = await queryable
+                .OrderBy(x => x.Name)
+                .ToListAsync()
         };
     }
 

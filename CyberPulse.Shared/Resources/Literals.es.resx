@@ -850,10 +850,10 @@
     <value>La sumatoria total supera al presupuesto.</value>
   </data>
   <data name="PriceLow" xml:space="preserve">
-    <value>precio artificialmente bajo</value>
+    <value>Precio artificialmente bajo</value>
   </data>
   <data name="PriceHigh" xml:space="preserve">
-    <value>precio artificialmente alto</value>
+    <value>Precio artificialmente alto</value>
   </data>
   <data name="InstructorCourseEmail" xml:space="preserve">
     <value>El curso se ha enviado, le llegara un email al instructor para notificarle.</value>
@@ -878,5 +878,32 @@
   </data>
   <data name="ERR019" xml:space="preserve">
     <value>Productos sin cantidad, almenos debe haber uno con cantidad de 1</value>
+  </data>
+  <data name="SelectACategory" xml:space="preserve">
+    <value>-- Seleccione una categoría --</value>
+  </data>
+  <data name="Process" xml:space="preserve">
+    <value>Procesar</value>
+  </data>
+  <data name="ProcessConfirm" xml:space="preserve">
+    <value>Esta seguro de procesar todos los {0} ?</value>
+  </data>
+  <data name="PriceLowMs" xml:space="preserve">
+    <value>Valor por debajo del mínimo</value>
+  </data>
+  <data name="PriceHighMs" xml:space="preserve">
+    <value>Valor por encima del máximo</value>
+  </data>
+  <data name="DeleteConfirmCant" xml:space="preserve">
+    <value>Todas las cantidades de los {0} del curso {1} quedarán en cero (0). ¿Continuar?</value>
+  </data>
+  <data name="RecordUpdateOk" xml:space="preserve">
+    <value>Registro actualizado con éxito.</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reportes</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Reporte</value>
   </data>
 </root>

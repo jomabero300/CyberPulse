@@ -11,4 +11,5 @@ public class ProductQuotationHeadDTO
     public string? StatuName { get; set; }
 
     public List<ProductQuotationBodyDTO>? ProductQuotationBody { get; set; }
+    public double Total => ProductQuotationBody!.Sum(x => x.Total);
 }

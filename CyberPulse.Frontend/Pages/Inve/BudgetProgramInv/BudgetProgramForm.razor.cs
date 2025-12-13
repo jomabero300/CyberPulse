@@ -164,7 +164,6 @@ public partial class BudgetProgramForm
         selectedProgram = entity;
         BudgetProgramDTO.Program = entity;
         BudgetProgramDTO.ProgramId = entity.Id;
-        //TODO: VALIDAR SI ES INICIAL O ADICIONAL PARA GUARDAR
         BudgetProgramDTO.BudgetTypeId = entity.StatuId;
     }
 

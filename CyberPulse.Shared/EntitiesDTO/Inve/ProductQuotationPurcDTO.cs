@@ -11,5 +11,9 @@ public class ProductQuotationPurcDTO
     public double Quoted03 { get; set; }
     public double QuotedValue { get; set; }
     public string? Statu { get; set; }
+    public int StatuId { get; set; }
     public int ValidityId { get; set; }
+    public double PriceLow { get; set; }
+    public double PriceHigh { get; set; }
+    public bool Estado { get; set; }
 }

@@ -1,5 +1,14 @@
-﻿<h3>ProductQuotationEdit</h3>
-
-@code {
-
+﻿@if (productQuotationHeadDTO is null)
+{
+	<Loading />
 }
+else
+{
+	<MudDialog>
+		<DialogContent>
+			<ProductQuotationForm @ref="productQuotationForm" ProductQuotationDTO="productQuotationHeadDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+		</DialogContent>
+	</MudDialog>
+}
+
+

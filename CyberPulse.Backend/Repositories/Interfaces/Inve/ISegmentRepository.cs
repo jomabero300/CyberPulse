@@ -10,7 +10,7 @@ public interface ISegmentRepository
     Task<ActionResponse<Segment>> GetAsync(int id);
 
     Task<ActionResponse<IEnumerable<Segment>>> GetAsync();
-
+    Task<ActionResponse<IEnumerable<Segment>>> GetAsync(string Filter);
     Task<ActionResponse<Segment>> AddAsync(SegmentDTO entity);
 
     Task<ActionResponse<Segment>> UpdateAsync(SegmentDTO entity);

@@ -450,7 +450,6 @@ public class ChipRepository : GenericRepository<Chip>, IChipRepository
 
     public async Task<ActionResponse<IEnumerable<Chip>>> GetAsync(DateTime date)
     {
-
         var entity = await _context.Chips.AsNoTracking()
                                         .Include(x => x.Instructor)
                                         .Include(x => x.ChipProgram)

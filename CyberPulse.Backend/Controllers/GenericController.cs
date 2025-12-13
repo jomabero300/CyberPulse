@@ -89,5 +89,4 @@ public class GenericController<T> : Controller where T : class
         }
         return BadRequest();
     }
-
 }

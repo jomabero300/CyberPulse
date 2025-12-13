@@ -1,13 +1,11 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using CyberPulse.Frontend.Respositories;
-using CyberPulse.Shared.Entities.Inve;
 using CyberPulse.Shared.EntitiesDTO.Inve;
 using CyberPulse.Shared.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Localization;
-using MudBlazor;
 
 namespace CyberPulse.Frontend.Pages.Inve.ProductQuotationInv;
 

@@ -15,6 +15,7 @@ else
               FixedHeader="true"
               FixedFooter="true">
         <ToolBarContent>
+            <MudSpacer />
             <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
@@ -38,6 +39,7 @@ else
                 {
                     <MudTooltip Text="@Localizer["New"]">
                         <MudButton Variant="Variant.Filled"
+                                   Disabled="@lbEsta"
                                    Color="Color.Primary"
                                    OnClick="@(() => ShowModalAsync(context))">
                             <MudIcon Icon="@Icons.Material.Filled.Edit" />
@@ -45,6 +47,7 @@ else
                     </MudTooltip>
                     <MudTooltip Text="@Localizer["Delete"]">
                         <MudButton Variant="Variant.Filled"
+                                   Disabled="@lbEsta"
                                    Color="Color.Error"
                                    OnClick="@(() => DeleteAsync(@context))">
                             <MudIcon Icon="@Icons.Material.Filled.Delete" />
@@ -69,7 +72,14 @@ else
                                    OnClick="@(() => ShowModalAsync(context,true))">
                             <MudIcon Icon="@Icons.Material.Filled.Edit" />
                         </MudButton>
-                    </MudTooltip>                    
+                    </MudTooltip>
+                    <MudTooltip Text="@Localizer["Edit"]">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Warning"
+                                   OnClick="@(() => ExecuteAsync(context.Id))">
+                            <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                        </MudButton>
+                    </MudTooltip>
                 }
                 @if(context.StatuId > 6)
                 {

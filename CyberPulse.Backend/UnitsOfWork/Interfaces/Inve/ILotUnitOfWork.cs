@@ -9,6 +9,7 @@ public interface ILotUnitOfWork
 {
     Task<ActionResponse<Lot>> GetAsync(int id);
     Task<ActionResponse<IEnumerable<Lot>>> GetAsync();
+    Task<ActionResponse<IEnumerable<Lot>>> GetAsync(string Filter);
     Task<ActionResponse<Lot>> AddAsync(LotDTO entity);
     Task<ActionResponse<Lot>> UpdateAsync(LotDTO entity);
     Task<ActionResponse<Lot>> DeleteAsync(int id);

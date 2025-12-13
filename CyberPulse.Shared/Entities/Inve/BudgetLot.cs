@@ -32,4 +32,5 @@ public class BudgetLot
     public ProgramLot? ProgramLot { get; set; }
     public Statu? Statu { get; set; }
     public Validity? Validity { get; set; }
+    //public ICollection<BudgetCourse>? BudgetCourses { get; set; }
 }
