@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Implementations.Gene;
 
-public class UsersUnitOfWork : IUsersUnitOfWork
+public class UsersUnitOfWork : IUserUnitOfWork
 {
     private readonly IUserRepository _userRepository;
 

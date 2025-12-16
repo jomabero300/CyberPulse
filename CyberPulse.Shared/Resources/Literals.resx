@@ -886,4 +886,13 @@
   <data name="Report" xml:space="preserve">
     <value>Report</value>
   </data>
+  <data name="MaxFileSize" xml:space="preserve">
+    <value>Maximum size: 512KB</value>
+  </data>
+  <data name="InvalidImageFormat" xml:space="preserve">
+    <value>Invalid image format</value>
+  </data>
+  <data name="ErrorProcessingImage" xml:space="preserve">
+    <value>Error processing image</value>
+  </data>
 </root>

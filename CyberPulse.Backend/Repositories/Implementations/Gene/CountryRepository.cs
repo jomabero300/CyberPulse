@@ -19,6 +19,26 @@ public class CountryRepository : GenericRepository<Country>, ICountryRepository
         _env = env;
     }
 
+    public async Task<ActionResponse<Country>> GetAsync(int id, bool lb)
+    {
+        var entity = await _context.Countries.FirstOrDefaultAsync(c => c.Id == id);
+
+        if (entity == null)
+        {
+            return new ActionResponse<Country>()
+            {
+                WasSuccess = false,
+                Message = "ERR001"
+            };
+        }
+
+        return new ActionResponse<Country>()
+        {
+            WasSuccess = true,
+            Result = entity
+        };
+    }
+
     public async Task<ActionResponse<Country>> AddAsync(CountryDTO entity)
     {
         var country = new Country

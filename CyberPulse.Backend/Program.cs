@@ -21,7 +21,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -37,8 +36,8 @@ builder.Services.AddCors(options =>
         builder =>
         {
             //builder.WithOrigins("https://senarauca.runasp.net")
-            //builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
-            builder.WithOrigins("https://localhost:7244")
+            //builder.WithOrigins("https://localhost:7244")
+            builder.WithOrigins("https://www.senagestionformacion.com", "http://senagestionformacion.com")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
             // .AllowCredentials(); // Si necesitas enviar cookies o cabeceras de autorización, descomenta esta línea.
@@ -60,7 +59,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<ApplicationDbContext>(x =>x.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer("name=DefaultConnection"));
 builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -87,7 +86,7 @@ builder.Services.AddScoped<IStatuRepository, StatuRepository>();
 builder.Services.AddScoped<IStatuUnitOfWork, StatuUnitOfWork>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
+builder.Services.AddScoped<IUserUnitOfWork, UsersUnitOfWork>();
 
 
 
@@ -202,7 +201,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ClockSkew = TimeSpan.Zero
     });
 
-builder.Services.AddLocalization(option => option.ResourcesPath= "Resources");
+builder.Services.AddLocalization(option => option.ResourcesPath = "Resources");
 
 var app = builder.Build();
 

@@ -8,28 +8,32 @@
                value="@fileName" />
         <label class="input-group-btn">
             <span class="btn btn-primary">
-                @Localizer["Search"]<InputFile OnChange="OnChange" class="d-none" accept=".jpg,.jpeg,.png" />
+                @Localizer["Search"]
+                    <InputFile OnChange="OnChange" 
+                        class="d-none" 
+                        accept=".jpg,.jpeg,.png" />
             </span>
         </label>
     </div>
+     <small class="form-control-plaintext text-white">@Localizer["MaxFileSize"] (512kb)</small>
 </div>
 
 <div>
-    @if (imageBase64 is not null)
+    @if (!string.IsNullOrEmpty(_localImageData))
     {
         <div>
             <div style="margin: 10px">
-                <img src="data:image/jpeg;base64,@imageBase64" style="height:200px;" />
+                <img src="@_localImageData" style="height:200px; max-width:100%;" />
             </div>
         </div>
     }
-
-    @if (ImageURL is not null && ImageURL.StartsWith("http"))
+    else if (!string.IsNullOrEmpty(ImageURL))
     {
         <div>
             <div style="margin: 10px">
-                <img src="@ImageURL" style="height:200px;" />
+                    <img src="@ImageURL" style="height:200px; max-width:100%;" />
             </div>
         </div>
+
     }
 </div>

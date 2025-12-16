@@ -4,7 +4,6 @@
 
 	<DataAnnotationsValidator />
 
-
 	<MudAutocomplete T="InvProgramDTO"
 					 Label=@Localizer["Program"]
 					 Placeholder=@Localizer["SelectAProgram"]
@@ -37,7 +36,7 @@
 					 SearchFunc="SearchCourse"
 					 Value="selectedCourse"
 					 ValueChanged="CourseChanged"
-					 ToStringFunc="@(e=> e==null?null : $"{e.Code.ToString()} - {e.Name}")"
+					 ToStringFunc="@(e=> e==null || e.Code==0 ? null : $"{e.Code.ToString()} - {e.Name}")"
 					 For="@(() => CourseProgramLotDTO.Course)">
 		<ItemTemplate Context="itemContext">
 			@itemContext.Code - @itemContext.Name

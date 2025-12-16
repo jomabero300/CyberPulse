@@ -48,7 +48,7 @@
 							 SearchFunc="SearchSegment"
 							 Value="selectedSegment"
 							 ValueChanged="SegmentChanged"
-							 ToStringFunc="@(e=> e==null?null :$"{e.Code.ToString()} - {e.Name}")">
+							 ToStringFunc="@(e=> e==null || e.Code==0 ?null :$"{e.Code.ToString()} - {e.Name}")">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code - @itemContext.Name
 				</ItemTemplate>
@@ -62,7 +62,7 @@
 							 SearchFunc="SearchFamily"
 							 Value="selectedFamily"
 							 ValueChanged="FamilyChanged"
-							 ToStringFunc="@(e=> e==null?null :$"{e.Code.ToString()} - {e.Name}")">
+							 ToStringFunc="@(e=> e==null || e.Code==0 ?null :$"{e.Code.ToString()} - {e.Name}")">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code  -  @itemContext.Name
 				</ItemTemplate>
@@ -76,7 +76,7 @@
 							 SearchFunc="SearchClasse"
 							 Value="selectedClasse"
 							 ValueChanged="ClasseChanged"
-							 ToStringFunc="@(e=> e==null?null :$"{e.Code} - {e.Name}")"
+							 ToStringFunc="@(e=> e==null || e.Code==0 ? null :$"{e.Code} - {e.Name}")"
 							 For="@(() => productDTO.Classe)">
 				<ItemTemplate Context="itemContext">
 					@itemContext.Code - @itemContext.Name

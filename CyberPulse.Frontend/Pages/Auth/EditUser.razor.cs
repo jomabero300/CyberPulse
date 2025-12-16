@@ -67,11 +67,43 @@ public partial class EditUser
 
         loading = false;
     }
-    private void ImageSelected(string imageBase64)
+
+    // EditUser.razor.cs
+    private void ImageSelected(string imageDataUrl)
     {
-        user!.Photo = imageBase64;
-        imageUrl = null;
+        Console.WriteLine($"Recibido: {imageDataUrl?.Substring(0, Math.Min(50, imageDataUrl?.Length ?? 0))}");
+
+        if (string.IsNullOrWhiteSpace(imageDataUrl))
+            return;
+
+        // Verificar que sea una Data URL de imagen
+        if (!imageDataUrl.StartsWith("data:image/"))
+        {
+            //Console.WriteLine("No es una imagen válida");
+            return;
+        }
+
+        // Extraer Base64
+        var parts = imageDataUrl.Split(',');
+        if (parts.Length != 2)
+        {
+            //Console.WriteLine("Formato incorrecto");
+            return;
+        }
+
+        var base64 = parts[1];
+
+        // Guardar Base64
+        user!.Photo = base64;
+
+        // Guardar Data URL para mostrar
+        imageUrl = imageDataUrl;
+
+        StateHasChanged();
+
+        //Console.WriteLine("Imagen procesada correctamente");
     }
+
     private async Task LoadCountiesAsync()
     {
         var responseHttp = await repository.GetAsync<List<Country>>("/api/countries/combo");
@@ -104,7 +136,7 @@ public partial class EditUser
     }
     private async Task SaveUserAsync()
     {
-        if (_sqlValidator.HasSqlInjection(user.FirstName) ||
+        if (_sqlValidator.HasSqlInjection(user!.FirstName) ||
             _sqlValidator.HasSqlInjection(user.LastName) ||
             _sqlValidator.HasSqlInjection(user.PhoneNumber!))
         {
@@ -113,7 +145,7 @@ public partial class EditUser
             return;
         }
 
-        var responseHttp = await repository.PutAsync<User, TokenDTO>("/api/accounts", user!);
+        var responseHttp = await repository.PutAsync<User, TokenDTO>("/api/accounts", user!); 
 
         if (responseHttp.Error)
         {

@@ -1,6 +1,4 @@
-﻿
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace CyberPulse.Frontend.Respositories;
 
@@ -19,7 +17,7 @@ public class SqlInjValRepository : ISqlInjValRepository
     private readonly Regex _sqlPatterns = new Regex(
     @"(\b(select|insert|update|delete|drop|alter|exec|execute|union)\b|--|;|'|""|/\*|\*/|@@)",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
-    
+
     public bool HasSqlInjection(string input)
     {
         if (string.IsNullOrWhiteSpace(input))

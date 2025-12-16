@@ -9,9 +9,9 @@ namespace CyberPulse.Backend.Data;
 public class SeedDb
 {
     private readonly ApplicationDbContext _context;
-    private readonly IUsersUnitOfWork _usersUnitOf;
+    private readonly IUserUnitOfWork _usersUnitOf;
 
-    public SeedDb(ApplicationDbContext context, IUsersUnitOfWork usersUnitOf)
+    public SeedDb(ApplicationDbContext context, IUserUnitOfWork usersUnitOf)
     {
         _context = context;
         _usersUnitOf = usersUnitOf;

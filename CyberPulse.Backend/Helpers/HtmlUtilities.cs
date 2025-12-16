@@ -27,5 +27,27 @@ public static class HtmlUtilities
         TextInfo textinfo=culture.TextInfo;
         return textinfo.ToTitleCase(html);
     }
+    public static async Task<string> UploadImageAsync(string image, string directoryFolder, string imageUrl = "")
+    {
 
+        var imageBase64 = Convert.FromBase64String(image!);
+
+        string pathImage = $"{Guid.NewGuid()}.jpg";
+
+        if (!Directory.Exists(directoryFolder))
+        {
+            Directory.CreateDirectory(directoryFolder);
+        }
+
+        var path = $"{directoryFolder}{pathImage}";
+
+        await System.IO.File.WriteAllBytesAsync(path, imageBase64);
+
+        if (!string.IsNullOrWhiteSpace(imageUrl))
+        {
+            System.IO.File.Delete(imageUrl);
+        }
+
+        return pathImage;
+    }
 }

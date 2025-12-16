@@ -898,6 +898,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error processing image.
+        /// </summary>
+        public static string ErrorProcessingImage {
+            get {
+                return ResourceManager.GetString("ErrorProcessingImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Families.
         /// </summary>
         public static string Families {
@@ -1033,6 +1042,15 @@ namespace CyberPulse.Shared.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Invalid image format.
+        /// </summary>
+        public static string InvalidImageFormat {
+            get {
+                return ResourceManager.GetString("InvalidImageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Program.
         /// </summary>
         public static string InvProgram {
@@ -1155,6 +1173,15 @@ namespace CyberPulse.Shared.Resources {
         public static string MailForwarding {
             get {
                 return ResourceManager.GetString("MailForwarding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Maximum size: 512KB.
+        /// </summary>
+        public static string MaxFileSize {
+            get {
+                return ResourceManager.GetString("MaxFileSize", resourceCulture);
             }
         }
         

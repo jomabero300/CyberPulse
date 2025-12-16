@@ -19,10 +19,11 @@ public class CountryUnitOfWork : GenericUnitOfWork<Country>, ICountryUnitOfWork
 
     public async Task<ActionResponse<Country>> AddAsync(CountryDTO country)=>await _countryRepository.AddAsync(country);
 
+    public async Task<ActionResponse<Country>> GetAsync(int id, bool lb)=>await _countryRepository.GetAsync(id, lb);
+
     public async Task<IEnumerable<Country>> GetComboAsync()=>await _countryRepository.GetComboAsync();
 
     public async Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination)=>await _countryRepository.GetTotalRecordsAsync(pagination);
 
     public async Task<ActionResponse<Country>> UpdateAsync(CountryDTO country) => await _countryRepository.UpdateAsync(country);
-
 }

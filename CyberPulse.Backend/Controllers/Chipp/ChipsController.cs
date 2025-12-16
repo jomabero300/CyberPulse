@@ -27,9 +27,9 @@ public class ChipsController : GenericController<Chip>
     private readonly IMailHelper _mailHelper;
     private readonly IConfiguration _configuration;
     private readonly IWebHostEnvironment _env;
-    private readonly IUsersUnitOfWork _usersUnitOfWork;
+    private readonly IUserUnitOfWork _usersUnitOfWork;
 
-    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork, IChipRepository chipRepository, IMailHelper mailHelper, IConfiguration configuration, IUsersUnitOfWork usersUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
+    public ChipsController(IGenericUnitOfWork<Chip> unitOfWork, IChipUnitOfWork chipUnitOfWork, ITypeOfPoblationUnitOfWork poblationUnitOfWork, IChipRepository chipRepository, IMailHelper mailHelper, IConfiguration configuration, IUserUnitOfWork usersUnitOfWork, IWebHostEnvironment env) : base(unitOfWork)
     {
         _chipUnitOfWork = chipUnitOfWork;
         _poblationUnitOfWork = poblationUnitOfWork;

@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
     {
         if (!string.IsNullOrWhiteSpace(user.Photo))
         {
-            user.Photo = await UploadImageAsync(user.Photo, "");
+            user.Photo = await HtmlUtilities.UploadImageAsync(user.Photo, $"{_env.WebRootPath}{_configuration["FolderUsers"]}");
         }
 
         return await _userManager.CreateAsync(user, password);
@@ -89,7 +89,7 @@ public class UserRepository : IUserRepository
                                 .FirstOrDefaultAsync(x => x.Id == userId.ToString());
         if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))
         {
-            user.Photo = $"{_configuration["UrlBackend"]}/{user.Photo}";
+            user.Photo = $"{_configuration["UrlBackend"]}{_configuration["FolderUsers"]}{user.Photo}";
         }
 
         return user!;
@@ -97,13 +97,14 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetUserAsync(string email)
     {
-        var user = await _context.Users.AsNoTracking()
-            .Include(c => c.Country)
-            .FirstOrDefaultAsync(x => x.Email == email);
+        var user = await _context.Users
+                        .AsNoTracking()
+                        .Include(c => c.Country)
+                        .FirstOrDefaultAsync(x => x.Email == email);
 
         if (user != null && !string.IsNullOrWhiteSpace(user!.Photo))
         {
-            user.Photo = $"{_configuration["UrlBackend"]}/{user.Photo}";
+            user.Photo = $"{_configuration["UrlBackend"]}{_configuration["FolderUsers"]}{user.Photo}";
         }
 
         return user!;
@@ -131,12 +132,30 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityResult> UpdateUserAsync(User user)
     {
-        if (!string.IsNullOrWhiteSpace(user.Photo) && !user.Photo.Contains("\\Images\\Users\\"))
+
+        //var user1 = await GetUserAsync(user.Email!);
+        var userOld = await _context.Users
+                                .Include(x => x.Country)
+                                .FirstOrDefaultAsync(x => x.Email == user.Email);
+
+
+        if (userOld == null)
+            return IdentityResult.Failed(new IdentityError { Description = "Usuario no encontrado" });
+
+        // 2️⃣ Actualizar SOLO las propiedades necesarias
+        userOld.FirstName = user.FirstName;
+        userOld.LastName = user.LastName;
+        userOld.PhoneNumber = user.PhoneNumber;
+
+                                                        
+        if (!string.IsNullOrWhiteSpace(user.Photo) && !user.Photo.Contains(_configuration["FolderUsers"]!))
         {
-            user.Photo = await UploadImageAsync(user.Photo, user.Id);
+            var imageUrl = !string.IsNullOrWhiteSpace(userOld.Photo) ? $"{_env.WebRootPath}{_configuration["FolderUsers"]!}{userOld.Photo}" : "";
+
+            userOld.Photo = await HtmlUtilities.UploadImageAsync(user.Photo, $"{_env.WebRootPath}{_configuration["FolderUsers"]!}", imageUrl);
         }
 
-        return await _userManager.UpdateAsync(user);
+        return await _userManager.UpdateAsync(userOld);
     }
 
     public async Task<ActionResponse<User>> GetUserAsync(string userDocument, UserType userType)
@@ -160,43 +179,6 @@ public class UserRepository : IUserRepository
             Result = entity
         };
     }
-
-    private async Task<string?> UploadImageAsync(string image, string id)
-    {
-        string webRootPath = _env.WebRootPath;
-
-        string directoryFolder = "\\Images\\Users\\";
-
-        string DirectoryPath = $"{webRootPath}{directoryFolder}";
-
-        var imageBase64 = Convert.FromBase64String(image!);
-
-        string pathImage = $"{Guid.NewGuid()}.jpg";
-
-        if (!Directory.Exists(DirectoryPath))
-        {
-            Directory.CreateDirectory(DirectoryPath);
-        }
-
-        var path = $"{DirectoryPath}{pathImage}";
-
-        await System.IO.File.WriteAllBytesAsync(path, imageBase64);
-
-        if (!string.IsNullOrWhiteSpace(id))
-        {
-            var user = await _context.Users.AsNoTracking()
-                                         .Where(x => x.Id == id)
-                                         .Select(p => p.Photo)
-                                         .FirstOrDefaultAsync();
-            if (!string.IsNullOrWhiteSpace(user) && user != null)
-            {
-                System.IO.File.Delete($"{webRootPath}{user}");
-            }
-        }
-
-        return $"{directoryFolder}{pathImage}";
-    }
-
     public async Task<IEnumerable<User>> GetAsync(string id)
     {
         var resul = await _context.Users.AsNoTracking().Where(x => x.Id == id).OrderBy(x => x.FirstName).ToListAsync();
@@ -230,7 +212,7 @@ public class UserRepository : IUserRepository
                     Id = x.Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    Photo = !string.IsNullOrWhiteSpace(x.Photo) ? $"{_configuration["UrlBackend"]}/{x.Photo}" : $"{_configuration["UrlBackend"]}/Images/NoImage.png",
+                    Photo = !string.IsNullOrWhiteSpace(x.Photo) ? $"{_configuration["UrlBackend"]}{_configuration["FolderUsers"]}{x.Photo}" : $"{_configuration["Url Frontend"]}/Images/NoImage.png",
                     UserType = x.UserType,
                     NormalizedUserName = x.NormalizedUserName,
                     Email = x.Email,
@@ -278,7 +260,7 @@ public class UserRepository : IUserRepository
     }
     public async Task UpdateUserAsync(string userId, UserType userType)
     {
-        var entity = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+        var entity = await _context.Users.AsNoTracking().Where(x => x.Id == userId).FirstOrDefaultAsync();
 
         if (entity == null) return;
 

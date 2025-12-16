@@ -19,12 +19,12 @@ namespace CyberPulse.Backend.Controllers.Inve;
 public class BudgetCoursesController : GenericController<BudgetCourse>
 {
     private readonly IBudgetCourseUnitOfWork _budgetCourseUnitOfWork;
-    private readonly IUsersUnitOfWork _usersUnitOfWork;
+    private readonly IUserUnitOfWork _usersUnitOfWork;
     private readonly IConfiguration _configuration;
     private readonly IMailHelper _mailHelper;
     private readonly IWebHostEnvironment _env;
 
-    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, IWebHostEnvironment env) : base(unitOfWork)
+    public BudgetCoursesController(IGenericUnitOfWork<BudgetCourse> unitOfWork, IBudgetCourseUnitOfWork budgetCourseUnitOfWork, IUserUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper, IWebHostEnvironment env) : base(unitOfWork)
     {
         _budgetCourseUnitOfWork = budgetCourseUnitOfWork;
         _usersUnitOfWork = usersUnitOfWork;

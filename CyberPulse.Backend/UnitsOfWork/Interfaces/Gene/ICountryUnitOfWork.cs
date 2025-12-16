@@ -15,6 +15,7 @@ public interface ICountryUnitOfWork
 
     Task<ActionResponse<Country>> UpdateAsync(CountryDTO country);
 
+    Task<ActionResponse<Country>> GetAsync(int id, bool lb);
     Task<ActionResponse<Country>> DeleteAsync(int id);
 
     Task<IEnumerable<Country>> GetComboAsync();

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CyberPulse.Backend.UnitsOfWork.Interfaces.Gene;
 
-public interface IUsersUnitOfWork
+public interface IUserUnitOfWork
 {
     Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination);
     Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
